@@ -8,13 +8,13 @@ Estas reglas son vinculantes para un agente y para trabajo paralelo. El scope de
 
 `dev` es integración. Flujo obligatorio: rama de tarea → integración deliberada a `dev` → validación del conjunto → revisión humana → promoción humana a `main`. Ninguna feature va directamente de agente a `main`.
 
-Una rama por agente y tarea: `agent/<agente>/<tarea>`, por ejemplo `agent/codex/navbar-001`; terminarla antes de reutilizar el nombre. Crear desde `dev` actualizado y verificar base/HEAD antes de editar. Si falta `dev`, HARD STOP de implementación y bootstrap Git explícito; no elegir `master` como sustituto tácito. Estado actual y excepción documental de arranque: [AUDIT.md](../architecture/AUDIT.md).
+Una rama por agente y tarea: `agent/<agente>/<tarea>`, por ejemplo `agent/codex/navbar-001`; terminarla antes de reutilizar el nombre. Crear desde `dev` actualizado y verificar base/HEAD antes de editar. Si falta `dev`, HARD STOP de implementación y bootstrap Git explícito; no elegir `master` como sustituto tácito. Estado Git vigente: [GIT-BASELINE.md](GIT-BASELINE.md); estado histórico de la auditoría: [AUDIT.md](../architecture/AUDIT.md). Sin remoto, la fuente actualizada es dev local acordado, no un origin inventado.
 
 ## Arranque de una tarea
 
 1. Leer reglas y documentos del área; inspeccionar estado Git y cambios existentes. Definir Task, Goal, IN SCOPE, OUT OF SCOPE y criterios verificables. El OUT OF SCOPE es vinculante.
 2. Comprobar `dev` actualizado y registrar commit base. No hacer cambios de rama sobre trabajo ajeno ni stash automático de cambios desconocidos.
-3. Crear rama propia; en paralelo usar un worktree propio por agente/tarea. Preferir `C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/<agente>-<tarea>` o equivalente bajo el home del usuario. Registrar ruta, rama y responsable; nunca reutilizar el checkout de otro agente.
+3. En toda futura tarea crear rama propia desde dev y worktree independiente por agente/tarea, incluso con un solo agente. Preferir `C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/<agente>-<tarea>` o equivalente bajo el home del usuario. Registrar ruta, rama, SHA base y responsable; nunca reutilizar el checkout de otro agente. El bootstrap Git secuencial GIT-BASELINE-001 usó el checkout existente para preservar el trabajo previo.
 4. Crear y publicar claim según [plantilla](claims/TEMPLATE.md). Resolver solapamientos antes de tocar paths; registrar dependencias compartidas. Solo después de que el coordinador confirme la reserva comienza la implementación.
 5. Para preguntas estructurales, resolver raíz con `git rev-parse --show-toplevel` y verificar proyecto real y `.codegraph/` antes de búsquedas amplias. Si falta índice y está disponible, ejecutar una vez `gentle-ai codegraph init --cwd <raíz>`; consultar MCP `codegraph_explore` o CLI upstream read-only. Cada worktree necesita índice propio; nunca copiar/symlink/reusar uno ajeno. Tras fallo explicado, usar herramientas normales. Auto-sync del watcher por defecto; `sync` solo si está desactivado o hay stale persistente. No usar indexación rutinaria ni comandos de desinstalación/upgrade.
 6. Para Penpot verificar archivo/página/IDs y leer su [guía](../penpot/AGENT-GUIDE.md). Un solo responsable de escritura por página. Mantener la pestaña activa; otros agentes pueden revisar código o snapshots. Ningún agente cambia la página activa mientras otro la usa.
@@ -27,7 +27,8 @@ En paralelo, el propietario designa un coordinador y una copia compartida de est
 
 | Task | Owner | Rama | Estado | Paths / fuente |
 | --- | --- | --- | --- | --- |
-| ARCH-001 | Codex | `agent/codex/architecture-baseline` | READY_FOR_REVIEW | [Claim](claims/ARCH-001.md); reserva documental del checkout único |
+| ARCH-001 | Codex | `agent/codex/architecture-baseline` | CLOSED | [Claim](claims/ARCH-001.md); trabajo preservado, reserva liberada/traspasada por GIT-BASELINE-001 |
+| GIT-BASELINE-001 | Codex | `agent/codex/git-baseline-001` | CLOSED | [Claim](claims/GIT-BASELINE-001.md); bootstrap e integración documental local autorizados |
 
 Si se necesita un path reservado: HARD STOP antes de editar, señalar dependencia y acordar serialización/traspaso con owner/coordinador. No ampliar unilateralmente el claim. Toda tarea nueva verifica el registro actualizado.
 

@@ -4,7 +4,7 @@ Task: auditoría y documentación de arquitectura inicial
 Owner: Codex
 Branch: agent/codex/architecture-baseline
 Worktree: C:/DEV/LadingPageFEMUCARIBE (checkout único; sin trabajo paralelo)
-Status: READY_FOR_REVIEW
+Status: CLOSED
 Paths claimed: AGENTS.md; docs/architecture/**; docs/agents/**; docs/adr/**; docs/penpot/AGENT-GUIDE.md; docs/penpot/CONTEXT.md
 Objective: inspeccionar Penpot y repositorio, documentar stack, límites, contrato visual y gobernanza; finalizar sin implementar.
 Dependencies: plugin Penpot activo; instrucciones del propietario del 2026-09-30.
@@ -41,3 +41,7 @@ Possible conflicts: AGENTS y los documentos de contexto son compartidos; reclama
 Next slice recommended: `GIT-BASELINE-001`, bootstrap de main/dev dirigido por el propietario, preservando master y trabajo local, sin features. No iniciado.
 
 HARD STOP: auditoría concluida; no continuar con código de aplicación.
+
+## Cierre de reserva — GIT-BASELINE-001
+
+El 2026-09-30 el propietario autorizó preservar este trabajo y preparar Git. Se conservaron las entregas en `56e5852` y `efa76f3`, sin promoción a main; se liberó/traspasó la reserva documental al mismo responsable para los ajustes mínimos de GIT-BASELINE-001. Las secciones anteriores son el estado histórico de ARCH-001; estado Git actual: [GIT-BASELINE.md](../GIT-BASELINE.md). El cierre de claim no certifica producción ni elimina las incógnitas visuales.

@@ -76,6 +76,8 @@ Portal institucional público para seis cantones: Limón, Talamanca, Matina, Gu�
 
 **CONFIRMED:** un frame desktop por sección activa; sin boards mobile/tablet, variants, flows o interacciones. Flex/constraints no especifican breakpoints. **UNKNOWN:** widths mínimas/máximas de producción, colapso de nav/grillas y estados por viewport. Resolver adaptación dentro del slice, registrar diferencias justificadas y validar teclado/zoom/contenido. Fidelidad no exige copiar medidas que causen overflow o inaccesibilidad.
 
+Para el futuro Navbar, desktop observado se reportará como **CONFIRMED**. Las decisiones responsive y los estados interactivos que no estén dibujados se reportarán como **INFERRED**, aplicando buenas prácticas y registrando su justificación; no atribuirlos a Penpot ni afirmar fidelidad visual de una variante inexistente. Esto es una regla de evidencia para una tarea futura, no autorización para implementarla.
+
 | Hallazgo confirmado | Resolución pendiente |
 | --- | --- |
 | Inicio: `Path` suelto ~172 × 138,22 entre navbar/hero; exportación muestra línea y hueco. | Intención UNKNOWN; confirmar antes de reproducir/corregir. |

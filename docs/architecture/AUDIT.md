@@ -2,6 +2,8 @@
 
 Fecha: 2026-09-30, America/Costa_Rica. Base inspeccionada: commit `3dd3ee0` (`Initial commit from Astro`). Auditoría de documentación; ninguna feature implementada.
 
+Este documento conserva el estado histórico de ARCH-001. El bootstrap posterior autorizado de main/dev y preservación del trabajo está en [GIT-BASELINE.md](../agents/GIT-BASELINE.md).
+
 ## Repositorio
 
 | Evidencia | Estado confirmado |
