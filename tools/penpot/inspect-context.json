@@ -1,0 +1,3 @@
+{
+  "code": "return { file: penpot.currentFile ? { id: penpot.currentFile.id, name: penpot.currentFile.name } : null, page: penpot.currentPage ? { id: penpot.currentPage.id, name: penpot.currentPage.name } : null };"
+}

@@ -1,0 +1,5 @@
+[mcp_servers.penpot_femucaribe]
+command = "node"
+args = ["--use-system-ca", "C:/DEV/LadingPageFEMUCARIBE/tools/penpot/penpot.mjs", "bridge"]
+startup_timeout_sec = 60
+tool_timeout_sec = 120
