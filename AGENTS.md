@@ -1,6 +1,6 @@
 ## Reglas de trabajo
 
-Antes de editar, lee `docs/agents/COORDINATION.md` y declara scope/claim. Stack aprobado: `docs/architecture/STACK.md`; límites: `docs/architecture/ARCHITECTURE.md`; decisiones: `docs/adr/`. Implementa solo la tarea autorizada y haz HARD STOP al terminarla. Los agentes no trabajan directamente en `main`/`dev`; solo el propietario humano promueve a `main`. En paralelo, rama y worktree propios por tarea, con claims publicados y sin solapamientos. La tarea ARCH-001 se limita a inspección/documentación: ningún código de aplicación ni scaffolding.
+Antes de editar, lee `docs/agents/COORDINATION.md` y declara scope/claim. Stack aprobado: `docs/architecture/STACK.md`; límites: `docs/architecture/ARCHITECTURE.md`; decisiones: `docs/adr/`. Implementa solo la tarea autorizada y haz HARD STOP al terminarla. Los agentes no trabajan directamente en `main`/`dev`; solo el propietario humano promueve a `main`. En paralelo, rama y worktree propios por tarea, con claims publicados y sin solapamientos. Para instalación, runtime, lint, formato, tipos, build o tests, lee `docs/agents/TOOLING.md` y usa los pins/scripts del checkout.
 
 Para preguntas de estructura, referencias o impacto, sigue el orden CodeGraph de COORDINATION antes de búsquedas amplias. Worktrees bajo el home, índice propio por checkout y fallback explicado tras fallo.
 

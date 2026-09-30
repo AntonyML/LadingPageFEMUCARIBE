@@ -8,7 +8,7 @@ Estas reglas son vinculantes para un agente y para trabajo paralelo. El scope de
 
 `dev` es integración. Flujo obligatorio: rama de tarea → integración deliberada a `dev` → validación del conjunto → revisión humana → promoción humana a `main`. Ninguna feature va directamente de agente a `main`.
 
-Una rama por agente y tarea: `agent/<agente>/<tarea>`, por ejemplo `agent/codex/navbar-001`; terminarla antes de reutilizar el nombre. Crear desde `dev` actualizado y verificar base/HEAD antes de editar. Si falta `dev`, HARD STOP de implementación y bootstrap Git explícito; no elegir `master` como sustituto tácito. Estado Git vigente: [GIT-BASELINE.md](GIT-BASELINE.md); estado histórico de la auditoría: [AUDIT.md](../architecture/AUDIT.md). Sin remoto, la fuente actualizada es dev local acordado, no un origin inventado.
+Una rama por agente y tarea: `agent/<agente>/<tarea>`, por ejemplo `agent/codex/navbar-001`; terminarla antes de reutilizar el nombre. Crear desde `dev` actualizado y verificar base/HEAD antes de editar. Si falta `dev`, HARD STOP de implementación y bootstrap Git explícito; no elegir `master` como sustituto tácito. Registro del bootstrap Git: [GIT-BASELINE.md](GIT-BASELINE.md); comprobar refs actuales con Git; estado histórico de la auditoría: [AUDIT.md](../architecture/AUDIT.md). Sin remoto, la fuente actualizada es dev local acordado, no un origin inventado.
 
 ## Arranque de una tarea
 
@@ -29,6 +29,7 @@ En paralelo, el propietario designa un coordinador y una copia compartida de est
 | --- | --- | --- | --- | --- |
 | ARCH-001 | Codex | `agent/codex/architecture-baseline` | CLOSED | [Claim](claims/ARCH-001.md); trabajo preservado, reserva liberada/traspasada por GIT-BASELINE-001 |
 | GIT-BASELINE-001 | Codex | `agent/codex/git-baseline-001` | CLOSED | [Claim](claims/GIT-BASELINE-001.md); bootstrap e integración documental local autorizados |
+| TOOLING-BASELINE-001 | Codex | `agent/codex/tooling-baseline-001` | CLOSED | [Claim](claims/TOOLING-BASELINE-001.md); registro compartido: C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/codex-tooling-baseline-001/docs/agents/COORDINATION.md; ejecución única |
 
 Si se necesita un path reservado: HARD STOP antes de editar, señalar dependencia y acordar serialización/traspaso con owner/coordinador. No ampliar unilateralmente el claim. Toda tarea nueva verifica el registro actualizado.
 
@@ -50,4 +51,4 @@ Entregar Task, Branch, base/HEAD, Commit(s), Changed files, Tests executed con r
 
 El responsable de integración revisa alcance, claims, diff, pruebas y compatibilidad. Un agente puede preparar una propuesta hacia `dev`; integrar requiere autorización explícita del propietario/coordinador autorizado y ejecución serializada. Quien integra no desarrolla features sobre `dev`; registra la integración y valida localmente el conjunto, incluido diseño. No integrar features ajenas automáticamente. Conflictos se comprenden con ambos responsables; si no hay evidencia suficiente, detenerse antes de resolver arbitrariamente.
 
-Liberar claim después de integración/revisión acordada; limpiar solo recursos propios al estar preservados. El propietario revisa `dev` y realiza personalmente la promoción a `main`. Estas reglas Markdown no equivalen a branch protection remota; esa protección sigue pendiente porque no hay remote configurado.
+Liberar claim después de integración/revisión acordada; limpiar solo recursos propios al estar preservados. El propietario revisa `dev` y realiza personalmente la promoción a `main`. Estas reglas Markdown no equivalen a branch protection remota; las protecciones automáticas siguen pendientes de verificación del propietario; origin ya fue configurado y main/dev publicados por él.

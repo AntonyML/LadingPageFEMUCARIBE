@@ -2,7 +2,7 @@
 
 ## Inicio rápido
 
-1. Desde la raíz ejecuta `powershell -File scripts/penpot.ps1 doctor`. Si faltan dependencias, ejecuta `powershell -File scripts/penpot.ps1 install`. Node 22.19+ o 24+ es necesario para usar los certificados del sistema.
+1. Desde la raíz ejecuta `powershell -File scripts/penpot.ps1 doctor`. Si faltan dependencias, ejecuta `powershell -File scripts/penpot.ps1 install`. Usa el Node 22 fijado y pnpm de [TOOLING.md](../agents/TOOLING.md); el SDK conserva workspace/lockfile propios. Selecciona el runtime en PATH al ejecutar doctor/call/bridge.
 2. Consulta `docs/penpot/CONTEXT.md`. Verifica el archivo y página activos antes de editar: el MCP sigue la pestaña conectada de Penpot.
 3. Ejecuta `powershell -File scripts/penpot.ps1 tools` para obtener nombres, descripciones y esquemas actuales; agrega `-Tool texto` para filtrar. `refresh` actualiza `docs/penpot/tools.json`.
 4. Usa las herramientas de `penpot_femucaribe` desde Codex. Como alternativa, guarda los argumentos JSON en un archivo y ejecuta `powershell -File scripts/penpot.ps1 call -Tool NOMBRE -ArgumentsFile ruta.json`. Consulta primero el esquema; una respuesta con `isError` hace fallar el comando.

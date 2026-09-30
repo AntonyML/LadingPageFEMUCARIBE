@@ -1,0 +1,6 @@
+export default {
+  plugins: ['prettier-plugin-astro'],
+  singleQuote: true,
+  endOfLine: 'lf',
+  overrides: [{ files: '*.astro', options: { parser: 'astro' } }],
+};

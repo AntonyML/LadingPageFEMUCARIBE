@@ -1,4 +1,6 @@
-# Baseline Git local
+# Baseline Git local (registro histórico)
+
+> Después de este bootstrap el propietario configuró origin, publicó las ramas e integró dev a main. Al iniciar TOOLING-BASELINE-001, main/dev/origin/main/origin/dev coincidían en 5dcc9ac. La tabla y comprobaciones siguientes registran el cierre de GIT-BASELINE-001; consultar Git para estado vigente.
 
 Preparada el 2026-09-30 por autorización explícita de GIT-BASELINE-001. No hay remoto ni push. [Claim/handoff](claims/GIT-BASELINE-001.md).
 

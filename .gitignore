@@ -26,3 +26,9 @@ pnpm-debug.log*
 # local Penpot credentials and temporary call arguments
 .penpot.local.json
 tools/penpot/*.local.json
+
+# local indexes and test artifacts
+.codegraph/
+playwright-report/
+test-results/
+coverage/

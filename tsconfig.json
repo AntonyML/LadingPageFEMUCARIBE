@@ -1,5 +1,12 @@
 {
-  "extends": "astro/tsconfigs/strict",
+  "extends": "astro/tsconfigs/strictest",
+  "compilerOptions": { "types": ["node"] },
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "exclude": [
+    "dist",
+    "tools/penpot",
+    "node_modules",
+    "playwright-report",
+    "test-results"
+  ]
 }

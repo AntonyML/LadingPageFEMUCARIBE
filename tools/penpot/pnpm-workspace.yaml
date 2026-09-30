@@ -1,0 +1,5 @@
+# Separate workspace: agent SDK dependencies never enter the app lockfile.
+engineStrict: true
+saveExact: true
+strictPeerDependencies: true
+ignoreScripts: true

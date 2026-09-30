@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.codegraph/
+pnpm-lock.yaml
+tools/penpot/pnpm-lock.yaml
+docs/penpot/tools.json
+playwright-report/
+test-results/
+CLAUDE.md

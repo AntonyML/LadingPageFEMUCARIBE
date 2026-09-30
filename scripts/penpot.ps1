@@ -6,8 +6,7 @@ param(
 )
 $projectRoot = Split-Path $PSScriptRoot -Parent
 if ($Action -eq 'install') {
-  $env:NODE_OPTIONS = (($env:NODE_OPTIONS + ' --use-system-ca').Trim())
-  & npm.cmd ci --prefix (Join-Path $projectRoot 'tools/penpot') --ignore-scripts
+  & powershell -NoProfile -File (Join-Path $PSScriptRoot 'tooling.ps1') install-penpot
 } else {
   $cliArgs = @((Join-Path $projectRoot 'tools/penpot/penpot.mjs'), $Action)
   if ($Tool) { $cliArgs += $Tool }

@@ -1,0 +1,11 @@
+# Root application only; the Penpot package keeps its own lockfile.
+engineStrict: true
+saveExact: true
+strictPeerDependencies: true
+allowBuilds:
+  esbuild: true
+  sharp: true
+minimumReleaseAgeExclude:
+  - '@vitest/mocker@5.0.3'
+  - '@vitest/spy@5.0.3'
+  - vitest@5.0.3
