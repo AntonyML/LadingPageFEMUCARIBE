@@ -65,8 +65,7 @@
 
 .stripe {
   height: 4px;
-  margin: 3px auto 0;
-  max-width: 1440px;
+  width: 100%;
   background: linear-gradient(
     to right,
     #aac651 0 25%,
@@ -78,9 +77,13 @@
 
 .columns {
   display: grid;
-  grid-template-columns: 350px 190px 210px minmax(0, 320px);
+  box-sizing: border-box;
+  width: 100%;
+  grid-template-columns:
+    minmax(0, 350fr) minmax(0, 190fr) minmax(0, 210fr)
+    minmax(0, 320fr);
   gap: 48px;
-  max-width: 1214px;
+  max-width: 1262px;
   min-height: 336px;
   padding: 30px 24px 0;
   margin: 0 auto;
@@ -196,7 +199,9 @@
 }
 
 .bottom {
-  max-width: 1214px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1262px;
   padding: 24px 24px 25px;
   margin: 0 auto;
 }

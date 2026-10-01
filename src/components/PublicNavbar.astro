@@ -58,18 +58,20 @@ const href = (path: string) => `${base}${path}`;
       </li>
     ))}
   </ul>
-  <a class="contact" href={href('/contacto')}>
-    Contáctenos
-  </a>
-  {platformUrl ? (
-    <a class="platform" href={platformUrl}>
-      Acceder a la plataforma
+  <div class="actions">
+    <a class="contact" href={href('/contacto')}>
+      Contáctenos
     </a>
-  ) : (
-    <span class="platform" aria-disabled="true">
-      Acceder a la plataforma
-    </span>
-  )}
+    {platformUrl ? (
+      <a class="platform" href={platformUrl}>
+        Acceder a la plataforma
+      </a>
+    ) : (
+      <span class="platform" aria-disabled="true">
+        Acceder a la plataforma
+      </span>
+    )}
+  </div>
 </nav>
 
 <style>
@@ -86,7 +88,7 @@ const href = (path: string) => `${base}${path}`;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 40px;
+    gap: 24px;
     min-block-size: 72px;
     padding-inline: 40px;
     border: 1px solid #e2e8f0;
@@ -123,7 +125,8 @@ const href = (path: string) => `${base}${path}`;
   }
 
   .brand {
-    flex: 0 0 347px;
+    flex: 0 1 347px;
+    min-inline-size: 0;
     gap: 10px;
     color: #0470a0;
   }
@@ -153,12 +156,19 @@ const href = (path: string) => `${base}${path}`;
 
   .links {
     display: flex;
-    flex: 0 0 560px;
+    flex: 0 1 auto;
     align-items: center;
-    gap: 24px;
+    gap: clamp(12px, 1.5vw, 24px);
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  .actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 12px;
   }
 
   .contact,
@@ -201,6 +211,7 @@ const href = (path: string) => `${base}${path}`;
     }
 
     .links {
+      order: 3;
       flex: 1 1 100%;
       flex-wrap: wrap;
       gap: 4px 20px;
@@ -216,6 +227,11 @@ const href = (path: string) => `${base}${path}`;
   @media (width < 600px) {
     .public-navbar {
       padding-inline: 16px;
+    }
+
+    .actions {
+      flex: 1 1 100%;
+      flex-wrap: wrap;
     }
 
     .brand-title {
