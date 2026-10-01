@@ -2,6 +2,21 @@ import { expect, test } from '@playwright/test';
 
 test.use({ baseURL: 'http://127.0.0.1:4323', javaScriptEnabled: false });
 
+test('styles do not change links outside the government bar', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const styles = await page.locator('main').evaluate((main) => {
+    const link = document.createElement('a');
+    link.href = '#contenido';
+    link.textContent = 'Enlace fuera de la topbar';
+    main.append(link);
+    const computed = getComputedStyle(link);
+    return { display: computed.display, minHeight: computed.minHeight };
+  });
+  expect(styles).toEqual({ display: 'inline', minHeight: '0px' });
+});
+
 test('keyboard skip link, visible focus and supplied destinations work without JS', async ({
   page,
 }) => {

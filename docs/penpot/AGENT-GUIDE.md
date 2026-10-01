@@ -25,7 +25,7 @@ Para verificar el plugin sin editar el diseño: `powershell -File scripts/penpot
 
 ## Coordinación
 
-Claims, responsable y alcance se registran según [COORDINATION.md](../agents/COORDINATION.md). CONTEXT.md es el índice visual; [DESIGN-CONTRACT.md](../architecture/DESIGN-CONTRACT.md) conserva hallazgos confirmados e incógnitas. Asigna un responsable de escritura por página; completa una mutación y su verificación antes de la siguiente. Los demás pueden analizar código o un snapshot. Penpot tiene una sola pestaña MCP activa por usuario; no cambies su página mientras otro agente la modifica.
+Reservas, responsable y alcance se registran según [COORDINATION.md](../agents/COORDINATION.md). CONTEXT.md es el índice visual; [DESIGN-CONTRACT.md](../architecture/DESIGN-CONTRACT.md) conserva hallazgos confirmados e incógnitas. Asigna un responsable de escritura por página; completa una mutación y su verificación antes de la siguiente. Los demás pueden analizar código o un snapshot. Penpot tiene una sola pestaña MCP activa por usuario; no cambies su página mientras otro agente la modifica.
 
 ## Diseño a código
 

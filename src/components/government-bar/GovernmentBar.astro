@@ -1,0 +1,30 @@
+---
+import type { GovernmentBarProps as Props } from './government-bar.types';
+import { validateGovernmentBarProps } from './government-bar.validation';
+import './government-bar.css';
+
+const { contentId, destinations } = Astro.props;
+validateGovernmentBarProps({ contentId, destinations });
+const flagUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/government/costa-rica.svg`;
+---
+
+<div class="government-bar">
+  <div class="identity">
+    <img src={flagUrl} alt="" width="35" height="21" aria-hidden="true" />
+    <span>República de Costa Rica · Régimen Municipal</span>
+  </div>
+  <nav aria-label="Enlaces institucionales">
+    <a class="skip-link" href={`#${contentId}`}>
+      Pasar al contenido principal
+    </a>
+    <a class="accessibility" href={destinations.accessibility}>
+      <span aria-hidden="true">♿</span> Accesibilidad
+    </a>
+    <a class="comptroller" href={destinations.serviceComptroller}>
+      Contraloría de Servicios
+    </a>
+    <a class="law" href={destinations.law7600}>
+      Ley 7600
+    </a>
+  </nav>
+</div>

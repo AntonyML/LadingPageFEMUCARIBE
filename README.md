@@ -1,15 +1,13 @@
 # FEMUCARIBE
 
-Proyecto Astro. Antes de trabajar, leer [AGENTS.md](AGENTS.md), [coordinación](docs/agents/COORDINATION.md) y [tooling](docs/agents/TOOLING.md).
+Proyecto Astro en desarrollo incremental. GovernmentBar es el primer componente institucional; Inicio aún conserva el starter.
 
-En Windows:
+- AGENTS.md: entrada y reglas del agente.
+- docs/architecture/ARCHITECTURE.md: estructura y decisiones técnicas.
+- docs/agents/COORDINATION.md: Git y reservas activas.
+- docs/agents/TOOLING.md: instalación y controles.
+- docs/agents/TOPBAR.md: contrato de GovernmentBar y próximos slices de cabecera.
+- docs/penpot/AGENT-GUIDE.md y CONTEXT.md: operación MCP e índice del diseño.
+- docs/architecture/DESIGN-CONTRACT.md: evidencia visual y decisiones pendientes.
 
-```powershell
-powershell -NoProfile -File scripts/tooling.ps1 versions
-powershell -NoProfile -File scripts/tooling.ps1 install
-powershell -NoProfile -File scripts/tooling.ps1 check
-powershell -NoProfile -File scripts/tooling.ps1 browsers
-powershell -NoProfile -File scripts/tooling.ps1 test:e2e
-```
-
-Usar rama y worktree propios desde dev. Main se promueve únicamente por el propietario. El starter continúa presente; este slice configura controles sin implementar la interfaz FEMUCARIBE.
+Empezar con powershell -NoProfile -File scripts/tooling.ps1 install y check. Main se promueve únicamente por el propietario humano. Documentación histórica consolidada: recuperable en Git.

@@ -6,9 +6,9 @@ import astro from 'eslint-plugin-astro';
 export default [
   {
     ignores: [
-      'node_modules/**',
-      'dist/**',
-      '.astro/**',
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.astro/**',
       '.codegraph/**',
       'playwright-report/**',
       'test-results/**',

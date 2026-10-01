@@ -1,32 +1,12 @@
-## Reglas de trabajo
+# Reglas para agentes
 
-Antes de editar, lee `docs/agents/COORDINATION.md` y declara scope/claim. Stack aprobado: `docs/architecture/STACK.md`; límites: `docs/architecture/ARCHITECTURE.md`; decisiones: `docs/adr/`. Implementa solo la tarea autorizada y haz HARD STOP al terminarla. Los agentes no trabajan directamente en `main`/`dev`; solo el propietario humano promueve a `main`. En paralelo, rama y worktree propios por tarea, con claims publicados y sin solapamientos. Para instalación, runtime, lint, formato, tipos, build o tests, lee `docs/agents/TOOLING.md` y usa los pins/scripts del checkout.
+Antes de editar, leer [arquitectura](docs/architecture/ARCHITECTURE.md) y [coordinación](docs/agents/COORDINATION.md). Implementar la tarea autorizada y detenerse al completarla.
 
-Para preguntas de estructura, referencias o impacto, sigue el orden CodeGraph de COORDINATION antes de búsquedas amplias. Worktrees bajo el home, índice propio por checkout y fallback explicado tras fallo.
+- Instalación y verificaciones: [TOOLING.md](docs/agents/TOOLING.md); usar los pins y scripts existentes.
+- Diseño: [guía MCP](docs/penpot/AGENT-GUIDE.md), [índice Penpot](docs/penpot/CONTEXT.md) y [evidencia visual](docs/architecture/DESIGN-CONTRACT.md).
+- Consumo de GovernmentBar y separación de Navbar: [TOPBAR.md](docs/agents/TOPBAR.md).
+- Git: rama y worktree propios desde dev actualizado; main lo promueve únicamente el propietario humano.
 
-## Penpot
+Para preguntas estructurales, resolver raíz con git rev-parse --show-toplevel y comprobar .codegraph antes de búsquedas amplias. Cada worktree necesita índice propio bajo el home. Si falta y la herramienta está disponible, intentar una vez gentle-ai codegraph init --cwd <raíz>; consultar codegraph_explore o CLI read-only. Explicar el fallback si falla. Usar auto-sync; sync solo ante watcher desactivado o stale persistente. Evitar comandos de administración, reinstalación e indexación rutinaria.
 
-Para inspeccionar diseños, exportar recursos o implementar cambios desde Penpot, lee `docs/penpot/AGENT-GUIDE.md` y `docs/architecture/DESIGN-CONTRACT.md`. Ejecuta `powershell -File scripts/penpot.ps1 doctor` y consulta el esquema real con `tools`. La configuración MCP está en `.codex/config.toml`; la credencial se carga desde el perfil del usuario. Usa `docs/penpot/CONTEXT.md` como índice de archivo/páginas verificados.
-
-## Development
-
-When starting the dev server, use background mode:
-
-```
-astro dev --background
-```
-
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
-
-## Documentation
-
-Full documentation: https://docs.astro.build
-
-Consult these guides before working on related tasks:
-
-- [Adding pages, dynamic routes, or middleware](https://docs.astro.build/en/guides/routing/)
-- [Working with Astro components](https://docs.astro.build/en/basics/astro-components/)
-- [Using React, Vue, Svelte, or other framework components](https://docs.astro.build/en/guides/framework-components/)
-- [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
-- [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
-- [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+Si hace falta servidor dev, usar astro dev --background; gestionar con astro dev stop/status/logs. Consultar primero la guía oficial pertinente: [componentes](https://docs.astro.build/en/basics/astro-components/), [estructura](https://docs.astro.build/en/basics/project-structure/), [estilos](https://docs.astro.build/en/guides/styling/), [routing](https://docs.astro.build/en/guides/routing/), [contenido](https://docs.astro.build/en/guides/content-collections/).

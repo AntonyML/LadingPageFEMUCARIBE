@@ -1,0 +1,111 @@
+@font-face {
+  font-family: 'Government Inter';
+  src: url('../../assets/government/inter-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.government-bar {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  min-block-size: 48px;
+  padding-inline: 80px;
+  background: #1e3a5f;
+  color: #fff;
+  font-family: 'Government Inter', Inter, sans-serif;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.government-bar .identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-inline-size: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.government-bar .identity img {
+  flex: 0 0 35px;
+  display: block;
+  border-radius: 2px;
+}
+
+.government-bar nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0 16px;
+  min-inline-size: 0;
+}
+
+.government-bar a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 26px;
+  min-inline-size: 24px;
+  max-inline-size: 100%;
+  padding-block: 2px;
+  color: #f0f6ff;
+  font-weight: 500;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.government-bar a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.government-bar a:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+  text-decoration: underline;
+}
+
+.government-bar .skip-link {
+  color: #efefff;
+  font-weight: 700;
+}
+
+.government-bar .comptroller {
+  color: #ffbc34;
+  font-weight: 600;
+}
+
+.government-bar .law {
+  color: #cde1ff;
+}
+
+@media (width < 1100px) {
+  .government-bar {
+    flex-wrap: wrap;
+    padding: 12px 24px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .government-bar nav {
+    justify-content: flex-start;
+    gap: 4px 16px;
+  }
+
+  .government-bar a {
+    min-block-size: 44px;
+  }
+}
+
+@media (width < 600px) {
+  .government-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding-inline: 16px;
+  }
+}
