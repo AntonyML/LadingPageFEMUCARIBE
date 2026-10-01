@@ -19,7 +19,7 @@ Orden recomendado: TOPBAR-001 → revisión e integración deliberada a dev → 
 
 Cada slice parte del dev actualizado, en `agent/<agente>/<task>` y worktree propio bajo el home. Confirmar SHA/claims antes de activar. El worktree `C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/codex-navbar-001` ya existe en base `ab246b7`, limpio y sin código de Navbar; comprobar y avanzar únicamente por fast-forward al dev vigente antes de implementarlo. Su existencia no constituye un claim ACTIVE. No borrar recursos ni reutilizarlo para TOPBAR.
 
-Después de asignar TOPBAR crear su rama/worktree; no hay checkout ni owner de implementación asignado todavía. Cada slice termina con handoff y HARD STOP; no se inicia el siguiente por inercia. La separación documental no certifica componentes implementados.
+TOPBAR-001 fue asignado a Codex en su worktree independiente; estado y validaciones: [TOPBAR.md](TOPBAR.md) y su claim. NAVBAR-001 sigue PROPOSED; activar su reserva/base antes de implementar. Cada slice termina con handoff y HARD STOP; no se inicia el siguiente por inercia. La separación documental por sí sola no certifica componentes implementados; cada claim registra su entrega.
 
 ## Composición en Inicio y archivos compartidos
 

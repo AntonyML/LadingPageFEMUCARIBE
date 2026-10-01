@@ -1,0 +1,46 @@
+---
+import GovernmentBar from '../../../../../src/components/GovernmentBar.astro';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>GovernmentBar · harness de prueba</title>
+  </head>
+  <body>
+    <GovernmentBar
+      contentId="contenido"
+      destinations={{
+        accessibility: '#accesibilidad',
+        serviceComptroller: '#contraloria',
+        law7600: '#ley-7600',
+      }}
+    />
+    <main id="contenido" tabindex="-1">
+      <h1>Contenido del harness</h1>
+      <section id="accesibilidad" tabindex="-1">
+        <h2>Destino de prueba: accesibilidad</h2>
+      </section>
+      <section id="contraloria" tabindex="-1">
+        <h2>Destino de prueba: contraloría</h2>
+      </section>
+      <section id="ley-7600" tabindex="-1">
+        <h2>Destino de prueba: Ley 7600</h2>
+      </section>
+    </main>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 0;
+  }
+  main {
+    padding: 24px;
+  }
+  section {
+    margin-block-start: 160px;
+  }
+</style>

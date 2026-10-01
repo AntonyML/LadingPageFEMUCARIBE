@@ -1,0 +1,169 @@
+---
+interface Props {
+  contentId: string;
+  destinations: {
+    accessibility: string;
+    serviceComptroller: string;
+    law7600: string;
+  };
+}
+
+const { contentId, destinations } = Astro.props;
+if (!contentId || !/^[A-Za-z][\w-]*$/.test(contentId)) {
+  throw new Error('GovernmentBar requires a valid contentId');
+}
+const hrefs = [
+  destinations?.accessibility,
+  destinations?.serviceComptroller,
+  destinations?.law7600,
+];
+for (const href of hrefs) {
+  if (!href?.trim() || href === '#' || href !== href.trim()) {
+    throw new Error(
+      'GovernmentBar requires all three institutional destinations',
+    );
+  }
+  const url = new URL(href, 'https://femucaribe.invalid');
+  if (!['https:', 'http:'].includes(url.protocol)) {
+    throw new Error(
+      'GovernmentBar destinations must be HTTP links or relative paths',
+    );
+  }
+}
+const flagUrl = `${import.meta.env.BASE_URL}government/costa-rica.svg`;
+---
+
+<div class="government-bar">
+  <div class="identity">
+    <img src={flagUrl} alt="" width="35" height="21" aria-hidden="true" />
+    <span>República de Costa Rica · Régimen Municipal</span>
+  </div>
+  <nav aria-label="Enlaces institucionales">
+    <a class="skip-link" href={`#${contentId}`}>
+      Pasar al contenido principal
+    </a>
+    <a class="accessibility" href={destinations.accessibility}>
+      <span aria-hidden="true">♿</span> Accesibilidad
+    </a>
+    <a class="comptroller" href={destinations.serviceComptroller}>
+      Contraloría de Servicios
+    </a>
+    <a class="law" href={destinations.law7600}>
+      Ley 7600
+    </a>
+  </nav>
+</div>
+
+<style>
+  @font-face {
+    font-family: 'Government Inter';
+    src: url('/government/inter-latin.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .government-bar {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+    min-block-size: 48px;
+    padding-inline: 80px;
+    background: #1e3a5f;
+    color: #fff;
+    font-family: 'Government Inter', Inter, sans-serif;
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  .identity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-inline-size: 0;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  .identity img {
+    flex: 0 0 35px;
+    display: block;
+    border-radius: 2px;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0 16px;
+    min-inline-size: 0;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 26px;
+    min-inline-size: 24px;
+    max-inline-size: 100%;
+    padding-block: 2px;
+    color: #f0f6ff;
+    font-weight: 500;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a:focus-visible {
+    border-radius: 2px;
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+    text-decoration: underline;
+  }
+
+  .skip-link {
+    color: #efefff;
+    font-weight: 700;
+  }
+
+  .comptroller {
+    color: #ffbc34;
+    font-weight: 600;
+  }
+
+  .law {
+    color: #cde1ff;
+  }
+
+  @media (width < 1100px) {
+    .government-bar {
+      flex-wrap: wrap;
+      padding: 12px 24px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    nav {
+      justify-content: flex-start;
+      gap: 4px 16px;
+    }
+
+    a {
+      min-block-size: 44px;
+    }
+  }
+
+  @media (width < 600px) {
+    .government-bar {
+      flex-direction: column;
+      align-items: stretch;
+      padding-inline: 16px;
+    }
+  }
+</style>
