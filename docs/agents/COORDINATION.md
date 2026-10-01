@@ -14,7 +14,7 @@ Antes de editar, comprobar estado Git, base y reservas de esta tabla. Registrar 
 | NAVBAR-001 | Codex / agent/codex/navbar-001 | CLOSED | PublicNavbar, recurso de marca, layout, pruebas y documentacion existente. |
 | FOOTER-001 | Codex / agent/codex/footer-001 | CLOSED | InstitutionalFooter y CSS Module local, layout, dos pruebas, COORDINATION y TOPBAR. |
 
-Tarea actual: GLOBAL-LAYOUT-001; base faf77e4; worktree/registro C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/codex-global-layout-001. Paths y objetivo: reserva GLOBAL-LAYOUT-001 al final del registro.
+Tarea actual: NAVBAR-REFLOW-FIX-001; base 59a99ec; worktree/registro C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/codex-navbar-reflow-fix-001. Paths y objetivo: reserva NAVBAR-REFLOW-FIX-001 al final del registro.
 
 Navbar entregada como componente independiente en el layout compartido; Penpot de solo lectura.
 
@@ -50,3 +50,7 @@ GLOBAL-LAYOUT-001 CLOSED: Codex / agent/codex/global-layout-001; base faf77e4; w
 Reserva adicional GLOBAL-LAYOUT-001: README.md; actualizar la entrada del proyecto al estado del layout compartido.
 
 GLOBAL-LAYOUT-001 entregado: reset/base global importados desde PublicLayout; contenedor compartido 80rem, grid 1/2/3, fuente de marca unica, landmarks/skip/foco y ayudas accesibles. Check, 29 unit y 50 E2E seriales Chromium pasan; 280-3840px, horizontal, contenido largo, texto 200% y viewport reducido. Ultimo ajuste de ruta accesibilidad verificado nuevamente con test PublicLayout. Build /femucaribe verifica 26 URLs locales prefijadas y recursos existentes; sin cambios de URLs editoriales. Documentacion vigente en ARCHITECTURE, AGENTS, README y TOPBAR; no nuevos Markdown. CodeGraph init y consulta fallaron sin indice, fallback directo. Capturas revisadas. Reserva liberada, dev autorizado; main intacto. HARD STOP.
+
+NAVBAR-REFLOW-FIX-001 CLOSED: Codex / agent/codex/navbar-reflow-fix-001; base 59a99ec; worktree C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/codex-navbar-reflow-fix-001. Reserva: PublicNavbar.astro, tests/e2e/navbar-reflow.spec.ts y public-navbar.spec.ts, COORDINATION.md y TOPBAR.md. Objetivo: corregir apilamiento innecesario en el contenedor compartido y mantener orden/foco/zoom, sin tocar footer ni contenido/rutas.
+
+NAVBAR-REFLOW-FIX-001 entregado: reproduccion inicial a 1366px falla con 69px de separacion vertical entre grupos; tras corregir flex-basis/order y medir el contenedor con CSS container queries, los tres centros coinciden. Check, 29 unit y 55 E2E seriales Chromium pasan; capturas revisadas a 1280/1366/1816, compacto 1024 y mobile 320; navegacion sin JS, foco y reflow conservados. Caso adicional con ventana amplia y fuente raiz 12px verifica que manda el contenedor. Preview actualizado y recargado en 4327, reproduccion original pasa sin overflow. TOPBAR documenta medidas vigentes y responsive INFERRED; sin nuevos Markdown. CodeGraph init y consulta sin indice: fallback directo. Reserva liberada; integracion deliberada a dev autorizada. Main no se modifica. HARD STOP.

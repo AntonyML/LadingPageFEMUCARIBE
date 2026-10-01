@@ -33,45 +33,47 @@ const href = (path: string) => `${base}${path}`;
 ---
 
 <nav class="public-navbar" aria-label="Navegación principal">
-  <div class="navbar-content site-container">
-    <a class="brand" href={href('/')} aria-label="FEMUCARIBE, Inicio">
-      <img src={logo.src} width="55" height="70" alt="" />
-      <span class="brand-copy">
-        <span class="brand-title">FEMUCARIBE</span>
-        <span class="brand-subtitle">
-          Federación Municipal del Caribe Costarricense y Asociados
+  <div class="navbar-container site-container">
+    <div class="navbar-content">
+      <a class="brand" href={href('/')} aria-label="FEMUCARIBE, Inicio">
+        <img src={logo.src} width="55" height="70" alt="" />
+        <span class="brand-copy">
+          <span class="brand-title">FEMUCARIBE</span>
+          <span class="brand-subtitle">
+            Federación Municipal del Caribe Costarricense y Asociados
+          </span>
         </span>
-      </span>
-    </a>
-    <ul class="links">
-      {links.map(({ label, path }) => (
-        <li>
-          <a
-            href={href(path)}
-            aria-current={
-              activePath === (href(path).replace(/\/$/, '') || '/')
-                ? 'page'
-                : undefined
-            }
-          >
-            {label}
-          </a>
-        </li>
-      ))}
-    </ul>
-    <div class="actions">
-      <a class="contact" href={href('/contacto')}>
-        Contáctenos
       </a>
-      {platformUrl ? (
-        <a class="platform" href={platformUrl}>
-          Acceder a la plataforma
+      <ul class="links">
+        {links.map(({ label, path }) => (
+          <li>
+            <a
+              href={href(path)}
+              aria-current={
+                activePath === (href(path).replace(/\/$/, '') || '/')
+                  ? 'page'
+                  : undefined
+              }
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div class="actions">
+        <a class="contact" href={href('/contacto')}>
+          Contáctenos
         </a>
-      ) : (
-        <span class="platform" aria-disabled="true">
-          Acceder a la plataforma
-        </span>
-      )}
+        {platformUrl ? (
+          <a class="platform" href={platformUrl}>
+            Acceder a la plataforma
+          </a>
+        ) : (
+          <span class="platform" aria-disabled="true">
+            Acceder a la plataforma
+          </span>
+        )}
+      </div>
     </div>
   </div>
 </nav>
@@ -83,19 +85,24 @@ const href = (path: string) => `${base}${path}`;
     font-family: 'FEMUCARIBE Inter', sans-serif;
   }
 
+  .navbar-container {
+    container: public-navigation / inline-size;
+  }
+
   .navbar-content {
-    box-sizing: border-box;
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'brand' 'links' 'actions';
     align-items: center;
-    justify-content: space-between;
-    gap: 24px;
+    gap: 12px 16px;
     min-block-size: 72px;
+    padding-block: 12px;
   }
 
   a {
     display: inline-flex;
     align-items: center;
-    min-block-size: 24px;
+    min-block-size: 44px;
     color: #435362;
     font-size: 13.5px;
     font-weight: 600;
@@ -121,10 +128,11 @@ const href = (path: string) => `${base}${path}`;
   }
 
   .brand {
-    flex: 0 1 347px;
+    grid-area: brand;
     min-inline-size: 0;
     gap: 10px;
     color: #0470a0;
+    justify-self: start;
   }
 
   .brand img {
@@ -139,107 +147,119 @@ const href = (path: string) => `${base}${path}`;
   }
 
   .brand-title {
-    font-size: 36px;
+    font-size: 24px;
     font-weight: 800;
-    letter-spacing: 4.5px;
+    letter-spacing: 2px;
   }
 
   .brand-subtitle {
-    font-size: 10.5px;
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: -0.5px;
   }
 
   .links {
+    grid-area: links;
     display: flex;
-    flex: 0 1 auto;
+    flex-wrap: wrap;
     align-items: center;
-    gap: clamp(12px, 1.5vw, 24px);
+    gap: 4px 16px;
+    min-inline-size: 0;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
   .actions {
+    grid-area: actions;
     display: flex;
-    flex: 0 0 auto;
+    flex-wrap: wrap;
     align-items: center;
     gap: 12px;
+    min-inline-size: 0;
   }
 
   .contact,
   .platform {
-    box-sizing: border-box;
     display: inline-flex;
-    flex-shrink: 0;
+    flex: 1 1 auto;
     align-items: center;
     justify-content: center;
-    min-block-size: 38px;
+    min-inline-size: 0;
+    min-block-size: 44px;
     padding: 6px 10px;
     border-radius: 8px;
     font-size: 12.5px;
     font-weight: 700;
     text-align: center;
+    overflow-wrap: anywhere;
   }
 
   .contact {
-    min-inline-size: 120px;
     background: #0470a0;
     color: #fff;
   }
 
   .platform {
-    min-inline-size: 171px;
     border: 3px solid #0470a0;
     color: #0470a0;
   }
 
-  @media (width < 1400px) {
+  @container public-navigation (width >= 700px) {
     .navbar-content {
-      flex-wrap: wrap;
-      gap: 12px 24px;
-      padding-block: 12px;
-    }
-
-    .brand {
-      flex: 1 1 347px;
-      min-inline-size: 0;
-    }
-
-    .links {
-      order: 3;
-      flex: 1 1 100%;
-      flex-wrap: wrap;
-      gap: 4px 20px;
-    }
-
-    a,
-    .contact,
-    .platform {
-      min-block-size: 44px;
-    }
-  }
-
-  @media (width < 600px) {
-    .actions {
-      flex: 1 1 100%;
-      flex-wrap: wrap;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas: 'brand brand' 'links actions';
     }
 
     .brand-title {
-      font-size: 24px;
-      letter-spacing: 2px;
+      font-size: 36px;
+      letter-spacing: 4.5px;
     }
 
     .brand-subtitle {
-      font-size: 10px;
-      letter-spacing: 0;
+      font-size: 10.5px;
+      letter-spacing: -0.5px;
+    }
+
+    .actions {
+      flex-wrap: nowrap;
+      justify-self: end;
+    }
+
+    .contact {
+      flex: 0 0 auto;
+      min-inline-size: 120px;
+    }
+
+    .platform {
+      flex: 0 0 auto;
+      min-inline-size: 171px;
+    }
+  }
+
+  @container public-navigation (width >= 1200px) {
+    .navbar-content {
+      grid-template-columns: minmax(0, 347px) minmax(0, 1fr) auto;
+      grid-template-areas: 'brand links actions';
+      padding-block: 0;
+    }
+
+    .links {
+      justify-content: center;
+    }
+
+    .links a {
+      min-block-size: 24px;
     }
 
     .contact,
     .platform {
-      flex: 1 1 auto;
-      min-inline-size: 0;
+      min-block-size: 38px;
+    }
+  }
+
+  @container public-navigation (width >= 1260px) {
+    .links {
+      column-gap: 24px;
     }
   }
 </style>
