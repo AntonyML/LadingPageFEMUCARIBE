@@ -13,9 +13,9 @@ Astro y TypeScript strictest, HTML semántico, CSS nativo y JavaScript cliente s
 - public: archivos servidos sin transformación; las URLs deben respetar BASE_URL.
 - tests: contratos y flujos; fixtures aisladas fuera de las rutas públicas.
 
-Astro admite frontmatter, props tipadas, HTML y estilos scoped en un único .astro. Eso es una opción oficial válida, no un incumplimiento de modularidad. Tampoco exige una estructura universal de cuatro archivos. Extraer contratos compartidos, validaciones relevantes o estilos extensos cuando mejore claridad y pruebas; evitar módulos vacíos, helpers genéricos y capas sin consumidores.
+Astro admite frontmatter, props tipadas, HTML y estilos scoped en un único .astro. Esa es la unidad por defecto y una opción oficial válida, no un incumplimiento de modularidad; Astro tampoco exige una estructura universal de cuatro archivos. Extraer piezas a la carpeta del componente —nunca a directorios globales por tipo— solo cuando exista al menos un disparador real: (a) tipos o validación consumidos por otro componente o módulo; (b) CSS por encima de ~200 líneas o compartido; (c) interactividad con JavaScript real; (d) archivo por encima de ~250 líneas o con dos o más responsabilidades mezcladas. Evitar módulos vacíos, helpers genéricos y capas sin consumidores.
 
-GovernmentBar conserva la separación solicitada por el propietario en src/components/government-bar: plantilla/composición .astro, contrato .types.ts, validación .validation.ts y estilos .css. El frontmatter se ejecuta durante rendering y no se envía como JavaScript cliente. Los CSS importados son globales: limitar selectores a la clase raíz exclusiva; los style internos son scoped por defecto. Las fuentes locales procesadas por Vite conservan rutas válidas al desplegar bajo un base.
+Los <style> internos son scoped por defecto. Los CSS importados son globales: si se extraen estilos, usar .module.css o limitar los selectores a la clase raíz exclusiva y probar la ausencia de fuga. Las fuentes locales se referencian como assets procesados por el build; las rutas absolutas hacia public/ rompen despliegues bajo un base.
 
 ## Límites de responsabilidad
 

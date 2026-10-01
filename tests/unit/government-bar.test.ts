@@ -1,6 +1,6 @@
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { describe, expect, test } from 'vitest';
-import GovernmentBar from '../../src/components/government-bar/GovernmentBar.astro';
+import GovernmentBar from '../../src/components/GovernmentBar.astro';
 
 const destinations = {
   accessibility: '/accesibilidad',

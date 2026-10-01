@@ -2,11 +2,11 @@
 
 ## Consumo
 
-GovernmentBar es independiente de PublicNavbar. Archivo: src/components/government-bar/GovernmentBar.astro; módulos hermanos de tipos, validación y CSS. No está compuesto todavía en Inicio.
+GovernmentBar es independiente de PublicNavbar. Archivo: src/components/GovernmentBar.astro; props, validación, plantilla y estilos scoped en un único archivo. No está compuesto todavía en Inicio.
 
 ```astro
 ---
-import GovernmentBar from '../components/government-bar/GovernmentBar.astro';
+import GovernmentBar from '../components/GovernmentBar.astro';
 const { institutionalDestinations } = Astro.props;
 ---
 
@@ -31,7 +31,7 @@ CONFIRMED desktop: referencia 1440px, altura 48px, padding horizontal 80px, fond
 
 INFERRED: min-height para reflow; foco visible, underline y targets; debajo de 1100px wrap, texto 13px y targets de 44px; debajo de 600px columna. No existen diseños mobile/tablet ni estados interactivos confirmados. Contrastes de las combinaciones usadas: 6.84:1 a 11.50:1; no constituye certificación global.
 
-Pruebas: contrato y errores con Astro Container; teclado/skip/enlaces sin JS, tamaños 320/375/768/1024/1440/1920, bandera, targets, ausencia de overflow, texto largo/ampliado y aislamiento del CSS externo. Fixture fuera de src/pages. Antes de producción faltan destinos editoriales reales y composición pública.
+Pruebas: contrato y errores con Astro Container; teclado/skip/enlaces sin JS, tamaños 320/375/768/1024/1440/1920, bandera, targets, ausencia de overflow, texto largo/ampliado y estilos scoped del componente. Fixture fuera de src/pages. Antes de producción faltan destinos editoriales reales y composición pública.
 
 ## Slices
 
