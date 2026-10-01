@@ -1,0 +1,55 @@
+---
+import GovernmentBar from '../components/GovernmentBar.astro';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const accesibilidadUrl = '/accesibilidad';
+const contraloriaServiciosUrl =
+  'https://www.mideplan.go.cr/contralorias-de-servicios';
+const ley7600Url =
+  'https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=23261&param2=96047&param3=1&param4=';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header>
+      <GovernmentBar
+        contentId="contenido-principal"
+        destinations={{
+          accessibility: accesibilidadUrl,
+          serviceComptroller: contraloriaServiciosUrl,
+          law7600: ley7600Url,
+        }}
+      />
+    </header>
+    <main id="contenido-principal" tabindex="-1">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style>
+  html {
+    min-block-size: 100%;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-block-size: 100vh;
+    margin: 0;
+  }
+
+  main {
+    flex: 1;
+  }
+</style>

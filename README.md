@@ -1,6 +1,6 @@
 # FEMUCARIBE
 
-Proyecto Astro en desarrollo incremental. GovernmentBar es el primer componente institucional; Inicio aún conserva el starter.
+Proyecto Astro en desarrollo incremental. GovernmentBar es el primer componente institucional; Inicio es una plantilla vacia con la topbar del layout publico compartido.
 
 - AGENTS.md: entrada y reglas del agente.
 - docs/architecture/ARCHITECTURE.md: estructura y decisiones técnicas.
