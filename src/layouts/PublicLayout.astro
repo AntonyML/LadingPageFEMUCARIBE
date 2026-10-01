@@ -15,6 +15,22 @@ const contraloriaServiciosUrl =
   'https://www.mideplan.go.cr/contralorias-de-servicios';
 const ley7600Url =
   'https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=23261&param2=96047&param3=1&param4=';
+const websiteMetadata = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'FEMUCARIBE',
+  inLanguage: 'es',
+  creator: {
+    '@type': 'Person',
+    name: 'Antony Monge López',
+    email: 'antonyml2016@gmail.com',
+    url: 'https://www.tonyml.com',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'FEMUCARIBE',
+  },
+};
 ---
 
 <!doctype html>
@@ -22,7 +38,13 @@ const ley7600Url =
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Antony Monge López" />
     <title>{title}</title>
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(websiteMetadata).replace(/</g, '\\u003c')}
+    />
   </head>
   <body class="public-site">
     <header>

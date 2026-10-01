@@ -45,8 +45,44 @@ test('public layout shows shared navigation and empty content with approved link
   await page.keyboard.press('Enter');
   await expect(main).toBeFocused();
   await expect(
-    page.locator('meta[name="generator"], link[rel="icon"], script'),
+    page.locator('meta[name="generator"], link[rel="icon"]'),
   ).toHaveCount(0);
   await page.waitForLoadState('networkidle');
   expect(errors).toEqual([]);
 });
+
+for (const route of ['/', '/creditos']) {
+  test(`public metadata identifies the creator and publisher at ${route}`, async ({
+    page,
+  }) => {
+    await page.goto(route);
+    await expect(page.locator('head meta[name="author"]')).toHaveCount(1);
+    await expect(page.locator('head meta[name="author"]')).toHaveAttribute(
+      'content',
+      'Antony Monge López',
+    );
+    const metadata = page.locator('head script[type="application/ld+json"]');
+    await expect(metadata).toHaveCount(1);
+    await expect(page.locator('script')).toHaveCount(1);
+    await expect(metadata).not.toHaveAttribute('src');
+    await expect(
+      page.locator('script:not([type="application/ld+json"])'),
+    ).toHaveCount(0);
+    const website = JSON.parse((await metadata.textContent()) ?? '');
+    expect(website).toMatchObject({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'FEMUCARIBE',
+      inLanguage: 'es',
+      creator: {
+        '@type': 'Person',
+        name: 'Antony Monge López',
+        email: 'antonyml2016@gmail.com',
+        url: 'https://www.tonyml.com',
+      },
+      publisher: { '@type': 'Organization', name: 'FEMUCARIBE' },
+    });
+    expect(website).not.toHaveProperty('url');
+    expect(website.publisher).not.toHaveProperty('url');
+  });
+}

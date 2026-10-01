@@ -12,6 +12,14 @@
   text-decoration: none;
 }
 
+.credit a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .footer p {
   margin: 0;
 }
@@ -204,6 +212,14 @@
   text-align: center;
   color: #e8f4ff;
   font-size: 13px;
+}
+
+.footer .credit {
+  margin-top: 8px;
+  color: #b4c5d3;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
 }
 
 .footer a:focus-visible {

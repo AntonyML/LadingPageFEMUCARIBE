@@ -1,0 +1,57 @@
+---
+import PublicLayout from '../layouts/PublicLayout.astro';
+---
+
+<PublicLayout title="Créditos del sitio web | FEMUCARIBE">
+  <article class="credits" aria-labelledby="creditos-titulo">
+    <h1 id="creditos-titulo">Créditos del sitio web</h1>
+    <p>
+      Este sitio web institucional fue diseñado y desarrollado por{' '}
+      <strong>Ing. Antony Monge López</strong>, Ingeniero en Sistemas.
+    </p>
+    <ul>
+      <li>
+        Correo:{' '}
+        <a href="mailto:antonyml2016@gmail.com">antonyml2016@gmail.com</a>{' '}
+        (únicamente para temas relacionados con este sitio web)
+      </li>
+      <li>
+        Sitio web profesional:{' '}
+        <a href="https://www.tonyml.com">www.tonyml.com</a>
+      </li>
+    </ul>
+    <p>
+      Antony Monge López desarrolló este sitio para FEMUCARIBE y no forma parte
+      de la institución. Las consultas sobre trámites, servicios o contenido
+      institucional deben dirigirse a los canales oficiales de FEMUCARIBE.
+    </p>
+    <p>
+      <strong>Tipografías y licencias:</strong> este sitio utiliza la tipografía
+      Inter (The Inter Project Authors), bajo SIL Open Font License 1.1; el
+      texto íntegro de la licencia se conserva en el repositorio del proyecto.
+    </p>
+  </article>
+</PublicLayout>
+
+<style>
+  .credits {
+    min-inline-size: 0;
+    max-inline-size: 72ch;
+    padding-block: clamp(2rem, 5vw, 4rem);
+  }
+
+  .credits h1 {
+    margin-block: 0 1.5rem;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.2;
+  }
+
+  .credits li + li {
+    margin-block-start: 0.75rem;
+  }
+
+  .credits a {
+    color: #0470a0;
+    text-underline-offset: 0.2em;
+  }
+</style>

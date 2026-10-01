@@ -20,6 +20,18 @@ for (const width of [320, 375, 768, 1024, 1440, 1920]) {
     await expect(
       footer.getByRole('link', { name: 'Política de Privacidad' }),
     ).toHaveCount(0);
+    const creatorCredit = footer.getByRole('link', {
+      name: 'Diseño y desarrollo: Ing. Antony Monge López',
+      exact: true,
+    });
+    await expect(creatorCredit).toHaveCount(1);
+    await expect(creatorCredit).toBeVisible();
+    await expect(creatorCredit).toHaveAttribute('href', '/creditos');
+    await expect(
+      footer.locator(
+        'a[href="mailto:antonyml2016@gmail.com"], a[href="https://www.tonyml.com"]',
+      ),
+    ).toHaveCount(0);
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth),
     ).toBeLessThanOrEqual(width);
@@ -70,4 +82,13 @@ test('enlarged footer text reflows without clipping', async ({ page }) => {
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(320);
+  const creatorCredit = page.getByRole('contentinfo').getByRole('link', {
+    name: 'Diseño y desarrollo: Ing. Antony Monge López',
+    exact: true,
+  });
+  await expect(creatorCredit).toBeVisible();
+  const bounds = await creatorCredit.boundingBox();
+  expect(bounds).not.toBeNull();
+  expect(bounds!.x).toBeGreaterThanOrEqual(0);
+  expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(320);
 });
