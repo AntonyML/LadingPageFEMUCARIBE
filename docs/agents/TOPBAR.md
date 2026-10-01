@@ -37,7 +37,7 @@ Pruebas: contrato y errores con Astro Container; teclado/skip/enlaces sin JS, ta
 
 TOPBAR-001 está entregado. NAVBAR-001 implementa exclusivamente marca FEMUCARIBE, seis enlaces y dos CTA; forma Penpot 1158a0fe-c558-80da-8008-94095cbb1269. Desktop confirmado; responsive y estados no dibujados inferidos. Destino de plataforma pendiente: no inventar URL ni implementar login.
 
-Topbar pertenece a PublicLayout para todas las paginas publicas que lo consuman. Navbar se incorpora al mismo header y Footer al layout cuando exista. Inicio mantiene el contenido vacio para visualizar la topbar. Hero, busqueda y contenido quedan para sus tareas. Cada entrega termina con HARD STOP.
+Topbar pertenece a PublicLayout para todas las paginas publicas que lo consuman. Navbar se incorpora al mismo header e InstitutionalFooter despues del main en el layout. Inicio mantiene el contenido vacio para visualizar topbar, navbar y footer. Hero, busqueda y contenido quedan para sus tareas. Cada entrega termina con HARD STOP.
 
 Referencias: [componentes](https://docs.astro.build/en/basics/astro-components/), [CSS externo](https://docs.astro.build/en/guides/styling/#external-styles), [Astro Container](https://docs.astro.build/en/reference/container-reference/).
 
@@ -52,3 +52,15 @@ Lectura Penpot 2026-10-01: archivo/pagina y forma de Navbar confirmados mediante
 INFERRED: logo contenido dentro de la navbar para corregir el desborde de 88 en frame 72; min-height, foco visible, underline y targets. Debajo de 1400 los grupos y enlaces hacen wrap; debajo de 600 marca mas compacta y CTA flexibles. Navegacion siempre visible sin menu colapsado ni JavaScript; Penpot no define menu mobile. No sticky, drawer, autenticacion ni efectos inventados. Un nav nombrado separado del institucional; sin header adicional.
 
 Pruebas: activos de las seis paginas, ausencia de activo falso, rechazo de destinos invalidos; teclado/foco, logo cargado, targets, 320/375/768/1024/1440/1920, reflow y texto ampliado sin JS. Desktop comparado visualmente contra exportacion Penpot; no se declara identidad pixel a pixel.
+
+## InstitutionalFooter
+
+FOOTER-001: componente independiente en src/components/institutional-footer/InstitutionalFooter.astro, incorporado despues del main en PublicLayout. CSS Module local styles.module.css: la plantilla y sus estilos superan juntos el umbral de ~250 lineas; sin capas ni helpers globales. Reutiliza logo e Inter variable existentes. Sin scripts cliente.
+
+CONFIRMED mediante MCP y exportacion del board 3085c5ee-e915-80fd-8008-954fde88927f en Inicio: fondo #071A28, franja verde/ambar/cian/azul, cuatro columnas, titulos de color, tarjetas de contacto y textos visibles. Contacto observado: (+506) 2768-2000, contacto@femucaribe.go.cr, Siquirres/Barrio El Mangal y horario 8:00-16:00. El prototipo no certifica datos, referencias legales ni sello en tramite: requieren revision editorial antes de produccion.
+
+INFERRED: enlaces institucionales a las rutas generales ya usadas por Navbar, sin inventar anclas de secciones; tel/mailto a partir del contenido observado. Columnas fluidas, dos bajo 1250px y una bajo 600px, objetivos de 44px, foco/underline y reflow del texto en vez del clipping observado. El logo reutilizado mantiene su proporcion; no se declara identidad pixel a pixel. Desktop observado CONFIRMED, responsive/estados INFERRED.
+
+Contrato: accessibilityUrl obligatorio (PublicLayout reutiliza /accesibilidad aprobado por propietario); privacyUrl y documentUrls opcionales. Documentos: statutes, budgets, minutes, reports, organicRegime, accountability. Sin URL, cada etiqueta queda como texto normal, sin href ficticio ni apariencia de boton deshabilitado. Los destinos configurados admiten rutas locales o HTTP(S), se validan y respetan BASE_URL. Las paginas publicas salvo Inicio aun no existen; no se crean en este slice. Copyright 2026 reproduce el texto editorial de Penpot, sin sugerir una fecha verificada.
+
+Fuentes oficiales: [Astro componentes](https://docs.astro.build/en/basics/astro-components/) y [CSS Modules](https://docs.astro.build/en/guides/styling/#css-modules).

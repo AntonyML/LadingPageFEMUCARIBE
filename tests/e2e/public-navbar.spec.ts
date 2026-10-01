@@ -52,7 +52,9 @@ test('keyboard focus remains visible in the primary navigation', async ({
   page,
 }) => {
   await page.goto('/');
-  const brand = page.getByRole('link', { name: 'FEMUCARIBE, Inicio' });
+  const brand = page
+    .getByRole('navigation', { name: 'Navegación principal' })
+    .getByRole('link', { name: 'FEMUCARIBE, Inicio' });
   await brand.focus();
   await page.keyboard.press('Tab');
   const active = page

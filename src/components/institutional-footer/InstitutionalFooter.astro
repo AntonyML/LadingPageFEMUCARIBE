@@ -1,0 +1,170 @@
+---
+import logo from '../../assets/brand/femucaribe.png';
+import styles from './styles.module.css';
+
+interface Props {
+  accessibilityUrl: string;
+  privacyUrl?: string;
+  documentUrls?: Partial<
+    Record<
+      | 'statutes'
+      | 'budgets'
+      | 'minutes'
+      | 'reports'
+      | 'organicRegime'
+      | 'accountability',
+      string
+    >
+  >;
+}
+
+const { accessibilityUrl, privacyUrl, documentUrls = {} } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+for (const url of [
+  accessibilityUrl,
+  privacyUrl,
+  ...Object.values(documentUrls),
+]) {
+  if (url === undefined) continue;
+  const relative = /^\/(?!\/)[^\s\\]*$/.test(url);
+  let external = false;
+  try {
+    external = /^https?:$/.test(new URL(url).protocol);
+  } catch {
+    /* Relative routes are checked above. */
+  }
+  if (
+    !url ||
+    url.trim() !== url ||
+    /[\s\\]/.test(url) ||
+    (!relative && !external)
+  ) {
+    throw new Error(
+      'InstitutionalFooter: destinations must be local routes or HTTP(S) URLs.',
+    );
+  }
+}
+if (!accessibilityUrl)
+  throw new Error('InstitutionalFooter: accessibilityUrl is required.');
+const destination = (url: string) =>
+  url.startsWith('/') ? `${base}${url}` : url;
+const institutional = [
+  ['Nosotros y Estatutos', '/nosotros'],
+  ['Gobiernos Locales', '/municipalidades'],
+  ['Cartera de Inversión UGP', '/proyectos'],
+  ['Rendición de Cuentas SICOP', '/transparencia'],
+  ['Noticias y Prensa', '/noticias'],
+  ['Quiénes Somos', '/nosotros'],
+  ['Misión y Visión', '/nosotros'],
+  ['Municipalidades Miembros', '/municipalidades'],
+  ['Objetivos Estratégicos', '/nosotros'],
+  ['Proyectos Destacados', '/proyectos'],
+  ['Últimas Noticias', '/noticias'],
+] as const;
+const documents = [
+  ['Estatutos FEMUCARIBE', documentUrls.statutes],
+  ['Presupuestos y Finanzas', documentUrls.budgets],
+  ['Actas de Sesiones', documentUrls.minutes],
+  ['Informes de Gestión', documentUrls.reports],
+  ['Régimen Orgánico (Art. 6)', documentUrls.organicRegime],
+  ['Rendición de Cuentas', documentUrls.accountability],
+] as const;
+---
+
+<footer class={styles.footer}>
+  <div class={styles.stripe} aria-hidden="true"></div>
+  <div class={styles.columns}>
+    <section class={styles.brand} aria-label="FEMUCARIBE">
+      <a
+        class={styles.identity}
+        href={`${base}/`}
+        aria-label="FEMUCARIBE, Inicio"
+      >
+        <img src={logo.src} width="44" height="44" alt="" loading="lazy" />
+        <span>
+          <strong>FEMUCARIBE</strong>
+          <small>
+            Federación Municipal del Caribe Costarricense y Asociados
+          </small>
+        </span>
+      </a>
+      <p class={styles.description}>
+        Federación de Municipalidades. Ente público no estatal constituido al
+        amparo del Código Municipal. La Gaceta N.° 108.
+      </p>
+      <p class={styles.seal}>
+        Sello de Gobierno Digital en trámite · Directriz N.º 036-MTSS-MICITT.
+      </p>
+      <p class={styles.headquarters}>
+        Sede Central: Siquirres, Barrio El Mangal
+      </p>
+    </section>
+    <nav aria-label="Institucional, pie de página">
+      <h2>Institucional</h2>
+      <ul>
+        {institutional.map(([label, path]) => (
+          <li>
+            <a href={`${base}${path}`}>{label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <section class={styles.documents} aria-labelledby="footer-transparencia">
+      <h2 id="footer-transparencia">Transparencia</h2>
+      <ul>
+        {documents.map(([label, url]) => (
+          <li>
+            {url ? (
+              <a href={destination(url)}>{label}</a>
+            ) : (
+              <span>{label}</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+    <section class={styles.contact} aria-labelledby="footer-contacto">
+      <h2 id="footer-contacto">Contacto y atención</h2>
+      <address>
+        <div>
+          <span>Central Telefónica</span>
+          <a href="tel:+50627682000">(+506) 2768-2000</a>
+        </div>
+        <div>
+          <span>Correo Electrónico</span>
+          <a href="mailto:contacto@femucaribe.go.cr">
+            contacto@femucaribe.go.cr
+          </a>
+        </div>
+        <div>
+          <span>Horario de Atención</span>
+          <p>Lunes a Viernes · 8:00 AM a 4:00 PM</p>
+        </div>
+        <div>
+          <span>Protección de Datos:</span>
+          <p>Ley N.° 8968</p>
+        </div>
+      </address>
+    </section>
+  </div>
+  <div class={styles.bottom}>
+    <div class={styles.policies}>
+      <p>República de Costa Rica · Ley N.º 7794</p>
+      <p>
+        <a href={destination(accessibilityUrl)}>
+          Declaración de Accesibilidad (Directriz 036 / WCAG 2.1 AA)
+        </a>
+        <span aria-hidden="true"> | </span>
+        {privacyUrl ? (
+          <a href={destination(privacyUrl)}>Política de Privacidad</a>
+        ) : (
+          <span>Política de Privacidad</span>
+        )}
+      </p>
+    </div>
+    <p class={styles.copyright}>
+      © 2026 FEMUCARIBE — Federación Municipal del Caribe Costarricense y
+      Asociados. Todos los derechos reservados.
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,281 @@
+@font-face {
+  font-family: 'FEMUCARIBE Inter';
+  src: url('../../assets/brand/inter-variable-latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+.footer {
+  color: #fff;
+  background: #071a28;
+  font-family: 'FEMUCARIBE Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer p {
+  margin: 0;
+}
+
+.footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+}
+
+.footer li {
+  margin: 0;
+}
+
+.footer li a,
+.footer li span {
+  display: flex;
+  align-items: center;
+  min-height: 26px;
+  font-weight: 500;
+}
+
+.footer h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  min-height: 20px;
+  color: #1dc4da;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.footer h2::before {
+  content: '';
+  flex: 0 0 8px;
+  height: 4px;
+  background: #1dc4da;
+  border-radius: 2px;
+}
+
+.stripe {
+  height: 4px;
+  margin: 3px auto 0;
+  max-width: 1440px;
+  background: linear-gradient(
+    to right,
+    #aac651 0 25%,
+    #fbba34 25% 50%,
+    #1dc4da 50% 75%,
+    #0470a0 75% 100%
+  );
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 350px 190px 210px minmax(0, 320px);
+  gap: 48px;
+  max-width: 1214px;
+  min-height: 336px;
+  padding: 30px 24px 0;
+  margin: 0 auto;
+}
+
+.columns > * {
+  min-width: 0;
+}
+
+.brand {
+  align-self: center;
+  padding-bottom: 10px;
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+}
+
+.identity img {
+  flex: 0 0 44px;
+  object-fit: contain;
+}
+
+.identity strong {
+  display: block;
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: 6.8px;
+}
+
+.identity small {
+  display: block;
+  margin-top: 2px;
+  color: #1dc4da;
+  font-size: 7.5px;
+}
+
+.brand .description {
+  margin-top: 14px;
+  color: #e8f4ff;
+  line-height: 1.2;
+  min-height: 68px;
+  max-width: 350px;
+}
+
+.brand .seal {
+  margin-top: 14px;
+  color: #f8fff2;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.brand .headquarters {
+  padding: 12px;
+  margin-top: 14px;
+  border: 1px solid #1a4a6b;
+  border-radius: 8px;
+  background: #0f2c40;
+  color: #faecde;
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 2;
+  letter-spacing: 1.7px;
+}
+
+.documents h2,
+.documents h2::before {
+  color: #fbba34;
+}
+
+.documents h2::before {
+  background: #fbba34;
+}
+
+.contact h2 {
+  color: #aac651;
+}
+
+.contact h2::before {
+  background: #aac651;
+}
+
+.contact address {
+  display: grid;
+  gap: 10px;
+  padding: 0;
+  font-style: normal;
+}
+
+.contact address > div {
+  padding: 7px 12px;
+  border: 1px solid #1a4a6b;
+  border-radius: 8px;
+  background: #0f2c40;
+  min-height: 30px;
+}
+
+.contact address span {
+  display: block;
+  margin-bottom: 2px;
+  color: #b4c5d3;
+  font-size: 11px;
+}
+
+.contact address a,
+.contact address p {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.bottom {
+  max-width: 1214px;
+  padding: 24px 24px 25px;
+  margin: 0 auto;
+}
+
+.policies {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: #b4c5d3;
+  font-size: 11px;
+}
+
+.footer .copyright {
+  margin-top: 16px;
+  text-align: center;
+  color: #e8f4ff;
+  font-size: 13px;
+}
+
+.footer a:focus-visible {
+  outline: 3px solid #fbba34;
+  outline-offset: 3px;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+@media (width < 1250px) {
+  .policies a {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 30px 24px;
+    gap: 32px;
+  }
+
+  .brand {
+    align-self: start;
+  }
+
+  .policies a,
+  .contact address a,
+  .footer li a,
+  .identity {
+    min-height: 44px;
+  }
+}
+
+@media (width < 600px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 24px 16px;
+    gap: 24px;
+  }
+
+  .identity strong {
+    font-size: 21px;
+    letter-spacing: 3px;
+  }
+
+  .identity small {
+    font-size: 10px;
+  }
+
+  .brand .seal {
+    line-height: 1.5;
+  }
+
+  .bottom {
+    padding: 24px 16px;
+  }
+
+  .policies {
+    flex-direction: column;
+    line-height: 1.5;
+  }
+}

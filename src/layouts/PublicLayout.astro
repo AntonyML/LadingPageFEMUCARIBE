@@ -1,6 +1,7 @@
 ---
 import GovernmentBar from '../components/GovernmentBar.astro';
 import PublicNavbar from '../components/PublicNavbar.astro';
+import InstitutionalFooter from '../components/institutional-footer/InstitutionalFooter.astro';
 
 interface Props {
   title: string;
@@ -36,6 +37,7 @@ const ley7600Url =
     <main id="contenido-principal" tabindex="-1">
       <slot />
     </main>
+    <InstitutionalFooter accessibilityUrl={accesibilidadUrl} />
   </body>
 </html>
 
@@ -53,5 +55,6 @@ const ley7600Url =
 
   main {
     flex: 1;
+    min-block-size: 1rem;
   }
 </style>

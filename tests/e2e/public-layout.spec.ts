@@ -20,6 +20,7 @@ test('public layout shows shared navigation and empty content with approved link
   await expect(page).toHaveTitle('Inicio | FEMUCARIBE');
   await expect(page.locator('html')).toHaveAttribute('lang', 'es');
   await expect(page.getByRole('banner')).toHaveCount(1);
+  await expect(page.getByRole('contentinfo')).toHaveCount(1);
   const nav = page.getByRole('navigation', { name: 'Enlaces institucionales' });
   await expect(
     nav.getByRole('link', { name: 'Accesibilidad' }),
