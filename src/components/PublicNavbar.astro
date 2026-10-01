@@ -1,0 +1,237 @@
+---
+import logo from '../assets/brand/femucaribe.png';
+
+interface Props {
+  currentPath?: string;
+  platformUrl?: string;
+}
+
+const { currentPath = Astro.url.pathname, platformUrl } = Astro.props;
+if (platformUrl !== undefined) {
+  try {
+    const url = new URL(platformUrl);
+    if (
+      platformUrl !== platformUrl.trim() ||
+      !['http:', 'https:'].includes(url.protocol)
+    )
+      throw new Error();
+  } catch {
+    throw new Error('PublicNavbar platformUrl must be an HTTP(S) URL');
+  }
+}
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const links = [
+  { label: 'Inicio', path: '/' },
+  { label: 'Nosotros', path: '/nosotros' },
+  { label: 'Municipalidades', path: '/municipalidades' },
+  { label: 'Proyectos', path: '/proyectos' },
+  { label: 'Transparencia', path: '/transparencia' },
+  { label: 'Noticias', path: '/noticias' },
+];
+const activePath = currentPath.replace(/\/$/, '') || '/';
+const href = (path: string) => `${base}${path}`;
+---
+
+<nav class="public-navbar" aria-label="Navegación principal">
+  <a class="brand" href={href('/')} aria-label="FEMUCARIBE, Inicio">
+    <img src={logo.src} width="55" height="70" alt="" />
+    <span class="brand-copy">
+      <span class="brand-title">FEMUCARIBE</span>
+      <span class="brand-subtitle">
+        Federación Municipal del Caribe Costarricense y Asociados
+      </span>
+    </span>
+  </a>
+  <ul class="links">
+    {links.map(({ label, path }) => (
+      <li>
+        <a
+          href={href(path)}
+          aria-current={
+            activePath === (href(path).replace(/\/$/, '') || '/')
+              ? 'page'
+              : undefined
+          }
+        >
+          {label}
+        </a>
+      </li>
+    ))}
+  </ul>
+  <a class="contact" href={href('/contacto')}>
+    Contáctenos
+  </a>
+  {platformUrl ? (
+    <a class="platform" href={platformUrl}>
+      Acceder a la plataforma
+    </a>
+  ) : (
+    <span class="platform" aria-disabled="true">
+      Acceder a la plataforma
+    </span>
+  )}
+</nav>
+
+<style>
+  @font-face {
+    font-family: 'FEMUCARIBE Inter';
+    src: url('../assets/brand/inter-variable-latin.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .public-navbar {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    min-block-size: 72px;
+    padding-inline: 40px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    font-family: 'FEMUCARIBE Inter', sans-serif;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 24px;
+    color: #435362;
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a:focus-visible {
+    outline: 2px solid #0470a0;
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  a[aria-current='page'] {
+    color: #0470a0;
+    font-weight: 800;
+  }
+
+  .brand {
+    flex: 0 0 347px;
+    gap: 10px;
+    color: #0470a0;
+  }
+
+  .brand img {
+    flex: 0 0 55px;
+    object-fit: cover;
+  }
+
+  .brand-copy {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+  }
+
+  .brand-title {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 4.5px;
+  }
+
+  .brand-subtitle {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .links {
+    display: flex;
+    flex: 0 0 560px;
+    align-items: center;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .contact,
+  .platform {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 38px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .contact {
+    min-inline-size: 120px;
+    background: #0470a0;
+    color: #fff;
+  }
+
+  .platform {
+    min-inline-size: 171px;
+    border: 3px solid #0470a0;
+    color: #0470a0;
+  }
+
+  @media (width < 1400px) {
+    .public-navbar {
+      flex-wrap: wrap;
+      gap: 12px 24px;
+      padding: 12px 24px;
+    }
+
+    .brand {
+      flex: 1 1 347px;
+      min-inline-size: 0;
+    }
+
+    .links {
+      flex: 1 1 100%;
+      flex-wrap: wrap;
+      gap: 4px 20px;
+    }
+
+    a,
+    .contact,
+    .platform {
+      min-block-size: 44px;
+    }
+  }
+
+  @media (width < 600px) {
+    .public-navbar {
+      padding-inline: 16px;
+    }
+
+    .brand-title {
+      font-size: 24px;
+      letter-spacing: 2px;
+    }
+
+    .brand-subtitle {
+      font-size: 10px;
+      letter-spacing: 0;
+    }
+
+    .contact,
+    .platform {
+      flex: 1 1 auto;
+      min-inline-size: 0;
+    }
+  }
+</style>

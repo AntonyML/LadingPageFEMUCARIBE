@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test.use({ javaScriptEnabled: false });
 
-test('public layout shows only the topbar and empty content with approved links', async ({
+test('public layout shows shared navigation and empty content with approved links', async ({
   page,
 }) => {
   const errors: string[] = [];

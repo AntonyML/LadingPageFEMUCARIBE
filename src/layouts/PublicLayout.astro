@@ -1,5 +1,6 @@
 ---
 import GovernmentBar from '../components/GovernmentBar.astro';
+import PublicNavbar from '../components/PublicNavbar.astro';
 
 interface Props {
   title: string;
@@ -30,6 +31,7 @@ const ley7600Url =
           law7600: ley7600Url,
         }}
       />
+      <PublicNavbar />
     </header>
     <main id="contenido-principal" tabindex="-1">
       <slot />
