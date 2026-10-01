@@ -1,11 +1,3 @@
-@font-face {
-  font-family: 'FEMUCARIBE Inter';
-  src: url('../../assets/brand/inter-variable-latin.woff2') format('woff2');
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-}
-
 .footer {
   color: #fff;
   background: #071a28;
@@ -77,16 +69,12 @@
 
 .columns {
   display: grid;
-  box-sizing: border-box;
-  width: 100%;
   grid-template-columns:
     minmax(0, 350fr) minmax(0, 190fr) minmax(0, 210fr)
     minmax(0, 320fr);
   gap: 48px;
-  max-width: 1262px;
   min-height: 336px;
-  padding: 30px 24px 0;
-  margin: 0 auto;
+  padding-block: 30px 0;
 }
 
 .columns > * {
@@ -199,11 +187,7 @@
 }
 
 .bottom {
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 1262px;
-  padding: 24px 24px 25px;
-  margin: 0 auto;
+  padding-block: 24px 25px;
 }
 
 .policies {
@@ -239,7 +223,7 @@
 
   .columns {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: 30px 24px;
+    padding-block: 30px;
     gap: 32px;
   }
 
@@ -258,7 +242,7 @@
 @media (width < 600px) {
   .columns {
     grid-template-columns: minmax(0, 1fr);
-    padding: 24px 16px;
+    padding-block: 24px;
     gap: 24px;
   }
 

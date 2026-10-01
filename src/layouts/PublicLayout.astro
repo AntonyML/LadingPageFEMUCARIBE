@@ -2,12 +2,14 @@
 import GovernmentBar from '../components/GovernmentBar.astro';
 import PublicNavbar from '../components/PublicNavbar.astro';
 import InstitutionalFooter from '../components/institutional-footer/InstitutionalFooter.astro';
+import '../styles/global.css';
 
 interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const accesibilidadUrl = '/accesibilidad';
 const contraloriaServiciosUrl =
   'https://www.mideplan.go.cr/contralorias-de-servicios';
@@ -22,39 +24,23 @@ const ley7600Url =
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
   </head>
-  <body>
+  <body class="public-site">
     <header>
       <GovernmentBar
         contentId="contenido-principal"
         destinations={{
-          accessibility: accesibilidadUrl,
+          accessibility: `${base}${accesibilidadUrl}`,
           serviceComptroller: contraloriaServiciosUrl,
           law7600: ley7600Url,
         }}
       />
       <PublicNavbar />
     </header>
-    <main id="contenido-principal" tabindex="-1">
-      <slot />
+    <main id="contenido-principal" class="public-main" tabindex="-1">
+      <div class="site-container page-content">
+        <slot />
+      </div>
     </main>
     <InstitutionalFooter accessibilityUrl={accesibilidadUrl} />
   </body>
 </html>
-
-<style>
-  html {
-    min-block-size: 100%;
-  }
-
-  body {
-    display: flex;
-    flex-direction: column;
-    min-block-size: 100vh;
-    margin: 0;
-  }
-
-  main {
-    flex: 1;
-    min-block-size: 1rem;
-  }
-</style>

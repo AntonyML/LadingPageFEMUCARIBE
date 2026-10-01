@@ -73,7 +73,7 @@ const documents = [
 
 <footer class={styles.footer}>
   <div class={styles.stripe} aria-hidden="true"></div>
-  <div class={styles.columns}>
+  <div class:list={[styles.columns, 'site-container']}>
     <section class={styles.brand} aria-label="FEMUCARIBE">
       <a
         class={styles.identity}
@@ -147,7 +147,7 @@ const documents = [
       </address>
     </section>
   </div>
-  <div class={styles.bottom}>
+  <div class:list={[styles.bottom, 'site-container']}>
     <div class={styles.policies}>
       <p>República de Costa Rica · Ley N.º 7794</p>
       <p>

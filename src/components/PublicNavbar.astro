@@ -33,67 +33,63 @@ const href = (path: string) => `${base}${path}`;
 ---
 
 <nav class="public-navbar" aria-label="Navegación principal">
-  <a class="brand" href={href('/')} aria-label="FEMUCARIBE, Inicio">
-    <img src={logo.src} width="55" height="70" alt="" />
-    <span class="brand-copy">
-      <span class="brand-title">FEMUCARIBE</span>
-      <span class="brand-subtitle">
-        Federación Municipal del Caribe Costarricense y Asociados
+  <div class="navbar-content site-container">
+    <a class="brand" href={href('/')} aria-label="FEMUCARIBE, Inicio">
+      <img src={logo.src} width="55" height="70" alt="" />
+      <span class="brand-copy">
+        <span class="brand-title">FEMUCARIBE</span>
+        <span class="brand-subtitle">
+          Federación Municipal del Caribe Costarricense y Asociados
+        </span>
       </span>
-    </span>
-  </a>
-  <ul class="links">
-    {links.map(({ label, path }) => (
-      <li>
-        <a
-          href={href(path)}
-          aria-current={
-            activePath === (href(path).replace(/\/$/, '') || '/')
-              ? 'page'
-              : undefined
-          }
-        >
-          {label}
-        </a>
-      </li>
-    ))}
-  </ul>
-  <div class="actions">
-    <a class="contact" href={href('/contacto')}>
-      Contáctenos
     </a>
-    {platformUrl ? (
-      <a class="platform" href={platformUrl}>
-        Acceder a la plataforma
+    <ul class="links">
+      {links.map(({ label, path }) => (
+        <li>
+          <a
+            href={href(path)}
+            aria-current={
+              activePath === (href(path).replace(/\/$/, '') || '/')
+                ? 'page'
+                : undefined
+            }
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="actions">
+      <a class="contact" href={href('/contacto')}>
+        Contáctenos
       </a>
-    ) : (
-      <span class="platform" aria-disabled="true">
-        Acceder a la plataforma
-      </span>
-    )}
+      {platformUrl ? (
+        <a class="platform" href={platformUrl}>
+          Acceder a la plataforma
+        </a>
+      ) : (
+        <span class="platform" aria-disabled="true">
+          Acceder a la plataforma
+        </span>
+      )}
+    </div>
   </div>
 </nav>
 
 <style>
-  @font-face {
-    font-family: 'FEMUCARIBE Inter';
-    src: url('../assets/brand/inter-variable-latin.woff2') format('woff2');
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
+  .public-navbar {
+    box-shadow: inset 0 0 0 1px #e2e8f0;
+    background: #fff;
+    font-family: 'FEMUCARIBE Inter', sans-serif;
   }
 
-  .public-navbar {
+  .navbar-content {
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
     min-block-size: 72px;
-    padding-inline: 40px;
-    border: 1px solid #e2e8f0;
-    background: #fff;
-    font-family: 'FEMUCARIBE Inter', sans-serif;
   }
 
   a {
@@ -199,10 +195,10 @@ const href = (path: string) => `${base}${path}`;
   }
 
   @media (width < 1400px) {
-    .public-navbar {
+    .navbar-content {
       flex-wrap: wrap;
       gap: 12px 24px;
-      padding: 12px 24px;
+      padding-block: 12px;
     }
 
     .brand {
@@ -225,10 +221,6 @@ const href = (path: string) => `${base}${path}`;
   }
 
   @media (width < 600px) {
-    .public-navbar {
-      padding-inline: 16px;
-    }
-
     .actions {
       flex: 1 1 100%;
       flex-wrap: wrap;

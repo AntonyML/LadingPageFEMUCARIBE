@@ -14,11 +14,11 @@ Antes de editar, comprobar estado Git, base y reservas de esta tabla. Registrar 
 | NAVBAR-001 | Codex / agent/codex/navbar-001 | CLOSED | PublicNavbar, recurso de marca, layout, pruebas y documentacion existente. |
 | FOOTER-001 | Codex / agent/codex/footer-001 | CLOSED | InstitutionalFooter y CSS Module local, layout, dos pruebas, COORDINATION y TOPBAR. |
 
-Tarea actual: FOOTER-001; base 15265bc; worktree/registro C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/codex-footer-001. Paths y objetivo: reserva FOOTER-001 al final de este registro.
+Tarea actual: GLOBAL-LAYOUT-001; base faf77e4; worktree/registro C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/codex-global-layout-001. Paths y objetivo: reserva GLOBAL-LAYOUT-001 al final del registro.
 
 Navbar entregada como componente independiente en el layout compartido; Penpot de solo lectura.
 
-Penpot: un responsable de escritura por página; otros trabajan sobre snapshots o código. El MCP sigue una sola pestaña activa. La topbar y Navbar son tareas independientes; su composición en Inicio se reserva posteriormente con un único responsable de página/layout.
+Penpot: un responsable de escritura por página; otros trabajan sobre snapshots o código. El MCP sigue una sola pestaña activa. GovernmentBar, PublicNavbar e InstitutionalFooter son componentes independientes compuestos por PublicLayout; reservar cambios del layout global con un unico responsable.
 
 ## Entrega
 
@@ -45,3 +45,8 @@ FOOTER-001 entregado: check pasa, 29 unit y 25 E2E seriales pasan; la primera co
 RESPONSIVE-FIX-001 CLOSED: Codex / agent/codex/responsive-fix-001; base cd05443; worktree codex-responsive-fix-001. Reserva PublicNavbar.astro, institutional-footer/styles.module.css, tests/e2e/responsive-layout.spec.ts, COORDINATION.md y TOPBAR.md. Objetivo: franja completa, columnas fluidas y CTA agrupados bajo zoom; sin cambios de contenido.
 
 RESPONSIVE-FIX-001: check, 29 unit y 36 E2E seriales pasan. Capturas revisadas; franja completa, grupos CTA a 12px, columnas sin overflow en once anchos y limites de breakpoint. CodeGraph init sin indice: fallback directo. Preview actualizado en 4327. Reserva liberada; dev autorizado, main intacto. HARD STOP.
+
+GLOBAL-LAYOUT-001 CLOSED: Codex / agent/codex/global-layout-001; base faf77e4; worktree C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/codex-global-layout-001. Reserva: src/styles/global.css, src/layouts/PublicLayout.astro, GovernmentBar.astro, PublicNavbar.astro, institutional-footer/InstitutionalFooter.astro y styles.module.css; tests/e2e/global-layout.spec.ts y public-layout.spec.ts; AGENTS.md, docs/architecture/ARCHITECTURE.md, docs/agents/COORDINATION.md y TOPBAR.md. Objetivo: reset minimo, contenedor/grid comunes y accesibilidad global; responsive obligatorio, sin Hero, contenido nuevo de Inicio ni paginas nuevas.
+Reserva adicional GLOBAL-LAYOUT-001: README.md; actualizar la entrada del proyecto al estado del layout compartido.
+
+GLOBAL-LAYOUT-001 entregado: reset/base global importados desde PublicLayout; contenedor compartido 80rem, grid 1/2/3, fuente de marca unica, landmarks/skip/foco y ayudas accesibles. Check, 29 unit y 50 E2E seriales Chromium pasan; 280-3840px, horizontal, contenido largo, texto 200% y viewport reducido. Ultimo ajuste de ruta accesibilidad verificado nuevamente con test PublicLayout. Build /femucaribe verifica 26 URLs locales prefijadas y recursos existentes; sin cambios de URLs editoriales. Documentacion vigente en ARCHITECTURE, AGENTS, README y TOPBAR; no nuevos Markdown. CodeGraph init y consulta fallaron sin indice, fallback directo. Capturas revisadas. Reserva liberada, dev autorizado; main intacto. HARD STOP.
