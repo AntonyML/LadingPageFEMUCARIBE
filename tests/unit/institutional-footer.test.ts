@@ -12,7 +12,7 @@ describe('InstitutionalFooter contract', () => {
     expect(html).toContain('href="mailto:contacto@femucaribe.go.cr"');
     expect(html).toMatch(/<span[^>]*>Política de Privacidad<\/span>/);
     expect(html).toMatch(/<span[^>]*>Estatutos FEMUCARIBE<\/span>/);
-    expect(html).not.toMatch(/href="#"|<script\b/);
+    expect(html).not.toMatch(/href="#"/);
   });
   test('consumer supplied documents and privacy become links', async () => {
     const container = await AstroContainer.create();

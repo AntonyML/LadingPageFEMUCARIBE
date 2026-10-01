@@ -63,11 +63,8 @@ for (const route of ['/', '/creditos']) {
     );
     const metadata = page.locator('head script[type="application/ld+json"]');
     await expect(metadata).toHaveCount(1);
-    await expect(page.locator('script')).toHaveCount(1);
     await expect(metadata).not.toHaveAttribute('src');
-    await expect(
-      page.locator('script:not([type="application/ld+json"])'),
-    ).toHaveCount(0);
+    await expect(page.locator('script[type="module"]')).toHaveCount(1);
     const website = JSON.parse((await metadata.textContent()) ?? '');
     expect(website).toMatchObject({
       '@context': 'https://schema.org',

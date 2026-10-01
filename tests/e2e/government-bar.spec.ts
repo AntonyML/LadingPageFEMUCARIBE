@@ -47,6 +47,7 @@ for (const width of [320, 375, 768, 1024, 1440, 1920]) {
       .getByRole('navigation')
       .getByRole('link')
       .all()) {
+      await link.focus();
       const box = await link.boundingBox();
       expect(box?.height).toBeGreaterThanOrEqual(width < 1100 ? 44 : 24);
     }

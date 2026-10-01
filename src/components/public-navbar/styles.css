@@ -1,0 +1,300 @@
+.public-navbar {
+  box-shadow: inset 0 0 0 1px #e2e8f0;
+  background: #fff;
+  font-family: 'FEMUCARIBE Inter', sans-serif;
+}
+
+.public-navbar .navbar-container {
+  container: public-navigation / inline-size;
+}
+
+.public-navbar .navbar-content {
+  position: relative;
+  min-block-size: 72px;
+  padding-block: 0.75rem;
+}
+
+.public-navbar a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 48px;
+  color: #435362;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.public-navbar a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.public-navbar a:focus-visible {
+  outline: 2px solid #0470a0;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.public-navbar a[aria-current='page'] {
+  color: #0470a0;
+  font-weight: 800;
+}
+
+.public-navbar .brand {
+  grid-column: 1;
+  grid-row: 1;
+  min-inline-size: 0;
+  max-inline-size: calc(100% - 6rem);
+  gap: 0.5rem;
+  color: #0470a0;
+  justify-self: start;
+}
+
+.public-navbar .brand img {
+  flex: 0 0 2.25rem;
+  inline-size: 2.25rem;
+  block-size: auto;
+  object-fit: contain;
+}
+
+.public-navbar .brand-copy {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.public-navbar .brand-title {
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.public-navbar .brand-subtitle {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.public-navbar .navigation-disclosure {
+  --disclosure-collapsible: 1;
+
+  display: block;
+}
+
+.public-navbar .disclosure-summary {
+  position: absolute;
+  inset-block-start: 0.75rem;
+  inset-inline-end: 0;
+  grid-column: 2;
+  grid-row: 1;
+  justify-content: center;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #c8d9e3;
+  border-radius: 8px;
+  color: #0470a0;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.public-navbar .disclosure-summary .disclosure-icon {
+  display: none;
+}
+
+.public-navbar .menu-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.public-navbar .disclosure-panel {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+.public-navbar .navigation-panel {
+  margin-block-start: 0.75rem;
+  padding-block: 0.5rem 0.25rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+@container public-navigation (width < 18rem) {
+  .public-navbar .brand {
+    max-inline-size: 100%;
+  }
+
+  .public-navbar .disclosure-summary {
+    position: static;
+    inline-size: fit-content;
+    margin-block-start: 0.75rem;
+    margin-inline-start: auto;
+  }
+}
+
+.public-navbar .links {
+  display: grid;
+  gap: 0.25rem;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.public-navbar .links a {
+  inline-size: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+}
+
+.public-navbar .links a[aria-current='page'] {
+  background: #f0f7fa;
+}
+
+.public-navbar .actions {
+  display: grid;
+  gap: 0.75rem;
+  min-inline-size: 0;
+  margin-block-start: 0.75rem;
+}
+
+.public-navbar .contact,
+.public-navbar .platform {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 0;
+  min-block-size: 48px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.public-navbar .contact {
+  background: #0470a0;
+  color: #fff;
+}
+
+.public-navbar .platform {
+  border: 3px solid #0470a0;
+  color: #0470a0;
+}
+
+@container public-navigation (width >= 40rem) {
+  .public-navbar .brand-title {
+    font-size: 1.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  .public-navbar .brand-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .public-navbar .links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .public-navbar .actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container public-navigation (width >= 75rem) {
+  .public-navbar .navbar-content {
+    display: grid;
+    grid-template-columns: minmax(0, 21.6875rem) minmax(0, 1fr);
+    align-items: center;
+    gap: 1rem;
+    padding-block: 0;
+  }
+
+  .public-navbar .brand {
+    max-inline-size: 100%;
+    gap: 0.625rem;
+  }
+
+  .public-navbar .brand img {
+    flex-basis: 3.4375rem;
+    inline-size: 3.4375rem;
+    block-size: 4.375rem;
+  }
+
+  .public-navbar .brand-title {
+    font-size: 2.25rem;
+    letter-spacing: 0.2813rem;
+  }
+
+  .public-navbar .brand-subtitle {
+    font-size: 0.6563rem;
+    letter-spacing: -0.0313rem;
+  }
+
+  .public-navbar .navigation-disclosure {
+    --disclosure-collapsible: 0;
+
+    display: block;
+  }
+
+  .public-navbar .navigation-disclosure[open] > .disclosure-summary {
+    display: none;
+  }
+
+  .public-navbar .navigation-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0;
+    border: 0;
+    margin: 0;
+  }
+
+  .public-navbar .links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem 1rem;
+  }
+
+  .public-navbar .links a {
+    min-block-size: 24px;
+    padding: 0;
+    font-size: 0.8438rem;
+    line-height: 1.2;
+  }
+
+  .public-navbar .links a[aria-current='page'] {
+    background: transparent;
+  }
+
+  .public-navbar .actions {
+    display: flex;
+    gap: 0.75rem;
+    margin: 0;
+  }
+
+  .public-navbar .contact,
+  .public-navbar .platform {
+    min-block-size: 38px;
+    padding: 0.375rem 0.625rem;
+    font-size: 0.7813rem;
+  }
+
+  .public-navbar .contact {
+    min-inline-size: 7.5rem;
+  }
+
+  .public-navbar .platform {
+    min-inline-size: 10.6875rem;
+  }
+}
+
+@container public-navigation (width >= 78.75rem) {
+  .public-navbar .links {
+    column-gap: 1.5rem;
+  }
+}

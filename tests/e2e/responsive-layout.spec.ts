@@ -28,7 +28,7 @@ for (const width of [
     const platform = await nav.locator('.platform').boundingBox();
     expect(contact).not.toBeNull();
     expect(platform).not.toBeNull();
-    if (width >= 600) {
+    if (width >= 683) {
       expect(platform!.y).toBeCloseTo(contact!.y, 0);
       expect(platform!.x - contact!.x - contact!.width).toBeCloseTo(12, 0);
     }

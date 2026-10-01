@@ -1,0 +1,115 @@
+---
+interface Props {
+  class?: string | undefined;
+  closeOnOutside?: boolean;
+}
+const { class: className, closeOnOutside = false } = Astro.props;
+---
+
+<details
+  class:list={['responsive-disclosure', className]}
+  data-responsive-disclosure
+  data-close-on-outside={closeOnOutside || undefined}
+  open
+>
+  <summary class="disclosure-summary" data-disclosure-summary>
+    <slot name="label" />
+    <span
+      class="disclosure-icon"
+      data-disclosure-icon
+      aria-hidden="true"
+    ></span>
+  </summary>
+  <div class="disclosure-panel">
+    <slot />
+  </div>
+</details>
+
+<script>
+  for (const details of document.querySelectorAll<HTMLDetailsElement>(
+    '[data-responsive-disclosure]',
+  )) {
+    const summary = details.querySelector<HTMLElement>('summary');
+    if (!summary) continue;
+    let wasCompact: boolean | undefined;
+    const update = () => {
+      const compact =
+        getComputedStyle(details)
+          .getPropertyValue('--disclosure-collapsible')
+          .trim() === '1';
+      if (compact === wasCompact) return;
+      const hadFocus = details.contains(document.activeElement);
+      details.open = !compact;
+      wasCompact = compact;
+      if (compact && hadFocus) summary.focus();
+      if (!compact && hadFocus && document.activeElement === summary) {
+        const target =
+          details.querySelector<HTMLElement>('.disclosure-panel a') ??
+          details.querySelector<HTMLElement>('.disclosure-panel');
+        if (target) {
+          if (!target.matches('a')) target.tabIndex = -1;
+          target.focus();
+        }
+      }
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    if (details.parentElement) observer.observe(details.parentElement);
+    observer.observe(document.documentElement);
+    details.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && wasCompact && details.open) {
+        details.open = false;
+        summary.focus();
+        event.preventDefault();
+      }
+    });
+    if (details.hasAttribute('data-close-on-outside')) {
+      document.addEventListener('click', (event) => {
+        if (!wasCompact || !details.open || !(event.target instanceof Node))
+          return;
+        if (details.contains(event.target)) return;
+        const hadFocus = details.contains(document.activeElement);
+        details.open = false;
+        if (hadFocus) summary.focus();
+      });
+    }
+  }
+</script>
+
+<style>
+  .responsive-disclosure {
+    min-inline-size: 0;
+  }
+
+  .disclosure-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-block-size: 48px;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .disclosure-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .disclosure-summary:focus-visible {
+    outline: 3px solid currentcolor;
+    outline-offset: 3px;
+  }
+
+  .disclosure-icon {
+    flex: 0 0 0.5rem;
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-right: 2px solid currentcolor;
+    border-bottom: 2px solid currentcolor;
+    transform: rotate(45deg);
+  }
+
+  [open] > .disclosure-summary .disclosure-icon {
+    transform: rotate(225deg);
+  }
+</style>

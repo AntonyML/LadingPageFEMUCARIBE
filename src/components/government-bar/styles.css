@@ -1,0 +1,206 @@
+@font-face {
+  font-family: 'Government Inter';
+  src: url('../../assets/government/inter-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.government-bar {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  min-block-size: 48px;
+  padding-inline: max(
+    var(--site-gutter, 80px),
+    calc((100% - var(--site-max, 80rem)) / 2)
+  );
+  background: #1e3a5f;
+  color: #fff;
+  font-family: 'Government Inter', Inter, sans-serif;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.government-bar .identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-inline-size: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.government-bar .identity img {
+  flex: 0 0 35px;
+  display: block;
+  border-radius: 2px;
+}
+
+.government-bar nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0 16px;
+  min-inline-size: 0;
+}
+
+.government-bar .utility-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
+}
+
+.government-bar .utility-disclosure[open] > .disclosure-summary {
+  display: none;
+}
+
+.government-bar a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 26px;
+  min-inline-size: 24px;
+  max-inline-size: 100%;
+  padding-block: 2px;
+  color: #f0f6ff;
+  font-weight: 500;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.government-bar a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.government-bar a:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+  text-decoration: underline;
+}
+
+.government-bar .skip-link {
+  color: #efefff;
+  font-weight: 700;
+}
+
+.government-bar .comptroller {
+  color: #ffbc34;
+  font-weight: 600;
+}
+
+.government-bar .law {
+  color: #cde1ff;
+}
+
+@media (width < 68.75rem) {
+  .government-bar {
+    position: relative;
+    display: block;
+    gap: 0.25rem 0.5rem;
+    padding-block: 0;
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .government-bar .identity {
+    min-block-size: 48px;
+    max-inline-size: calc(100% - 6rem);
+  }
+
+  .government-bar nav {
+    display: block;
+  }
+
+  .government-bar a {
+    min-block-size: 48px;
+    font-size: 0.875rem;
+  }
+
+  .government-bar .skip-link:not(:focus) {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    min-block-size: 0;
+    min-inline-size: 0;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .government-bar .skip-link:focus {
+    position: absolute;
+    z-index: 2;
+    inset-block-start: 0;
+    inset-inline-start: var(--site-gutter, 16px);
+    padding: 0.5rem;
+    background: #1e3a5f;
+  }
+
+  .government-bar .utility-disclosure {
+    --disclosure-collapsible: 1;
+
+    display: block;
+  }
+
+  .government-bar .utility-disclosure > .disclosure-summary,
+  .government-bar .utility-disclosure[open] > .disclosure-summary {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: var(--site-gutter, 16px);
+    display: flex;
+    padding-inline: 0.5rem;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .government-bar .disclosure-panel {
+    flex-basis: 100%;
+  }
+
+  .government-bar .utility-links {
+    display: grid;
+    gap: 0.25rem;
+    padding-block: 0.5rem;
+    border-top: 1px solid #58718f;
+  }
+
+  .government-bar .utility-links a {
+    padding-inline: 0.5rem;
+  }
+}
+
+@media (width < 37.5rem) {
+  .government-bar .identity {
+    gap: 0.5rem;
+  }
+
+  .government-bar .identity img {
+    flex-basis: 28px;
+    inline-size: 28px;
+    block-size: auto;
+  }
+
+  .government-bar .regime {
+    display: none;
+  }
+}
+
+@media (width < 18rem) {
+  .government-bar .identity {
+    max-inline-size: 100%;
+  }
+
+  .government-bar .utility-disclosure > .disclosure-summary,
+  .government-bar .utility-disclosure[open] > .disclosure-summary {
+    position: static;
+    inline-size: fit-content;
+    margin-inline-start: auto;
+  }
+}

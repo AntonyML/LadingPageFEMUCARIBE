@@ -1,8 +1,20 @@
 # GovernmentBar y cabecera
 
+## Adaptación vigente MOBILE-NAVIGATION-001
+
+Revisión 2026-10-01 solicitada por el propietario a partir de capturas desktop/mobile. El Penpot vivo mantiene Navbar desktop; sus variantes móviles son INFERRED. Navbar mide el contenedor: desde 75rem útiles presenta marca, seis enlaces y CTA alineados; por debajo muestra marca y control Menú, enlaces de 1rem con objetivos de 48px y CTA apilados (dos columnas desde 40rem útiles). Bajo 18rem útiles el control pasa a otra fila para conservar texto ampliado. El tamaño de la marca y los umbrales escalan con la fuente raíz.
+
+GovernmentBar agrupa sus tres utilidades bajo Enlaces en anchos menores a 68.75rem; el salto al contenido sigue siendo el primer enlace y se revela al recibir foco. En teléfonos la identidad visual muestra República de Costa Rica, con la bandera. El footer pliega Institucional y Transparencia debajo de 37.5rem, conserva contacto visible y aumenta tipografía y objetivos táctiles. Los encabezados semánticos están dentro del panel, separados de summary para evitar diferencias de roles entre motores.
+
+ResponsiveDisclosure comparte details/summary nativos y un único script de mejora progresiva: HTML inicialmente abierto y operable sin JS; con JS colapso móvil, apertura al volver a desktop, foco conservado al cambiar de variante y Escape. Navbar/utilidades también cierran al tocar fuera, preservando el foco en un destino visible. La navegación usa enlaces ordinarios, sin roles menu/menubar. Estilos externos de Navbar y GovernmentBar limitados a sus raíces exclusivas; footer conserva CSS Module. Sin paquetes nuevos ni cambios de destinos.
+
+Fuentes: [WAI disclosure navigation](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/), [WCAG reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html), [texto ampliable](https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html), [tamaño mínimo de objetivos](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html), [web.dev responsive](https://web.dev/articles/responsive-web-design-basics), [MDN summary](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/summary), [Astro estilos](https://docs.astro.build/en/guides/styling/). Las medidas táctiles elegidas son una decisión de UX, no una certificación de conformidad.
+
+Los slices siguientes conservan evidencia e historia; esta sección define la adaptación responsive actual.
+
 ## Consumo
 
-GovernmentBar es independiente de PublicNavbar. Archivo: src/components/GovernmentBar.astro; props, validación, plantilla y estilos scoped en un único archivo. PublicLayout lo incluye en la cabecera compartida; Inicio consume ese layout con el slot de contenido vacio.
+GovernmentBar es independiente de PublicNavbar. Archivo: src/components/GovernmentBar.astro; props, validación y plantilla locales, estilos en government-bar/styles.css limitados a .government-bar. PublicLayout lo incluye en la cabecera compartida; Inicio consume ese layout con el slot de contenido vacio.
 
 ```astro
 ---
@@ -21,7 +33,7 @@ const { institutionalDestinations } = Astro.props;
 
 Props obligatorias aprobadas por propietario: contentId y destinations.accessibility/serviceComptroller/law7600. El consumidor suministra URLs reales HTTP(S), rutas relativas o anclas y un target único enfocable. Se rechazan destinos vacíos, whitespace periférico, # sin target y protocolos ajenos a HTTP(S). contentId empieza con letra ASCII y continúa con letras/dígitos/guion/underscore. El componente no verifica la existencia del destino ni certifica su contenido.
 
-El root es div con nav nombrada Enlaces institucionales. Enlaces nativos en la misma pestaña; bandera decorativa; cero scripts cliente. PublicLayout crea un unico header y un main enfocable con id contenido-principal.
+El root es div con nav nombrada Enlaces institucionales. Enlaces nativos en la misma pestaña y bandera decorativa. La adaptación móvil vigente usa ResponsiveDisclosure, descrito al final. PublicLayout crea un unico header y un main enfocable con id contenido-principal.
 
 ## Evidencia y adaptación
 
@@ -49,7 +61,7 @@ NAVBAR-001 usa src/components/PublicNavbar.astro, independiente de GovernmentBar
 
 Lectura Penpot 2026-10-01: archivo/pagina y forma de Navbar confirmados mediante MCP. CONFIRMED: 1440x72, blanco/borde #E2E8F0, padding 40, gap entre grupos 40 minimo; Inter 36/800 con letter-spacing 4.5 en marca, subtitulo 10.5/700 (-0.5), enlaces 13.5/600 y activo 800, gaps 24; CTA 120x38 y 171x38, radio 8, outline azul 3. Logo exportado del board 3085c5ee-e915-80fd-8008-9540c70ff832 a PNG 2x en src/assets/brand/femucaribe.png. Inter variable latin se obtiene de Google Fonts (100..900) y se sirve desde src/assets/brand con licencia OFL; sin paquetes nuevos.
 
-INFERRED: logo contenido dentro de la navbar para corregir el desborde de 88 en frame 72; min-height, foco visible, underline y targets. La distribucion vigente depende del ancho util del contenedor, descrita en NAVBAR-REFLOW-FIX-001 al final de este documento. Navegacion siempre visible sin menu colapsado ni JavaScript; Penpot no define menu mobile. No sticky, drawer, autenticacion ni efectos inventados. Un nav nombrado separado del institucional; sin header adicional.
+INFERRED: logo contenido dentro de la navbar para corregir el desborde de 88 en frame 72; min-height, foco visible, underline y targets. MOBILE-NAVIGATION-001 sustituye la adaptación responsive anterior por un menú móvil nativo y mejora progresiva; Penpot no define variante mobile. Un nav nombrado separado del institucional; sin header adicional.
 
 Pruebas: activos de las seis paginas, ausencia de activo falso, rechazo de destinos invalidos; teclado/foco, logo cargado, targets, 320/375/768/1024/1440/1920, reflow y texto ampliado sin JS. Desktop comparado visualmente contra exportacion Penpot; no se declara identidad pixel a pixel.
 

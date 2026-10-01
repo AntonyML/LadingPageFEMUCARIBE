@@ -1,6 +1,7 @@
 ---
 import logo from '../../assets/brand/femucaribe.png';
 import styles from './styles.module.css';
+import ResponsiveDisclosure from '../ResponsiveDisclosure.astro';
 
 interface Props {
   accessibilityUrl: string;
@@ -99,30 +100,40 @@ const documents = [
         Sede Central: Siquirres, Barrio El Mangal
       </p>
     </section>
-    <nav aria-label="Institucional, pie de página">
-      <h2>Institucional</h2>
-      <ul>
-        {institutional.map(([label, path]) => (
-          <li>
-            <a href={`${base}${path}`}>{label}</a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-    <section class={styles.documents} aria-labelledby="footer-transparencia">
-      <h2 id="footer-transparencia">Transparencia</h2>
-      <ul>
-        {documents.map(([label, url]) => (
-          <li>
-            {url ? (
-              <a href={destination(url)}>{label}</a>
-            ) : (
-              <span>{label}</span>
-            )}
-          </li>
-        ))}
-      </ul>
-    </section>
+    <ResponsiveDisclosure class={styles['link-group']}>
+      <span slot="label" class={styles['group-title']}>
+        Institucional
+      </span>
+      <nav aria-label="Institucional, pie de página">
+        <h2>Institucional</h2>
+        <ul>
+          {institutional.map(([label, path]) => (
+            <li>
+              <a href={`${base}${path}`}>{label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </ResponsiveDisclosure>
+    <ResponsiveDisclosure class:list={[styles['link-group'], styles.documents]}>
+      <span slot="label" class={styles['group-title']}>
+        Transparencia
+      </span>
+      <section aria-labelledby="footer-transparencia">
+        <h2 id="footer-transparencia">Transparencia</h2>
+        <ul>
+          {documents.map(([label, url]) => (
+            <li>
+              {url ? (
+                <a href={destination(url)}>{label}</a>
+              ) : (
+                <span>{label}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </ResponsiveDisclosure>
     <section class={styles.contact} aria-labelledby="footer-contacto">
       <h2 id="footer-contacto">Contacto y atención</h2>
       <address>

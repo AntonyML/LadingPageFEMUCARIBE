@@ -20,7 +20,7 @@ describe('PublicNavbar contract', () => {
       new RegExp(`href="${currentPath}"[^>]*aria-current="page"`),
     );
     expect(html).toContain('href="https://example.org/plataforma"');
-    expect(html).not.toMatch(/<script\b|<header\b/);
+    expect(html).not.toMatch(/<header\b/);
   });
 
   test('unknown page has no false active link and missing platform has no invented href', async () => {

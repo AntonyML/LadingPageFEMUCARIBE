@@ -42,7 +42,8 @@
   font-weight: 500;
 }
 
-.footer h2 {
+.footer h2,
+.group-title {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -87,6 +88,14 @@
 
 .columns > * {
   min-width: 0;
+}
+
+.link-group[open] > [data-disclosure-summary] {
+  display: none;
+}
+
+.link-group[open] > [data-disclosure-summary] [data-disclosure-icon] {
+  display: none;
 }
 
 .brand {
@@ -149,7 +158,8 @@
 }
 
 .documents h2,
-.documents h2::before {
+.documents h2::before,
+.documents .group-title {
   color: #fbba34;
 }
 
@@ -255,20 +265,111 @@
   }
 }
 
-@media (width < 600px) {
+@media (width < 37.5rem) {
+  .footer {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
   .columns {
     grid-template-columns: minmax(0, 1fr);
     padding-block: 24px;
-    gap: 24px;
+    gap: 16px;
+  }
+
+  .link-group {
+    --disclosure-collapsible: 1;
+
+    border-block: 1px solid #1a4a6b;
+  }
+
+  .link-group + .link-group {
+    border-block-start: 0;
+    margin-block-start: -16px;
+  }
+
+  .link-group > [data-disclosure-summary],
+  .link-group[open] > [data-disclosure-summary] {
+    display: flex;
+    min-block-size: 56px;
+    padding-block: 0.75rem;
+    cursor: pointer;
+  }
+
+  .link-group[open] > [data-disclosure-summary] [data-disclosure-icon] {
+    display: block;
+  }
+
+  .group-title {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .link-group h2 {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .link-group ul {
+    margin: 0 0 0.75rem;
+  }
+
+  .footer li a,
+  .footer li span {
+    min-block-size: 48px;
+    padding-block: 0.5rem;
+  }
+
+  .contact {
+    margin-block-start: 0.5rem;
+  }
+
+  .contact h2 {
+    font-size: 0.875rem;
+  }
+
+  .contact address a,
+  .contact address p {
+    font-size: 0.9375rem;
+  }
+
+  .contact address a {
+    display: flex;
+    align-items: center;
+    min-block-size: 48px;
+  }
+
+  .contact address span {
+    font-size: 0.8125rem;
+  }
+
+  .brand .description {
+    min-block-size: 0;
+    max-inline-size: none;
+    line-height: 1.5;
+  }
+
+  .brand .seal,
+  .brand .headquarters {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  .brand .headquarters {
+    letter-spacing: 0.04em;
   }
 
   .identity strong {
-    font-size: 21px;
-    letter-spacing: 3px;
+    font-size: 1.3125rem;
+    letter-spacing: 0.12em;
   }
 
   .identity small {
-    font-size: 10px;
+    font-size: 0.6875rem;
   }
 
   .brand .seal {
@@ -276,11 +377,17 @@
   }
 
   .bottom {
-    padding: 24px 16px;
+    padding-block: 0 24px;
   }
 
   .policies {
     flex-direction: column;
     line-height: 1.5;
+    font-size: 0.8125rem;
+  }
+
+  .footer .copyright,
+  .footer .credit {
+    font-size: 0.8125rem;
   }
 }

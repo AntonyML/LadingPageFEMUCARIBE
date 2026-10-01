@@ -9,7 +9,7 @@ const destinations = {
 };
 
 describe('GovernmentBar consumer contract', () => {
-  test('uses supplied destinations and target without inventing URLs or scripts', async () => {
+  test('uses supplied destinations and target without inventing URLs or a banner', async () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(GovernmentBar, {
       props: { contentId: 'contenido', destinations },
@@ -18,7 +18,7 @@ describe('GovernmentBar consumer contract', () => {
       expect(html).toContain(`href="${href}"`);
     }
     expect(html).toContain('aria-label="Enlaces institucionales"');
-    expect(html).not.toMatch(/<script\b|role="banner"|<header\b/);
+    expect(html).not.toMatch(/role="banner"|<header\b/);
   });
 
   test.each([
