@@ -30,8 +30,13 @@ En paralelo, el propietario designa un coordinador y una copia compartida de est
 | ARCH-001 | Codex | `agent/codex/architecture-baseline` | CLOSED | [Claim](claims/ARCH-001.md); trabajo preservado, reserva liberada/traspasada por GIT-BASELINE-001 |
 | GIT-BASELINE-001 | Codex | `agent/codex/git-baseline-001` | CLOSED | [Claim](claims/GIT-BASELINE-001.md); bootstrap e integración documental local autorizados |
 | TOOLING-BASELINE-001 | Codex | `agent/codex/tooling-baseline-001` | CLOSED | [Claim](claims/TOOLING-BASELINE-001.md); registro compartido: C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/codex-tooling-baseline-001/docs/agents/COORDINATION.md; ejecución única |
+| HEADER-SLICES-001 | Codex | `agent/codex/header-slices-001` | CLOSED | [Claim](claims/HEADER-SLICES-001.md); registro compartido: C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/codex-header-slices-001/docs/agents/COORDINATION.md |
+| TOPBAR-001 | Por asignar | `agent/<agente>/topbar-001` | PROPOSED | [Claim](claims/TOPBAR-001.md); GovernmentBar exclusivamente; sin reserva activa |
+| NAVBAR-001 | Codex propuesto | `agent/codex/navbar-001` | PROPOSED | [Claim](claims/NAVBAR-001.md); PublicNavbar exclusivamente; worktree preparado, sin implementación ni reserva activa |
 
 Si se necesita un path reservado: HARD STOP antes de editar, señalar dependencia y acordar serialización/traspaso con owner/coordinador. No ampliar unilateralmente el claim. Toda tarea nueva verifica el registro actualizado.
+
+Para la cabecera de Inicio, leer [INICIO-SLICES.md](INICIO-SLICES.md) antes de activar TOPBAR-001 o NAVBAR-001. Son componentes/slices independientes; la composición sobre páginas/layouts se reserva y serializa por separado.
 
 ## Archivos compartidos y dependencias
 

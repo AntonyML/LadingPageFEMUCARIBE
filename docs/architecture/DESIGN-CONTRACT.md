@@ -23,6 +23,8 @@ Las seis pantallas principales repiten `L1-TopBar-Gobierno`, `L1-Navigation-Prin
 
 ## Navegación CONFIRMED
 
+Para implementar la cabecera de Inicio, seguir [INICIO-SLICES.md](../agents/INICIO-SLICES.md): **TOPBAR-001** y **NAVBAR-001** son slices independientes, con componentes y paths propios. La composición conjunta se serializa posteriormente; NAVBAR-001 no incluye la topbar. Esto delimita tareas, no certifica implementación.
+
 Topbar: 48 px, fondo `#1E3A5F`, padding horizontal 80 px; identidad de Costa Rica, salto al contenido, accesibilidad, contraloría y Ley 7600. Son etiquetas visibles: no hay interacciones que confirmen destinos.
 
 Navbar de Inicio: 1440 × 72 px, blanco, stroke `#E2E8F0` de 1 px, flex row/space-between, padding horizontal 40 px y gap entre grupos 40 px. Logo/identidad, seis enlaces **Inicio, Nosotros, Municipalidades, Proyectos, Transparencia, Noticias**, CTA **Contáctenos** y **Acceder a la plataforma**. Enlaces: gap 24 px, Inter 13,5/600, `#435362`; Inicio activo: 13,5/800, `#0470A0`. Otras páginas usan color activo correspondiente, con pesos inconsistentes.
