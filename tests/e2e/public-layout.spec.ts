@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test.use({ javaScriptEnabled: false });
 
-test('public layout shows shared navigation and empty content with approved links', async ({
+test('public layout shows shared navigation and the home hero with approved links', async ({
   page,
 }) => {
   const errors: string[] = [];
@@ -36,7 +36,8 @@ test('public layout shows shared navigation and empty content with approved link
     'https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=23261&param2=96047&param3=1&param4=',
   );
   const main = page.getByRole('main');
-  await expect(main.locator('.page-content')).toBeEmpty();
+  await expect(main.locator(':scope > .home-hero')).toHaveCount(1);
+  await expect(main.getByRole('heading', { level: 1 })).toHaveCount(1);
   await expect(main).toBeVisible();
   await page.keyboard.press('Tab');
   await expect(

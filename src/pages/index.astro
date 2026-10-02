@@ -1,5 +1,8 @@
 ---
 import PublicLayout from '../layouts/PublicLayout.astro';
+import HomeHero from '../components/home-hero/HomeHero.astro';
 ---
 
-<PublicLayout title="Inicio | FEMUCARIBE" />
+<PublicLayout title="Inicio | FEMUCARIBE">
+  <HomeHero slot="hero" projectsUrl="/proyectos" contactUrl="/contacto" />
+</PublicLayout>

@@ -24,3 +24,5 @@ La credencial local quedó corregida para coincidir con el plugin activo. MCP au
 Navbar de Inicio: `1158a0fe-c558-80da-8008-94095cbb1269`. Topbar: `1158a0fe-c558-80da-8008-94095c63a028`. Hero: `1158a0fe-c558-80da-8008-94095d55563e`. Estos IDs localizan áreas, no autorizan implementarlas.
 
 Hallazgos/medidas/UNKNOWN: [DESIGN-CONTRACT.md](../architecture/DESIGN-CONTRACT.md). Consultas: [AGENT-GUIDE.md](AGENT-GUIDE.md). Claims: [COORDINATION.md](../agents/COORDINATION.md). Registrar entregas en cada claim/handoff para evitar fuentes duplicadas.
+
+HERO-001, 2026-10-02: archivo y pagina Inicio confirmados mediante MCP, revision observada 1062. Board hero `1158a0fe-c558-80da-8008-94095d55563e` corresponde a `src/components/home-hero/HomeHero.astro` y su CSS Module local; Inicio lo compone en el slot hero de PublicLayout. Los seis fills PNG originales se exportan a `src/assets/hero/` (talamanca, limon, matina, guacimo, pococi, parrita). Desktop CONFIRMED; responsive, semantica, foco y estado disabled INFERRED. Penpot permanece sin modificaciones. Evidencia y decisiones en DESIGN-CONTRACT; verificaciones en COORDINATION.

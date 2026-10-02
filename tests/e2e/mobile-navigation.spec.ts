@@ -133,10 +133,13 @@ test('outside clicks close navigation without losing keyboard focus', async ({
 }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto('/');
+  const homeURL = page.url();
   const nav = page.getByRole('navigation', { name: 'Navegación principal' });
   await nav.locator('summary').click();
   await nav.getByRole('link', { name: 'Noticias', exact: true }).focus();
-  await page.getByRole('main').click();
+  await page.getByRole('main').getByRole('heading', { level: 1 }).click();
+  await expect(page).toHaveURL(homeURL);
+  await expect(nav).toBeVisible();
   await expect(nav.locator('.links')).toBeHidden();
   expect(
     await page.evaluate(() =>

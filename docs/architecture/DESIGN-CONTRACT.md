@@ -4,6 +4,14 @@ Inspección: 2026-09-30. Fuente principal: **FEMUCARIBE LandingPage Design**, ar
 
 **CONFIRMED** = leído mediante MCP o visto en exportación del archivo. **INFERRED** = interpretación/candidato de implementación. **UNKNOWN / TO BE DECIDED** = ausente, no verificado o contradictorio. Alegaciones normativas dentro del prototipo son contenido, no una certificación técnica/legal de esta auditoría.
 
+## Hero implementado: HERO-001
+
+Lectura y exportacion MCP del 2026-10-02, revision 1062; archivo/pagina/board indicados en CONTEXT.md. CONFIRMED: board 1440x460; gradiente blanco, #F7FBFC y #F0F8FA, decoraciones cian y franja de cuatro tramos iguales lima/ambar/cian/azul. Inter; titulo 36/900, cuerpo 15.5/400; contenido izquierdo desde x80 y panel blanco x885/y25 de 475x365 con radio16, borde #BCE4EC y sombra 4/4/4 negro20%. Eyebrow, titulo «Impulsamos el desarrollo integral y sostenible», cuerpo, buscador, «Ver proyectos»/«Contáctenos», seis cantones y tres bloques de gobernanza reproducen el contenido observado. Fills PNG originales de Talamanca, Limón, Matina, Guácimo, Pococí y Parrita conservan transparencia y proporcion; etiquetas cantonales son informativas.
+
+INFERRED: seccion con h1 unico, aside con h2 y lista de h3; escudos decorativos junto al nombre visible, decoraciones fuera del arbol accesible. Contenedor global de 80rem y slot hero sin anidar contenedores. Una columna bajo 75rem y dos desde ese ancho; cantones en dos columnas bajo 30rem, tres hasta 48rem y seis desde 48rem. Buscador/CTA apilados bajo 30rem, texto de lectura mayor en movil, alturas minimas de CTA 44px, foco visible y altura de hero dependiente del contenido. La etiqueta ambar usa #8D5A00 sobre #FEF6E6, contraste calculado 5.435:1 (original #B57406: 3.575:1); ajuste puntual de accesibilidad. Estos controles no certifican conformidad global.
+
+Todos los descendientes observados tienen interactions vacias: Penpot no confirma destinos ni comportamiento de busqueda. El propietario confirma buscador deshabilitado con aviso «Búsqueda no disponible»; input y boton nativos deshabilitados, descripcion asociada y sin JavaScript adicional. El consumidor Inicio proporciona /proyectos y /contacto, rutas ya utilizadas en Navbar, respetando BASE_URL; las paginas de destino siguen pendientes de sus slices. No se inventan destinos cantonales. La linea/Path suelta entre Navbar y hero esta fuera del board solicitado y no se reproduce. Los textos institucionales del prototipo requieren validacion editorial antes de produccion.
+
 ## Estructura CONFIRMED
 
 Nueve páginas inventariadas: seis públicas principales, Contacto, Componentes y `99 · Respaldo Monolito`. Se recorrieron 1.860 formas de las ocho páginas activas y sus ocho exportaciones PNG. El respaldo contiene el monolito anterior, recursos y `Proyectos-v2`; no reemplaza las pantallas actuales sin decisión del propietario.

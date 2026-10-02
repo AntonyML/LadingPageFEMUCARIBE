@@ -24,6 +24,7 @@ for (const [width, height] of [
     await page.locator('.page-content').evaluate((content) => {
       const grid = document.createElement('section');
       grid.className = 'layout-grid';
+      grid.dataset.layoutTest = 'fixture';
       for (let i = 0; i < 6; i++) {
         const card = document.createElement('article');
         card.style.padding = '16px';
@@ -33,7 +34,7 @@ for (const [width, height] of [
       }
       content.append(grid);
     });
-    const grid = page.locator('.layout-grid');
+    const grid = page.locator('[data-layout-test="fixture"]');
     const columns = await grid.evaluate(
       (node) => getComputedStyle(node).gridTemplateColumns.split(' ').length,
     );
@@ -45,7 +46,7 @@ for (const [width, height] of [
         return { x: rect.x, width: rect.width, right: rect.right };
       }),
     );
-    expect(boxes.length).toBe(4);
+    expect(boxes.length).toBe(5);
     for (const box of boxes) {
       expect(box.width).toBeLessThanOrEqual(1280);
       expect(box.x).toBeGreaterThanOrEqual(16);
@@ -103,7 +104,7 @@ test('global helpers preserve keyboard access and native controls', async ({
   await expect(helper).toBeFocused();
   expect(
     await page
-      .getByRole('button')
+      .getByRole('button', { name: 'Control nativo', exact: true })
       .evaluate((node) => getComputedStyle(node).fontFamily),
   ).toBe(await main.evaluate((node) => getComputedStyle(node).fontFamily));
   await expect(page.getByText('Contenido oculto')).toBeHidden();
@@ -118,6 +119,7 @@ test('grid, media and container reflow with 200% root text', async ({
     document.documentElement.style.fontSize = '200%';
     const grid = document.createElement('div');
     grid.className = 'layout-grid';
+    grid.dataset.layoutTest = 'fixture';
     const img = document.createElement('img');
     img.className = 'responsive-media';
     img.src = '/government/costa-rica.svg';
@@ -129,7 +131,7 @@ test('grid, media and container reflow with 200% root text', async ({
   });
   expect(
     await page
-      .locator('.layout-grid')
+      .locator('[data-layout-test="fixture"]')
       .evaluate(
         (node) => getComputedStyle(node).gridTemplateColumns.split(' ').length,
       ),
