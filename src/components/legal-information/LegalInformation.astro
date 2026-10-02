@@ -1,0 +1,169 @@
+---
+import interLicenseUrl from '../../assets/brand/INTER-OFL.txt?url';
+import styles from './styles.module.css';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const topics = [
+  ['sitio', 'Sobre el sitio'],
+  ['privacidad', 'Privacidad y datos personales'],
+  ['cookies', 'Cookies y recursos externos'],
+  ['contenidos', 'Uso de los contenidos'],
+  ['licencias', 'Tipografías y licencias'],
+  ['consultas', 'Consultas y derechos'],
+] as const;
+---
+
+<p class={styles['updated']}>
+  Última actualización: <time datetime="2026-10-02">2 de octubre de 2026</time>
+</p>
+<div class={styles['legal-grid']}>
+  <nav class={styles['contents']} aria-label="En esta página">
+    <h2>En esta página</h2>
+    <ul>
+      {topics.map(([id, label]) => (
+        <li>
+          <a href={`#${id}`}>{label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <article
+    class={styles['legal-content']}
+    aria-label="Información legal del sitio"
+  >
+    <section id="sitio" aria-labelledby="sitio-titulo" tabindex="-1">
+      <h2 id="sitio-titulo">Sobre el sitio</h2>
+      <p>
+        Este es el sitio informativo de FEMUCARIBE, Federación Municipal del
+        Caribe Costarricense y Asociados. Las consultas sobre su actividad,
+        servicios y contenido institucional deben dirigirse a{' '}
+        <a href="mailto:info@femucaribe.go.cr">info@femucaribe.go.cr</a>.
+      </p>
+      <p>
+        El diseño y desarrollo fueron realizados por Ing. Antony Monge López
+        como un servicio profesional independiente. El desarrollador no forma
+        parte del personal de FEMUCARIBE ni atiende trámites institucionales.
+        Consulta la <a href={`${base}/creditos`}>página de Créditos</a> para
+        conocer su autoría.
+      </p>
+    </section>
+
+    <section id="privacidad" aria-labelledby="privacidad-titulo" tabindex="-1">
+      <h2 id="privacidad-titulo">Privacidad y datos personales</h2>
+      <p>
+        En esta versión, las páginas del sitio no incluyen formularios de
+        contacto, registro de usuarios ni herramientas de analítica. Puedes
+        consultar el contenido sin crear una cuenta.
+      </p>
+      <h3>Cuando envías un correo</h3>
+      <p>
+        Los enlaces de correo abren tu aplicación de correo electrónico. Al
+        enviar una consulta, compartes con su destinatario tu dirección, el
+        contenido del mensaje y los archivos que adjuntes. Incluye únicamente la
+        información necesaria para atender tu consulta.
+      </p>
+      <p>
+        Los mensajes dirigidos a los correos institucionales son recibidos por
+        FEMUCARIBE. El correo personal indicado en Créditos corresponde al
+        desarrollador y tiene un destinatario distinto.
+      </p>
+      <h3>Registros del alojamiento</h3>
+      <p>
+        El servicio que aloje el sitio puede generar registros técnicos, como
+        dirección IP, fecha de acceso o páginas solicitadas. Su proveedor,
+        finalidad, plazo de conservación y condiciones de tratamiento deben
+        confirmarse antes de publicar el sitio.
+      </p>
+      <p class={styles['notice']}>
+        Este aviso describe las funciones actuales del sitio. La identidad y
+        dirección del responsable del tratamiento, el procedimiento de atención
+        de derechos y la información del alojamiento están pendientes de
+        validación institucional antes de su publicación.
+      </p>
+    </section>
+
+    <section id="cookies" aria-labelledby="cookies-titulo" tabindex="-1">
+      <h2 id="cookies-titulo">Cookies y recursos externos</h2>
+      <p>
+        Las páginas actuales no incorporan cookies de analítica o publicidad ni
+        guardan información en el almacenamiento del navegador. La tipografía y
+        las imágenes se sirven como recursos del propio sitio.
+      </p>
+      <p>
+        Al seguir un enlace a otro sitio web, pasarás a un servicio con sus
+        propias condiciones y políticas de privacidad. Revisa esa información
+        antes de compartir datos personales con dicho servicio.
+      </p>
+    </section>
+
+    <section id="contenidos" aria-labelledby="contenidos-titulo" tabindex="-1">
+      <h2 id="contenidos-titulo">Uso de los contenidos</h2>
+      <p>
+        El contenido tiene una finalidad informativa. Para confirmar requisitos,
+        vigencia de documentos o gestiones institucionales, consulta
+        directamente a FEMUCARIBE. La navegación por el sitio no constituye la
+        presentación de un trámite.
+      </p>
+      <p>
+        Los textos, fotografías, documentos, marcas y otros recursos conservan
+        los derechos y condiciones de sus respectivos titulares. Su publicación
+        no implica una autorización general para reutilizarlos; revisa la
+        licencia o autorización aplicable a cada recurso.
+      </p>
+    </section>
+
+    <section id="licencias" aria-labelledby="licencias-titulo" tabindex="-1">
+      <h2 id="licencias-titulo">Tipografías y licencias</h2>
+      <div class={styles['license-card']}>
+        <h3>Inter</h3>
+        <p>© 2020 The Inter Project Authors.</p>
+        <p>
+          La tipografía Inter utilizada en este sitio se distribuye bajo SIL
+          Open Font License 1.1. El aviso de derechos de autor y el texto
+          íntegro de la licencia se conservan en el proyecto y están disponibles
+          aquí.
+        </p>
+        <a href={interLicenseUrl}>
+          Consultar la licencia completa de Inter (TXT)
+        </a>
+      </div>
+      <p>
+        La licencia de la tipografía se aplica a ese recurso y no concede
+        derechos sobre el resto del contenido institucional.
+      </p>
+    </section>
+
+    <section id="consultas" aria-labelledby="consultas-titulo" tabindex="-1">
+      <h2 id="consultas-titulo">Consultas y derechos</h2>
+      <p>
+        Para consultas institucionales o para solicitar información sobre el
+        tratamiento de tus datos personales, escribe a{' '}
+        <a href="mailto:info@femucaribe.go.cr">info@femucaribe.go.cr</a>. Para
+        cuestiones técnicas de los servicios de la institución, utiliza{' '}
+        <a href="mailto:soporte@femucaribe.go.cr">soporte@femucaribe.go.cr</a>.
+      </p>
+      <p>
+        La Ley N.º 8968 reconoce derechos de acceso, rectificación,
+        actualización y supresión de datos personales, según corresponda. Su
+        artículo 7 establece la atención gratuita y la resolución de las
+        solicitudes en cinco días hábiles desde su recepción.
+      </p>
+      <p>
+        Puedes consultar la{' '}
+        <a href="https://www.micitt.go.cr/sites/default/files/marco_juridico_legal/08.%20Ley%20n.%C2%B0%208968%20Ley%20de%20Protecci%C3%B3n%20de%20la%20Persona%20frente%20al%20tratamiento%20de%20sus%20datos%20personales..pdf">
+          Ley N.º 8968 (PDF oficial)
+        </a>
+        , su{' '}
+        <a href="https://sinalevi.go.cr/ResultadosNormativa/Informacion?param1=74352&param2=115361&param3=2&param4=">
+          Reglamento, Decreto N.º 37554-JP
+        </a>
+        y la información de la{' '}
+        <a href="https://www.prodhab.go.cr/preguntasfrecuentes.aspx">
+          Agencia de Protección de Datos de los Habitantes (PRODHAB)
+        </a>
+        .
+      </p>
+    </section>
+  </article>
+</div>

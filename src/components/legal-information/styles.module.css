@@ -1,0 +1,102 @@
+.updated {
+  margin-block: 0 1.5rem;
+  color: #435362;
+  font-size: 0.875rem;
+}
+
+.legal-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 2rem;
+}
+
+.legal-grid > * {
+  min-inline-size: 0;
+}
+
+.contents {
+  padding: 1.25rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.contents h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.contents ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.legal-grid a {
+  color: #0470a0;
+  text-underline-offset: 0.25em;
+}
+
+.contents a,
+.license-card a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-block: 0.5rem;
+}
+
+.legal-content {
+  max-inline-size: 76ch;
+  line-height: 1.75;
+}
+
+.legal-content section {
+  scroll-margin-block-start: 1.5rem;
+}
+
+.legal-content section + section {
+  padding-block-start: 2rem;
+  margin-block-start: 2rem;
+  border-block-start: 1px solid #e2e8f0;
+}
+
+.legal-content h2 {
+  margin: 0 0 1rem;
+  font-size: 1.375rem;
+  line-height: 1.35;
+}
+
+.legal-content h3 {
+  margin-block: 1.5rem 0.5rem;
+  font-size: 1.0625rem;
+  line-height: 1.4;
+}
+
+.legal-content p {
+  margin-block: 0 1rem;
+  color: #435362;
+}
+
+.license-card,
+.notice {
+  padding: 1.25rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f0f7fa;
+}
+
+.license-card h3 {
+  margin-block-start: 0;
+}
+
+.license-card a {
+  font-weight: 600;
+}
+
+@media (width >= 64rem) {
+  .legal-grid {
+    grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
+    gap: clamp(2rem, 4vw, 4rem);
+  }
+}

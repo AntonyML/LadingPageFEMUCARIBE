@@ -31,16 +31,18 @@ async function expectCreditsReflow(page: Page, width: number) {
   await expect(
     main.getByRole('link', { name: professionalWebsite, exact: true }),
   ).toBeVisible();
-  const bounds = await main.locator('h1, p, li, a').evaluateAll((nodes) =>
-    nodes.map((node) => {
-      const rect = node.getBoundingClientRect();
-      return {
-        left: rect.left,
-        right: rect.right,
-        overflow: node.scrollWidth - node.clientWidth,
-      };
-    }),
-  );
+  const bounds = await main
+    .locator('h1, h2, h3, p, li, a, section')
+    .evaluateAll((nodes) =>
+      nodes.map((node) => {
+        const rect = node.getBoundingClientRect();
+        return {
+          left: rect.left,
+          right: rect.right,
+          overflow: node.scrollWidth - node.clientWidth,
+        };
+      }),
+    );
   expect(bounds.length).toBeGreaterThan(0);
   for (const bound of bounds) {
     expect(bound.left).toBeGreaterThanOrEqual(0);
@@ -58,7 +60,7 @@ async function expectCreditsReflow(page: Page, width: number) {
   expect(creditBounds!.x + creditBounds!.width).toBeLessThanOrEqual(width + 1);
 }
 
-test('credits provide the approved creator, contact scope and license without JS', async ({
+test('credits distinguish independent authorship from institutional attention without JS', async ({
   page,
 }) => {
   const response = await page.goto('/creditos');
@@ -72,39 +74,50 @@ test('credits provide the approved creator, contact scope and license without JS
   await expect(main.getByRole('heading', { level: 1 })).toHaveText(
     'Créditos del sitio web',
   );
-  await expect(
-    main.getByText(
-      'Este sitio web institucional fue diseñado y desarrollado por Ing. Antony Monge López, Ingeniero en Sistemas.',
-      { exact: true },
-    ),
-  ).toBeVisible();
-  await expect(
-    main.getByRole('listitem').filter({ hasText: 'Correo:' }),
-  ).toHaveText(
-    'Correo: antonyml2016@gmail.com (únicamente para temas relacionados con este sitio web)',
+  const creator = main.getByRole('region', { name: 'Ing. Antony Monge López' });
+  await expect(creator.getByRole('heading', { level: 2 })).toBeVisible();
+  await expect(creator).toContainText('Ingeniero en Sistemas');
+  await expect(creator).toContainText('servicio profesional independiente');
+  await expect(creator).toContainText(
+    'Únicamente para temas relacionados con la autoría y el desarrollo de este sitio web.',
   );
   await expect(
-    main.getByRole('listitem').filter({ hasText: 'Sitio web profesional:' }),
-  ).toHaveText('Sitio web profesional: www.tonyml.com');
-  await expect(
-    main.getByRole('link', { name: email, exact: true }),
+    creator.getByRole('link', { name: email, exact: true }),
   ).toHaveAttribute('href', `mailto:${email}`);
   await expect(
-    main.getByRole('link', { name: professionalWebsite, exact: true }),
+    creator.getByRole('link', { name: professionalWebsite, exact: true }),
   ).toHaveAttribute('href', 'https://www.tonyml.com');
+  const institution = main.getByRole('region', {
+    name: '¿Tu consulta es para FEMUCARIBE?',
+  });
+  await expect(institution).toContainText(
+    'No forma parte del personal de FEMUCARIBE ni presta atención institucional o soporte permanente.',
+  );
   await expect(
-    main.getByText(
-      'Antony Monge López desarrolló este sitio para FEMUCARIBE y no forma parte de la institución. Las consultas sobre trámites, servicios o contenido institucional deben dirigirse a los canales oficiales de FEMUCARIBE.',
-      { exact: true },
-    ),
-  ).toBeVisible();
+    institution.getByRole('link', {
+      name: 'info@femucaribe.go.cr',
+      exact: true,
+    }),
+  ).toHaveAttribute('href', 'mailto:info@femucaribe.go.cr');
   await expect(
-    main.getByText(
-      'Tipografías y licencias: este sitio utiliza la tipografía Inter (The Inter Project Authors), bajo SIL Open Font License 1.1; el texto íntegro de la licencia se conserva en el repositorio del proyecto.',
-      { exact: true },
-    ),
-  ).toBeVisible();
-  await expect(main).not.toContainText(/\bsoporte\b/i);
+    main.locator('a[href="mailto:contacto@femucaribe.go.cr"]'),
+  ).toHaveCount(0);
+  const resources = main.getByRole('region', {
+    name: 'Tipografías y licencias',
+  });
+  await expect(resources).toContainText('The Inter Project Authors');
+  await expect(resources).toContainText('SIL Open Font License 1.1');
+  await expect(
+    resources.getByRole('link', { name: 'Consultar las licencias' }),
+  ).toHaveAttribute('href', '/legal#licencias');
+  await expect(
+    main
+      .getByRole('navigation', { name: 'Información del sitio' })
+      .getByRole('link', {
+        name: 'Créditos',
+        exact: true,
+      }),
+  ).toHaveAttribute('aria-current', 'page');
 });
 
 test('keyboard navigation reaches credits and preserves skip and contact focus', async ({
@@ -130,14 +143,26 @@ test('keyboard navigation reaches credits and preserves skip and contact focus',
   await page.keyboard.press('Enter');
   const main = page.getByRole('main');
   await expectVisibleFocus(main);
-  await page.keyboard.press('Tab');
-  await expectVisibleFocus(
+  const informationNavigation = main.getByRole('navigation', {
+    name: 'Información del sitio',
+  });
+  for (const link of [
+    main
+      .getByRole('navigation', { name: 'Ubicación' })
+      .getByRole('link', { name: 'Inicio', exact: true }),
+    informationNavigation.getByRole('link', { name: 'Créditos', exact: true }),
+    informationNavigation.getByRole('link', {
+      name: 'Aviso legal y privacidad',
+      exact: true,
+    }),
     main.getByRole('link', { name: email, exact: true }),
-  );
-  await page.keyboard.press('Tab');
-  await expectVisibleFocus(
     main.getByRole('link', { name: professionalWebsite, exact: true }),
-  );
+    main.getByRole('link', { name: 'info@femucaribe.go.cr', exact: true }),
+    main.getByRole('link', { name: 'Consultar las licencias' }),
+  ]) {
+    await page.keyboard.press('Tab');
+    await expectVisibleFocus(link);
+  }
 });
 
 for (const { width, height, label } of [
@@ -176,7 +201,7 @@ for (const width of [320, 768]) {
     await page.goto('/creditos');
     await page.evaluate(() => {
       const textNodes = Array.from(
-        document.querySelectorAll('h1, h2, p, li, a, small, strong, span'),
+        document.querySelectorAll('h1, h2, h3, p, li, a, small, strong, span'),
       );
       const sizes = textNodes.map((node) =>
         parseFloat(getComputedStyle(node).fontSize),

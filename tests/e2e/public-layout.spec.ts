@@ -51,7 +51,7 @@ test('public layout shows shared navigation and empty content with approved link
   expect(errors).toEqual([]);
 });
 
-for (const route of ['/', '/creditos']) {
+for (const route of ['/', '/creditos', '/legal']) {
   test(`public metadata identifies the creator and publisher at ${route}`, async ({
     page,
   }) => {

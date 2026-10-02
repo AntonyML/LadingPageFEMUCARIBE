@@ -9,7 +9,9 @@ describe('InstitutionalFooter contract', () => {
       props: { accessibilityUrl: '/accesibilidad' },
     });
     expect(html).toContain('href="tel:+50627682000"');
-    expect(html).toContain('href="mailto:contacto@femucaribe.go.cr"');
+    expect(html).toContain('href="mailto:info@femucaribe.go.cr"');
+    expect(html).not.toContain('mailto:contacto@femucaribe.go.cr');
+    expect(html).toContain('href="/legal"');
     expect(html).toMatch(/<span[^>]*>Política de Privacidad<\/span>/);
     expect(html).toMatch(/<span[^>]*>Estatutos FEMUCARIBE<\/span>/);
     expect(html).not.toMatch(/href="#"/);
@@ -19,11 +21,11 @@ describe('InstitutionalFooter contract', () => {
     const html = await container.renderToString(InstitutionalFooter, {
       props: {
         accessibilityUrl: '/accesibilidad',
-        privacyUrl: '/privacidad',
+        privacyUrl: '/legal#privacidad',
         documentUrls: { statutes: 'https://example.org/estatutos.pdf' },
       },
     });
-    expect(html).toContain('href="/privacidad"');
+    expect(html).toContain('href="/legal#privacidad"');
     expect(html).toContain('href="https://example.org/estatutos.pdf"');
   });
   test.each([

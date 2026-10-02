@@ -24,6 +24,12 @@
   margin: 0;
 }
 
+.policy-links a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+}
+
 .footer ul {
   list-style: none;
   padding: 0;
@@ -222,6 +228,13 @@
   text-align: center;
   color: #e8f4ff;
   font-size: 13px;
+}
+
+.policy-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  min-inline-size: 0;
 }
 
 .footer .credit {

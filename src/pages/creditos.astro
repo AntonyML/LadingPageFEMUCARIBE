@@ -1,57 +1,194 @@
 ---
-import PublicLayout from '../layouts/PublicLayout.astro';
+import InformationLayout from '../layouts/InformationLayout.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<PublicLayout title="Créditos del sitio web | FEMUCARIBE">
-  <article class="credits" aria-labelledby="creditos-titulo">
-    <h1 id="creditos-titulo">Créditos del sitio web</h1>
-    <p>
-      Este sitio web institucional fue diseñado y desarrollado por{' '}
-      <strong>Ing. Antony Monge López</strong>, Ingeniero en Sistemas.
-    </p>
-    <ul>
-      <li>
-        Correo:{' '}
-        <a href="mailto:antonyml2016@gmail.com">antonyml2016@gmail.com</a>{' '}
-        (únicamente para temas relacionados con este sitio web)
-      </li>
-      <li>
-        Sitio web profesional:{' '}
-        <a href="https://www.tonyml.com">www.tonyml.com</a>
-      </li>
-    </ul>
-    <p>
-      Antony Monge López desarrolló este sitio para FEMUCARIBE y no forma parte
-      de la institución. Las consultas sobre trámites, servicios o contenido
-      institucional deben dirigirse a los canales oficiales de FEMUCARIBE.
-    </p>
-    <p>
-      <strong>Tipografías y licencias:</strong> este sitio utiliza la tipografía
-      Inter (The Inter Project Authors), bajo SIL Open Font License 1.1; el
-      texto íntegro de la licencia se conserva en el repositorio del proyecto.
-    </p>
-  </article>
-</PublicLayout>
+<InformationLayout
+  title="Créditos del sitio web"
+  description="Conoce quién diseñó y desarrolló este sitio y a quién dirigir tus consultas."
+  page="creditos"
+>
+  <div class="credits-grid layout-grid">
+    <section class="creator-card" aria-labelledby="desarrollo-titulo">
+      <div class="creator-identity">
+        <span class="monogram" aria-hidden="true">
+          AM
+        </span>
+        <div>
+          <p class="label">Diseño y desarrollo</p>
+          <h2 id="desarrollo-titulo">Ing. Antony Monge López</h2>
+          <p class="profession">Ingeniero en Sistemas</p>
+        </div>
+      </div>
+      <p class="creator-description">
+        Este sitio web institucional fue diseñado y desarrollado para FEMUCARIBE
+        como un servicio profesional independiente.
+      </p>
+      <div class="contact-links">
+        <div>
+          <h3>Contacto del desarrollador</h3>
+          <a href="mailto:antonyml2016@gmail.com">antonyml2016@gmail.com</a>
+          <p>
+            Únicamente para temas relacionados con la autoría y el desarrollo de
+            este sitio web.
+          </p>
+        </div>
+        <div>
+          <h3>Sitio web profesional</h3>
+          <a href="https://www.tonyml.com">www.tonyml.com</a>
+          <p>Conoce el perfil profesional del desarrollador.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="institution-card" aria-labelledby="institucion-titulo">
+      <p class="label">Atención institucional</p>
+      <h2 id="institucion-titulo">¿Tu consulta es para FEMUCARIBE?</h2>
+      <p>
+        Antony Monge López participó como proveedor del servicio de diseño y
+        desarrollo de este sitio. No forma parte del personal de FEMUCARIBE ni
+        presta atención institucional o soporte permanente.
+      </p>
+      <p>
+        Para consultas sobre trámites, servicios o contenido institucional,
+        escribe directamente a FEMUCARIBE.
+      </p>
+      <a href="mailto:info@femucaribe.go.cr">info@femucaribe.go.cr</a>
+    </section>
+  </div>
+
+  <section class="resources" aria-labelledby="recursos-titulo">
+    <div>
+      <h2 id="recursos-titulo">Tipografías y licencias</h2>
+      <p>
+        El sitio utiliza Inter, de The Inter Project Authors, bajo la licencia
+        SIL Open Font License 1.1. Consulta su texto completo y la información
+        legal del sitio en una página dedicada.
+      </p>
+    </div>
+    <a href={`${base}/legal#licencias`}>Consultar las licencias</a>
+  </section>
+</InformationLayout>
 
 <style>
-  .credits {
+  .credits-grid {
+    align-items: start;
+  }
+
+  .creator-card,
+  .institution-card {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+  }
+
+  .creator-identity {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .creator-identity > div {
+    flex: 1 1 15rem;
+    min-inline-size: 0;
+  }
+
+  .monogram {
+    display: grid;
+    place-items: center;
+    flex: 0 0 4rem;
+    min-block-size: 4rem;
+    border-radius: 12px;
+    color: #fff;
+    background: #1e3a5f;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .label {
+    margin: 0 0 0.5rem;
+    color: #0470a0;
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    line-height: 1.35;
+  }
+
+  p {
+    color: #435362;
+  }
+
+  .profession {
+    margin: 0.375rem 0 0;
+  }
+
+  .creator-description {
+    margin-block: 1.5rem;
+  }
+
+  .contact-links {
+    display: grid;
+    gap: 1rem;
+    padding-block-start: 1.25rem;
+    border-block-start: 1px solid #e2e8f0;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 0.9375rem;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    color: #0470a0;
+    font-weight: 600;
+    text-underline-offset: 0.25em;
+  }
+
+  .contact-links p {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .institution-card {
+    background: #f0f7fa;
+  }
+
+  .resources {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 2rem;
+    padding-block: 2rem 0;
+    margin-block-start: 2rem;
+    border-block-start: 1px solid #e2e8f0;
+  }
+
+  .resources > div {
+    flex: 1 1 30rem;
     min-inline-size: 0;
     max-inline-size: 72ch;
-    padding-block: clamp(2rem, 5vw, 4rem);
   }
 
-  .credits h1 {
-    margin-block: 0 1.5rem;
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
-    line-height: 1.2;
+  .resources h2 {
+    font-size: 1.125rem;
   }
 
-  .credits li + li {
-    margin-block-start: 0.75rem;
+  .resources p {
+    margin-block: 0.75rem 0;
   }
 
-  .credits a {
-    color: #0470a0;
-    text-underline-offset: 0.2em;
+  @media (width >= 48rem) {
+    .credits-grid {
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    }
   }
 </style>

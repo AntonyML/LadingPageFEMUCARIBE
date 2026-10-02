@@ -143,9 +143,7 @@ const documents = [
         </div>
         <div>
           <span>Correo Electrónico</span>
-          <a href="mailto:contacto@femucaribe.go.cr">
-            contacto@femucaribe.go.cr
-          </a>
+          <a href="mailto:info@femucaribe.go.cr">info@femucaribe.go.cr</a>
         </div>
         <div>
           <span>Horario de Atención</span>
@@ -161,17 +159,20 @@ const documents = [
   <div class:list={[styles.bottom, 'site-container']}>
     <div class={styles.policies}>
       <p>República de Costa Rica · Ley N.º 7794</p>
-      <p>
+      <nav
+        class={styles['policy-links']}
+        aria-label="Información legal, pie de página"
+      >
         <a href={destination(accessibilityUrl)}>
           Declaración de Accesibilidad (Directriz 036 / WCAG 2.1 AA)
         </a>
-        <span aria-hidden="true"> | </span>
         {privacyUrl ? (
           <a href={destination(privacyUrl)}>Política de Privacidad</a>
         ) : (
           <span>Política de Privacidad</span>
         )}
-      </p>
+        <a href={`${base}/legal`}>Aviso legal</a>
+      </nav>
     </div>
     <p class={styles.copyright}>
       © 2026 FEMUCARIBE — Federación Municipal del Caribe Costarricense y

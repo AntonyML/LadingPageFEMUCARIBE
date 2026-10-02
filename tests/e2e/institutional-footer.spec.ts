@@ -15,10 +15,16 @@ for (const width of [320, 375, 768, 1024, 1440, 1920]) {
       footer.getByRole('link', { name: '(+506) 2768-2000' }),
     ).toHaveAttribute('href', 'tel:+50627682000');
     await expect(
-      footer.getByRole('link', { name: 'contacto@femucaribe.go.cr' }),
-    ).toHaveAttribute('href', 'mailto:contacto@femucaribe.go.cr');
+      footer.getByRole('link', { name: 'info@femucaribe.go.cr' }),
+    ).toHaveAttribute('href', 'mailto:info@femucaribe.go.cr');
     await expect(
       footer.getByRole('link', { name: 'Política de Privacidad' }),
+    ).toHaveAttribute('href', '/legal#privacidad');
+    await expect(
+      footer.getByRole('link', { name: 'Aviso legal', exact: true }),
+    ).toHaveAttribute('href', '/legal');
+    await expect(
+      footer.locator('a[href="mailto:contacto@femucaribe.go.cr"]'),
     ).toHaveCount(0);
     const creatorCredit = footer.getByRole('link', {
       name: 'Diseño y desarrollo: Ing. Antony Monge López',

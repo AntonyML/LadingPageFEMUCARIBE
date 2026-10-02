@@ -67,6 +67,8 @@ Pruebas: activos de las seis paginas, ausencia de activo falso, rechazo de desti
 
 ## InstitutionalFooter
 
+CREDITS-LEGAL-UX-001, 2026-10-02: el propietario confirma que contacto@femucaribe.go.cr no existe. El footer usa info@femucaribe.go.cr para consultas institucionales; soporte@femucaribe.go.cr corresponde a servicios tecnicos de la institucion. antonyml2016@gmail.com pertenece al autor independiente del sitio; sin soporte permanente ni afiliacion al personal. PublicLayout conecta privacidad a /legal#privacidad; footer incluye /legal. La ficha legal y el correo de privacidad requieren validacion institucional de responsable, domicilio, procedimiento y alojamiento antes de publicar.
+
 FOOTER-001: componente independiente en src/components/institutional-footer/InstitutionalFooter.astro, incorporado despues del main en PublicLayout. CSS Module local styles.module.css: la plantilla y sus estilos superan juntos el umbral de ~250 lineas; sin capas ni helpers globales. Reutiliza logo e Inter variable existentes. Sin scripts cliente.
 
 CONFIRMED mediante MCP y exportacion del board 3085c5ee-e915-80fd-8008-954fde88927f en Inicio: fondo #071A28, franja verde/ambar/cian/azul, cuatro columnas, titulos de color, tarjetas de contacto y textos visibles. Contacto observado: (+506) 2768-2000, contacto@femucaribe.go.cr, Siquirres/Barrio El Mangal y horario 8:00-16:00. El prototipo no certifica datos, referencias legales ni sello en tramite: requieren revision editorial antes de produccion.
