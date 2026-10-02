@@ -134,6 +134,12 @@
   color: #435362;
 }
 
+.searchStatus {
+  margin: 0.25rem 1.25rem 0;
+  font-size: 0.75rem;
+  color: #b91c1c;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
