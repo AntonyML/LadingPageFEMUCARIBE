@@ -1,4 +1,6 @@
 .hero {
+  --hero-gutter: var(--site-gutter);
+
   position: relative;
   isolation: isolate;
   padding-block-start: 1rem;
@@ -7,6 +9,7 @@
 
 .composition {
   display: grid;
+  inline-size: calc(100% - 2 * var(--hero-gutter));
   grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
   align-items: start;
@@ -297,9 +300,12 @@
 }
 
 .diamond {
+  display: none;
   position: absolute;
   inset-block-start: 0.75rem;
-  inset-inline-start: 1.875rem;
+  inset-inline-start: calc(
+    max(var(--hero-gutter), (100% - var(--site-max)) / 2) - 3.125rem
+  );
   inline-size: 2rem;
   block-size: 2rem;
   border: 1px solid rgb(29 196 218 / 25%);
@@ -387,6 +393,14 @@
 }
 
 @media (width >= 75rem) {
+  .hero {
+    --hero-gutter: max(var(--site-gutter), 5rem);
+  }
+
+  .diamond {
+    display: block;
+  }
+
   .composition {
     grid-template-columns: minmax(0, 680fr) minmax(0, 475fr);
     column-gap: clamp(2rem, 8.75vw, 7.8125rem);

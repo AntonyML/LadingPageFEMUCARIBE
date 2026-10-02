@@ -43,7 +43,12 @@ for (const [width, height] of [
     const boxes = await frames.evaluateAll((nodes) =>
       nodes.map((node) => {
         const rect = node.getBoundingClientRect();
-        return { x: rect.x, width: rect.width, right: rect.right };
+        return {
+          x: rect.x,
+          width: rect.width,
+          right: rect.right,
+          isHero: Boolean(node.closest('.home-hero')),
+        };
       }),
     );
     expect(boxes.length).toBe(5);
@@ -51,8 +56,14 @@ for (const [width, height] of [
       expect(box.width).toBeLessThanOrEqual(1280);
       expect(box.x).toBeGreaterThanOrEqual(16);
       expect(box.right).toBeLessThanOrEqual(width - 16);
-      expect(box.x).toBeCloseTo(boxes[0]!.x, 0);
-      expect(box.width).toBeCloseTo(boxes[0]!.width, 0);
+      if (box.isHero && width >= 1200) {
+        expect(box.x).toBeGreaterThanOrEqual(80);
+        expect(box.right).toBeLessThanOrEqual(width - 80);
+        expect(box.width).toBeLessThanOrEqual(boxes[0]!.width);
+      } else {
+        expect(box.x).toBeCloseTo(boxes[0]!.x, 0);
+        expect(box.width).toBeCloseTo(boxes[0]!.width, 0);
+      }
     }
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth),

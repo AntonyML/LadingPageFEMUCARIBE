@@ -12,6 +12,8 @@ INFERRED: seccion con h1 unico, aside con h2 y lista de h3; escudos decorativos 
 
 Todos los descendientes observados tienen interactions vacias: Penpot no confirma destinos ni comportamiento de busqueda. El propietario confirma buscador deshabilitado con aviso «Búsqueda no disponible»; input y boton nativos deshabilitados, descripcion asociada y sin JavaScript adicional. El consumidor Inicio proporciona /proyectos y /contacto, rutas ya utilizadas en Navbar, respetando BASE_URL; las paginas de destino siguen pendientes de sus slices. No se inventan destinos cantonales. La linea/Path suelta entre Navbar y hero esta fuera del board solicitado y no se reproduce. Los textos institucionales del prototipo requieren validacion editorial antes de produccion.
 
+Seguimiento visual del propietario, 2026-10-02: las capturas comparadas confirman que el rombo fijo al borde se solapaba con el eyebrow al disminuir el margen fluido. Se reserva un margen local minimo de 5rem por lado desde 75rem, conservando .site-container y su maximo global; el rombo se ancla al inicio de ese contenido menos 3.125rem. Bajo 75rem se omite esta decoracion para preservar el ancho de lectura (INFERRED). En preview a 1366px con scrollbar, contenido x80 y extremo derecho del rombo x68.63: separados y sin overflow (clientWidth=scrollWidth=1351). Tokens globales, cabecera y footer conservan su geometria.
+
 ## Estructura CONFIRMED
 
 Nueve páginas inventariadas: seis públicas principales, Contacto, Componentes y `99 · Respaldo Monolito`. Se recorrieron 1.860 formas de las ocho páginas activas y sus ocho exportaciones PNG. El respaldo contiene el monolito anterior, recursos y `Proyectos-v2`; no reemplaza las pantallas actuales sin decisión del propietario.
