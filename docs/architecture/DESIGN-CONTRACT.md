@@ -16,6 +16,14 @@ Seguimiento visual del propietario, 2026-10-02: las capturas comparadas confirma
 
 ## Estructura CONFIRMED
 
+### Accesos directos implementados: QUICK-ACCESS-001
+
+Lectura y exportacion MCP del 2026-10-02; archivo/pagina Inicio verificados. Board `1158a0fe-c558-80da-8008-94095e26d77f` (L1-AccesosRapidos): CONFIRMED 1280x110, transparente, padding vertical10, cuatro tarjetas305x90, gap20, fondo #F8FAFC, borde1 #E2E8F0, radio10, sin sombra. Contenido alineado a izquierda, centrado verticalmente, padding horizontal18 y gap4. Inter: titulo13.5/700/1.2 #0B2538; descripcion11.5/400/1.2 #64748B. Emojis originales y contenido: «📜 Acuerdos del Consejo» / «Actas oficiales y resoluciones»; «🏗 Cartera UGP» / «Inversión pública en territorio»; «🏛 Directorio Municipal» / «Autoridades y 6 cantones»; «📊 Compras en SICOP» / «Transparencia y licitaciones». Board a3px del hero y del siguiente bloque; margen desktop observado80. Interacciones vacias, destinos UNKNOWN.
+
+El propietario confirma que las rutas no estan definidas y deben quedar pendientes hasta disponer de los recursos. Se implementan cuatro tarjetas informativas con aviso visible «Recurso pendiente», sin enlaces, botones ni focos falsos. El aviso es una adaptacion solicitada; no aparece en Penpot. No se reutilizan rutas de Navbar ni se crean paginas/documentos ficticios.
+
+INFERRED: section con h2 oculto visualmente, lista de cuatro h3, emojis decorativos y sin JavaScript; consumo del contenedor ordinario de PublicLayout, sin contenedor anidado. Grid global: una columna bajo48rem, dos desde48rem, composicion especifica de cuatro desde75rem. Altura minima90px y crecimiento con contenido/texto ampliado. Texto mayor bajo75rem: titulo16 y descripcion/aviso14; desktop conserva las medidas leidas, redondeadas al limite de precision CSS del proyecto. Responsive y estado pendiente no tienen variantes dibujadas. Penpot permanece intacto; no se implementa el siguiente slice.
+
 Nueve páginas inventariadas: seis públicas principales, Contacto, Componentes y `99 · Respaldo Monolito`. Se recorrieron 1.860 formas de las ocho páginas activas y sus ocho exportaciones PNG. El respaldo contiene el monolito anterior, recursos y `Proyectos-v2`; no reemplaza las pantallas actuales sin decisión del propietario.
 
 | Página               | Frame / tamaño observado, px                   | Estructura y contenido                                                                                                                                     |

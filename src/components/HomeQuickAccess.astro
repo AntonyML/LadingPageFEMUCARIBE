@@ -1,0 +1,102 @@
+---
+const resources = [
+  {
+    icon: '📜',
+    title: 'Acuerdos del Consejo',
+    description: 'Actas oficiales y resoluciones',
+  },
+  {
+    icon: '🏗',
+    title: 'Cartera UGP',
+    description: 'Inversión pública en territorio',
+  },
+  {
+    icon: '🏛',
+    title: 'Directorio Municipal',
+    description: 'Autoridades y 6 cantones',
+  },
+  {
+    icon: '📊',
+    title: 'Compras en SICOP',
+    description: 'Transparencia y licitaciones',
+  },
+];
+---
+
+<section class="home-quick-access" aria-labelledby="quick-access-title">
+  <h2 class="visually-hidden" id="quick-access-title">
+    Accesos directos
+  </h2>
+  <ul class="layout-grid links">
+    {resources.map(({ icon, title, description }) => (
+      <li>
+        <div class="card">
+          <h3 class="title">
+            <span aria-hidden="true">{icon} </span>
+            {title}
+          </h3>
+          <span class="description">{description}</span>
+          <span class="status">Recurso pendiente</span>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .home-quick-access {
+    margin-block: 0.1875rem;
+    padding-block: 0.625rem;
+  }
+
+  .links {
+    gap: 1.25rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    justify-content: center;
+    min-inline-size: 0;
+    block-size: 100%;
+    min-block-size: 5.625rem;
+    padding: 1rem 1.125rem;
+    color: #0b2538;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.625rem;
+  }
+
+  .title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .description,
+  .status {
+    font-size: 0.875rem;
+    line-height: 1.2;
+    color: #64748b;
+  }
+
+  @media (width >= 75rem) {
+    .links {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .title {
+      font-size: 0.8438rem;
+    }
+
+    .description,
+    .status {
+      font-size: 0.7188rem;
+    }
+  }
+</style>

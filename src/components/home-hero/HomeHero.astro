@@ -80,7 +80,9 @@ const governance = [
           />
           <button type="button">Buscar</button>
         </fieldset>
-        <p class:list={[styles.searchStatus]} id="hero-search-status">Búsqueda no disponible</p>
+        <p class={styles['search-status']} id="hero-search-status">
+          Búsqueda no disponible
+        </p>
       </div>
       <div class={styles.actions}>
         <a class={styles.primary} href={href(projectsUrl)}>
