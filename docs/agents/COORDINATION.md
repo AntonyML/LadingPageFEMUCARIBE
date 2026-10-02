@@ -1,5 +1,7 @@
 # Coordinación
 
+QUICK-ACCESS-INTEGRATION-001 ACTIVE: Codex; rama agent/codex/quick-access-001; worktree/registro C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/codex-quick-access-001; base origin/dev 646874a verificada el 2026-10-02. Root posee AGENTS.md y COORDINATION.md. Objetivo: registrar la autorización permanente del propietario para integrar/pushear tareas terminadas a dev, integrar la entrega validada 5c8d610 y mantener dev local/remoto actualizado. Revisión auxiliar Git de solo lectura: árbol limpio, base ancestro y dev local sin divergencia ni worktree activo. Main permanece bajo promoción humana.
+
 QUICK-ACCESS-001 CLOSED: Codex; rama agent/codex/quick-access-001; base origin/dev 646874a actualizada el 2026-10-02; worktree/registro compartido C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/codex-quick-access-001. Root posee src/components/HomeQuickAccess.astro, src/pages/index.astro, COORDINATION.md, CONTEXT.md y DESIGN-CONTRACT.md. quick_access_tests posee tests/e2e/home-quick-access.spec.ts. Objetivo completado: implementar solo el board AccesosRapidos 1158a0fe-c558-80da-8008-94095e26d77f con reflow, teclado y texto ampliado. quick_access_design consulta Penpot de solo lectura; root serializa el registro. El propietario confirma destinos sin definir: cuatro tarjetas informativas con estado «Recurso pendiente», sin enlaces hasta disponer de los recursos. Sin integración/push a dev ni promoción a main; sin cambios de configs, lockfiles, CSS global, cabecera o footer.
 
 Reserva adicional QUICK-ACCESS-001: root posee src/components/home-hero/HomeHero.astro y styles.module.css exclusivamente para corregir el nombre searchStatus a search-status y formatear esa referencia. El commit base 646874a incumple selector-class-pattern y formato; este arreglo mínimo desbloquea check sin cambiar presentación ni comportamiento del aviso rojo.
@@ -28,7 +30,7 @@ MOBILE-NAVIGATION-001 CLOSED: Codex, rama agent/codex/mobile-navigation-001, bas
 
 CREDITS-LEGAL-UX-001 CLOSED: Codex; rama agent/codex/credits-legal-ux-001; base origin/dev 0906c75; worktree y registro compartido C:/Users/Administrator/LadingPageFEMUCARIBE-worktrees/codex-credits-legal-ux-001. Root reserva creditos.astro y legal.astro, InformationLayout.astro y PublicLayout.astro, InstitutionalFooter.astro y su CSS Module, pruebas de creditos/legal/footer/layout y COORDINATION.md. Objetivo: mejorar UX/UI y texto de Créditos, crear aviso legal/privacidad/licencias y conectar enlaces reales. Usuario confirma info@femucaribe.go.cr y soporte@femucaribe.go.cr; contacto@femucaribe.go.cr no existe, se corrige en footer y sus pruebas. Auxiliares investigan/revisan sin editar. Sin integracion a dev ni promocion a main.
 
-main = estable, promoción y push únicamente humanos. dev = integración. Cada tarea parte de dev actualizado en agent/<agente>/<task> y worktree independiente bajo el home. No reescribir historia, hacer force push, borrar trabajo ajeno ni absorber archivos desconocidos en un commit.
+main = estable, promoción y push únicamente humanos. dev = integración. Antes de cada tarea, hacer fetch de origin/dev y actualizar dev local por avance directo, preservando cualquier trabajo existente. Crear la rama agent/<agente>/<task> y su worktree independiente bajo el home desde esa base actualizada. No reescribir historia, hacer force push, borrar trabajo ajeno ni absorber archivos desconocidos en un commit.
 
 Reserva adicional CREDITS-LEGAL-UX-001: src/components/legal-information/LegalInformation.astro y styles.module.css (extraccion local por superar 250 lineas); TOPBAR.md para correo confirmado. Root delega exclusivamente pruebas en tests/e2e/creator-credits.spec.ts, institutional-footer.spec.ts, public-layout.spec.ts, legal-information.spec.ts y tests/unit/institutional-footer.test.ts al auxiliar ux_review en el mismo worktree. Root serializa COORDINATION.md.
 
@@ -52,7 +54,14 @@ Penpot: un responsable de escritura por página; otros trabajan sobre snapshots 
 
 ## Entrega
 
-Ejecutar controles relevantes, revisar diff y preparar commit solo de paths propios. Entregar rama/base/commit, archivos, resultados y límites. Integrar a dev deliberadamente con autorización del propietario; nunca promover a main. Al terminar, liberar la reserva y detenerse: no iniciar el siguiente slice. Conflicto, scope indispensable ambiguo o decisión pendiente: detener la parte dependiente y reportar evidencia.
+Autorización permanente del propietario, 2026-10-02: al finalizar cada tarea validada, integrar sus cambios y pushear a origin/dev; mantener dev local actualizado. Esta autorización ya está concedida: ejecutar el cierre sin pedir otra confirmación ni esperar que el propietario repita «pushealo a dev». Una restricción explícita del propietario para una tarea concreta tiene prioridad.
+
+1. Ejecutar controles relevantes, revisar diff y crear commits solo de paths propios.
+2. Hacer fetch de origin/dev antes de integrar. Si avanzó, incorporar esa base en la rama propia y repetir los controles afectados por los cambios de integración. Proceder cuando origin/dev sea ancestro de la entrega validada.
+3. Pushear normalmente a origin/dev. Si el remoto avanzó y rechaza el push, volver al paso anterior. Actualizar dev local por avance directo y verificar que su SHA coincide con origin/dev y con la referencia remota leída mediante ls-remote.
+4. Entregar rama/base/commits, archivos, resultados, límites y evidencia del push; liberar la reserva y detenerse, sin iniciar el siguiente slice. La entrega termina después de la integración y el push verificados.
+
+Nunca promover a main. Controles fallidos, conflicto que requiere decisión del propietario, scope indispensable ambiguo o bloqueo remoto: detener la parte dependiente y reportar evidencia concreta.
 
 ## Estado e historial
 
