@@ -2,6 +2,7 @@
 
 Antes de editar, leer [arquitectura](docs/architecture/ARCHITECTURE.md) y [coordinación](docs/agents/COORDINATION.md). Implementar la tarea autorizada y detenerse al completarla.
 
+- HARD STOP ante preguntas que requieren una decisión del propietario: formular la pregunta y terminar el turno; pausar también a los agentes auxiliares y esperar la respuesta antes de continuar cualquier trabajo. El tiempo transcurrido no autoriza asumir una respuesta. Reanudar al recibir la decisión explícita.
 - Instalación y verificaciones: [TOOLING.md](docs/agents/TOOLING.md); usar los pins y scripts existentes.
 - Diseño: [guía MCP](docs/penpot/AGENT-GUIDE.md), [índice Penpot](docs/penpot/CONTEXT.md) y [evidencia visual](docs/architecture/DESIGN-CONTRACT.md).
 - Consumo de GovernmentBar y separación de Navbar: [TOPBAR.md](docs/agents/TOPBAR.md).

@@ -1,0 +1,42 @@
+---
+import HomeNews from '../../../../../../src/components/home-news/HomeNews.astro';
+import type { NewsItem } from '../../../../../../src/components/home-news/types';
+import PublicLayout from '../../../../../../src/layouts/PublicLayout.astro';
+
+const items: readonly NewsItem[] = [
+  {
+    category: 'Categoría de prueba A',
+    publishedOn: '2026-10-02',
+    title: 'Noticia de prueba con destino disponible',
+    summary:
+      'Contenido de ejemplo para verificar una noticia con enlace real dentro del entorno de pruebas.',
+    url: '/home-news/article',
+  },
+  {
+    category: 'Categoría de prueba B',
+    publishedOn: '2026-10-01',
+    title: 'Noticia de prueba con imagen y sin destino',
+    summary:
+      'Contenido de ejemplo para verificar una imagen local y una noticia cuyo destino aún está pendiente.',
+    image: {
+      src: '/government/costa-rica.svg',
+      alt: 'Bandera de Costa Rica utilizada como imagen de prueba',
+      width: 30,
+      height: 20,
+    },
+  },
+  {
+    category: 'Categoría de prueba C',
+    publishedOn: '2026-09-30',
+    title:
+      'Noticia de prueba con título largo para comprobar su lectura en pantallas estrechas y con texto ampliado',
+    summary:
+      'Contenido de ejemplo con una descripción más extensa que permite comprobar el crecimiento natural de las tarjetas y la lectura completa de todos los textos.',
+  },
+];
+---
+
+<PublicLayout title="HomeNews · contenido exclusivo de prueba">
+  <h1>Fixture de noticias: datos de prueba</h1>
+  <HomeNews items={items} newsroomUrl="/home-news/newsroom" />
+</PublicLayout>

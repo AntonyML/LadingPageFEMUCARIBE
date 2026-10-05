@@ -1,0 +1,116 @@
+---
+import type { NewsItem } from './types';
+import styles from './styles.module.css';
+
+interface Props {
+  items?: readonly NewsItem[];
+  newsroomUrl?: string;
+}
+
+const { items = [], newsroomUrl } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+function href(url: string) {
+  if (url !== url.trim() || url.includes('\\')) {
+    throw new Error(
+      'HomeNews destinations must be site-root paths or HTTP(S) URLs',
+    );
+  }
+  if (/^\/(?!\/)/.test(url)) return `${base}${url}`;
+  const parsed = new URL(url);
+  if (!['http:', 'https:'].includes(parsed.protocol)) {
+    throw new Error(
+      'HomeNews destinations must be site-root paths or HTTP(S) URLs',
+    );
+  }
+  return url;
+}
+
+const dateFormat = new Intl.DateTimeFormat('es-CR', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+const news = items.map((item) => {
+  const date = new Date(`${item.publishedOn}T00:00:00Z`);
+  if (
+    !/^\d{4}-\d{2}-\d{2}$/.test(item.publishedOn) ||
+    Number.isNaN(date.getTime()) ||
+    date.toISOString().slice(0, 10) !== item.publishedOn
+  ) {
+    throw new Error('HomeNews publishedOn must be a valid YYYY-MM-DD date');
+  }
+  return {
+    ...item,
+    dateLabel: dateFormat.format(date).replaceAll('.', '').toUpperCase(),
+    destination: item.url === undefined ? undefined : href(item.url),
+    imageSrc: item.image === undefined ? undefined : href(item.image.src),
+  };
+});
+---
+
+<section
+  class:list={['home-news', styles.root]}
+  aria-labelledby="home-news-title"
+>
+  <div class={styles['section-heading']}>
+    <h2 class={styles.heading} id="home-news-title">
+      Actualidad y Comunicados Oficiales
+    </h2>
+    {newsroomUrl ? (
+      <a class={styles['newsroom-link']} href={href(newsroomUrl)}>
+        Ir a Sala de Prensa <span aria-hidden="true">→</span>
+      </a>
+    ) : (
+      <span class={styles['pending']}>Sala de Prensa pendiente</span>
+    )}
+  </div>
+  {news.length === 0 ? (
+    <div class={styles['empty-state']}>
+      <p class={styles['empty-title']}>Aún no hay noticias publicadas.</p>
+      <p>
+        Aquí encontrarás los comunicados oficiales y las novedades de
+        FEMUCARIBE.
+      </p>
+    </div>
+  ) : (
+    <ul class:list={['layout-grid', styles['news-list']]}>
+      {news.map((item) => (
+        <li>
+          <article class={styles['news-card']}>
+            <div
+              class={styles['media']}
+              aria-hidden={item.image ? undefined : 'true'}
+            >
+              {item.image && (
+                <img
+                  src={item.imageSrc}
+                  alt={item.image.alt}
+                  width={item.image.width}
+                  height={item.image.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
+            </div>
+            <div class={styles['metadata']}>
+              <span class={styles['category']}>{item.category}</span>
+              <time class={styles.date} datetime={item.publishedOn}>
+                <span aria-hidden="true">• </span>
+                {item.dateLabel}
+              </time>
+            </div>
+            <h3 class={styles.title}>
+              {item.destination ? (
+                <a href={item.destination}>{item.title}</a>
+              ) : (
+                item.title
+              )}
+            </h3>
+            <p class={styles['summary']}>{item.summary}</p>
+          </article>
+        </li>
+      ))}
+    </ul>
+  )}
+</section>

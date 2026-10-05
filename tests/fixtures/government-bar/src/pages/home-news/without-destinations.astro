@@ -1,0 +1,20 @@
+---
+import HomeNews from '../../../../../../src/components/home-news/HomeNews.astro';
+import type { NewsItem } from '../../../../../../src/components/home-news/types';
+import PublicLayout from '../../../../../../src/layouts/PublicLayout.astro';
+
+const items: readonly NewsItem[] = [
+  {
+    category: 'Categoría de prueba',
+    publishedOn: '2026-10-02',
+    title: 'Noticia de prueba sin destino',
+    summary:
+      'Datos exclusivos de prueba para verificar contenido disponible sin inventar enlaces.',
+  },
+];
+---
+
+<PublicLayout title="HomeNews · destinos pendientes de prueba">
+  <h1>Fixture de noticias sin destinos</h1>
+  <HomeNews items={items} />
+</PublicLayout>
