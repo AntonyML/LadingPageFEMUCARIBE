@@ -1,0 +1,212 @@
+---
+const guidance = [
+  {
+    number: '01',
+    title: 'Salta al contenido principal',
+    description:
+      'Al cargar una página, pulsa Tab para encontrar «Pasar al contenido principal» y Enter para ir directamente a la información.',
+  },
+  {
+    number: '02',
+    title: 'Navega con el teclado',
+    description:
+      'Pulsa Tab para avanzar entre enlaces y controles; usa Mayús + Tab para volver. Activa cada elemento con Enter o Espacio, según corresponda.',
+  },
+  {
+    number: '03',
+    title: 'Ajusta el tamaño de lectura',
+    description:
+      'Usa los controles de zoom de tu navegador para ampliar el contenido. Las páginas se reorganizan al reducirse el espacio disponible.',
+  },
+];
+---
+
+<div class="accessibility-information">
+  <section class="guidance" aria-labelledby="guidance-title">
+    <header class="guidance-header">
+      <p class="eyebrow">Opciones de navegación</p>
+      <h2 id="guidance-title">Consulta el sitio a tu manera</h2>
+      <p>
+        Elige las opciones que mejor se adapten a tu forma de navegar o leer las
+        páginas públicas de FEMUCARIBE.
+      </p>
+    </header>
+
+    <ul class="guidance-grid layout-grid">
+      {guidance.map(({ number, title, description }) => (
+        <li>
+          <article class="guidance-card">
+            <span class="number" aria-hidden="true">
+              {number}
+            </span>
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </article>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="contact-card" aria-labelledby="contact-title">
+    <div class="contact-copy">
+      <p class="eyebrow">Atención institucional</p>
+      <h2 id="contact-title">¿Encontraste una barrera?</h2>
+      <p>
+        Si tienes dificultades para consultar la información, escribe a
+        FEMUCARIBE e indica la página y el paso donde ocurre.
+      </p>
+      <p class="privacy-note">
+        No incluyas contraseñas ni información personal en tu mensaje.
+      </p>
+    </div>
+    <a class="contact-link" href="mailto:info@femucaribe.go.cr">
+      <span>Escribir a FEMUCARIBE</span>
+      <span aria-hidden="true">→</span>
+    </a>
+  </section>
+</div>
+
+<style>
+  .accessibility-information {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    min-inline-size: 0;
+  }
+
+  .guidance-header {
+    max-inline-size: 48rem;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.625rem;
+    color: #0470a0;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    margin: 0;
+    color: #0b2538;
+    font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+
+  .guidance-card p {
+    margin-block: 0.75rem 0;
+    color: #435362;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  .guidance-header > p:last-child,
+  .contact-copy > p:not(.eyebrow) {
+    color: #435362;
+    line-height: 1.65;
+  }
+
+  .guidance-header > p:last-child {
+    margin-block: 0.75rem 0;
+    font-size: 1rem;
+  }
+
+  .guidance-grid {
+    align-items: stretch;
+    margin-block: 1.5rem 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .guidance-grid > li {
+    min-inline-size: 0;
+  }
+
+  .guidance-card {
+    block-size: 100%;
+    min-inline-size: 0;
+    padding: clamp(1.25rem, 2.8vw, 1.75rem);
+    border: 1px solid #e2e8f0;
+    border-block-start: 4px solid #0470a0;
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  .number {
+    display: grid;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    place-items: center;
+    border-radius: 50%;
+    color: #0470a0;
+    background: #f0f7fa;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  h3 {
+    margin: 1.25rem 0 0;
+    color: #0b2538;
+    font-size: 1.125rem;
+    line-height: 1.35;
+  }
+
+  .contact-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1.5rem 2rem;
+    min-inline-size: 0;
+    padding: clamp(1.25rem, 3.5vw, 2rem);
+    border: 1px solid #bce4ec;
+    border-radius: 14px;
+    background: #f0f7fa;
+  }
+
+  .contact-copy {
+    max-inline-size: 54rem;
+    min-inline-size: 0;
+  }
+
+  .contact-copy > p:not(.eyebrow) {
+    margin-block: 0.75rem 0;
+    font-size: 0.9375rem;
+  }
+
+  .contact-copy .privacy-note {
+    font-size: 0.875rem;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    flex-wrap: wrap;
+    min-block-size: 48px;
+    max-inline-size: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    color: #fff;
+    background: #0470a0;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+    text-decoration: none;
+  }
+
+  .contact-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (width < 42rem) {
+    .contact-card {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .contact-link {
+      justify-self: start;
+    }
+  }
+</style>

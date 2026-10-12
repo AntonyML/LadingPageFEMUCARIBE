@@ -117,3 +117,9 @@ Para el futuro Navbar, desktop observado se reportará como **CONFIRMED**. Las d
 | Formulario y CTA sin estados/interacciones.                                                                  | Validación, feedback, envío y privacidad: TO BE DECIDED en sus tareas.           |
 
 Fidelidad futura: registrar página/board/shape y revisión, leer valores reales del área, comparar visualmente y documentar adaptaciones responsive/accesibilidad. Ante contradicción indispensable para la tarea, HARD STOP de esa parte antes de inventar.
+
+### Página de accesibilidad implementada: ACCESSIBILITY-PAGE-001
+
+2026-10-12: el índice local de Penpot no registra un board dedicado y el MCP no pudo conectarse a una instancia. No hay dimensiones ni estados visuales CONFIRMED para esta página. Se reutilizan el shell público y el patrón de Información del sitio; paleta, tarjetas y jerarquía tipográfica proceden de estilos ya observados. El diseño de esta ruta es INFERRED y no se atribuye a una referencia Penpot.
+
+La página describe el salto al contenido principal, la navegación por teclado y la ampliación del contenido, y ofrece el correo institucional general para comunicar una barrera de acceso. No promete plazos, asistencia o un proceso de atención específico, ni declara conformidad con WCAG o una certificación. El enlace del pie identifica la ruta como «Accesibilidad», sin una etiqueta de conformidad no respaldada por una auditoría. El layout usa una, dos y tres columnas conforme al grid global; la tarjeta de contacto pasa a una columna bajo 42rem. Estas decisiones responsive son INFERRED. Verificación concreta y límites quedan registrados en COORDINATION.md.

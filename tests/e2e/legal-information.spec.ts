@@ -189,6 +189,7 @@ test('keyboard navigation reaches the legal contents and focuses its section', a
     main
       .getByRole('navigation', { name: 'Ubicación' })
       .getByRole('link', { name: 'Inicio', exact: true }),
+    information.getByRole('link', { name: 'Accesibilidad', exact: true }),
     information.getByRole('link', { name: 'Créditos', exact: true }),
     information.getByRole('link', { name: 'Aviso legal', exact: true }),
     information.getByRole('link', { name: 'Privacidad', exact: true }),
@@ -228,6 +229,7 @@ test('privacy page supports keyboard navigation without JS', async ({
     main
       .getByRole('navigation', { name: 'Ubicación' })
       .getByRole('link', { name: 'Inicio', exact: true }),
+    information.getByRole('link', { name: 'Accesibilidad', exact: true }),
     information.getByRole('link', { name: 'Créditos', exact: true }),
     information.getByRole('link', { name: 'Aviso legal', exact: true }),
     information.getByRole('link', { name: 'Privacidad', exact: true }),
