@@ -114,6 +114,18 @@ for (const width of [320, 1440]) {
       await expectVisibleFocus(hero.getByRole('link', { name, exact: true }));
     }
     await page.keyboard.press('Tab');
+    await expectVisibleFocus(
+      page
+        .getByRole('region', {
+          name: 'Directorio de Gobiernos Locales Miembro',
+          exact: true,
+        })
+        .getByRole('link', {
+          name: 'Ver directorio detallado (03 · Municipalidades)',
+          exact: true,
+        }),
+    );
+    await page.keyboard.press('Tab');
     expect(
       await page
         .getByRole('contentinfo')
