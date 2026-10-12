@@ -126,6 +126,18 @@ for (const width of [320, 1440]) {
         }),
     );
     await page.keyboard.press('Tab');
+    await expectVisibleFocus(
+      page
+        .getByRole('region', {
+          name: 'Proyectos Estratégicos en Marcha',
+          exact: true,
+        })
+        .getByRole('link', {
+          name: 'Ver cartera completa de proyectos (04 · Proyectos)',
+          exact: true,
+        }),
+    );
+    await page.keyboard.press('Tab');
     expect(
       await page
         .getByRole('contentinfo')
