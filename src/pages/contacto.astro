@@ -1,0 +1,351 @@
+---
+import PublicLayout from '../layouts/PublicLayout.astro';
+import contactMap from '../assets/contacto/mapa-contacto.svg';
+
+const contactEmail = 'info@femucaribe.go.cr';
+---
+
+<PublicLayout title="Contacto | FEMUCARIBE">
+  <section class="contact-page" aria-labelledby="contact-title">
+    <div class="contact-overview">
+      <p class="eyebrow">Atención ciudadana</p>
+      <header class="intro">
+        <h1 id="contact-title">Póngase en Contacto</h1>
+        <p>
+          Estamos al servicio de las comunidades y gobiernos locales del Caribe
+          costarricense.
+        </p>
+      </header>
+
+      <dl class="contact-details">
+        <div class="detail-card">
+          <dt>Sede central (art. 2)</dt>
+          <dd>
+            Cantón de Siquirres, Barrio El Mangal, diagonal al Polideportivo.
+          </dd>
+        </div>
+        <div class="detail-card">
+          <dt>Teléfono institucional</dt>
+          <dd>
+            <a class="contact-link" href="tel:+50627682000">
+              (+506) 2768-2000
+            </a>
+          </dd>
+        </div>
+        <div class="detail-card">
+          <dt>Correo electrónico</dt>
+          <dd>
+            <a class="contact-link" href={'mailto:' + contactEmail}>
+              {contactEmail}
+            </a>
+          </dd>
+        </div>
+      </dl>
+
+      <figure class="contact-map" aria-hidden="true">
+        <img
+          class="responsive-media"
+          src={contactMap.src}
+          width="452"
+          height="108"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+    </div>
+
+    <section class="message-panel" aria-labelledby="message-title">
+      <h2 id="message-title">Enviar un mensaje</h2>
+      <form
+        class="message-form"
+        aria-labelledby="message-title"
+        aria-describedby="form-status"
+      >
+        <p class="form-status" id="form-status">
+          El formulario todavía no está habilitado. Para consultas
+          institucionales, escribe a:
+          <a href={'mailto:' + contactEmail}>{contactEmail}</a>
+        </p>
+        <fieldset class="fields" disabled>
+          <legend class="visually-hidden">Datos del mensaje</legend>
+          <div class="field">
+            <label for="contact-name">Nombre completo</label>
+            <input
+              class="field-control"
+              id="contact-name"
+              type="text"
+              placeholder="Ej. Lic. Carlos Morales Rodríguez"
+              autocomplete="name"
+            />
+          </div>
+          <div class="field">
+            <label for="contact-email">Correo electrónico</label>
+            <input
+              class="field-control"
+              id="contact-email"
+              type="email"
+              placeholder="ejemplo@correo.com"
+              autocomplete="email"
+            />
+          </div>
+          <div class="field">
+            <label for="contact-message">Mensaje o consulta</label>
+            <textarea
+              class="field-control message-control"
+              id="contact-message"
+              placeholder="Escriba su consulta aquí..."
+            ></textarea>
+          </div>
+          <button class="send-button" type="submit">
+            Enviar mensaje
+          </button>
+        </fieldset>
+      </form>
+    </section>
+  </section>
+</PublicLayout>
+
+<style>
+  .contact-page {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: clamp(2rem, 4vw, 4rem);
+    min-inline-size: 0;
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .contact-overview,
+  .message-panel {
+    min-inline-size: 0;
+  }
+
+  .contact-overview {
+    padding-block-start: 1.25rem;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.75rem;
+    color: #0470a0;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow::before {
+    inline-size: 1rem;
+    block-size: 0.25rem;
+    border-radius: 999px;
+    background: #14b8d4;
+    content: '';
+  }
+
+  .intro h1 {
+    margin: 0;
+    color: #0b2538;
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.12;
+    overflow-wrap: anywhere;
+  }
+
+  .intro > p {
+    margin: 0.75rem 0 0;
+    color: #435362;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .contact-details {
+    display: grid;
+    gap: 0.875rem;
+    margin: 1.75rem 0 0;
+  }
+
+  .detail-card {
+    min-inline-size: 0;
+    padding: 0.875rem 1rem;
+    border: 1px solid #dce8ee;
+    border-radius: 0.75rem;
+    background: #f8fafc;
+  }
+
+  .detail-card dt {
+    color: #0470a0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.045em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .detail-card dd {
+    margin: 0.125rem 0 0;
+    color: #0b2538;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+    max-inline-size: 100%;
+    color: inherit;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.2em;
+    overflow-wrap: anywhere;
+  }
+
+  .contact-map {
+    overflow: hidden;
+    margin: 1.75rem 0 0;
+    border: 1px solid #e5e7d5;
+    border-radius: 0.75rem;
+    background: #f3f1db;
+  }
+
+  .contact-map img {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+  }
+
+  .message-panel {
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border: 1px solid #dce8ee;
+    border-radius: 0.875rem;
+    background: #f8fafc;
+  }
+
+  .message-panel h2 {
+    margin: 0;
+    color: #0b2538;
+    font-size: clamp(1.5rem, 2.6vw, 1.75rem);
+    font-weight: 750;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+  }
+
+  .form-status {
+    margin: 1.25rem 0;
+    padding: 0.875rem 1rem;
+    border-inline-start: 3px solid #0470a0;
+    border-radius: 0.5rem;
+    color: #294557;
+    background: #edf6f9;
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+
+  .form-status a {
+    display: flex;
+    align-items: center;
+    max-inline-size: 100%;
+    min-block-size: 2.75rem;
+    margin-block-start: 0.25rem;
+    color: #046487;
+    font-weight: 700;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.2em;
+    overflow-wrap: anywhere;
+  }
+
+  .fields {
+    display: grid;
+    gap: 1rem;
+    min-inline-size: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .field {
+    display: grid;
+    gap: 0.375rem;
+    min-inline-size: 0;
+  }
+
+  .field label {
+    color: #0b2538;
+    font-size: 0.875rem;
+    font-weight: 650;
+  }
+
+  .field-control {
+    inline-size: 100%;
+    min-inline-size: 0;
+    min-block-size: 3rem;
+    padding: 0.75rem 0.875rem;
+    border: 1px solid #cfe2eb;
+    border-radius: 0.5rem;
+    color: #435362;
+    background: #fff;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .field-control::placeholder {
+    color: #8297ac;
+    opacity: 1;
+  }
+
+  .field-control:disabled {
+    color: #435362;
+    -webkit-text-fill-color: #435362;
+    opacity: 1;
+  }
+
+  .message-control {
+    min-block-size: 6.5rem;
+    resize: vertical;
+  }
+
+  .send-button {
+    inline-size: 100%;
+    min-block-size: 3rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    color: #fff;
+    background: #0470a0;
+    font-size: 0.9375rem;
+    font-weight: 700;
+  }
+
+  .send-button:disabled {
+    border-color: #c9dce5;
+    color: #344e5c;
+    background: #dbe9ee;
+    cursor: not-allowed;
+    opacity: 1;
+  }
+
+  .contact-link:hover,
+  .form-status a:hover {
+    color: #034f70;
+  }
+
+  @media (width < 70rem) {
+    .contact-page {
+      grid-template-columns: minmax(0, 1fr);
+      gap: clamp(2rem, 5vw, 3rem);
+    }
+
+    .contact-overview,
+    .message-panel {
+      max-inline-size: 48rem;
+    }
+
+    .contact-overview {
+      padding-block-start: 0;
+    }
+  }
+</style>
