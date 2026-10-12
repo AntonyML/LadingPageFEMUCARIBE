@@ -152,7 +152,11 @@ test('keyboard navigation reaches credits and preserves skip and contact focus',
       .getByRole('link', { name: 'Inicio', exact: true }),
     informationNavigation.getByRole('link', { name: 'Créditos', exact: true }),
     informationNavigation.getByRole('link', {
-      name: 'Aviso legal y privacidad',
+      name: 'Aviso legal',
+      exact: true,
+    }),
+    informationNavigation.getByRole('link', {
+      name: 'Privacidad',
       exact: true,
     }),
     main.getByRole('link', { name: email, exact: true }),

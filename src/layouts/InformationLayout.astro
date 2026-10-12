@@ -4,14 +4,20 @@ import PublicLayout from './PublicLayout.astro';
 interface Props {
   title: string;
   description: string;
-  page: 'creditos' | 'legal';
+  page: 'creditos' | 'legal' | 'privacidad';
 }
 
 const { title, description, page } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const pageLabels = {
+  creditos: 'Créditos',
+  legal: 'Aviso legal',
+  privacidad: 'Privacidad',
+} as const;
 const sections = [
   ['creditos', 'Créditos'],
-  ['legal', 'Aviso legal y privacidad'],
+  ['legal', 'Aviso legal'],
+  ['privacidad', 'Privacidad'],
 ] as const;
 ---
 
@@ -20,9 +26,7 @@ const sections = [
     <nav class="breadcrumb" aria-label="Ubicación">
       <a href={`${base}/`}>Inicio</a>
       <span aria-hidden="true">/</span>
-      <span aria-current="page">
-        {page === 'creditos' ? 'Créditos' : 'Aviso legal'}
-      </span>
+      <span aria-current="page">{pageLabels[page]}</span>
     </nav>
     <header class="information-header">
       <p class="eyebrow">Acerca de este sitio</p>

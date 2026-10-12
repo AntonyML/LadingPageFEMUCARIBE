@@ -13,23 +13,34 @@ async function expectVisibleFocus(target: Locator) {
   expect(outline.width).toBeGreaterThanOrEqual(2);
 }
 
-async function expectLegalReflow(page: Page, width: number) {
+async function expectPolicyReflow(
+  page: Page,
+  width: number,
+  route: '/legal' | '/privacidad',
+) {
   await page.evaluate(() => document.fonts.ready);
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(width);
   const main = page.getByRole('main');
+  const title = route === '/legal' ? 'Aviso legal' : 'Política de privacidad';
   await expect(
-    main.getByRole('heading', { name: 'Aviso legal y privacidad', level: 1 }),
+    main.getByRole('heading', { name: title, level: 1 }),
   ).toBeVisible();
   await expect(
     main.getByRole('navigation', { name: 'En esta página' }),
   ).toBeVisible();
-  await expect(
-    main.getByRole('link', {
-      name: 'Consultar la licencia completa de Inter (TXT)',
-    }),
-  ).toBeVisible();
+  if (route === '/legal') {
+    await expect(
+      main.getByRole('link', {
+        name: 'Consultar la licencia completa de Inter (TXT)',
+      }),
+    ).toBeVisible();
+  } else {
+    await expect(
+      main.getByRole('region', { name: 'Privacidad y datos personales' }),
+    ).toBeVisible();
+  }
   const bounds = await main
     .locator('h1, h2, h3, p, li, a, nav, article, section')
     .evaluateAll((nodes) =>
@@ -50,7 +61,7 @@ async function expectLegalReflow(page: Page, width: number) {
   }
 }
 
-test('footer and site information navigation reach legal content without JS', async ({
+test('footer and site information navigation reach separate policies without JS', async ({
   page,
 }) => {
   await page.goto('/');
@@ -60,25 +71,37 @@ test('footer and site information navigation reach legal content without JS', as
   await footerPolicies
     .getByRole('link', { name: 'Política de Privacidad' })
     .click();
-  await expect(page).toHaveURL(/\/legal\/?#privacidad$/);
+  await expect(page).toHaveURL(/\/privacidad\/?$/);
+  await expect(page).toHaveTitle('Política de privacidad | FEMUCARIBE');
   await expect(
     page
       .getByRole('main')
       .getByRole('region', { name: 'Privacidad y datos personales' }),
   ).toBeVisible();
+  const information = page
+    .getByRole('main')
+    .getByRole('navigation', { name: 'Información del sitio' });
+  await expect(
+    information.getByRole('link', { name: 'Privacidad', exact: true }),
+  ).toHaveAttribute('aria-current', 'page');
   await footerPolicies
     .getByRole('link', { name: 'Aviso legal', exact: true })
     .click();
   await expect(page).toHaveURL(/\/legal\/?$/);
-  await expect(page).toHaveTitle('Aviso legal y privacidad | FEMUCARIBE');
-  const information = page
-    .getByRole('main')
-    .getByRole('navigation', { name: 'Información del sitio' });
-  const legalLink = information.getByRole('link', {
-    name: 'Aviso legal y privacidad',
-    exact: true,
-  });
-  await expect(legalLink).toHaveAttribute('aria-current', 'page');
+  await expect(page).toHaveTitle('Aviso legal | FEMUCARIBE');
+  await expect(
+    page.getByRole('main').getByRole('region', {
+      name: 'Privacidad y datos personales',
+    }),
+  ).toHaveCount(0);
+  await expect(
+    information.getByRole('link', { name: 'Aviso legal', exact: true }),
+  ).toHaveAttribute('aria-current', 'page');
+  await information
+    .getByRole('link', { name: 'Privacidad', exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/privacidad\/?$/);
+  await expect(page).toHaveTitle('Política de privacidad | FEMUCARIBE');
   await information
     .getByRole('link', { name: 'Créditos', exact: true })
     .click();
@@ -86,8 +109,14 @@ test('footer and site information navigation reach legal content without JS', as
   await expect(
     information.getByRole('link', { name: 'Créditos', exact: true }),
   ).toHaveAttribute('aria-current', 'page');
-  await legalLink.click();
+  await information
+    .getByRole('link', { name: 'Aviso legal', exact: true })
+    .click();
   await expect(page).toHaveURL(/\/legal\/?$/);
+  await information
+    .getByRole('link', { name: 'Privacidad', exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/privacidad\/?$/);
   const consultations = page
     .getByRole('main')
     .getByRole('region', { name: 'Consultas y derechos' });
@@ -161,13 +190,12 @@ test('keyboard navigation reaches the legal contents and focuses its section', a
       .getByRole('navigation', { name: 'Ubicación' })
       .getByRole('link', { name: 'Inicio', exact: true }),
     information.getByRole('link', { name: 'Créditos', exact: true }),
-    information.getByRole('link', {
-      name: 'Aviso legal y privacidad',
-      exact: true,
-    }),
+    information.getByRole('link', { name: 'Aviso legal', exact: true }),
+    information.getByRole('link', { name: 'Privacidad', exact: true }),
     contents.getByRole('link', { name: 'Sobre el sitio', exact: true }),
+    contents.getByRole('link', { name: 'Uso de los contenidos', exact: true }),
     contents.getByRole('link', {
-      name: 'Privacidad y datos personales',
+      name: 'Tipografías y licencias',
       exact: true,
     }),
   ]) {
@@ -175,9 +203,51 @@ test('keyboard navigation reaches the legal contents and focuses its section', a
     await expectVisibleFocus(link);
   }
   await page.keyboard.press('Enter');
-  await expect(page).toHaveURL(/\/legal\/?#privacidad$/);
+  await expect(page).toHaveURL(/\/legal\/?#licencias$/);
   await expectVisibleFocus(
-    main.getByRole('region', { name: 'Privacidad y datos personales' }),
+    main.getByRole('region', { name: 'Tipografías y licencias' }),
+  );
+});
+
+test('privacy page supports keyboard navigation without JS', async ({
+  page,
+}) => {
+  await page.goto('/privacidad');
+  await page.keyboard.press('Tab');
+  await expectVisibleFocus(
+    page.getByRole('link', { name: 'Pasar al contenido principal' }),
+  );
+  await page.keyboard.press('Enter');
+  const main = page.getByRole('main');
+  await expectVisibleFocus(main);
+  const information = main.getByRole('navigation', {
+    name: 'Información del sitio',
+  });
+  const contents = main.getByRole('navigation', { name: 'En esta página' });
+  for (const link of [
+    main
+      .getByRole('navigation', { name: 'Ubicación' })
+      .getByRole('link', { name: 'Inicio', exact: true }),
+    information.getByRole('link', { name: 'Créditos', exact: true }),
+    information.getByRole('link', { name: 'Aviso legal', exact: true }),
+    information.getByRole('link', { name: 'Privacidad', exact: true }),
+    contents.getByRole('link', {
+      name: 'Privacidad y datos personales',
+      exact: true,
+    }),
+    contents.getByRole('link', {
+      name: 'Cookies y recursos externos',
+      exact: true,
+    }),
+    contents.getByRole('link', { name: 'Consultas y derechos', exact: true }),
+  ]) {
+    await page.keyboard.press('Tab');
+    await expectVisibleFocus(link);
+  }
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/\/privacidad\/?#consultas$/);
+  await expectVisibleFocus(
+    main.getByRole('region', { name: 'Consultas y derechos' }),
   );
 });
 
@@ -185,7 +255,7 @@ test('legal resource styles preserve links outside their component', async ({
   page,
 }) => {
   const metrics = [];
-  for (const route of ['/', '/legal']) {
+  for (const route of ['/', '/legal', '/privacidad']) {
     await page.goto(route);
     metrics.push(
       await page.getByRole('main').evaluate((main) => {
@@ -203,6 +273,7 @@ test('legal resource styles preserve links outside their component', async ({
     );
   }
   expect(metrics[1]).toEqual(metrics[0]);
+  expect(metrics[2]).toEqual(metrics[0]);
 });
 
 test.describe('privacy behavior with JavaScript enabled', () => {
@@ -220,7 +291,7 @@ test.describe('privacy behavior with JavaScript enabled', () => {
       if (/^https?:$/.test(url.protocol) && url.origin !== expectedOrigin)
         externalRequests.push(url.href);
     });
-    for (const route of ['/legal', '/creditos']) {
+    for (const route of ['/legal', '/privacidad', '/creditos']) {
       await page.goto(route);
       await page.waitForLoadState('networkidle');
       await expect(page.locator('form, iframe')).toHaveCount(0);
@@ -236,46 +307,50 @@ test.describe('privacy behavior with JavaScript enabled', () => {
   });
 });
 
-for (const { width, height } of [
-  { width: 280, height: 740 },
-  { width: 320, height: 740 },
-  { width: 768, height: 1024 },
-  { width: 1024, height: 900 },
-  { width: 1440, height: 900 },
-  { width: 844, height: 390 },
-]) {
-  test(`legal information reflows at ${width}x${height}`, async ({ page }) => {
-    await page.setViewportSize({ width, height });
-    await page.goto('/legal');
-    await expectLegalReflow(page, width);
-    if ([320, 1440].includes(width)) {
-      await page.screenshot({
-        path: test.info().outputPath(`legal-information-${width}.png`),
-        fullPage: true,
-      });
-    }
-  });
+for (const route of ['/legal', '/privacidad'] as const) {
+  for (const { width, height } of [
+    { width: 280, height: 740 },
+    { width: 320, height: 740 },
+    { width: 768, height: 1024 },
+    { width: 1024, height: 900 },
+    { width: 1440, height: 900 },
+    { width: 844, height: 390 },
+  ]) {
+    test(`${route} reflows at ${width}x${height}`, async ({ page }) => {
+      await page.setViewportSize({ width, height });
+      await page.goto(route);
+      await expectPolicyReflow(page, width, route);
+      if ([320, 1440].includes(width)) {
+        await page.screenshot({
+          path: test
+            .info()
+            .outputPath(`${route.slice(1)}-information-${width}.png`),
+          fullPage: true,
+        });
+      }
+    });
+  }
 }
 
-for (const width of [320, 768]) {
-  test(`legal information reflows with 200% text at ${width}px`, async ({
-    page,
-  }) => {
-    await page.setViewportSize({ width, height: 900 });
-    await page.goto('/legal');
-    await page.evaluate(() => {
-      const nodes = Array.from(
-        document.querySelectorAll(
-          'h1, h2, h3, p, li, a, small, strong, span, time',
-        ),
-      );
-      const sizes = nodes.map((node) =>
-        parseFloat(getComputedStyle(node).fontSize),
-      );
-      nodes.forEach((node, index) => {
-        (node as HTMLElement).style.fontSize = `${sizes[index]! * 2}px`;
+for (const route of ['/legal', '/privacidad'] as const) {
+  for (const width of [320, 768]) {
+    test(`${route} reflows with 200% text at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(route);
+      await page.evaluate(() => {
+        const nodes = Array.from(
+          document.querySelectorAll(
+            'h1, h2, h3, p, li, a, small, strong, span, time',
+          ),
+        );
+        const sizes = nodes.map((node) =>
+          parseFloat(getComputedStyle(node).fontSize),
+        );
+        nodes.forEach((node, index) => {
+          (node as HTMLElement).style.fontSize = `${sizes[index]! * 2}px`;
+        });
       });
+      await expectPolicyReflow(page, width, route);
     });
-    await expectLegalReflow(page, width);
-  });
+  }
 }

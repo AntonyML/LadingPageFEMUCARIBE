@@ -19,7 +19,7 @@ for (const width of [320, 375, 768, 1024, 1440, 1920]) {
     ).toHaveAttribute('href', 'mailto:info@femucaribe.go.cr');
     await expect(
       footer.getByRole('link', { name: 'Política de Privacidad' }),
-    ).toHaveAttribute('href', '/legal#privacidad');
+    ).toHaveAttribute('href', '/privacidad');
     await expect(
       footer.getByRole('link', { name: 'Aviso legal', exact: true }),
     ).toHaveAttribute('href', '/legal');

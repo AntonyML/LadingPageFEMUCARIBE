@@ -21,11 +21,11 @@ describe('InstitutionalFooter contract', () => {
     const html = await container.renderToString(InstitutionalFooter, {
       props: {
         accessibilityUrl: '/accesibilidad',
-        privacyUrl: '/legal#privacidad',
+        privacyUrl: '/privacidad',
         documentUrls: { statutes: 'https://example.org/estatutos.pdf' },
       },
     });
-    expect(html).toContain('href="/legal#privacidad"');
+    expect(html).toContain('href="/privacidad"');
     expect(html).toContain('href="https://example.org/estatutos.pdf"');
   });
   test.each([
