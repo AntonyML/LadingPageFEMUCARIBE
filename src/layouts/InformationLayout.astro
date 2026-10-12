@@ -4,17 +4,19 @@ import PublicLayout from './PublicLayout.astro';
 interface Props {
   title: string;
   description: string;
-  page: 'creditos' | 'legal' | 'privacidad';
+  page: 'accesibilidad' | 'creditos' | 'legal' | 'privacidad';
 }
 
 const { title, description, page } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const pageLabels = {
+  accesibilidad: 'Accesibilidad',
   creditos: 'Créditos',
   legal: 'Aviso legal',
   privacidad: 'Privacidad',
 } as const;
 const sections = [
+  ['accesibilidad', 'Accesibilidad'],
   ['creditos', 'Créditos'],
   ['legal', 'Aviso legal'],
   ['privacidad', 'Privacidad'],
