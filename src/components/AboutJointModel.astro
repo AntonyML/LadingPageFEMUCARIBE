@@ -1,0 +1,313 @@
+---
+interface ModelCard {
+  number: string;
+  category: string;
+  title: string;
+  soloText: string;
+  juntoText: string;
+  accentColor: string;
+}
+
+const cards: readonly ModelCard[] = [
+  {
+    number: '01',
+    category: 'ECONOMÍA DE ESCALA',
+    title: 'Costos Compartidos',
+    soloText:
+      'Municipio solo: Presupuesto y recursos limitados individualmente.',
+    juntoText:
+      'FEMUCARIBE: Ejecuta proyectos mancomunados dividiendo costos entre 6 cantones.',
+    accentColor: '#1dc4da',
+  },
+  {
+    number: '02',
+    category: 'PODER DE GESTIÓN',
+    title: 'Voz Unificada',
+    soloText:
+      'Municipio solo: Negociaciones y trámites aislados ante Hacienda.',
+    juntoText:
+      'FEMUCARIBE: Representa a toda la región en bloque con alto peso institucional.',
+    accentColor: '#0470a0',
+  },
+  {
+    number: '03',
+    category: 'ASESORÍA TÉCNICA',
+    title: 'Programa PICC',
+    soloText: 'Municipio solo: Contrata consultorías a costo total por cantón.',
+    juntoText:
+      'FEMUCARIBE: Asesoría técnica especializada a costo institucional distribuido.',
+    accentColor: '#fbba34',
+  },
+  {
+    number: '04',
+    category: 'ALCANCE REGIONAL',
+    title: 'Impacto Caribe',
+    soloText:
+      'Municipio solo: Alcance limitado a su propio perímetro cantonal.',
+    juntoText:
+      'FEMUCARIBE: Obras de infraestructura estratégica para toda la región Caribe.',
+    accentColor: '#aac651',
+  },
+];
+---
+
+<section class="about-joint-model" aria-labelledby="about-joint-model-title">
+  <header class="section-header">
+    <p class="overline">
+      <span class="overline-bar" aria-hidden="true"></span>
+      <span>MODELO MANCOMUNADO</span>
+    </p>
+    <h2 id="about-joint-model-title" class="title">
+      El Valor de la Unión Regional
+    </h2>
+  </header>
+
+  <ol class="cards-list">
+    {cards.map(
+      ({ number, category, title, soloText, juntoText, accentColor }) => (
+        <li class="card-item">
+          <article class="card">
+            <span
+              class="accent-bar"
+              style={`background-color: ${accentColor};`}
+              aria-hidden="true"
+            />
+            <header class="card-header">
+              <span class="category-tag">
+                {number} · {category}
+              </span>
+              <h3 class="card-title">{title}</h3>
+            </header>
+            <div class="comparative-block">
+              <div class="solo-box">
+                <p class="solo-text">{soloText}</p>
+              </div>
+              <div class="junto-box">
+                <p class="junto-text">{juntoText}</p>
+              </div>
+            </div>
+          </article>
+        </li>
+      ),
+    )}
+  </ol>
+</section>
+
+<style>
+  .about-joint-model {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 4vw, 3rem);
+    min-inline-size: 0;
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-inline-size: 0;
+  }
+
+  .overline {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0470a0;
+    letter-spacing: 0.0625rem;
+    overflow-wrap: anywhere;
+  }
+
+  .overline-bar {
+    flex-shrink: 0;
+    inline-size: 0.75rem;
+    block-size: 0.25rem;
+    background: #1dc4da;
+    border-radius: 0.125rem;
+  }
+
+  .title {
+    margin: 0;
+    font-size: clamp(1.75rem, 4vw, 1.875rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: #0b2538;
+    overflow-wrap: anywhere;
+  }
+
+  .cards-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    min-inline-size: 0;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .card-item {
+    min-inline-size: 0;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    block-size: 100%;
+    min-inline-size: 0;
+    min-block-size: 16.25rem;
+    padding: 1.125rem;
+    background: #fff;
+    border: 1px solid #e1ecf0;
+    border-radius: 0.875rem;
+  }
+
+  .accent-bar {
+    display: block;
+    inline-size: 100%;
+    block-size: 0.1875rem;
+    border-radius: 0.0938rem;
+  }
+
+  .card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .category-tag {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0470a0;
+    letter-spacing: 0.0375rem;
+    overflow-wrap: anywhere;
+  }
+
+  .card-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #0b2538;
+    overflow-wrap: anywhere;
+  }
+
+  .comparative-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    inline-size: 100%;
+    min-inline-size: 0;
+    margin-block-start: auto;
+  }
+
+  .solo-box {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    inline-size: 100%;
+    min-inline-size: 0;
+    min-block-size: 3.125rem;
+    padding: 0.5rem 0.625rem;
+    background: #f4f6f8;
+    border-radius: 0.375rem;
+  }
+
+  .solo-text {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #595b5c;
+    overflow-wrap: anywhere;
+  }
+
+  .junto-box {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    inline-size: 100%;
+    min-inline-size: 0;
+    min-block-size: 3.5rem;
+    padding: 0.5rem 0.625rem;
+    background: #eaf7fa;
+    border: 1px solid #d4ebf2;
+    border-radius: 0.375rem;
+  }
+
+  .junto-text {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #05495b;
+    overflow-wrap: anywhere;
+  }
+
+  @media (width >= 48rem) {
+    .cards-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 75rem) {
+    .overline {
+      font-size: 0.6875rem;
+    }
+
+    .title {
+      font-size: 1.875rem;
+    }
+
+    .cards-list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .category-tag {
+      font-size: 0.625rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+    }
+
+    .solo-text,
+    .junto-text {
+      font-size: 0.7188rem;
+    }
+  }
+
+  @supports (container-type: inline-size) {
+    .about-joint-model {
+      container-type: inline-size;
+    }
+
+    @container (max-width: 47.99rem) {
+      .cards-list {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @container (min-width: 48rem) and (max-width: 69rem) {
+      .cards-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @container (min-width: 72rem) {
+      .cards-list {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+  }
+</style>
