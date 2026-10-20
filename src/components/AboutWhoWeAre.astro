@@ -1,0 +1,353 @@
+---
+import sedeImage from '../assets/nosotros/sede-femucaribe.png';
+
+interface StatItem {
+  value: string;
+  label: string;
+  variant: 'cantons' | 'law';
+}
+
+const stats: readonly StatItem[] = [
+  {
+    value: '6 Cantones',
+    label: 'Gobiernos Locales Miembros',
+    variant: 'cantons',
+  },
+  {
+    value: 'Ley N.º 7794',
+    label: 'Código Municipal de C.R.',
+    variant: 'law',
+  },
+];
+---
+
+<section class="about-who-we-are" aria-labelledby="about-who-we-are-title">
+  <div class="editorial-col">
+    <header class="header-block">
+      <p class="overline">
+        <span class="overline-bar" aria-hidden="true"></span>
+        <span>CONOZCA NUESTRA FEDERACIÓN</span>
+      </p>
+      <h1 id="about-who-we-are-title" class="title">
+        Quiénes Somos
+      </h1>
+    </header>
+
+    <p class="lead-paragraph">
+      La Federación Municipal del Caribe y Asociados <strong>FEMUCARIBE</strong>{' '}
+      es la organización pública que integra a los gobiernos locales de
+      Talamanca, Limón, Matina, Guácimo, Pococí y Parrita.
+    </p>
+
+    <p class="body-paragraph">
+      Tiene como fin primordial propiciar el desarrollo integral de los
+      municipios afiliados, impulsar el fortalecimiento institucional y
+      político, y promover iniciativas que favorezcan el bienestar y desarrollo
+      regional de manera sostenible y equitativa.
+    </p>
+
+    <dl class="stats-row">
+      {stats.map(({ value, label, variant }) => (
+        <div class="stat-card">
+          <dt
+            class:list={[
+              'stat-value',
+              variant === 'law' ? 'stat-value-law' : 'stat-value-cantons',
+            ]}
+          >
+            {value}
+          </dt>
+          <dd class="stat-label">{label}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+
+  <figure class="media-col">
+    <div class="image-frame">
+      <img
+        class="sede-photo responsive-media"
+        src={sedeImage.src}
+        width="720"
+        height="540"
+        alt="Edificio de la sede central de FEMUCARIBE en Siquirres, Barrio el Mangal"
+        loading="eager"
+        decoding="async"
+      />
+    </div>
+    <figcaption class="sede-badge">
+      <span class="badge-tag">SEDE CENTRAL</span>
+      <span class="badge-text">Siquirres, Barrio el Mangal</span>
+    </figcaption>
+  </figure>
+</section>
+
+<style>
+  .about-who-we-are {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: center;
+    min-inline-size: 0;
+    padding-block: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .editorial-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    min-inline-size: 0;
+  }
+
+  .header-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-inline-size: 0;
+  }
+
+  .overline {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0470a0;
+    letter-spacing: 0.0625rem;
+    overflow-wrap: break-word;
+  }
+
+  .overline-bar {
+    flex-shrink: 0;
+    inline-size: 0.75rem;
+    block-size: 0.25rem;
+    background: #1dc4da;
+    border-radius: 0.125rem;
+  }
+
+  .title {
+    margin: 0;
+    font-size: clamp(1.875rem, 4vw, 2.25rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: #0b2538;
+    overflow-wrap: break-word;
+  }
+
+  .lead-paragraph {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: #0b2538;
+    overflow-wrap: break-word;
+  }
+
+  .lead-paragraph strong {
+    font-weight: 700;
+  }
+
+  .body-paragraph {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #435362;
+    overflow-wrap: break-word;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    min-inline-size: 0;
+    margin: 0;
+  }
+
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    justify-content: center;
+    min-inline-size: 0;
+    min-block-size: 5.25rem;
+    padding: 0.75rem 1rem;
+    background: #f4fbfd;
+    border: 1px solid #d4ebf2;
+    border-radius: 0.75rem;
+  }
+
+  .stat-value {
+    margin: 0;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #0470a0;
+    overflow-wrap: break-word;
+  }
+
+  .stat-value-cantons {
+    font-size: 1.25rem;
+  }
+
+  .stat-value-law {
+    font-size: 1.125rem;
+  }
+
+  .stat-label {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #0b2538;
+    overflow-wrap: break-word;
+  }
+
+  .media-col {
+    position: relative;
+    min-inline-size: 0;
+    margin: 0;
+  }
+
+  .image-frame {
+    overflow: hidden;
+    background: #f4fbfd;
+    border: 1px solid #e1ecf0;
+    border-radius: 1rem;
+  }
+
+  .sede-photo {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 616 / 420;
+    object-fit: cover;
+  }
+
+  .sede-badge {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    justify-content: center;
+    inline-size: fit-content;
+    max-inline-size: 100%;
+    min-block-size: 3.625rem;
+    padding: 0.5rem 0.875rem;
+    margin-block-start: 0.75rem;
+    background: rgb(255 255 255 / 95%);
+    border: 1px solid #d4ebf2;
+    border-radius: 0.625rem;
+    box-shadow: 0 0.375rem 0.875rem 0 rgb(0 0 0 / 20%);
+  }
+
+  .badge-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0470a0;
+    letter-spacing: 0.0313rem;
+    overflow-wrap: break-word;
+  }
+
+  .badge-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #0b2538;
+    overflow-wrap: break-word;
+  }
+
+  @media (width >= 30rem) {
+    .stats-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .sede-badge {
+      position: absolute;
+      inset-block-end: 1.25rem;
+      inset-inline-start: 1.25rem;
+      inline-size: min(15.625rem, calc(100% - 2.5rem));
+      margin-block-start: 0;
+    }
+  }
+
+  @media (width >= 64rem) {
+    .about-who-we-are {
+      grid-template-columns: minmax(0, 37.5rem) minmax(0, 38.5rem);
+      gap: 3rem 4rem;
+      justify-content: space-between;
+    }
+  }
+
+  @media (width >= 75rem) {
+    .overline {
+      font-size: 0.6875rem;
+    }
+
+    .title {
+      font-size: 2.25rem;
+    }
+
+    .lead-paragraph {
+      font-size: 0.9375rem;
+    }
+
+    .body-paragraph {
+      font-size: 0.875rem;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+    }
+
+    .badge-tag {
+      font-size: 0.5938rem;
+    }
+
+    .badge-text {
+      font-size: 0.75rem;
+    }
+  }
+
+  @supports (container-type: inline-size) {
+    .about-who-we-are {
+      container-type: inline-size;
+    }
+
+    @container (max-width: 29.99rem) {
+      .stats-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .sede-badge {
+        position: static;
+        inline-size: 100%;
+        margin-block-start: 0.75rem;
+      }
+    }
+
+    @container (min-width: 30rem) {
+      .stats-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .sede-badge {
+        position: absolute;
+        inset-block-end: 1.25rem;
+        inset-inline-start: 1.25rem;
+        inline-size: min(15.625rem, calc(100% - 2.5rem));
+        margin-block-start: 0;
+      }
+    }
+
+    @container (min-width: 60rem) {
+      .about-who-we-are {
+        grid-template-columns: minmax(0, 37.5rem) minmax(0, 38.5rem);
+        gap: 3rem 4rem;
+        justify-content: space-between;
+      }
+    }
+  }
+</style>
