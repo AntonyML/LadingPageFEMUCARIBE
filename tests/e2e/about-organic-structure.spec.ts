@@ -39,7 +39,7 @@ const expectedAuthorities = [
   {
     slug: 'secretaria',
     organTag: '04 · ÓRGANO DE GESTIÓN',
-    roleTitle: 'Secretaria Consejo Intermunicipal',
+    roleTitle: 'Secretaria',
     personName: 'Marlene Jiménez Pérez',
     unitSubtitle: 'Secretaría de Actas y Acuerdos',
     email: 'consejointermunicipal@femucaribe.go.cr',
