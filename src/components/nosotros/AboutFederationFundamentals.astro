@@ -1,0 +1,125 @@
+---
+import styles from './federation-fundamentals.module.css';
+
+const fundamentals = [
+  {
+    icon: 'building',
+    title: 'Entidad Pública Propia',
+    description:
+      'Persona jurídica pública independiente con patrimonio propio y plena capacidad legal para contratar y gestionar fondos.',
+    reference: 'Art. 3 — Estatutos',
+  },
+  {
+    icon: 'document',
+    title: 'Fuerza Legal Vinculante',
+    description:
+      'Convenios intermunicipales con fuerza de ley entre las partes para garantizar el cumplimiento de acuerdos regionales.',
+    reference: 'Ley 7794 — Arts. 9, 10 y 11',
+  },
+  {
+    icon: 'globe',
+    title: 'Desarrollo Regional',
+    description:
+      'Articulación técnica y fomento de iniciativas conjuntas que impulsan la descentralización efectiva del Estado.',
+    reference: 'Introducción Estatutaria',
+  },
+  {
+    icon: 'shield',
+    title: 'Horizonte de Largo Plazo',
+    description:
+      'Duración indefinida que asegura continuidad institucional y estabilidad en grandes inversiones territoriales.',
+    reference: 'Art. 4 — Estatutos',
+  },
+] as const;
+---
+
+<section
+  class={styles.section}
+  aria-labelledby="about-federation-fundamentals-title"
+>
+  <div class={styles.layout} data-fundamentals-layout>
+    <div class={styles.editorial}>
+      <p class={styles.overline}>
+        <span class={styles['overline-mark']} aria-hidden="true"></span>
+        <span>FUNDAMENTOS INSTITUCIONALES</span>
+      </p>
+      <h2 class={styles.title} id="about-federation-fundamentals-title">
+        ¿Qué es una Federación Municipal?
+      </h2>
+      <p class={styles.intro}>
+        Es la unión legal de gobiernos locales que se asocian bajo personería
+        jurídica pública propia para planificar, financiar y ejecutar proyectos
+        de escala regional que ningún municipio puede resolver de forma aislada.
+      </p>
+      <p class={styles['legal-base']}>
+        <svg
+          class={styles['legal-icon']}
+          viewBox="0 0 16 16"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M8 16s8-3.2 8-8V2.4L8 0 0 2.4V8c0 4.8 8 8 8 8Z" />
+        </svg>
+        <span>
+          Base Legal: Arts. 9-11 Código Municipal (Ley N.º 7794) · La Gaceta N.°
+          108.
+        </span>
+      </p>
+    </div>
+
+    <ul class={styles.cards}>
+      {fundamentals.map(({ icon, title, description, reference }) => (
+        <li class={styles.card}>
+          <div class={styles['card-heading']}>
+            <span class={styles['icon-box']} aria-hidden="true">
+              {icon === 'building' && (
+                <svg
+                  class={styles.icon}
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11m-12-7v3m4-3v3m4-3v3" />
+                </svg>
+              )}
+              {icon === 'document' && (
+                <svg
+                  class={styles.icon}
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M14.25 3H5.25C4.007 3 3 3.806 3 4.8v14.4c0 .994 1.007 1.8 2.25 1.8h13.5c1.243 0 2.25-.806 2.25-1.8V8.4L14.25 3Zm0 0v5.4H21m-4.5 4.5h-9m9 3.6h-9m2.25-7.2H7.5" />
+                </svg>
+              )}
+              {icon === 'globe' && (
+                <svg
+                  class={styles.icon}
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 3c3 3.6 3 14.4 0 18M12 3c-3 3.6-3 14.4 0 18M3 12h18" />
+                </svg>
+              )}
+              {icon === 'shield' && (
+                <svg
+                  class={styles.icon}
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M12 21s9-3.6 9-9V5.7L12 3 3 5.7V12c0 5.4 9 9 9 9Zm-3.375-9 2.25 1.8 4.5-3.6" />
+                </svg>
+              )}
+            </span>
+            <h3 class={styles['card-title']}>{title}</h3>
+          </div>
+          <p class={styles['card-description']}>{description}</p>
+          <p class={styles['card-reference']}>{reference}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,269 @@
+.section {
+  min-inline-size: 0;
+  padding-block: 60px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+  min-inline-size: 0;
+}
+
+.editorial {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-self: center;
+  min-inline-size: 0;
+}
+
+.overline {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+  color: #0470a0;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.0625rem;
+  overflow-wrap: anywhere;
+}
+
+.overline-mark {
+  flex: 0 0 12px;
+  inline-size: 12px;
+  block-size: 4px;
+  background: #1dc4da;
+  border-radius: 2px;
+}
+
+.title {
+  margin: 0;
+  color: #0b2538;
+  font-size: clamp(1.75rem, 3cqi, 2rem);
+  font-weight: 800;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.intro {
+  margin: 0;
+  color: #435362;
+  font-size: 0.8438rem;
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.legal-base {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-inline-size: 0;
+  min-block-size: 48px;
+  padding: 8px 14px;
+  margin: 0;
+  color: #05495b;
+  background: #eaf7fa;
+  border: 1px solid #bce4ec;
+  border-radius: 8px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.legal-icon {
+  flex: 0 0 16px;
+  inline-size: 16px;
+  block-size: 16px;
+  color: #0470a0;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: minmax(185px, auto);
+  align-content: center;
+  gap: 16px;
+  min-inline-size: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-inline-size: 0;
+  min-block-size: 185px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e1ecf0;
+  border-radius: 12px;
+}
+
+.card-heading {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-inline-size: 0;
+  min-block-size: 36px;
+}
+
+.icon-box {
+  display: inline-flex;
+  flex: 0 0 32px;
+  align-items: center;
+  justify-content: center;
+  inline-size: 32px;
+  block-size: 32px;
+  color: #0470a0;
+  background: #eaf7fa;
+  border-radius: 6px;
+}
+
+.icon {
+  display: block;
+  flex: none;
+  inline-size: 24px;
+  block-size: 24px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.card-title {
+  min-inline-size: 0;
+  margin: 0;
+  color: #0b2538;
+  font-size: 0.8438rem;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.card-description {
+  min-inline-size: 0;
+  margin: 0;
+  color: #435362;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.card-reference {
+  min-inline-size: 0;
+  margin: 0;
+  color: #0470a0;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.legal-icon path {
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+@media (width >= 42rem) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 70rem) {
+  .layout {
+    grid-template-columns: minmax(0, 480fr) minmax(0, 752fr);
+    gap: 48px;
+    min-block-size: 400px;
+  }
+}
+
+@media (width <= 74.99rem) {
+  .overline {
+    font-size: 0.75rem;
+  }
+
+  .intro {
+    font-size: 1rem;
+  }
+
+  .legal-base,
+  .card-reference {
+    font-size: 0.8125rem;
+  }
+
+  .card-title {
+    font-size: 0.9375rem;
+  }
+
+  .card-description {
+    font-size: 0.9375rem;
+  }
+}
+
+@supports (container-type: inline-size) {
+  .section {
+    container-name: federation-fundamentals;
+    container-type: inline-size;
+  }
+
+  @container federation-fundamentals (width <= 41.99rem) {
+    .cards {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @container federation-fundamentals (width >= 42rem) {
+    .cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @container federation-fundamentals (width <= 69.99rem) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+      min-block-size: auto;
+    }
+  }
+
+  @container federation-fundamentals (width >= 70rem) {
+    .layout {
+      grid-template-columns: minmax(0, 480fr) minmax(0, 752fr);
+      gap: 48px;
+      min-block-size: 400px;
+    }
+  }
+
+  @container federation-fundamentals (width <= 74.99rem) {
+    .overline {
+      font-size: 0.75rem;
+    }
+
+    .intro {
+      font-size: 1rem;
+    }
+
+    .legal-base,
+    .card-reference {
+      font-size: 0.8125rem;
+    }
+
+    .card-title,
+    .card-description {
+      font-size: 0.9375rem;
+    }
+  }
+}
