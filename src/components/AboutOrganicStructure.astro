@@ -1,0 +1,301 @@
+---
+import styles from './nosotros/organic-structure.module.css';
+
+interface AuthorityPhoto {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface AuthorityItem {
+  slug: 'presidente' | 'vicepresidenta' | 'direccion' | 'secretaria';
+  organTag: string;
+  roleTitle: string;
+  personName: string;
+  unitSubtitle: string;
+  email: string;
+  phone?: string;
+  showPhone?: boolean;
+  description: string;
+  statutesRef: string;
+  accentColor: string;
+  photo?: AuthorityPhoto | undefined;
+}
+
+const optionalWebpPhotos = import.meta.glob<{
+  default: { src: string; width: number; height: number };
+}>('../assets/nosotros/autoridades/*.webp', { eager: true });
+
+function resolvePhoto(
+  slug: AuthorityItem['slug'],
+  personName: string,
+  roleTitle: string,
+): AuthorityPhoto | undefined {
+  const entry =
+    optionalWebpPhotos[`../assets/nosotros/autoridades/${slug}.webp`];
+  if (!entry?.default?.src) return undefined;
+  return {
+    src: entry.default.src,
+    width: entry.default.width,
+    height: entry.default.height,
+    alt: `Fotografía oficial de ${personName}, ${roleTitle} de FEMUCARIBE`,
+  };
+}
+
+const authorities: readonly AuthorityItem[] = [
+  {
+    slug: 'presidente',
+    organTag: '01 · ÓRGANO DE GOBIERNO',
+    roleTitle: 'Presidente',
+    personName: 'Jordan Chaves Chaves',
+    unitSubtitle: 'Presidencia del Consejo Intermunicipal',
+    email: 'presidencia@femucaribe.go.cr',
+    phone: '8676-04-40',
+    showPhone: false,
+    description:
+      'Ostenta la representación protocolaria de la Federación. Convoca, preside y modera las sesiones del Consejo Intermunicipal, fija el orden del día y firma las actas oficiales.',
+    statutesRef: 'Arts. 12 y 13 — Estatutos Orgánicos',
+    accentColor: '#0470a0',
+    photo: resolvePhoto('presidente', 'Jordan Chaves Chaves', 'Presidente'),
+  },
+  {
+    slug: 'vicepresidenta',
+    organTag: '02 · ÓRGANO DE GOBIERNO',
+    roleTitle: 'Vicepresidenta',
+    personName: 'Verónica Ugalde Torres',
+    unitSubtitle: 'Vicepresidencia del Consejo Intermunicipal',
+    email: 'info@femucaribe.go.cr',
+    phone: '2768-99-22',
+    showPhone: false,
+    description:
+      'Sustituye al Presidente en ausencias temporales o enfermedad. Asume la Presidencia en funciones con plenas facultades estatutarias ante cese o vacancia institucional.',
+    statutesRef: 'Arts. 12 y 13 — Estatutos Orgánicos',
+    accentColor: '#1dc4da',
+    photo: resolvePhoto(
+      'vicepresidenta',
+      'Verónica Ugalde Torres',
+      'Vicepresidenta',
+    ),
+  },
+  {
+    slug: 'direccion',
+    organTag: '03 · ÓRGANO EJECUTIVO',
+    roleTitle: 'Directora Ejecutiva',
+    personName: 'Viviana Badilla López',
+    unitSubtitle: 'Dirección Ejecutiva Institucional',
+    email: 'direccionejecutiva@femucaribe.go.cr',
+    phone: '8312-85-68',
+    showPhone: false,
+    description:
+      'Máxima jefatura operativa. Formula el Plan Anual de Acción (PICC, obras y presupuesto), ejerce la jefatura de personal y ejecuta los acuerdos del Consejo.',
+    statutesRef: 'Arts. 15 y 16 — Estatutos Orgánicos',
+    accentColor: '#fbba34',
+    photo: resolvePhoto(
+      'direccion',
+      'Viviana Badilla López',
+      'Directora Ejecutiva',
+    ),
+  },
+  {
+    slug: 'secretaria',
+    organTag: '04 · ÓRGANO DE GESTIÓN',
+    roleTitle: 'Secretaria Consejo Intermunicipal',
+    personName: 'Marlene Jiménez Pérez',
+    unitSubtitle: 'Secretaría de Actas y Acuerdos',
+    email: 'consejointermunicipal@femucaribe.go.cr',
+    phone: '2768-99-22',
+    showPhone: false,
+    description:
+      'Levanta y custodia las actas oficiales de asamblea y consejo, transcribe y notifica los acuerdos tomados, extiende certificaciones y da fe pública.',
+    statutesRef: 'Arts. 14 y 20 — Estatutos Orgánicos',
+    accentColor: '#aac651',
+    photo: resolvePhoto(
+      'secretaria',
+      'Marlene Jiménez Pérez',
+      'Secretaria Consejo Intermunicipal',
+    ),
+  },
+];
+---
+
+<section
+  class:list={['about-organic-structure', styles['about-organic-structure']]}
+  aria-labelledby="about-organic-structure-title"
+>
+  <header class:list={['section-header', styles['section-header']]}>
+    <p class:list={['overline', styles.overline]}>
+      <span
+        class:list={['overline-bar', styles['overline-bar']]}
+        aria-hidden="true"
+      ></span>
+      <span>GOBIERNO Y DIRECCIÓN EJECUTIVA</span>
+    </p>
+    <h2 id="about-organic-structure-title" class:list={['title', styles.title]}>
+      Consejo Directivo y Dirección Ejecutiva
+    </h2>
+    <p class:list={['subtitle', styles.subtitle]}>
+      AUTORIDADES ESTATUTARIAS (ARTS. 12-16)
+    </p>
+  </header>
+
+  <ol class:list={['cards-list', styles['cards-list']]}>
+    {authorities.map(
+      ({
+        slug,
+        organTag,
+        roleTitle,
+        personName,
+        unitSubtitle,
+        email,
+        phone,
+        showPhone,
+        description,
+        statutesRef,
+        accentColor,
+        photo,
+      }) => (
+        <li
+          class:list={['card-item', styles['card-item']]}
+          data-authority={slug}
+        >
+          <article class:list={['card', styles.card]}>
+            <span
+              class:list={['card-accent', styles['card-accent']]}
+              style={`background-color: ${accentColor};`}
+              aria-hidden="true"
+            />
+
+            <div class:list={['photo-box', styles['photo-box']]}>
+              {photo ? (
+                <img
+                  class:list={[
+                    'official-photo',
+                    'responsive-media',
+                    styles['official-photo'],
+                  ]}
+                  src={photo.src}
+                  alt={photo.alt}
+                  width={photo.width ?? 546}
+                  height={photo.height ?? 370}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <div
+                  class:list={[
+                    'photo-placeholder',
+                    styles['photo-placeholder'],
+                  ]}
+                  aria-hidden="true"
+                >
+                  <svg
+                    class:list={['portrait-icon', styles['portrait-icon']]}
+                    viewBox="211.5 1508.7 42 42"
+                    width="36"
+                    height="36"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M241.5,1522.77734375C241.5,1516.6591796875,237.470458984375,1511.7001953125,232.5,1511.7001953125C227.529541015625,1511.7001953125,223.5,1516.6591796875,223.5,1522.77734375C223.5,1528.89453125,227.529541015625,1533.853515625,232.5,1533.853515625C237.470458984375,1533.853515625,241.5,1528.89453125,241.5,1522.77734375ZM223.5,1542.162109375C223.5,1532.9853515625,229.544189453125,1525.5458984375,237,1525.5458984375C244.455810546875,1525.5458984375,250.5,1532.9853515625,250.5,1542.162109375L250.5,1547.7001953125L214.5,1547.7001953125L214.5,1542.162109375C214.82666015625,1535.486328125,218.37353515625,1529.7021484375,223.5,1527.484375L223.5,1542.162109375Z"
+                      stroke="#0470a0"
+                      stroke-opacity="0.9"
+                      stroke-width="1.8"
+                    />
+                  </svg>
+                  <span
+                    class:list={[
+                      'placeholder-title',
+                      styles['placeholder-title'],
+                    ]}
+                  >
+                    Fotografía Oficial
+                  </span>
+                  <span
+                    class:list={[
+                      'placeholder-caption',
+                      styles['placeholder-caption'],
+                    ]}
+                  >
+                    (Medio cuerpo / Cintura hacia arriba)
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <div class:list={['identity-box', styles['identity-box']]}>
+              <p class:list={['organ-tag', styles['organ-tag']]}>{organTag}</p>
+              <h3 class:list={['role-title', styles['role-title']]}>
+                {roleTitle}
+              </h3>
+              <p class:list={['person-name', styles['person-name']]}>
+                {personName}
+              </p>
+              <p class:list={['unit-subtitle', styles['unit-subtitle']]}>
+                {unitSubtitle}
+              </p>
+            </div>
+
+            <div class:list={['contact-box', styles['contact-box']]}>
+              <a
+                class:list={['contact-link', styles['contact-link']]}
+                href={`mailto:${email}`}
+              >
+                <svg
+                  class:list={['contact-icon', styles['contact-icon']]}
+                  viewBox="104 1774.1 16 16"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M107.199951171875,1776.099609375L116.800048828125,1776.099609375C117.4599609375,1776.099609375,118,1776.775390625,118,1777.599609375L118,1786.599609375C118,1787.4248046875,117.4599609375,1788.099609375,116.800048828125,1788.099609375L107.199951171875,1788.099609375C106.5400390625,1788.099609375,106,1787.4248046875,106,1786.599609375L106,1777.599609375C106,1776.775390625,106.5400390625,1776.099609375,107.199951171875,1776.099609375ZM118,1777.599609375L112,1782.849609375L106,1777.599609375"
+                    stroke="#0470a0"
+                    stroke-width="1.5"
+                  />
+                </svg>
+                <span class:list={['contact-text', styles['contact-text']]}>
+                  {email}
+                </span>
+              </a>
+
+              {showPhone && phone && (
+                <a
+                  class:list={['contact-link', styles['contact-link']]}
+                  href={`tel:+506${phone.replaceAll('-', '')}`}
+                >
+                  <svg
+                    class:list={['contact-icon', styles['contact-icon']]}
+                    viewBox="104 1795.1 16 16"
+                    width="14"
+                    height="14"
+                    fill="none"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M117.99951171875,1806.083984375L117.99951171875,1807.890625C118.0009765625,1808.2294921875,117.859130859375,1808.5537109375,117.608642578125,1808.783203125C117.3583984375,1809.01171875,117.022705078125,1809.125,116.684326171875,1809.0947265625C114.82763671875,1808.8935546875,113.044189453125,1808.2607421875,111.477294921875,1807.24609375C110.01953125,1806.322265625,108.783447265625,1805.087890625,107.857177734375,1803.6328125C106.83740234375,1802.0625,106.202880859375,1800.2734375,106.0048828125,1798.412109375C105.974365234375,1798.076171875,106.087158203125,1797.7421875,106.3154296875,1797.4921875C106.5439453125,1797.2421875,106.866943359375,1797.1005859375,107.20556640625,1797.099609375L109.015625,1797.099609375C109.621337890625,1797.09375,110.1376953125,1797.537109375,110.222412109375,1798.1357421875C110.298828125,1798.7138671875,110.4404296875,1799.28125,110.644775390625,1799.828125C110.810546875,1800.267578125,110.704345703125,1800.763671875,110.373291015625,1801.0986328125L109.60693359375,1801.86328125C110.4658203125,1803.37109375,111.716552734375,1804.619140625,113.22705078125,1805.4765625L113.993408203125,1804.7109375C114.328369140625,1804.380859375,114.825439453125,1804.275390625,115.266357421875,1804.4404296875C115.813720703125,1804.64453125,116.382568359375,1804.78515625,116.9619140625,1804.861328125C117.568603515625,1804.947265625,118.014892578125,1805.47265625,117.99951171875,1806.083984375Z"
+                      stroke="#0470a0"
+                      stroke-width="1.5"
+                    />
+                  </svg>
+                  <span class:list={['contact-text', styles['contact-text']]}>
+                    (+506) {phone}
+                  </span>
+                </a>
+              )}
+            </div>
+
+            <p class:list={['card-desc', styles['card-desc']]}>{description}</p>
+            <p class:list={['statutes-ref', styles['statutes-ref']]}>
+              {statutesRef}
+            </p>
+          </article>
+        </li>
+      ),
+    )}
+  </ol>
+</section>
