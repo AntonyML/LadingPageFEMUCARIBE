@@ -44,6 +44,12 @@ Lectura y exportación MCP del 2026-10-12; archivo y página Inicio confirmados.
 
 INFERRED: sección con h2 accesible, lista de 4 artículos con h3 para cada proyecto; consumo del contenedor ordinario de PublicLayout sin anidar contenedores. Grid responsivo: 1 columna en móvil, 2 columnas desde 48rem y 4 columnas desde 75rem, complementado con container queries. Altura mínima de tarjetas 380px (crecimiento fluido con contenido y zoom), objetivo táctil del enlace >= 44px, foco visible y navegación por teclado sin JavaScript. Destino `/proyectos` con prefijo de `BASE_URL`. Responsive y variantes de estado ausentes en Penpot siguen siendo INFERRED.
 
+### Preguntas frecuentes implementadas: HOME-FAQ-001
+
+Lectura MCP del 2026-10-20; archivo y página Inicio confirmados. Board `3085c5ee-e915-80fd-8008-955a71521bc4` (`L1-FAQ-Estatutario`): CONFIRMED 1280×360, transparente, columna flex con `rowGap: 12px`. Cabecera con título «Preguntas Frecuentes sobre la Gestión y los Estatutos» Inter 20/800/1.2 `#0B2538`. Cuatro tarjetas de 1280×68 (`3085c5ee-e915-80fd-8008-955a71521bc8`, `...1bc7`, `...1bc6`, `...1bc5`): fondo blanco `#FFFFFF`, borde 1px `#E2E8F0`, radio 8px (0.5rem), padding horizontal 20px (1.25rem), `rowGap: 4px` y centrado vertical. En cada tarjeta: pregunta Inter 13.5/700/1.2 `#0B2538` y respuesta visible Inter 11.5/400/1.2 `#64748B`. Todas las interacciones están vacías y no existen iconos de acordeón ni estados colapsados.
+
+INFERRED: sección con `h2` accesible, lista `ul` de 4 elementos con `h3` para cada pregunta y `p` para cada respuesta visible sin JavaScript; consumo del contenedor ordinario de `PublicLayout` sin anidar contenedores. Las tarjetas crecen verticalmente con el contenido y zoom (`min-block-size: 4.25rem`, padding vertical `0.875rem`). Tipografía de lectura mayor bajo `75rem` (pregunta `1rem` y respuesta `0.875rem`) y medidas exactas de Penpot desde `75rem`. Responsive y semántica siguen siendo INFERRED. Penpot permanece sin modificaciones.
+
 Nueve páginas inventariadas: seis públicas principales, Contacto, Componentes y `99 · Respaldo Monolito`. Se recorrieron 1.860 formas de las ocho páginas activas y sus ocho exportaciones PNG. El respaldo contiene el monolito anterior, recursos y `Proyectos-v2`; no reemplaza las pantallas actuales sin decisión del propietario.
 
 | Página               | Frame / tamaño observado, px                   | Estructura y contenido                                                                                                                                     |

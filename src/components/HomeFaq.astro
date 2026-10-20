@@ -1,0 +1,117 @@
+---
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+const faqs: readonly FaqItem[] = [
+  {
+    question: '¿Cómo se financia FEMUCARIBE?',
+    answer:
+      'Se financia mediante los aportes estatutarios ordinarios de cada municipalidad miembro y transferencias para proyectos específicos de inversión pública (Arts. 24-28 Estatutos).',
+  },
+  {
+    question: '¿Quién fiscaliza los fondos de la federación?',
+    answer:
+      'La Contraloría General de la República (CGR), la auditoría interna federativa y los concejos municipales de cada cantón federado.',
+  },
+  {
+    question: '¿Cómo ingresa una nueva municipalidad a la federación?',
+    answer:
+      'Mediante acuerdo firme de su concejo municipal y posterior ratificación por parte de la Asamblea General de FEMUCARIBE.',
+  },
+  {
+    question: '¿Qué papel cumple la UGP en las obras cantonales?',
+    answer:
+      'Actúa como brazo técnico especializado que formula carpetas técnicas, gestiona avales sectoriales y fiscaliza licitaciones en SICOP.',
+  },
+];
+---
+
+<section class="home-faq" aria-labelledby="home-faq-title">
+  <h2 id="home-faq-title" class="title">
+    Preguntas Frecuentes sobre la Gestión y los Estatutos
+  </h2>
+
+  <ul class="faq-list">
+    {faqs.map(({ question, answer }) => (
+      <li class="faq-item">
+        <div class="card">
+          <h3 class="question">{question}</h3>
+          <p class="answer">{answer}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .home-faq {
+    min-inline-size: 0;
+    margin-block: 0.1875rem 1.875rem;
+  }
+
+  .title {
+    margin: 0 0 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #0b2538;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .faq-item {
+    min-inline-size: 0;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    justify-content: center;
+    min-inline-size: 0;
+    min-block-size: 4.25rem;
+    padding: 0.875rem 1.25rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+  }
+
+  .question {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #0b2538;
+    overflow-wrap: break-word;
+  }
+
+  .answer {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.45;
+    color: #64748b;
+    overflow-wrap: break-word;
+  }
+
+  @media (width >= 75rem) {
+    .question {
+      font-size: 0.8438rem;
+      line-height: 1.2;
+    }
+
+    .answer {
+      font-size: 0.7188rem;
+      line-height: 1.2;
+    }
+  }
+</style>
