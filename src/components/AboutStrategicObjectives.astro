@@ -1,0 +1,235 @@
+---
+interface StrategicObjective {
+  number: string;
+  title: string;
+  description: string;
+}
+
+const objectives: readonly StrategicObjective[] = [
+  {
+    number: '01',
+    title: 'Desarrollo Integral',
+    description:
+      'Propiciar el desarrollo integral y fortalecer la gestión técnica, administrativa y de servicios públicos locales (Art. 5.1).',
+  },
+  {
+    number: '02',
+    title: 'Descentralización',
+    description:
+      'Promover la descentralización del Estado y la autonomía municipal mediante reformas y proyectos de ley (Art. 5.2 y 5.8).',
+  },
+  {
+    number: '03',
+    title: 'Medio Ambiente',
+    description:
+      'Apoyar la gestión municipal para la protección de los recursos naturales y la sostenibilidad ambiental regional (Art. 5.6).',
+  },
+  {
+    number: '04',
+    title: 'Inversión Regional',
+    description:
+      'Gestionar proyectos con canon de concesión portuaria e inversión productiva para el desarrollo socioeconómico (Art. 5.4 y 5.9).',
+  },
+];
+---
+
+<section
+  class="about-strategic-objectives"
+  aria-labelledby="about-strategic-objectives-title"
+>
+  <header class="section-header">
+    <p class="overline">
+      <span class="overline-bar" aria-hidden="true"></span>
+      <span>MARCO ESTRATÉGICO INSTITUCIONAL</span>
+    </p>
+    <h2 id="about-strategic-objectives-title" class="title">
+      Objetivos Estratégicos
+    </h2>
+  </header>
+
+  <ol class="cards-list">
+    {objectives.map(({ number, title, description }) => (
+      <li class="card-item">
+        <article class="card">
+          <div class="card-top-row">
+            <div class="icon-box" aria-hidden="true">
+              <span class="num-tag">{number}</span>
+            </div>
+          </div>
+          <h3 class="card-title">{title}</h3>
+          <p class="card-desc">{description}</p>
+        </article>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .about-strategic-objectives {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 4vw, 3rem);
+    min-inline-size: 0;
+    padding-block: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-inline-size: 0;
+  }
+
+  .overline {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0470a0;
+    letter-spacing: 0.0625rem;
+    overflow-wrap: anywhere;
+  }
+
+  .overline-bar {
+    flex-shrink: 0;
+    inline-size: 0.75rem;
+    block-size: 0.25rem;
+    background: #1dc4da;
+    border-radius: 0.125rem;
+  }
+
+  .title {
+    margin: 0;
+    font-size: clamp(1.875rem, 4vw, 2.25rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: #0b2538;
+    overflow-wrap: anywhere;
+  }
+
+  .cards-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    min-inline-size: 0;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .card-item {
+    min-inline-size: 0;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    block-size: 100%;
+    min-inline-size: 0;
+    min-block-size: 17.5rem;
+    padding: 1.5rem 1.375rem;
+    background: #f4fbfd;
+    border: 1px solid #d4ebf2;
+    border-radius: 1rem;
+  }
+
+  .card-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    inline-size: 100%;
+    min-block-size: 2.75rem;
+  }
+
+  .icon-box {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: 2.75rem;
+    min-block-size: 2.75rem;
+    padding: 0.375rem;
+    background: #fff;
+    border: 1px solid #d4ebf2;
+    border-radius: 0.75rem;
+  }
+
+  .num-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0470a0;
+  }
+
+  .card-title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #0b2538;
+    overflow-wrap: anywhere;
+  }
+
+  .card-desc {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #435362;
+    overflow-wrap: anywhere;
+  }
+
+  @media (width >= 48rem) {
+    .cards-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 75rem) {
+    .overline {
+      font-size: 0.6875rem;
+    }
+
+    .title {
+      font-size: 2.25rem;
+    }
+
+    .cards-list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card-desc {
+      font-size: 0.8438rem;
+    }
+  }
+
+  @supports (container-type: inline-size) {
+    .about-strategic-objectives {
+      container-type: inline-size;
+    }
+
+    @container (max-width: 47.99rem) {
+      .cards-list {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @container (min-width: 48rem) and (max-width: 69rem) {
+      .cards-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @container (min-width: 72rem) {
+      .cards-list {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+  }
+</style>

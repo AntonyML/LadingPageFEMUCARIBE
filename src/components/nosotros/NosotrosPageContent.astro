@@ -1,0 +1,55 @@
+---
+import styles from './styles.module.css';
+---
+
+<div class={styles['nosotros-page']} data-page="nosotros">
+  <header class={styles['page-header']}>
+    <p class={styles.eyebrow}>
+      <span class={styles['eyebrow-accent']} aria-hidden="true"></span>
+      Identidad Institucional y Régimen Orgánico
+    </p>
+    <h2>Nosotros · Naturaleza Jurídica y Propósito</h2>
+  </header>
+
+  <section
+    class={styles['purpose-section']}
+    aria-label="Misión y visión de FEMUCARIBE"
+  >
+    <div
+      class:list={[styles['mission-grid'], 'layout-grid']}
+      data-layout="mission-grid"
+    >
+      <article class:list={[styles['purpose-card'], styles['mission-card']]}>
+        <h3>Misión Estatutaria (Art. 5)</h3>
+        <p>
+          Propiciar el desarrollo integral de los municipios que la conforman,
+          mediante el fortalecimiento institucional y político, promoviendo el
+          bienestar regional de una manera integral, sostenible y equitativa.
+        </p>
+      </article>
+
+      <article class:list={[styles['purpose-card'], styles['vision-card']]}>
+        <h3>Visión Estratégica</h3>
+        <p>
+          Ser la federación municipal líder en Costa Rica, reconocida por su
+          gestión mancomunada, transparente e innovadora en la articulación del
+          desarrollo territorial y progreso del Caribe.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class={styles['legal-section']} aria-labelledby="legal-title">
+    <div class={styles['legal-copy']}>
+      <h3 id="legal-title">Naturaleza Jurídica: Ente Público No Estatal</h3>
+      <p>
+        Constituida formalmente al amparo de los artículos 9, 10 y 11 del Código
+        Municipal (Ley N.° 7794). Estatutos publicados en el diario oficial La
+        Gaceta N.° 108.
+      </p>
+    </div>
+    <span class={styles['gazette-label']} data-label="gazette">
+      La Gaceta N.° 108 <span aria-hidden="true">📄</span>
+    </span>
+  </section>
+</div>

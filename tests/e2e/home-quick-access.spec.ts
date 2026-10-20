@@ -138,12 +138,15 @@ for (const width of [320, 1440]) {
         }),
     );
     await page.keyboard.press('Tab');
-    expect(
-      await page
-        .getByRole('contentinfo')
-        .evaluate((footer) => footer.contains(document.activeElement)),
-    ).toBe(true);
-    await expectVisibleFocus(page.locator(':focus'));
+    const transparencyLink = page.getByRole('link', {
+      name: 'Ver Transparencia (05)',
+      exact: true,
+    });
+    await expectVisibleFocus(transparencyLink);
+    await page.keyboard.press('Tab');
+    await expectVisibleFocus(
+      page.getByRole('contentinfo').getByRole('link').first(),
+    );
   });
 }
 

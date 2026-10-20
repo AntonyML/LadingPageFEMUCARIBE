@@ -1,0 +1,213 @@
+.nosotros-page {
+  min-inline-size: 0;
+  padding-block: clamp(1.5rem, 4vw, 2.5rem) 3rem;
+}
+
+.page-header {
+  display: flex;
+  min-block-size: 6.25rem;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.375rem;
+}
+
+.eyebrow {
+  display: flex;
+  min-inline-size: 0;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: #0470a0;
+  font-size: 0.7188rem;
+  font-weight: 700;
+  letter-spacing: 0.05rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.eyebrow-accent {
+  inline-size: 0.75rem;
+  block-size: 0.25rem;
+  flex: 0 0 auto;
+  border-radius: 0.125rem;
+  background: #1dc4da;
+}
+
+.page-header h2 {
+  max-inline-size: 100%;
+  margin: 0;
+  color: #0b2538;
+  font-size: clamp(1.5rem, calc(1rem + 2vw), 1.75rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.purpose-section {
+  min-inline-size: 0;
+  margin-block-start: 2rem;
+}
+
+.nosotros-page .mission-grid {
+  gap: 1.5rem;
+}
+
+.purpose-card {
+  min-inline-size: 0;
+  padding: 1.25rem;
+  border: 1px solid #bce4ec;
+  border-radius: 0.875rem;
+}
+
+.mission-card {
+  background: #f0f7fa;
+}
+
+.vision-card {
+  border-color: #e2e8f0;
+  background: #f8fafc;
+}
+
+.purpose-card h3 {
+  margin: 0;
+  color: #0b2538;
+  font-size: 1.0625rem;
+  font-weight: 800;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.mission-card h3 {
+  color: #0470a0;
+}
+
+.purpose-card p {
+  margin: 0.625rem 0 0;
+  color: #435362;
+  font-size: 1rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.legal-section {
+  display: grid;
+  min-inline-size: 0;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  margin-block-start: 2rem;
+  padding: 1.25rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.875rem;
+  background: #fff;
+}
+
+.legal-copy {
+  min-inline-size: 0;
+}
+
+.legal-copy h3 {
+  margin: 0;
+  color: #0b2538;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.legal-copy p {
+  margin: 0.75rem 0 0;
+  color: #64748b;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.gazette-label {
+  display: inline-flex;
+  max-inline-size: 100%;
+  min-block-size: 2.5rem;
+  align-items: center;
+  justify-self: start;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.625rem;
+  border-radius: 0.5rem;
+  background: #f1f5f9;
+  color: #0470a0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+@media (width >= 48rem) {
+  .purpose-card {
+    padding: 1.4375rem 1.6875rem;
+  }
+
+  .legal-section {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1.25rem;
+    padding: 1.5rem;
+  }
+
+  .gazette-label {
+    justify-self: end;
+  }
+}
+
+@media (width >= 75rem) {
+  .purpose-section {
+    margin-block-start: 2.75rem;
+    padding-block-end: 3.125rem;
+  }
+
+  .nosotros-page .mission-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem;
+  }
+
+  .purpose-card {
+    min-block-size: 11.875rem;
+  }
+
+  .purpose-card h3 {
+    font-size: 1.125rem;
+  }
+
+  .purpose-card p {
+    font-size: 1.1563rem;
+  }
+
+  .legal-section {
+    display: flex;
+    min-block-size: 8.75rem;
+    margin-block-start: 2.75rem;
+    padding: 1.8125rem 2rem;
+    justify-content: space-between;
+  }
+
+  .legal-copy {
+    display: flex;
+    min-block-size: 5rem;
+    flex: 0 1 56.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .legal-copy p {
+    max-inline-size: 53.125rem;
+    margin-block-start: 0.25rem;
+    font-size: 0.7188rem;
+    line-height: 1.2;
+  }
+
+  .gazette-label {
+    inline-size: 11.25rem;
+    flex: 0 0 11.25rem;
+  }
+}
