@@ -1,0 +1,39 @@
+---
+import type { NewsArticle } from './data';
+import styles from './styles.module.css';
+
+interface Props {
+  article: NewsArticle;
+}
+
+const { article } = Astro.props;
+const date = new Date(`${article.publishedOn}T00:00:00Z`);
+const dateLabel = new Intl.DateTimeFormat('es-CR', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+  timeZone: 'UTC',
+})
+  .format(date)
+  .replaceAll('.', '')
+  .toUpperCase();
+---
+
+<article class={styles.card}>
+  <div class={styles.media} aria-hidden="true"></div>
+  <div class={styles.metadata}>
+    <span class={styles.category}>{article.category}</span>
+    <time class={styles.date} datetime={article.publishedOn}>
+      <span aria-hidden="true">• </span>
+      {dateLabel}
+    </time>
+  </div>
+  <h2 class={styles.title}>
+    <a href={article.url}>
+      {article.title}
+      <span class="visually-hidden"> — leer en {article.source}</span>
+    </a>
+  </h2>
+  <p class={styles.summary}>{article.summary}</p>
+  <p class={styles.source}>Fuente: {article.source}</p>
+</article>

@@ -1,0 +1,21 @@
+---
+import type { NewsArticle } from './data';
+import NewsCard from './NewsCard.astro';
+import styles from './styles.module.css';
+
+interface Props {
+  articles: readonly NewsArticle[];
+}
+
+const { articles } = Astro.props;
+---
+
+<section class={styles.listing} aria-label="Noticias recientes">
+  <ul class:list={['layout-grid', styles.grid]}>
+    {articles.map((article) => (
+      <li class={styles['grid-item']}>
+        <NewsCard article={article} />
+      </li>
+    ))}
+  </ul>
+</section>

@@ -1,0 +1,19 @@
+---
+import styles from './styles.module.css';
+---
+
+<section class={styles.newsletter} aria-labelledby="newsletter-title">
+  <div class={styles['newsletter-copy']}>
+    <h2 id="newsletter-title">
+      Suscripción a Boletines Oficiales y Convocatorias
+    </h2>
+    <p>
+      El canal de suscripción estará disponible cuando se habilite el registro
+      oficial.
+    </p>
+  </div>
+  <span class={styles['subscription-status']} role="status">
+    Suscripción pendiente
+    <span aria-hidden="true">✉</span>
+  </span>
+</section>

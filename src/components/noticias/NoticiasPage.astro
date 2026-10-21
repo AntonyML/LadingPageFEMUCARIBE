@@ -1,0 +1,13 @@
+---
+import { newsArticles } from './data';
+import NoticiasHeader from './NoticiasHeader.astro';
+import NoticiasGrid from './NoticiasGrid.astro';
+import NewslettersBanner from './NewslettersBanner.astro';
+import styles from './styles.module.css';
+---
+
+<div class={styles.page}>
+  <NoticiasHeader />
+  <NoticiasGrid articles={newsArticles} />
+  <NewslettersBanner />
+</div>
