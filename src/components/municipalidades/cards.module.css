@@ -28,13 +28,23 @@
   min-block-size: 28.375rem;
 }
 
+.member-photo-frame,
+.territory-photo-frame {
+  display: block;
+  inline-size: 100%;
+  aspect-ratio: 2.34 / 1;
+  margin: 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, #eaf7fa 0%, #d4ebf2 48%, #9bc9d7 100%);
+  border-radius: 0.8125rem 0.8125rem 0 0;
+}
+
 .member-photo,
 .territory-photo {
   display: block;
   inline-size: 100%;
-  aspect-ratio: 2.34 / 1;
-  object-fit: cover;
-  border-radius: 0.8125rem 0.8125rem 0 0;
+  block-size: 100%;
+  object-fit: contain;
 }
 
 .member-body {
@@ -419,10 +429,6 @@
   flex-direction: column;
   min-block-size: 22.3125rem;
   border-radius: 0.875rem;
-}
-
-.territory-photo {
-  aspect-ratio: 2.34 / 1;
 }
 
 .territory-body {

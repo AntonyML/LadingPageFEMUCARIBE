@@ -41,6 +41,14 @@
   letter-spacing: -0.02em;
 }
 
+.page-description {
+  max-inline-size: 70ch;
+  margin: 0.5rem 0 0;
+  color: var(--municipality-muted);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
 .section-header {
   max-inline-size: 56rem;
 }
@@ -87,10 +95,6 @@
 .territory-section {
   min-inline-size: 0;
   padding-block: 3rem;
-}
-
-.territory-heading {
-  margin-block-end: 1.75rem;
 }
 
 .liaison-section {
@@ -166,8 +170,7 @@
   }
 
   .leadership-heading,
-  .authority-heading,
-  .territory-heading {
+  .authority-heading {
     margin-block-end: 1.25rem;
   }
 

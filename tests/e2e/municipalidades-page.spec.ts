@@ -42,6 +42,12 @@ test('renders the complete municipal directory in the public shell without JavaS
       exact: true,
     }),
   ).toBeVisible();
+  await expect(
+    main.getByText(
+      'Perfil geográfico, productivo y autoridades de los seis cantones que componen FEMUCARIBE.',
+      { exact: true },
+    ),
+  ).toBeVisible();
 
   const members = main.getByRole('region', {
     name: 'Municipalidades Miembros · Federación del Caribe',
@@ -71,8 +77,8 @@ test('renders the complete municipal directory in the public shell without JavaS
   await expect(executiveSummary.locator(':scope > ul > li')).toHaveCount(6);
 
   const territories = main.getByRole('region', {
-    name: 'Municipios Federados',
-    exact: false,
+    name: 'Información territorial por cantón',
+    exact: true,
   });
   await expect(territories.getByRole('listitem')).toHaveCount(6);
 
@@ -124,6 +130,31 @@ test('reflows the full page, keeps links operable by keyboard, and supports 200%
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth),
     ).toBeLessThanOrEqual(width);
+  }
+
+  const territories = page.getByRole('region', {
+    name: 'Información territorial por cantón',
+    exact: true,
+  });
+  for (const region of [overview, territories]) {
+    const frameSizes = await region.locator('figure').evaluateAll((frames) =>
+      frames.map((frame) => {
+        const { width, height } = frame.getBoundingClientRect();
+        return {
+          width: Math.round(width),
+          height: Math.round(height),
+          background: getComputedStyle(frame).backgroundImage,
+        };
+      }),
+    );
+    expect(frameSizes).toHaveLength(6);
+    expect(
+      frameSizes.every(({ width, height }) => width > 0 && height > 0),
+    ).toBe(true);
+    expect(
+      new Set(frameSizes.map(({ width, height }) => `${width}x${height}`)).size,
+    ).toBe(1);
+    expect(frameSizes[0]?.background).toContain('linear-gradient');
   }
 
   const authorityLink = page

@@ -1,6 +1,5 @@
 ---
 import { municipalities } from './data';
-import MunicipalitySectionHeading from './MunicipalitySectionHeading.astro';
 import pageStyles from './page.module.css';
 import cards from './cards.module.css';
 ---
@@ -9,27 +8,25 @@ import cards from './cards.module.css';
   class:list={['municipality-section', pageStyles['territory-section']]}
   aria-labelledby="territory-title"
 >
-  <MunicipalitySectionHeading
-    id="territory-title"
-    label="— RADIOGRAFÍA TERRITORIAL Y CANTONAL"
-    title="Municipios Federados"
-    description="Perfil geográfico, productivo y autoridades de los seis cantones que componen FEMUCARIBE."
-    class={pageStyles['territory-heading']}
-  />
+  <h2 class="visually-hidden" id="territory-title">
+    Información territorial por cantón
+  </h2>
 
   <ul class:list={['layout-grid', cards['territory-grid']]}>
     {municipalities.map((municipality) => (
       <li>
         <article class={cards['territory-card']}>
-          <img
-            class={cards['territory-photo']}
-            src={municipality.photo.src}
-            alt={municipality.photoAlt}
-            width={municipality.photo.width}
-            height={municipality.photo.height}
-            loading="lazy"
-            decoding="async"
-          />
+          <figure class={cards['territory-photo-frame']}>
+            <img
+              class={cards['territory-photo']}
+              src={municipality.photo.src}
+              alt={municipality.photoAlt}
+              width={municipality.photo.width}
+              height={municipality.photo.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
           <div class={cards['territory-body']}>
             <div class={cards['territory-heading']}>
               <h3>{'Cantón de ' + municipality.name}</h3>
