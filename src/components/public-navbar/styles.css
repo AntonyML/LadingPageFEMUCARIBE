@@ -1,6 +1,6 @@
 .public-navbar {
-  box-shadow: inset 0 0 0 1px #e2e8f0;
-  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--theme-border);
+  background: var(--theme-surface);
   font-family: 'FEMUCARIBE Inter', sans-serif;
 }
 
@@ -18,7 +18,7 @@
   display: inline-flex;
   align-items: center;
   min-block-size: 48px;
-  color: #435362;
+  color: var(--theme-text-secondary);
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.4;
@@ -32,13 +32,13 @@
 }
 
 .public-navbar a:focus-visible {
-  outline: 2px solid #0470a0;
+  outline: 2px solid var(--theme-link);
   outline-offset: 3px;
   border-radius: 3px;
 }
 
 .public-navbar a[aria-current='page'] {
-  color: #0470a0;
+  color: var(--theme-link);
   font-weight: 800;
 }
 
@@ -48,7 +48,7 @@
   min-inline-size: 0;
   max-inline-size: calc(100% - 6rem);
   gap: 0.5rem;
-  color: #0470a0;
+  color: var(--theme-link);
   justify-self: start;
 }
 
@@ -91,9 +91,9 @@
   grid-row: 1;
   justify-content: center;
   padding: 0.5rem 0.75rem;
-  border: 1px solid #c8d9e3;
+  border: 1px solid var(--theme-border-subtle);
   border-radius: 8px;
-  color: #0470a0;
+  color: var(--theme-link);
   font-size: 0.875rem;
   font-weight: 700;
 }
@@ -116,7 +116,7 @@
 .public-navbar .navigation-panel {
   margin-block-start: 0.75rem;
   padding-block: 0.5rem 0.25rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--theme-border);
 }
 
 @container public-navigation (width < 18rem) {
@@ -148,7 +148,7 @@
 }
 
 .public-navbar .links a[aria-current='page'] {
-  background: #f0f7fa;
+  background: var(--theme-surface-tint);
 }
 
 .public-navbar .actions {
@@ -174,13 +174,13 @@
 }
 
 .public-navbar .contact {
-  background: #0470a0;
+  background: var(--theme-action);
   color: #fff;
 }
 
 .public-navbar .platform {
-  border: 3px solid #0470a0;
-  color: #0470a0;
+  border: 3px solid var(--theme-link);
+  color: var(--theme-link);
 }
 
 @container public-navigation (width >= 40rem) {

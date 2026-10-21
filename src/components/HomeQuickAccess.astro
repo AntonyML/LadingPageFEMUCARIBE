@@ -69,9 +69,9 @@ const resources = [
     block-size: 100%;
     min-block-size: 5.625rem;
     padding: 1rem 1.125rem;
-    color: #0b2538;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    color: var(--theme-text);
+    background: var(--theme-surface-muted);
+    border: 1px solid var(--theme-border);
     border-radius: 0.625rem;
   }
 
@@ -85,7 +85,7 @@ const resources = [
   .title-icon {
     display: inline-flex;
     margin-inline-end: 0.25rem;
-    color: #0470a0;
+    color: var(--theme-link);
     vertical-align: -0.15em;
   }
 
@@ -93,7 +93,7 @@ const resources = [
   .status {
     font-size: 0.875rem;
     line-height: 1.2;
-    color: #64748b;
+    color: var(--theme-text-muted);
   }
 
   @media (width >= 75rem) {

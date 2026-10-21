@@ -130,7 +130,7 @@ const contactEmail = 'info@femucaribe.go.cr';
     align-items: center;
     gap: 0.5rem;
     margin: 0 0 0.75rem;
-    color: #0470a0;
+    color: var(--theme-link);
     font-size: 0.8125rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -147,7 +147,7 @@ const contactEmail = 'info@femucaribe.go.cr';
 
   .intro h1 {
     margin: 0;
-    color: #0b2538;
+    color: var(--theme-text);
     font-size: clamp(2rem, 3vw, 2.5rem);
     font-weight: 800;
     letter-spacing: -0.035em;
@@ -157,7 +157,7 @@ const contactEmail = 'info@femucaribe.go.cr';
 
   .intro > p {
     margin: 0.75rem 0 0;
-    color: #435362;
+    color: var(--theme-text-secondary);
     font-size: 0.9375rem;
     line-height: 1.6;
   }
@@ -171,13 +171,13 @@ const contactEmail = 'info@femucaribe.go.cr';
   .detail-card {
     min-inline-size: 0;
     padding: 0.875rem 1rem;
-    border: 1px solid #dce8ee;
+    border: 1px solid var(--theme-border-subtle);
     border-radius: 0.75rem;
-    background: #f8fafc;
+    background: var(--theme-surface-muted);
   }
 
   .detail-card dt {
-    color: #0470a0;
+    color: var(--theme-link);
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.045em;
@@ -187,7 +187,7 @@ const contactEmail = 'info@femucaribe.go.cr';
 
   .detail-card dd {
     margin: 0.125rem 0 0;
-    color: #0b2538;
+    color: var(--theme-text);
     font-size: 0.9375rem;
     font-weight: 600;
     line-height: 1.5;
@@ -208,9 +208,9 @@ const contactEmail = 'info@femucaribe.go.cr';
   .contact-map {
     overflow: hidden;
     margin: 1.75rem 0 0;
-    border: 1px solid #e5e7d5;
+    border: 1px solid var(--theme-border-subtle);
     border-radius: 0.75rem;
-    background: #f3f1db;
+    background: var(--theme-status-warning-bg);
   }
 
   .contact-map img {
@@ -221,14 +221,14 @@ const contactEmail = 'info@femucaribe.go.cr';
 
   .message-panel {
     padding: clamp(1.5rem, 3vw, 2rem);
-    border: 1px solid #dce8ee;
+    border: 1px solid var(--theme-border-subtle);
     border-radius: 0.875rem;
-    background: #f8fafc;
+    background: var(--theme-surface-muted);
   }
 
   .message-panel h2 {
     margin: 0;
-    color: #0b2538;
+    color: var(--theme-text);
     font-size: clamp(1.5rem, 2.6vw, 1.75rem);
     font-weight: 750;
     letter-spacing: -0.025em;
@@ -238,10 +238,10 @@ const contactEmail = 'info@femucaribe.go.cr';
   .form-status {
     margin: 1.25rem 0;
     padding: 0.875rem 1rem;
-    border-inline-start: 3px solid #0470a0;
+    border-inline-start: 3px solid var(--theme-link);
     border-radius: 0.5rem;
-    color: #294557;
-    background: #edf6f9;
+    color: var(--theme-text);
+    background: var(--theme-surface-tint);
     font-size: 0.875rem;
     line-height: 1.55;
   }
@@ -252,7 +252,7 @@ const contactEmail = 'info@femucaribe.go.cr';
     max-inline-size: 100%;
     min-block-size: 2.75rem;
     margin-block-start: 0.25rem;
-    color: #046487;
+    color: var(--theme-link);
     font-weight: 700;
     text-decoration-thickness: 0.08em;
     text-underline-offset: 0.2em;
@@ -274,7 +274,7 @@ const contactEmail = 'info@femucaribe.go.cr';
   }
 
   .field label {
-    color: #0b2538;
+    color: var(--theme-text);
     font-size: 0.875rem;
     font-weight: 650;
   }
@@ -284,22 +284,22 @@ const contactEmail = 'info@femucaribe.go.cr';
     min-inline-size: 0;
     min-block-size: 3rem;
     padding: 0.75rem 0.875rem;
-    border: 1px solid #cfe2eb;
+    border: 1px solid var(--theme-border-subtle);
     border-radius: 0.5rem;
-    color: #435362;
-    background: #fff;
+    color: var(--theme-text-secondary);
+    background: var(--theme-surface);
     font-size: 1rem;
     line-height: 1.4;
   }
 
   .field-control::placeholder {
-    color: #8297ac;
+    color: var(--theme-text-muted);
     opacity: 1;
   }
 
   .field-control:disabled {
-    color: #435362;
-    -webkit-text-fill-color: #435362;
+    color: var(--theme-text-secondary);
+    -webkit-text-fill-color: var(--theme-text-secondary);
     opacity: 1;
   }
 
@@ -315,22 +315,22 @@ const contactEmail = 'info@femucaribe.go.cr';
     border: 1px solid transparent;
     border-radius: 0.5rem;
     color: #fff;
-    background: #0470a0;
+    background: var(--theme-action);
     font-size: 0.9375rem;
     font-weight: 700;
   }
 
   .send-button:disabled {
-    border-color: #c9dce5;
-    color: #344e5c;
-    background: #dbe9ee;
+    border-color: var(--theme-border-subtle);
+    color: var(--theme-text);
+    background: var(--theme-surface-accent);
     cursor: not-allowed;
     opacity: 1;
   }
 
   .contact-link:hover,
   .form-status a:hover {
-    color: #034f70;
+    color: var(--theme-link);
   }
 
   @media (width < 70rem) {
