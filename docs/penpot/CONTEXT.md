@@ -4,6 +4,8 @@ Verificado por MCP el 2026-09-30: **FEMUCARIBE LandingPage Design**, archivo `81
 
 La credencial local quedó corregida para coincidir con el plugin activo. MCP autentica al usuario, no fija archivo/página: verificar contexto antes de cada tarea. Mantener la pestaña despierta; el servidor detectó suspensión durante la auditoría.
 
+Iconografía de interfaz: los pictogramas se implementan con SVG locales mediante `src/components/SiteIcon.astro` (trazo 1.8, `currentColor`, decorativos cuando hay texto equivalente). La API SVGL entrega logotipos de marcas y no se usa para pictogramas genéricos ni durante la visita.
+
 ## Índice verificado
 
 | Página               | Page ID                                | Board ID / enlace                                                                                                                                                                                                                                                    |

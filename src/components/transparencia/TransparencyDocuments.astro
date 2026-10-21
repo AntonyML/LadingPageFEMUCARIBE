@@ -1,4 +1,6 @@
 ---
+import SiteIcon from '../SiteIcon.astro';
+
 /**
  * TransparencyDocuments.astro
  * Official downloadable documents and audit reports section.
@@ -54,8 +56,8 @@ const documents: DocumentItem[] = [
       {documents.map((doc) => (
         <article class="doc-card" id={doc.id}>
           <div class="doc-header">
-            <span class="doc-emoji" aria-hidden="true">
-              📄
+            <span class="doc-icon" aria-hidden="true">
+              <SiteIcon name="document" size={24} />
             </span>
             <span class="doc-tag">{doc.tag}</span>
             <h3 class="doc-title">{doc.title}</h3>
@@ -70,7 +72,7 @@ const documents: DocumentItem[] = [
             >
               Descargar documento
               <span class="download-icon" aria-hidden="true">
-                📥
+                <SiteIcon name="download" size={16} />
               </span>
             </a>
           </div>
@@ -132,8 +134,9 @@ const documents: DocumentItem[] = [
     margin-block-end: 1rem;
   }
 
-  .doc-emoji {
-    font-size: 1.5rem;
+  .doc-icon {
+    display: inline-flex;
+    color: #0470a0;
     line-height: 1;
   }
 
@@ -200,7 +203,7 @@ const documents: DocumentItem[] = [
   }
 
   .download-icon {
-    font-size: 1em;
+    display: inline-flex;
     line-height: 1;
   }
 

@@ -1,4 +1,6 @@
 ---
+import SiteIcon from '../SiteIcon.astro';
+
 /**
  * TransparencyContraloria.astro
  * Citizen oversight and complaint mechanism section.
@@ -22,7 +24,7 @@ const contactUrl = `${base}/contacto#denuncia`;
     </p>
     <div class="legal-guarantee">
       <span class="shield-icon" aria-hidden="true">
-        🛡️
+        <SiteIcon name="shield-check" size={16} />
       </span>
       <span class="legal-text">
         Protección de Datos Garantizada bajo la Ley N.° 8968.
@@ -34,7 +36,7 @@ const contactUrl = `${base}/contacto#denuncia`;
     <a class="contraloria-button" href={contactUrl}>
       Formulario de Denuncia{' '}
       <span class="pencil-icon" aria-hidden="true">
-        ✍
+        <SiteIcon name="edit" size={16} />
       </span>
     </a>
   </div>
@@ -86,7 +88,8 @@ const contactUrl = `${base}/contacto#denuncia`;
   }
 
   .shield-icon {
-    font-size: 0.875rem;
+    display: inline-flex;
+    flex: 0 0 auto;
     line-height: 1;
   }
 
@@ -134,7 +137,7 @@ const contactUrl = `${base}/contacto#denuncia`;
   }
 
   .pencil-icon {
-    font-size: 1em;
+    display: inline-flex;
     line-height: 1;
   }
 

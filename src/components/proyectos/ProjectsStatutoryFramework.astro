@@ -1,5 +1,6 @@
 ---
 // src/components/proyectos/ProjectsStatutoryFramework.astro
+import SiteIcon from '../SiteIcon.astro';
 ---
 
 <section
@@ -20,8 +21,8 @@
 
   <div class="statute-badge" aria-label="Referencia estatutaria: Artículo 6">
     <span class="badge-text">Art. 6 Estatutos</span>
-    <span class="badge-emoji" aria-hidden="true">
-      📜
+    <span class="badge-icon" aria-hidden="true">
+      <SiteIcon name="scroll" size={16} />
     </span>
   </div>
 </section>
@@ -80,6 +81,12 @@
     line-height: 1.2;
     white-space: nowrap;
     flex-shrink: 0;
+  }
+
+  .badge-icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    line-height: 1;
   }
 
   @media (width <= 48rem) {

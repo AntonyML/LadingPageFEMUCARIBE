@@ -1,5 +1,6 @@
 ---
 import ResponsiveDisclosure from './ResponsiveDisclosure.astro';
+import SiteIcon from './SiteIcon.astro';
 import './government-bar/styles.css';
 interface Props {
   contentId: string;
@@ -51,7 +52,10 @@ const flagUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/government/costa
       <span slot="label">Enlaces</span>
       <div class="utility-links">
         <a class="accessibility" href={destinations.accessibility}>
-          <span aria-hidden="true">♿</span> Accesibilidad
+          <span aria-hidden="true">
+            <SiteIcon name="accessibility" size={16} />
+          </span>
+          Accesibilidad
         </a>
         <a class="comptroller" href={destinations.serviceComptroller}>
           Contraloría de Servicios

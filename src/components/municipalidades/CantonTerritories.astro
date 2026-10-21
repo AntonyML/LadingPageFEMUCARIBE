@@ -1,4 +1,5 @@
 ---
+import SiteIcon from '../SiteIcon.astro';
 import { municipalities } from './data';
 import pageStyles from './page.module.css';
 import cards from './cards.module.css';
@@ -36,7 +37,9 @@ import cards from './cards.module.css';
             </div>
 
             <p class={cards['district-line']}>
-              <span aria-hidden="true">📍</span>
+              <span aria-hidden="true">
+                <SiteIcon name="map-pin" size={15} />
+              </span>
               {municipality.districtLabel}
             </p>
             <p class={cards['territory-description']}>
@@ -45,7 +48,9 @@ import cards from './cards.module.css';
 
             <div class={cards['territory-mayor']}>
               <span class={cards['territory-mayor-copy']}>
-                <span aria-hidden="true">👤</span>
+                <span aria-hidden="true">
+                  <SiteIcon name="user" size={15} />
+                </span>
                 Alcaldía: {municipality.mayor.name}
               </span>
               <span class={cards['territory-period']}>
