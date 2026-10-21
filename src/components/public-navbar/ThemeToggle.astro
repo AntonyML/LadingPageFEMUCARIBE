@@ -1,0 +1,110 @@
+---
+import SiteIcon from '../SiteIcon.astro';
+---
+
+<button
+  class="theme-toggle"
+  type="button"
+  data-theme-toggle
+  data-tooltip="Cambiar tema"
+  aria-label="Cambiar tema"
+  aria-pressed="false"
+>
+  <SiteIcon name="contrast" size={22} />
+</button>
+
+<style>
+  .theme-toggle {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    flex: 0 0 44px;
+    justify-self: end;
+    inline-size: 44px;
+    min-block-size: 44px;
+    padding: 0;
+    border: 1px solid var(--theme-border);
+    border-radius: 50%;
+    color: var(--theme-link);
+    background: var(--theme-surface);
+    cursor: pointer;
+    transition:
+      color 160ms ease,
+      background-color 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .theme-toggle:hover {
+    background: var(--theme-surface-tint);
+  }
+
+  .theme-toggle:focus-visible {
+    outline: 3px solid var(--theme-link);
+    outline-offset: 3px;
+  }
+
+  .theme-toggle::before,
+  .theme-toggle::after {
+    position: absolute;
+    z-index: 20;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 140ms ease,
+      transform 140ms ease,
+      visibility 140ms ease;
+  }
+
+  .theme-toggle::before {
+    inset-block-start: calc(100% + 0.15rem);
+    inset-inline-end: 0.875rem;
+    border: 0.35rem solid transparent;
+    border-block-end-color: var(--theme-deep-surface);
+    content: '';
+    transform: translateY(0.2rem);
+  }
+
+  .theme-toggle::after {
+    inset-block-start: calc(100% + 0.75rem);
+    inset-inline-end: 0;
+    inline-size: max-content;
+    max-inline-size: min(18rem, calc(100vw - 2rem));
+    padding: 0.55rem 0.75rem;
+    border-radius: 0.5rem;
+    color: #fff;
+    background: var(--theme-deep-surface);
+    box-shadow: 0 0.5rem 1.25rem rgb(0 0 0 / 18%);
+    content: attr(data-tooltip);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: start;
+    white-space: normal;
+    transform: translateY(0.2rem);
+  }
+
+  .theme-toggle:focus-visible::before,
+  .theme-toggle:focus-visible::after {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (hover: hover) {
+    .theme-toggle:hover::before,
+    .theme-toggle:hover::after {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme-toggle,
+    .theme-toggle::before,
+    .theme-toggle::after {
+      transition: none;
+    }
+  }
+</style>
