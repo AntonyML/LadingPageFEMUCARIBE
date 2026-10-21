@@ -1,0 +1,230 @@
+---
+/**
+ * TransparencyDocuments.astro
+ * Official downloadable documents and audit reports section.
+ * Corresponds to Penpot board L1-Documentos-Descargas (1158a0fe-c558-80da-8008-9409f2dfc5da).
+ */
+
+interface DocumentItem {
+  id: string;
+  tag: string;
+  title: string;
+  meta: string;
+}
+
+const documents: DocumentItem[] = [
+  {
+    id: 'doc-presupuesto-2026',
+    tag: 'PRESUPUESTO · Periodo 2026',
+    title: 'Presupuesto Ordinario Aprobado',
+    meta: 'PDF Accesible · 2.4 MB',
+  },
+  {
+    id: 'doc-liquidacion-2025',
+    tag: 'LIQUIDACIÓN · Ejercicio 2025',
+    title: 'Liquidación Presupuestaria Auditada',
+    meta: 'PDF Accesible · 3.1 MB',
+  },
+  {
+    id: 'doc-actas-2025-2026',
+    tag: 'ACTAS · 2025 - 2026',
+    title: 'Libro de Actas de Consejo Intermunicipal',
+    meta: 'PDF Accesible · 5.8 MB',
+  },
+  {
+    id: 'doc-planificacion-2024-2028',
+    tag: 'PLANIFICACIÓN · 2024 - 2028',
+    title: 'Plan Operativo y Matriz PICC',
+    meta: 'PDF Accesible · 1.9 MB',
+  },
+];
+---
+
+<section
+  class="documents-section"
+  id="documentos-descargas"
+  aria-labelledby="documents-title"
+>
+  <h2 class="section-title" id="documents-title">
+    Presupuestos Auditados, Liquidaciones y Actas Oficiales
+  </h2>
+
+  <div class="documents-grid-container">
+    <div class="documents-grid">
+      {documents.map((doc) => (
+        <article class="doc-card" id={doc.id}>
+          <div class="doc-header">
+            <span class="doc-emoji" aria-hidden="true">
+              📄
+            </span>
+            <span class="doc-tag">{doc.tag}</span>
+            <h3 class="doc-title">{doc.title}</h3>
+          </div>
+
+          <div class="doc-footer">
+            <span class="doc-meta">{doc.meta}</span>
+            <a
+              class="doc-download-link"
+              href={`#${doc.id}`}
+              aria-label={`Descargar documento: ${doc.title} (${doc.meta}) - En custodia institucional`}
+            >
+              Descargar documento
+              <span class="download-icon" aria-hidden="true">
+                📥
+              </span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .documents-section {
+    margin-block-end: 2rem;
+  }
+
+  .section-title {
+    margin: 0;
+    margin-block-end: 1.25rem;
+    color: #0b2538;
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .documents-grid-container {
+    container-type: inline-size;
+  }
+
+  .documents-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .doc-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-inline-size: 0;
+    padding: 1.25rem;
+    background-color: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgb(11 37 56 / 4%);
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .doc-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 6px -1px rgb(11 37 56 / 8%);
+  }
+
+  .doc-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-block-end: 1rem;
+  }
+
+  .doc-emoji {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .doc-tag {
+    color: #0470a0;
+    font-size: 0.6563rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .doc-title {
+    margin: 0;
+    color: #0b2538;
+    font-size: 0.9063rem;
+    font-weight: 800;
+    line-height: 1.35;
+  }
+
+  .doc-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-block-start: auto;
+  }
+
+  .doc-meta {
+    color: #64748b;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .doc-download-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    inline-size: 100%;
+    min-block-size: 2.75rem;
+    padding-inline: 0.75rem;
+    color: #0470a0;
+    font-size: 0.7188rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    background-color: #f1f5f9;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .doc-download-link:hover {
+    color: #035a82;
+    background-color: #e2e8f0;
+  }
+
+  .doc-download-link:focus-visible {
+    outline: 2px solid #0470a0;
+    outline-offset: 2px;
+  }
+
+  .download-icon {
+    font-size: 1em;
+    line-height: 1;
+  }
+
+  @container (max-width: 64rem) {
+    .documents-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @container (max-width: 36rem) {
+    .documents-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (width <= 64rem) {
+    .documents-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (width <= 36rem) {
+    .documents-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

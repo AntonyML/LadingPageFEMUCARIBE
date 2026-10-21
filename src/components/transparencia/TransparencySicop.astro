@@ -1,0 +1,126 @@
+---
+/**
+ * TransparencySicop.astro
+ * SICOP public procurement section.
+ * Corresponds to Penpot board L1-Seccion-SICOP (1158a0fe-c558-80da-8008-9409f299cdb7).
+ */
+---
+
+<section class="sicop-section" aria-labelledby="sicop-title">
+  <div class="sicop-content">
+    <h2 class="sicop-title" id="sicop-title">
+      Compras Públicas en el Sistema Integrado SICOP
+    </h2>
+    <p class="sicop-description">
+      Todas las licitaciones, contrataciones de obra pública y compras de bienes
+      de FEMUCARIBE se gestionan con plena trazabilidad a través del portal
+      oficial SICOP (www.sicop.go.cr).
+    </p>
+  </div>
+  <div class="sicop-action">
+    <a
+      class="sicop-button"
+      href="https://www.sicop.go.cr"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Consultar en SICOP{' '}
+      <span class="arrow" aria-hidden="true">
+        ↗
+      </span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .sicop-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-inline-size: 0;
+    margin-block-end: 2rem;
+    padding: 1.5rem 2rem;
+    background-color: #f0f7fa;
+    border: 1px solid #bce4ec;
+    border-radius: 0.875rem;
+  }
+
+  .sicop-content {
+    display: flex;
+    flex: 1 1 50rem;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-inline-size: 0;
+  }
+
+  .sicop-title {
+    margin: 0;
+    color: #0b2538;
+    font-size: 1.0313rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .sicop-description {
+    margin: 0;
+    color: #435362;
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+
+  .sicop-action {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .sicop-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    min-inline-size: 12.5rem;
+    min-block-size: 2.75rem;
+    padding-inline: 1.5rem;
+    color: #fff;
+    font-size: 0.7813rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    background-color: #0470a0;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    transition:
+      background-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .sicop-button:hover {
+    background-color: #035a82;
+  }
+
+  .sicop-button:focus-visible {
+    outline: 2px solid #0470a0;
+    outline-offset: 2px;
+  }
+
+  .arrow {
+    font-size: 1.1em;
+    line-height: 1;
+  }
+
+  @media (width <= 48rem) {
+    .sicop-section {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 1.25rem 1rem;
+      gap: 1rem;
+    }
+
+    .sicop-button {
+      inline-size: 100%;
+    }
+  }
+</style>

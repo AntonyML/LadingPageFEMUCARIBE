@@ -1,0 +1,153 @@
+---
+/**
+ * TransparencyContraloria.astro
+ * Citizen oversight and complaint mechanism section.
+ * Corresponds to Penpot board L1-Contraloria-Servicios (1158a0fe-c558-80da-8008-9409f43893a4).
+ */
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const contactUrl = `${base}/contacto#denuncia`;
+---
+
+<section class="contraloria-section" aria-labelledby="contraloria-title">
+  <div class="contraloria-content">
+    <h2 class="contraloria-title" id="contraloria-title">
+      Contraloría de Servicios y Mecanismo de Denuncias
+    </h2>
+    <p class="contraloria-description">
+      Cualquier persona puede presentar inconformidades, sugerencias o denuncias
+      relativas a la prestación de servicios o la ejecución de proyectos
+      federativos. Trámite confidencial y gratuito con respuesta formal en un
+      plazo máximo de 10 días hábiles.
+    </p>
+    <div class="legal-guarantee">
+      <span class="shield-icon" aria-hidden="true">
+        🛡️
+      </span>
+      <span class="legal-text">
+        Protección de Datos Garantizada bajo la Ley N.° 8968.
+      </span>
+    </div>
+  </div>
+
+  <div class="contraloria-action">
+    <a class="contraloria-button" href={contactUrl}>
+      Formulario de Denuncia{' '}
+      <span class="pencil-icon" aria-hidden="true">
+        ✍
+      </span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .contraloria-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-inline-size: 0;
+    margin-block-end: 2.5rem;
+    padding: 1.75rem 2rem;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.875rem;
+  }
+
+  .contraloria-content {
+    display: flex;
+    flex: 1 1 50rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-inline-size: 0;
+  }
+
+  .contraloria-title {
+    margin: 0;
+    color: #0b2538;
+    font-size: 1.0625rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .contraloria-description {
+    margin: 0;
+    color: #435362;
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+
+  .legal-guarantee {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-block-start: 0.25rem;
+  }
+
+  .shield-icon {
+    font-size: 0.875rem;
+    line-height: 1;
+  }
+
+  .legal-text {
+    color: #166534;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .contraloria-action {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .contraloria-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    min-inline-size: 13.5rem;
+    min-block-size: 2.75rem;
+    padding-inline: 1.5rem;
+    color: #0b2538;
+    font-size: 0.7813rem;
+    font-weight: 800;
+    line-height: 1.2;
+    text-decoration: none;
+    background-color: #fbba34;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    transition:
+      background-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .contraloria-button:hover {
+    background-color: #f59e0b;
+  }
+
+  .contraloria-button:focus-visible {
+    outline: 2px solid #0b2538;
+    outline-offset: 2px;
+  }
+
+  .pencil-icon {
+    font-size: 1em;
+    line-height: 1;
+  }
+
+  @media (width <= 48rem) {
+    .contraloria-section {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 1.25rem 1rem;
+      gap: 1.25rem;
+    }
+
+    .contraloria-button {
+      inline-size: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,65 @@
+---
+/**
+ * TransparencyHeader.astro
+ * Header section for Transparencia page.
+ * Corresponds to Penpot board L1-Header-Seccion (1158a0fe-c558-80da-8008-9409f2730a97).
+ */
+---
+
+<header class="transparency-header">
+  <div class="overline-box">
+    <span class="divisor" aria-hidden="true"></span>
+    <span class="overline-text">
+      RENDICIÓN DE CUENTAS Y SELLO DE GOBIERNO DIGITAL
+    </span>
+  </div>
+  <h1 class="page-title">Transparencia Activa y Fiscalización Ciudadana</h1>
+</header>
+
+<style>
+  .transparency-header {
+    margin-block: 2rem 1.5rem;
+    padding-inline: 0;
+  }
+
+  .overline-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-block-end: 0.625rem;
+  }
+
+  .divisor {
+    inline-size: 0.75rem;
+    block-size: 0.25rem;
+    background-color: #1dc4da;
+    border-radius: 2px;
+  }
+
+  .overline-text {
+    color: #0470a0;
+    font-size: 0.7188rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .page-title {
+    margin: 0;
+    color: #0b2538;
+    font-size: 1.75rem;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+
+  @media (width <= 48rem) {
+    .transparency-header {
+      margin-block: 1.25rem 1rem;
+    }
+
+    .page-title {
+      font-size: 1.375rem;
+    }
+  }
+</style>
