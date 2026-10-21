@@ -60,27 +60,32 @@ const websiteMetadata = {
         };
         let preference = readPreference();
 
+        const syncControls = () => {
+          const isDark = root.classList.contains('dark');
+          const nextTheme = isDark ? 'claro' : 'oscuro';
+          document
+            .querySelectorAll('[data-theme-toggle]')
+            .forEach((control) => {
+              const label = `Cambiar al tema ${nextTheme}`;
+              control.dataset.tooltip = label;
+              control.setAttribute('aria-label', label);
+              control.setAttribute('aria-pressed', String(isDark));
+            });
+        };
+
         const paintTheme = () => {
           const isDark =
             preference === 'dark' ||
             (preference === 'system' && systemPreference.matches);
           root.classList.toggle('dark', isDark);
           root.dataset.themePreference = preference;
-        };
-
-        const syncControls = () => {
-          document
-            .querySelectorAll('[data-theme-select]')
-            .forEach((control) => {
-              control.value = preference;
-            });
+          syncControls();
         };
 
         const setPreference = (nextPreference, persist = true) => {
           if (!allowedPreferences.includes(nextPreference)) return;
           preference = nextPreference;
           paintTheme();
-          syncControls();
           if (persist) {
             try {
               localStorage.setItem(storageKey, preference);
@@ -92,14 +97,12 @@ const websiteMetadata = {
         };
 
         paintTheme();
-        document.addEventListener('change', (event) => {
-          const control = event.target;
-          if (
-            control instanceof HTMLSelectElement &&
-            control.matches('[data-theme-select]')
-          ) {
-            setPreference(control.value);
-          }
+        document.addEventListener('click', (event) => {
+          const target = event.target;
+          if (!(target instanceof Element)) return;
+          const control = target.closest('[data-theme-toggle]');
+          if (!(control instanceof HTMLButtonElement)) return;
+          setPreference(root.classList.contains('dark') ? 'light' : 'dark');
         });
         document.addEventListener('DOMContentLoaded', syncControls, {
           once: true,
