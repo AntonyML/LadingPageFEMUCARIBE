@@ -68,5 +68,75 @@ const websiteMetadata = {
       accessibilityUrl={accesibilidadUrl}
       privacyUrl="/privacidad"
     />
+    <script is:inline>
+      window.ACCESSIBILITY_WIDGET_CONFIG = {
+        language: 'es',
+        position: 'bottom-right',
+        color: '#0470a0',
+      };
+    </script>
+    <script is:inline src={`${base}/js/accessibility-widget.min.js`}></script>
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Enlazar el botón de accesibilidad de la barra superior al widget modal
+        const a11yLink = document.querySelector(
+          '.government-bar .accessibility',
+        );
+        if (a11yLink) {
+          a11yLink.setAttribute('role', 'button');
+          a11yLink.setAttribute('aria-haspopup', 'dialog');
+          a11yLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (typeof window.toggleAccessibilityWidget === 'function') {
+              window.toggleAccessibilityWidget();
+            } else if (typeof window.openAccessibilityWidget === 'function') {
+              window.openAccessibilityWidget();
+            }
+          });
+        }
+
+        // Manejo del salto al contenido principal
+        const skipLink = document.querySelector('.government-bar .skip-link');
+        if (skipLink) {
+          skipLink.addEventListener('click', (e) => {
+            const main = document.getElementById('contenido-principal');
+            if (!main) return;
+
+            const hero = main.querySelector('.home-hero');
+            const pageContent = main.querySelector('.page-content');
+
+            if (hero && pageContent) {
+              e.preventDefault();
+              main.focus({ preventScroll: true });
+              pageContent.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+              });
+              history.pushState(null, '', '#contenido-principal');
+            } else {
+              e.preventDefault();
+              main.focus({ preventScroll: true });
+              main.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              history.pushState(null, '', '#contenido-principal');
+            }
+          });
+        }
+
+        if (window.location.hash === '#contenido-principal') {
+          const main = document.getElementById('contenido-principal');
+          const hero = main?.querySelector('.home-hero');
+          const pageContent = main?.querySelector('.page-content');
+          if (hero && pageContent) {
+            setTimeout(() => {
+              main.focus({ preventScroll: true });
+              pageContent.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+              });
+            }, 100);
+          }
+        }
+      });
+    </script>
   </body>
 </html>

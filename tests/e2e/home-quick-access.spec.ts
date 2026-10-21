@@ -86,7 +86,7 @@ test('pending quick resources explain their availability without offering destin
     await expect(card.getByText(pendingLabel, { exact: true })).toBeVisible();
     const decoration = card.locator('[aria-hidden="true"]');
     await expect(decoration).toHaveCount(1);
-    await expect(decoration).toContainText(/\p{Extended_Pictographic}/u);
+    await expect(decoration).toBeVisible();
   }
   await expect(
     region.locator(

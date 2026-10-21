@@ -253,3 +253,15 @@ CONFIRMED: la composición conserva header, tarjetas y banner del board. El prop
 INFERRED: `/noticias` usa `PublicLayout` en su contenedor habitual y compone `NoticiasHeader`, `NoticiasGrid`, `NewsCard` y `NewslettersBanner` desde `src/components/noticias/`. La lista tiene estructura semántica y funciona sin JavaScript cliente. La grilla usa los puntos de quiebre compartidos: 1 columna en móvil, 2 en tablet y 3 en escritorio; tarjetas crecen con su contenido.
 
 VALIDADO: `astro check` con 0 errores, warnings e hints; ESLint, Stylelint y Prettier dirigido pasan; `pnpm run build` genera `/noticias`. Playwright Chromium verificó seis tarjetas y ausencia de desbordamiento horizontal a 320, 768 y 1440px; vista visual desktop y móvil; foco visible al navegar por teclado. La composición a 720px de viewport se usó para revisar el reflow equivalente a 200% de zoom en un ancho de 1440px. No se ejecutaron suites de pruebas automatizadas. Penpot permanece sin modificaciones.
+
+### Widget de Accesibilidad y Navegación Principal: ACCESSIBILITY-WIDGET-001
+
+Alojamiento 100% local (sin CDNs externas) del widget de accesibilidad de Sinan Isler (`sinanisler/accessibility-widgets`) en `public/js/accessibility-widget.min.js`, configurado en español (`es`), posición `bottom-right` y color institucional `#0470a0`.
+
+CONFIRMED:
+1. Navegación directa al contenido principal: el enlace de salto (`.government-bar .skip-link` con ancla `#contenido-principal`) desplaza la vista de forma suave pasando el hero hacia `.page-content` (en Inicio) y enfocando el elemento `<main id="contenido-principal">`, mejorando la usabilidad de teclado según pautas WCAG 2.1 / 2.2 AA.
+2. Botón de accesibilidad en barra superior: el enlace `.government-bar .accessibility` actúa con progressive enhancement; sin JavaScript redirige normalmente a `/accesibilidad` (también accesible desde el pie institucional), y con JavaScript previene la navegación y abre el modal/diálogo del widget de accesibilidad.
+3. Controles interactivos del modal: 3 niveles de alto contraste, 3 niveles de tamaño de texto, filtros de daltonismo (protanopia, deuteranopia, tritanopia, escala de grises), tipografía amigable para dislexia, espaciado de texto, altura de línea, pausa de animaciones, cursor grande y lector de pantalla nativo.
+4. Cero dependencias externas y cumplimiento de soberanía de datos: archivo único Vanilla JS servido localmente desde la carpeta pública del proyecto.
+
+VALIDADO: `astro check` con 0 errores, 0 warnings y 0 hints en 105 archivos; ESLint y Stylelint limpios; 29/29 pruebas unitarias aprobadas; suite completa de Playwright con 384 pruebas E2E aprobadas (incluyendo las 5 pruebas dedicadas de widget y navegación en `tests/e2e/accessibility-widget.spec.ts`).
