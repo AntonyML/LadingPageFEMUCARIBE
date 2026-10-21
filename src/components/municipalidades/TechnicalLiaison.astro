@@ -1,0 +1,22 @@
+---
+import pageStyles from './page.module.css';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const contactUrl = base + '/contacto';
+---
+
+<section class={pageStyles['liaison-section']} aria-labelledby="liaison-title">
+  <div class={pageStyles['liaison-copy']}>
+    <h2 class={pageStyles['liaison-title']} id="liaison-title">
+      Mesa Intermunicipal de Enlace Técnico
+    </h2>
+    <p class={pageStyles['liaison-description']}>
+      Espacio permanente de trabajo donde los directores de planificación y
+      alcaldes coordinan las prioridades de inversión con el equipo técnico de
+      la UGP.
+    </p>
+  </div>
+  <a class={pageStyles['liaison-link']} href={contactUrl}>
+    Contactar Enlace <span aria-hidden="true">→</span>
+  </a>
+</section>

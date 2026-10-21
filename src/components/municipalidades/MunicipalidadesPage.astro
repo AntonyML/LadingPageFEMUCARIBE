@@ -1,0 +1,16 @@
+---
+import AuthoritySummary from './AuthoritySummary.astro';
+import CantonTerritories from './CantonTerritories.astro';
+import MunicipalityOverview from './MunicipalityOverview.astro';
+import MunicipalityProfiles from './MunicipalityProfiles.astro';
+import TechnicalLiaison from './TechnicalLiaison.astro';
+import styles from './page.module.css';
+---
+
+<div class={styles.page}>
+  <MunicipalityOverview />
+  <TechnicalLiaison />
+  <MunicipalityProfiles />
+  <AuthoritySummary />
+  <CantonTerritories />
+</div>

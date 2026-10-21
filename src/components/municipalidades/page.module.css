@@ -1,0 +1,184 @@
+.page {
+  --municipality-ink: #0b2538;
+  --municipality-blue: #0470a0;
+  --municipality-muted: #435362;
+  --municipality-border: #dce6ed;
+  --municipality-soft: #f7fafc;
+  --municipality-soft-blue: #f0f7fa;
+
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  padding-block-end: clamp(2rem, 4vw, 3rem);
+}
+
+.overview-section {
+  min-inline-size: 0;
+  margin-block-end: 0.3125rem;
+}
+
+.page-heading {
+  min-block-size: 6.25rem;
+}
+
+.page-eyebrow,
+.section-label {
+  margin: 0;
+  color: var(--municipality-blue);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.055em;
+}
+
+.page-title {
+  max-inline-size: 48rem;
+  margin: 1.75rem 0 0;
+  color: var(--municipality-ink);
+  font-size: clamp(1.75rem, 2.2vw, 1.875rem);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.section-header {
+  max-inline-size: 56rem;
+}
+
+.section-label {
+  letter-spacing: 0.035em;
+}
+
+.section-title {
+  margin: 0.3125rem 0 0;
+  color: var(--municipality-ink);
+  font-size: clamp(1.625rem, 2.1vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.section-description {
+  max-inline-size: 70ch;
+  margin: 0.25rem 0 0;
+  color: var(--municipality-muted);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+.leadership-section {
+  min-inline-size: 0;
+  padding-block: 3rem 1.5rem;
+}
+
+.leadership-heading {
+  margin-block-end: 1.75rem;
+}
+
+.authority-section {
+  min-inline-size: 0;
+  padding-block: 2.5rem 1.5rem;
+}
+
+.authority-heading {
+  margin-block-end: 1.5rem;
+}
+
+.territory-section {
+  min-inline-size: 0;
+  padding-block: 3rem;
+}
+
+.territory-heading {
+  margin-block-end: 1.75rem;
+}
+
+.liaison-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.5rem;
+  align-items: center;
+  min-block-size: 8.25rem;
+  margin-block-end: 0.3125rem;
+  padding: 1.5rem clamp(1.5rem, 6.67vw, 6rem);
+  background: var(--municipality-soft-blue);
+  border: 1px solid #bce4ec;
+  border-radius: 0.875rem;
+}
+
+.liaison-copy {
+  min-inline-size: 0;
+}
+
+.liaison-title {
+  margin: 0;
+  color: var(--municipality-ink);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.liaison-description {
+  max-inline-size: 72ch;
+  margin: 0.25rem 0 0;
+  color: var(--municipality-muted);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.liaison-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-block-size: 2.75rem;
+  padding-inline: 1.5rem;
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  background: var(--municipality-blue);
+  border-radius: 0.5rem;
+}
+
+.liaison-link:hover {
+  background: #035b83;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+@media (width <= 48rem) {
+  .page-heading {
+    min-block-size: 0;
+    padding-block-end: 1.25rem;
+  }
+
+  .page-title {
+    margin-block-start: 1rem;
+  }
+
+  .leadership-section,
+  .authority-section,
+  .territory-section {
+    padding-block: 2.5rem 1rem;
+  }
+
+  .leadership-heading,
+  .authority-heading,
+  .territory-heading {
+    margin-block-end: 1.25rem;
+  }
+
+  .liaison-section {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .liaison-link {
+    justify-self: start;
+    inline-size: min(100%, 18rem);
+  }
+}

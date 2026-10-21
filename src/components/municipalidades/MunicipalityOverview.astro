@@ -1,0 +1,73 @@
+---
+import { overviewMunicipalities } from './data';
+import MunicipalityStackIcon from './MunicipalityStackIcon.astro';
+import pageStyles from './page.module.css';
+import cards from './cards.module.css';
+---
+
+<section
+  class={pageStyles['overview-section']}
+  aria-labelledby="municipalities-title"
+>
+  <header class={pageStyles['page-heading']}>
+    <p class={pageStyles['page-eyebrow']}>
+      RÉGIMEN TERRITORIAL Y COOPERACIÓN INTERMUNICIPAL
+    </p>
+    <h1 class={pageStyles['page-title']} id="municipalities-title">
+      Municipalidades Miembros · Federación del Caribe
+    </h1>
+  </header>
+
+  <ul class:list={['layout-grid', cards['member-grid']]}>
+    {overviewMunicipalities.map((municipality, index) => (
+      <li>
+        <article class={cards['member-card']}>
+          <img
+            class={cards['member-photo']}
+            src={municipality.photo.src}
+            alt={municipality.photoAlt}
+            width={municipality.photo.width}
+            height={municipality.photo.height}
+            loading={index < 3 ? 'eager' : 'lazy'}
+            decoding="async"
+          />
+          <div class={cards['member-body']}>
+            <div class={cards['member-heading']}>
+              <span class={cards['member-icon']}>
+                <MunicipalityStackIcon class={cards['stack-icon']} />
+              </span>
+              <div class={cards['member-heading-copy']}>
+                <h2 class={cards['member-name']}>
+                  Municipalidad de {municipality.name}
+                </h2>
+                <p class={cards['member-location']}>
+                  {municipality.memberLocation}
+                </p>
+              </div>
+            </div>
+
+            <p class={cards['member-summary']}>{municipality.memberSummary}</p>
+
+            <div class={cards['member-actions']}>
+              <span class={cards['pending-action']}>
+                Ver proyectos <span aria-hidden="true">→</span>
+                <span class="visually-hidden">. Destino pendiente.</span>
+              </span>
+              <span class={cards['pending-action']}>
+                Ver sitio web oficial <span aria-hidden="true">↗</span>
+                <span class="visually-hidden">. Destino pendiente.</span>
+              </span>
+              <a
+                class={cards['action-link']}
+                href={'#authority-' + municipality.slug}
+              >
+                Ver autoridades cantonales
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </li>
+    ))}
+  </ul>
+</section>

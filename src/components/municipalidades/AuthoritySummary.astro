@@ -1,0 +1,60 @@
+---
+import { municipalities } from './data';
+import MunicipalitySectionHeading from './MunicipalitySectionHeading.astro';
+import pageStyles from './page.module.css';
+import cards from './cards.module.css';
+---
+
+<section
+  class:list={['municipality-section', pageStyles['authority-section']]}
+  aria-labelledby="authority-summary-title"
+>
+  <MunicipalitySectionHeading
+    id="authority-summary-title"
+    label="— RESUMEN EJECUTIVO Y DIRECTIVAS"
+    title="Autoridades municipales"
+    description="Directorio comparativo de alcaldías, vicealcaldías y directiva de concejos de los seis gobiernos locales."
+    class={pageStyles['authority-heading']}
+  />
+
+  <ul class:list={['layout-grid', cards['summary-grid']]}>
+    {municipalities.map((municipality) => (
+      <li>
+        <article class={cards['summary-card']}>
+          <div class={cards['summary-heading']}>
+            <h3>{'Municipalidad de ' + municipality.name}</h3>
+            <span class={cards['period-badge']}>{municipality.period}</span>
+          </div>
+
+          <ul class={cards['summary-list']}>
+            <li class={cards['summary-item']}>
+              <span aria-hidden="true">👤</span>
+              <span>
+                {municipality.mayor.roleLabel}: {municipality.mayor.name}
+              </span>
+            </li>
+            <li class={cards['summary-item']}>
+              <span aria-hidden="true">👥</span>
+              <span>1ª Vicealcaldía: {municipality.viceMayors[0]}</span>
+            </li>
+            <li class={cards['summary-item']}>
+              <span aria-hidden="true">👥</span>
+              <span>2ª Vicealcaldía: {municipality.viceMayors[1]}</span>
+            </li>
+            <li class:list={[cards['summary-item'], cards['summary-council']]}>
+              <span aria-hidden="true">🏛️</span>
+              <span>Concejo: {municipality.councilShort}</span>
+            </li>
+          </ul>
+
+          <a
+            class={cards['summary-link']}
+            href={'#authority-' + municipality.slug}
+          >
+            Ver autoridades cantonales <span aria-hidden="true">→</span>
+          </a>
+        </article>
+      </li>
+    ))}
+  </ul>
+</section>

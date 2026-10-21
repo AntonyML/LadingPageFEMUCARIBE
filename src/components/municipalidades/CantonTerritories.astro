@@ -1,0 +1,70 @@
+---
+import { municipalities } from './data';
+import MunicipalitySectionHeading from './MunicipalitySectionHeading.astro';
+import pageStyles from './page.module.css';
+import cards from './cards.module.css';
+---
+
+<section
+  class:list={['municipality-section', pageStyles['territory-section']]}
+  aria-labelledby="territory-title"
+>
+  <MunicipalitySectionHeading
+    id="territory-title"
+    label="— RADIOGRAFÍA TERRITORIAL Y CANTONAL"
+    title="Municipios Federados"
+    description="Perfil geográfico, productivo y autoridades de los seis cantones que componen FEMUCARIBE."
+    class={pageStyles['territory-heading']}
+  />
+
+  <ul class:list={['layout-grid', cards['territory-grid']]}>
+    {municipalities.map((municipality) => (
+      <li>
+        <article class={cards['territory-card']}>
+          <img
+            class={cards['territory-photo']}
+            src={municipality.photo.src}
+            alt={municipality.photoAlt}
+            width={municipality.photo.width}
+            height={municipality.photo.height}
+            loading="lazy"
+            decoding="async"
+          />
+          <div class={cards['territory-body']}>
+            <div class={cards['territory-heading']}>
+              <h3>{'Cantón de ' + municipality.name}</h3>
+              <span class={cards['territory-badge']}>
+                {municipality.territoryLabel}
+              </span>
+            </div>
+
+            <p class={cards['district-line']}>
+              <span aria-hidden="true">📍</span>
+              {municipality.districtLabel}
+            </p>
+            <p class={cards['territory-description']}>
+              {municipality.territoryDescription}
+            </p>
+
+            <div class={cards['territory-mayor']}>
+              <span class={cards['territory-mayor-copy']}>
+                <span aria-hidden="true">👤</span>
+                Alcaldía: {municipality.mayor.name}
+              </span>
+              <span class={cards['territory-period']}>
+                {municipality.period}
+              </span>
+            </div>
+
+            <a
+              class={cards['territory-link']}
+              href={'#authority-' + municipality.slug}
+            >
+              Explorar ficha cantonal <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+      </li>
+    ))}
+  </ul>
+</section>

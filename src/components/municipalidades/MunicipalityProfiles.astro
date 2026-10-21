@@ -1,0 +1,98 @@
+---
+import { municipalities } from './data';
+import MunicipalitySectionHeading from './MunicipalitySectionHeading.astro';
+import pageStyles from './page.module.css';
+import cards from './cards.module.css';
+---
+
+<section
+  class:list={['municipality-section', pageStyles['leadership-section']]}
+  aria-labelledby="leadership-title"
+>
+  <MunicipalitySectionHeading
+    id="leadership-title"
+    label="— GOBIERNOS LOCALES · PERIODO 2024-2028"
+    title="Alcaldes y autoridades municipales"
+    description="Conoce a las principales autoridades de los gobiernos locales de la región."
+    class={pageStyles['leadership-heading']}
+  />
+
+  <ul class:list={['layout-grid', cards['profile-grid']]}>
+    {municipalities.map((municipality) => (
+      <li>
+        <article
+          class={cards['profile-card']}
+          id={'authority-' + municipality.slug}
+        >
+          <figure class={cards['profile-photo-frame']}>
+            {municipality.mayor.portrait ? (
+              <img
+                class={cards['profile-photo']}
+                src={municipality.mayor.portrait.src}
+                alt={municipality.mayor.portraitAlt ?? municipality.mayor.name}
+                width={municipality.mayor.portrait.width}
+                height={municipality.mayor.portrait.height}
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <div
+                class={cards['photo-placeholder']}
+                role="img"
+                aria-label={
+                  'Fotografía institucional pendiente para ' +
+                  municipality.mayor.name
+                }
+              >
+                <span class={cards['placeholder-initials']} aria-hidden="true">
+                  {municipality.mayor.initials}
+                </span>
+                <span class={cards['placeholder-caption']} aria-hidden="true">
+                  Fotografía institucional
+                </span>
+              </div>
+            )}
+          </figure>
+
+          <div class={cards['profile-local-row']}>
+            <p>{'Municipalidad de ' + municipality.name}</p>
+            <span class={cards['period-badge']}>{municipality.period}</span>
+          </div>
+
+          <h3 class={cards['profile-name']}>{municipality.mayor.name}</h3>
+          <p class={cards['profile-position']}>
+            {municipality.mayor.roleTitle}
+          </p>
+
+          <div class={cards['profile-divider']}></div>
+
+          <div class={cards['leadership-block']}>
+            <h4 class={cards['leadership-label']}>Autoridades principales</h4>
+            <ul class={cards['leadership-list']}>
+              <li>1ª Vicealcaldía: {municipality.viceMayors[0]}</li>
+              <li>2ª Vicealcaldía: {municipality.viceMayors[1]}</li>
+              <li>
+                <span class={cards['detail-label']}>Concejo:</span>
+                {' ' + municipality.councilDetails}
+              </li>
+            </ul>
+          </div>
+
+          <div class={cards['councillors-block']}>
+            <h4 class={cards['councillors-label']}>Regidores principales</h4>
+            <ul class={cards['councillor-list']}>
+              {municipality.councillors.map((councillor) => (
+                <li>{councillor}</li>
+              ))}
+              {municipality.additionalCouncillors && (
+                <li class={cards['additional-councillors']}>
+                  {municipality.additionalCouncillors}
+                </li>
+              )}
+            </ul>
+          </div>
+        </article>
+      </li>
+    ))}
+  </ul>
+</section>
