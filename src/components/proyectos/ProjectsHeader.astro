@@ -1,0 +1,62 @@
+---
+// src/components/proyectos/ProjectsHeader.astro
+---
+
+<header class="projects-header">
+  <div class="overline-box">
+    <span class="accent-bar" aria-hidden="true"></span>
+    <span class="overline-text">
+      CARTERA DE INVERSIÓN PÚBLICA Y DESARROLLO REGIONAL
+    </span>
+  </div>
+  <h1 class="page-title">Proyectos Institucionales de la Federación</h1>
+</header>
+
+<style>
+  .projects-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding-block: 1rem 1.5rem;
+  }
+
+  .overline-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .accent-bar {
+    display: inline-block;
+    inline-size: 0.75rem;
+    block-size: 0.25rem;
+    background-color: #1dc4da;
+    border-radius: 0.125rem;
+    flex-shrink: 0;
+  }
+
+  .overline-text {
+    font-family: var(--font-body, Inter, sans-serif);
+    font-size: 0.7188rem; /* 11.5px */
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    color: #0470a0;
+    text-transform: uppercase;
+  }
+
+  .page-title {
+    margin: 0;
+    font-family: var(--font-body, Inter, sans-serif);
+    font-size: 1.75rem; /* 28px */
+    font-weight: 900;
+    line-height: 1.2;
+    color: #0b2538;
+  }
+
+  @media (width <= 48rem) {
+    .page-title {
+      font-size: 1.5rem;
+    }
+  }
+</style>

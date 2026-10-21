@@ -1,0 +1,98 @@
+---
+// src/components/proyectos/ProjectsContactCta.astro
+
+interface Props {
+  contactUrl?: string;
+}
+
+const { contactUrl = '/contacto' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+function href(url: string) {
+  if (url !== url.trim() || url.includes('\\')) {
+    throw new Error('Contact destination must be a valid path or URL');
+  }
+  if (/^\/(?!\/)/.test(url)) return `${base}${url}`;
+  return url;
+}
+---
+
+<aside class="projects-contact-cta" aria-label="Coordinación con la UGP">
+  <p class="cta-message">
+    ¿Su gobierno local tiene una iniciativa para coordinar con la UGP de
+    FEMUCARIBE?
+  </p>
+  <a class="cta-button" href={href(contactUrl)}>
+    {' '}
+    Contáctenos{' '}
+  </a>
+</aside>
+
+<style>
+  .projects-contact-cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: #f0f7fa;
+    border: 1px solid #bce4ec;
+    border-radius: 0.875rem; /* 14px */
+    padding: 1.25rem 2rem;
+    margin-block-end: 2.5rem;
+  }
+
+  .cta-message {
+    margin: 0;
+    font-family: var(--font-body, Inter, sans-serif);
+    font-size: 0.9063rem; /* 14.5px */
+    font-weight: 700;
+    line-height: 1.35;
+    color: #0b2538;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-inline-size: 10rem; /* 160px */
+    min-block-size: 2.75rem; /* 44px touch target */
+    padding: 0.625rem 1.5rem;
+    background-color: #0470a0;
+    color: #fff;
+    font-family: var(--font-body, Inter, sans-serif);
+    font-size: 0.8125rem; /* 13px */
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    border-radius: 0.5rem; /* 8px */
+    transition:
+      background-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .cta-button:hover {
+    background-color: #035880;
+  }
+
+  .cta-button:focus-visible {
+    outline: 2px solid #0470a0;
+    outline-offset: 2px;
+  }
+
+  @media (width <= 48rem) {
+    .projects-contact-cta {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .cta-message {
+      font-size: 1rem;
+    }
+
+    .cta-button {
+      inline-size: 100%;
+    }
+  }
+</style>

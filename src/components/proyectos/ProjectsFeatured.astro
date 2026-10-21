@@ -1,0 +1,201 @@
+---
+// src/components/proyectos/ProjectsFeatured.astro
+
+interface FeaturedProject {
+  tag: string;
+  title: string;
+  description: string;
+  source: string;
+}
+
+const featuredProjects: readonly FeaturedProject[] = [
+  {
+    tag: 'TALAMANCA',
+    title: 'Construcción de mojones fronterizos',
+    description:
+      'Elaboración del perfil y de la matriz de riesgos para un proyecto destinado a mejorar la delimitación y gestión territorial de la zona fronteriza.',
+    source: 'Fuente oficial — Municipalidad de Talamanca',
+  },
+  {
+    tag: 'INFRAESTRUCTURA DEPORTIVA',
+    title: 'Construcción de estadios Bribri y Sixaola',
+    description:
+      'FEMUCARIBE, mediante su Unidad Gestora de Proyectos, participó en la elaboración del perfil y la matriz de riesgos para estos proyectos de infraestructura deportiva comunitaria.',
+    source: 'Fuente oficial — Municipalidad de Talamanca',
+  },
+  {
+    tag: 'ESTRUCTURA TÉCNICA',
+    title: 'Unidad Gestora de Proyectos (UGP)',
+    description:
+      'Estructura técnica de FEMUCARIBE dedicada a apoyar a las municipalidades en la formulación, gestión, coordinación y seguimiento de proyectos de inversión pública.',
+    source: 'Fuente oficial — SICOP',
+  },
+  {
+    tag: 'PLANIFICACIÓN REGIONAL',
+    title: 'Programa Interdisciplinario (PICC)',
+    description:
+      'Programa de FEMUCARIBE orientado a brindar servicios de asesoría y apoyo especializado a las municipalidades para atender sus necesidades de planificación y desarrollo regional.',
+    source: 'Estatutos publicados en La Gaceta (Art. 6)',
+  },
+  {
+    tag: 'ASISTENCIA TÉCNICA',
+    title: 'Formulación y análisis de proyectos municipales',
+    description:
+      'FEMUCARIBE brinda apoyo especializado a los equipos técnicos municipales para analizar proyectos, estructurar perfiles y desarrollar instrumentos como matrices de riesgos.',
+    source: 'Fuente oficial — Municipalidad de Talamanca',
+  },
+  {
+    tag: 'INVERSIÓN PÚBLICA',
+    title: 'Gestión regional de proyectos de inversión pública',
+    description:
+      'FEMUCARIBE mantiene una estructura de apoyo técnico y administrativo para articular a las municipalidades federadas con instituciones públicas en la gestión y seguimiento de proyectos regionales.',
+    source: 'Fuente oficial — SICOP',
+  },
+];
+---
+
+<section class="projects-featured" aria-labelledby="projects-featured-title">
+  <h2 id="projects-featured-title" class="section-title">
+    Proyectos Destacados
+  </h2>
+
+  <ul class="featured-grid" role="list">
+    {featuredProjects.map(({ tag, title, description, source }) => (
+      <li class="featured-item">
+        <article class="featured-card">
+          <div class="tag-box">
+            <span class="tag-text">{tag}</span>
+          </div>
+          <h3 class="card-title">{title}</h3>
+          <p class="card-desc">{description}</p>
+          <p class="card-source">{source}</p>
+        </article>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .projects-featured {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding-block-end: 2.5rem;
+  }
+
+  .section-title {
+    margin: 0;
+    font-family: var(--font-body, Inter, sans-serif);
+    font-size: 1.25rem; /* 20px */
+    font-weight: 800;
+    line-height: 1.2;
+    color: #0b2538;
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  @media (width >= 48rem) {
+    .featured-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 75rem) {
+    .featured-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .featured-item {
+    display: flex;
+  }
+
+  .featured-card {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    background-color: #f8fafc;
+    border: 1px solid #e1ecf0;
+    border-radius: 1rem; /* 16px */
+    padding: 1.375rem 1.25rem;
+    box-sizing: border-box;
+    min-block-size: 16.875rem; /* 270px */
+  }
+
+  .tag-box {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 0.25rem 0.625rem;
+    background-color: #eaf7fa;
+    border: 1px solid #d4ebf2;
+    border-radius: 0.375rem; /* 6px */
+    margin-block-end: 0.875rem;
+  }
+
+  .tag-text {
+    font-family: var(--font-body, Inter, sans-serif);
+    font-size: 0.625rem; /* 10px */
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0470a0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .card-title {
+    margin: 0 0 0.625rem;
+    font-family: var(--font-body, Inter, sans-serif);
+    font-size: 1rem; /* 16px */
+    font-weight: 700;
+    line-height: 1.3;
+    color: #0b2538;
+  }
+
+  .card-desc {
+    margin: 0 0 1.25rem;
+    font-family: var(--font-body, Inter, sans-serif);
+    font-size: 0.8125rem; /* 13px */
+    font-weight: 400;
+    line-height: 1.45;
+    color: #435362;
+    flex-grow: 1;
+  }
+
+  .card-source {
+    margin: 0;
+    font-family: var(--font-body, Inter, sans-serif);
+    font-size: 0.6875rem; /* 11px */
+    font-weight: 500;
+    line-height: 1.2;
+    color: #8294a5;
+  }
+
+  @media (width <= 48rem) {
+    .featured-card {
+      min-block-size: auto;
+    }
+
+    .tag-text {
+      font-size: 0.75rem;
+    }
+
+    .card-title {
+      font-size: 1.125rem;
+    }
+
+    .card-desc {
+      font-size: 0.875rem;
+    }
+
+    .card-source {
+      font-size: 0.75rem;
+    }
+  }
+</style>
