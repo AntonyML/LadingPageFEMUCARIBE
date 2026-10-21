@@ -40,8 +40,8 @@ const projects: readonly ProjectItem[] = [
       'Estructura técnica especializada de FEMUCARIBE encargada de formular la cartera de proyectos de inversión pública regional, gestionar fuentes de financiamiento y fiscalizar su ejecución conforme a la normativa de contratación pública.',
     status: 'En ejecución',
     accentColor: '#10b981',
-    statusBg: '#dcfce7',
-    statusColor: '#166534',
+    statusBg: 'var(--theme-status-positive-bg)',
+    statusColor: 'var(--theme-status-positive-text)',
   },
   {
     category: 'Movilidad Eléctrica y Energía',
@@ -50,8 +50,8 @@ const projects: readonly ProjectItem[] = [
       'Centro de carga rápida para transporte liviano y comercial en el corredor Atlántico, reduciendo emisiones de carbono e impulsando la descarbonización del sector transporte.',
     status: 'En operación',
     accentColor: '#aac651',
-    statusBg: '#ebf7ee',
-    statusColor: '#2b6620',
+    statusBg: 'var(--theme-status-positive-bg)',
+    statusColor: 'var(--theme-status-positive-text)',
   },
   {
     category: 'Innovación y Conocimiento',
@@ -60,8 +60,8 @@ const projects: readonly ProjectItem[] = [
       'Plataforma para incubación de empresas de base tecnológica, transferencia técnica y capacitación orientada a jóvenes de la provincia de Limón.',
     status: 'En formulación',
     accentColor: '#1dc4da',
-    statusBg: '#e0f7fa',
-    statusColor: '#006064',
+    statusBg: 'var(--theme-surface-accent)',
+    statusColor: 'var(--theme-link)',
   },
   {
     category: 'Gestión Ambiental y Circular',
@@ -70,8 +70,8 @@ const projects: readonly ProjectItem[] = [
       'Infraestructura de valorización de residuos sólidos urbanos con enfoque de economía circular, apoyando a las municipalidades en el cumplimiento de la Ley 8839.',
     status: 'En operación',
     accentColor: '#aac651',
-    statusBg: '#ebf7ee',
-    statusColor: '#2b6620',
+    statusBg: 'var(--theme-status-positive-bg)',
+    statusColor: 'var(--theme-status-positive-text)',
   },
 ];
 ---
@@ -170,7 +170,7 @@ const projects: readonly ProjectItem[] = [
     font-size: 1.375rem;
     font-weight: 800;
     line-height: 1.2;
-    color: #0b2538;
+    color: var(--theme-text);
   }
 
   .projects-link {
@@ -181,7 +181,7 @@ const projects: readonly ProjectItem[] = [
     font-size: 0.8125rem;
     font-weight: 700;
     line-height: 1.2;
-    color: #0470a0;
+    color: var(--theme-link);
     text-decoration: none;
   }
 
@@ -191,7 +191,7 @@ const projects: readonly ProjectItem[] = [
   }
 
   .projects-link:focus-visible {
-    outline: 2px solid #0470a0;
+    outline: 2px solid var(--theme-link);
     outline-offset: 2px;
     border-radius: 0.25rem;
   }
@@ -216,8 +216,8 @@ const projects: readonly ProjectItem[] = [
     block-size: 100%;
     min-inline-size: 0;
     padding: 1rem 1rem 1.25rem;
-    background: #fff;
-    border: 1px solid #e2e8f0;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
     border-radius: 0.75rem;
   }
 
@@ -266,7 +266,7 @@ const projects: readonly ProjectItem[] = [
     font-size: 0.625rem;
     font-weight: 600;
     line-height: 1.2;
-    color: #0470a0;
+    color: var(--theme-link);
   }
 
   .card-title {
@@ -274,13 +274,13 @@ const projects: readonly ProjectItem[] = [
     font-size: 0.9375rem;
     font-weight: 800;
     line-height: 1.3;
-    color: #0b2538;
+    color: var(--theme-text);
   }
 
   .desc-box {
     flex-grow: 1;
     padding: 0.75rem;
-    background: #f8fafc;
+    background: var(--theme-surface-muted);
     border-radius: 0.5rem;
   }
 
@@ -289,7 +289,7 @@ const projects: readonly ProjectItem[] = [
     font-size: 0.75rem;
     font-weight: 400;
     line-height: 1.45;
-    color: #435362;
+    color: var(--theme-text-secondary);
   }
 
   @media (width >= 48rem) {

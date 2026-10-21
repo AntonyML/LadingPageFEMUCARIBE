@@ -4,7 +4,12 @@
   position: relative;
   isolation: isolate;
   padding-block-start: 1rem;
-  background: linear-gradient(110deg, #fff, #f7fbfc 60%, #f0f8fa);
+  background: linear-gradient(
+    110deg,
+    var(--theme-surface),
+    var(--theme-surface-tint) 60%,
+    var(--theme-surface-tint)
+  );
 }
 
 .composition {
@@ -30,15 +35,15 @@
   min-block-size: 1.5rem;
   padding: 0.25rem 0.625rem;
   margin: 0;
-  border: 1px solid #bce4ec;
+  border: 1px solid var(--theme-border-tint);
   border-radius: 1rem;
   font-size: 0.6563rem;
   font-weight: 700;
   line-height: 1.2;
-  color: #0470a0;
+  color: var(--theme-link);
   text-transform: uppercase;
   letter-spacing: 0.05rem;
-  background: #fff;
+  background: var(--theme-surface);
 }
 
 .eyebrow::before {
@@ -55,7 +60,7 @@
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   font-weight: 900;
   line-height: 1.2;
-  color: #0b2538;
+  color: var(--theme-text);
 }
 
 .introduction h1::before {
@@ -72,7 +77,7 @@
   margin: 0;
   font-size: 0.9688rem;
   line-height: 1.2;
-  color: #435362;
+  color: var(--theme-text-secondary);
 }
 
 .search {
@@ -87,10 +92,10 @@
   min-inline-size: 0;
   padding: 0.1875rem 0.1875rem 0.1875rem 1.125rem;
   margin: 0;
-  border: 1.5px solid #0470a0;
+  border: 1.5px solid var(--theme-link);
   border-radius: 1.75rem;
-  color: #64748b;
-  background: #fff;
+  color: var(--theme-text-muted);
+  background: var(--theme-surface);
 }
 
 .search svg {
@@ -104,13 +109,13 @@
   padding: 0;
   border: 0;
   font-size: 0.8125rem;
-  color: #64748b;
+  color: var(--theme-text-muted);
   background: transparent;
   opacity: 1;
 }
 
 .search input::placeholder {
-  color: #64748b;
+  color: var(--theme-text-muted);
   opacity: 1;
 }
 
@@ -124,14 +129,14 @@
   font-size: 0.75rem;
   font-weight: 700;
   color: #fff;
-  background: #0470a0;
+  background: var(--theme-action);
   cursor: not-allowed;
 }
 
 .search > p {
   margin: 0.25rem 1.25rem 0;
   font-size: 0.75rem;
-  color: #435362;
+  color: var(--theme-text-secondary);
 }
 
 .search-status {
@@ -157,7 +162,7 @@
   min-block-size: 2.75rem;
   max-inline-size: 100%;
   padding: 0.625rem 1.875rem;
-  border: 1.5px solid #0470a0;
+  border: 1.5px solid var(--theme-link);
   border-radius: 0.5rem;
   font-size: 0.8125rem;
   font-weight: 700;
@@ -168,12 +173,12 @@
 
 .primary {
   color: #fff;
-  background: #0470a0;
+  background: var(--theme-action);
 }
 
 .secondary {
-  color: #0470a0;
-  background: #fff;
+  color: var(--theme-link);
+  background: var(--theme-surface);
 }
 
 .actions a:hover {
@@ -182,7 +187,7 @@
 }
 
 .primary:focus-visible {
-  outline-color: #0b2538;
+  outline-color: var(--theme-text);
 }
 
 .cantons {
@@ -203,14 +208,14 @@
   place-items: center;
   min-block-size: 1.5rem;
   padding: 0.1875rem 0.375rem;
-  border: 1px solid #bce4ec;
+  border: 1px solid var(--theme-border-tint);
   border-radius: 1rem;
   font-size: 0.7188rem;
   font-weight: 600;
   line-height: 1.2;
-  color: #1a3344;
+  color: var(--theme-text);
   text-align: center;
-  background: #fff;
+  background: var(--theme-surface);
   box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
 }
 
@@ -229,17 +234,17 @@
 
 .governance {
   padding: 1.125rem 1.5rem 2.25rem;
-  border: 1px solid #bce4ec;
+  border: 1px solid var(--theme-border-tint);
   border-radius: 1rem;
-  background: #fff;
+  background: var(--theme-surface);
   box-shadow: 4px 4px 4px rgb(0 0 0 / 20%);
 }
 
 .governance-eyebrow {
   border-color: rgb(251 186 52 / 70%);
   font-size: 0.625rem;
-  color: #8d5a00;
-  background: #fef6e6;
+  color: var(--theme-status-warning-text);
+  background: var(--theme-status-warning-bg);
 }
 
 .governance h2 {
@@ -276,25 +281,25 @@
   margin: 0.375rem 0 0;
   font-size: 0.7188rem;
   line-height: 1.35;
-  color: #4b5c6b;
+  color: var(--theme-text-secondary);
 }
 
 .cyan {
   --card-accent: #1dc4da;
   --card-border: rgb(29 196 218 / 35%);
-  --card-surface: #f3fcfd;
+  --card-surface: var(--theme-surface-tint);
 }
 
 .lime {
   --card-accent: #aac651;
   --card-border: rgb(170 198 81 / 35%);
-  --card-surface: #f7faf0;
+  --card-surface: var(--theme-status-positive-bg);
 }
 
 .amber {
   --card-accent: #fbba34;
   --card-border: rgb(251 186 52 / 35%);
-  --card-surface: #fefbf3;
+  --card-surface: var(--theme-status-warning-bg);
 }
 
 .decoration {
@@ -356,7 +361,7 @@
     #aac651 25%,
     #fbba34 25% 50%,
     #1dc4da 50% 75%,
-    #0470a0 75%
+    var(--theme-action) 75%
   );
 }
 

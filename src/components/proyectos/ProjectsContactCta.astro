@@ -34,8 +34,8 @@ function href(url: string) {
     justify-content: space-between;
     align-items: center;
     gap: 1.5rem;
-    background-color: #f0f7fa;
-    border: 1px solid #bce4ec;
+    background-color: var(--theme-surface-tint);
+    border: 1px solid var(--theme-border-tint);
     border-radius: 0.875rem; /* 14px */
     padding: 1.25rem 2rem;
     margin-block-end: 2.5rem;
@@ -47,7 +47,7 @@ function href(url: string) {
     font-size: 0.9063rem; /* 14.5px */
     font-weight: 700;
     line-height: 1.35;
-    color: #0b2538;
+    color: var(--theme-text);
   }
 
   .cta-button {
@@ -58,7 +58,7 @@ function href(url: string) {
     min-inline-size: 10rem; /* 160px */
     min-block-size: 2.75rem; /* 44px touch target */
     padding: 0.625rem 1.5rem;
-    background-color: #0470a0;
+    background-color: var(--theme-action);
     color: #fff;
     font-family: var(--font-body, Inter, sans-serif);
     font-size: 0.8125rem; /* 13px */
@@ -72,11 +72,11 @@ function href(url: string) {
   }
 
   .cta-button:hover {
-    background-color: #035880;
+    background-color: var(--theme-action-hover);
   }
 
   .cta-button:focus-visible {
-    outline: 2px solid #0470a0;
+    outline: 2px solid var(--theme-link);
     outline-offset: 2px;
   }
 

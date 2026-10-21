@@ -90,7 +90,7 @@ const documents: DocumentItem[] = [
   .section-title {
     margin: 0;
     margin-block-end: 1.25rem;
-    color: #0b2538;
+    color: var(--theme-text);
     font-size: 1.25rem;
     font-weight: 800;
     line-height: 1.25;
@@ -112,8 +112,8 @@ const documents: DocumentItem[] = [
     justify-content: space-between;
     min-inline-size: 0;
     padding: 1.25rem;
-    background-color: #fff;
-    border: 1px solid #e2e8f0;
+    background-color: var(--theme-surface);
+    border: 1px solid var(--theme-border);
     border-radius: 0.75rem;
     box-shadow: 0 1px 3px rgb(11 37 56 / 4%);
     transition:
@@ -122,7 +122,7 @@ const documents: DocumentItem[] = [
   }
 
   .doc-card:hover {
-    border-color: #cbd5e1;
+    border-color: var(--theme-border-subtle);
     box-shadow: 0 4px 6px -1px rgb(11 37 56 / 8%);
   }
 
@@ -136,12 +136,12 @@ const documents: DocumentItem[] = [
 
   .doc-icon {
     display: inline-flex;
-    color: #0470a0;
+    color: var(--theme-link);
     line-height: 1;
   }
 
   .doc-tag {
-    color: #0470a0;
+    color: var(--theme-link);
     font-size: 0.6563rem;
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -151,7 +151,7 @@ const documents: DocumentItem[] = [
 
   .doc-title {
     margin: 0;
-    color: #0b2538;
+    color: var(--theme-text);
     font-size: 0.9063rem;
     font-weight: 800;
     line-height: 1.35;
@@ -165,7 +165,7 @@ const documents: DocumentItem[] = [
   }
 
   .doc-meta {
-    color: #64748b;
+    color: var(--theme-text-muted);
     font-size: 0.6875rem;
     font-weight: 500;
     line-height: 1.2;
@@ -179,12 +179,12 @@ const documents: DocumentItem[] = [
     inline-size: 100%;
     min-block-size: 2.75rem;
     padding-inline: 0.75rem;
-    color: #0470a0;
+    color: var(--theme-link);
     font-size: 0.7188rem;
     font-weight: 700;
     line-height: 1.2;
     text-decoration: none;
-    background-color: #f1f5f9;
+    background-color: var(--theme-surface-subtle);
     border: 1px solid transparent;
     border-radius: 0.375rem;
     transition:
@@ -193,12 +193,12 @@ const documents: DocumentItem[] = [
   }
 
   .doc-download-link:hover {
-    color: #035a82;
-    background-color: #e2e8f0;
+    color: var(--theme-link);
+    background-color: var(--theme-surface-subtle);
   }
 
   .doc-download-link:focus-visible {
-    outline: 2px solid #0470a0;
+    outline: 2px solid var(--theme-link);
     outline-offset: 2px;
   }
 

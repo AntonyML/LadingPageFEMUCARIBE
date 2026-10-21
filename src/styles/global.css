@@ -10,6 +10,58 @@
   --site-max: 80rem;
   --site-gutter: clamp(1rem, 3vw, 3rem);
   --layout-gap: clamp(1rem, 2vw, 2rem);
+
+  color-scheme: light;
+
+  --theme-canvas: #fff;
+  --theme-surface: #fff;
+  --theme-surface-muted: #f8fafc;
+  --theme-surface-subtle: #f1f5f9;
+  --theme-surface-tint: #f0f7fa;
+  --theme-surface-accent: #eaf7fa;
+  --theme-surface-accent-strong: #d4ebf2;
+  --theme-image-accent: #9bc9d7;
+  --theme-deep-surface: #0b2538;
+  --theme-text: #0b2538;
+  --theme-text-secondary: #435362;
+  --theme-text-muted: #64748b;
+  --theme-link: #0470a0;
+  --theme-action: #0470a0;
+  --theme-action-hover: #035880;
+  --theme-border: #e2e8f0;
+  --theme-border-subtle: #e1ecf0;
+  --theme-border-tint: #bce4ec;
+  --theme-status-positive-bg: #ebf7ee;
+  --theme-status-positive-text: #2b6620;
+  --theme-status-warning-bg: #fef9e7;
+  --theme-status-warning-text: #8d6b0d;
+}
+
+:root.dark {
+  color-scheme: dark;
+
+  --theme-canvas: #091722;
+  --theme-surface: #0e2332;
+  --theme-surface-muted: #122b3d;
+  --theme-surface-subtle: #19364a;
+  --theme-surface-tint: #103040;
+  --theme-surface-accent: #164054;
+  --theme-surface-accent-strong: #205064;
+  --theme-image-accent: #194858;
+  --theme-deep-surface: #071a28;
+  --theme-text: #e7f1f6;
+  --theme-text-secondary: #c2d0da;
+  --theme-text-muted: #a4b3be;
+  --theme-link: #72d0f1;
+  --theme-action: #075c7d;
+  --theme-action-hover: #08769a;
+  --theme-border: #30495b;
+  --theme-border-subtle: #2b4557;
+  --theme-border-tint: #285669;
+  --theme-status-positive-bg: #153a2d;
+  --theme-status-positive-text: #9ae7ae;
+  --theme-status-warning-bg: #44371d;
+  --theme-status-warning-text: #ffd56f;
 }
 
 *,
@@ -28,8 +80,8 @@ body {
   font-family: 'FEMUCARIBE Inter', sans-serif;
   font-size: 1rem;
   line-height: 1.5;
-  color: #0b2538;
-  background: #fff;
+  color: var(--theme-text);
+  background: var(--theme-canvas);
   overflow-wrap: anywhere;
 }
 
@@ -103,7 +155,7 @@ body {
 }
 
 .public-main:focus-visible {
-  outline-color: #0470a0;
+  outline-color: var(--theme-link);
   outline-offset: -3px;
 }
 

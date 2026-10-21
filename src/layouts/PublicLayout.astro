@@ -40,6 +40,84 @@ const websiteMetadata = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Antony Monge López" />
     <title>{title}</title>
+    <script is:inline>
+      (() => {
+        const storageKey = 'femucaribe-theme';
+        const allowedPreferences = ['light', 'dark', 'system'];
+        const root = document.documentElement;
+        const systemPreference = window.matchMedia(
+          '(prefers-color-scheme: dark)',
+        );
+        const readPreference = () => {
+          try {
+            const storedPreference = localStorage.getItem(storageKey);
+            return allowedPreferences.includes(storedPreference)
+              ? storedPreference
+              : 'system';
+          } catch {
+            return 'system';
+          }
+        };
+        let preference = readPreference();
+
+        const paintTheme = () => {
+          const isDark =
+            preference === 'dark' ||
+            (preference === 'system' && systemPreference.matches);
+          root.classList.toggle('dark', isDark);
+          root.dataset.themePreference = preference;
+        };
+
+        const syncControls = () => {
+          document
+            .querySelectorAll('[data-theme-select]')
+            .forEach((control) => {
+              control.value = preference;
+            });
+        };
+
+        const setPreference = (nextPreference, persist = true) => {
+          if (!allowedPreferences.includes(nextPreference)) return;
+          preference = nextPreference;
+          paintTheme();
+          syncControls();
+          if (persist) {
+            try {
+              localStorage.setItem(storageKey, preference);
+              delete root.dataset.themePersistence;
+            } catch {
+              root.dataset.themePersistence = 'unavailable';
+            }
+          }
+        };
+
+        paintTheme();
+        document.addEventListener('change', (event) => {
+          const control = event.target;
+          if (
+            control instanceof HTMLSelectElement &&
+            control.matches('[data-theme-select]')
+          ) {
+            setPreference(control.value);
+          }
+        });
+        document.addEventListener('DOMContentLoaded', syncControls, {
+          once: true,
+        });
+        document.addEventListener('astro:page-load', syncControls);
+        systemPreference.addEventListener('change', () => {
+          if (preference === 'system') paintTheme();
+        });
+        window.addEventListener('storage', (event) => {
+          if (event.key !== storageKey) return;
+          const nextPreference = allowedPreferences.includes(event.newValue)
+            ? event.newValue
+            : 'system';
+          setPreference(nextPreference, false);
+        });
+        syncControls();
+      })();
+    </script>
     <script
       type="application/ld+json"
       is:inline

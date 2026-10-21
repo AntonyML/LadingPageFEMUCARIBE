@@ -254,13 +254,20 @@ INFERRED: `/noticias` usa `PublicLayout` en su contenedor habitual y compone `No
 
 VALIDADO: `astro check` con 0 errores, warnings e hints; ESLint, Stylelint y Prettier dirigido pasan; `pnpm run build` genera `/noticias`. Playwright Chromium verificó seis tarjetas y ausencia de desbordamiento horizontal a 320, 768 y 1440px; vista visual desktop y móvil; foco visible al navegar por teclado. La composición a 720px de viewport se usó para revisar el reflow equivalente a 200% de zoom en un ancho de 1440px. No se ejecutaron suites de pruebas automatizadas. Penpot permanece sin modificaciones.
 
+
+## Tema claro, oscuro y sistema: THEME-MODES-001
+
+INFERRED: la interfaz pública ofrece el selector «Sistema / Claro / Oscuro» dentro de la navegación. Un script inline en `PublicLayout` lee la preferencia antes de pintar, usa `prefers-color-scheme` en modo Sistema y persiste las elecciones con la clave `femucaribe-theme`. Los cambios del sistema actualizan el tema cuando Sistema está activo; cambios de preferencia se sincronizan entre pestañas. El selector nativo lleva etiqueta accesible y funciona con teclado; en móvil aparece al abrir el menú.
+
+Los tokens en `src/styles/global.css` controlan lienzo, superficies, texto, enlaces, acciones, bordes, estados y placeholders. La paleta de marca de GovernmentBar y footer se mantiene constante. CONFIRMADO en vista previa: selector y persistencia de los tres modos, modo sistema, navegación del selector con teclado y reflow sin overflow a viewports 320, 720, 768 y 1440px. Las variantes de color no están representadas en Penpot y son adaptación inferida; Penpot no fue modificado.
+
 ### Widget de Accesibilidad y Navegación Principal: ACCESSIBILITY-WIDGET-001
 
 Alojamiento 100% local (sin CDNs externas) del widget de accesibilidad de Sinan Isler (`sinanisler/accessibility-widgets`) en `public/js/accessibility-widget.min.js`, configurado en español (`es`), posición `bottom-right` y color institucional `#0470a0`.
 
 CONFIRMED:
 1. Navegación directa al contenido principal: el enlace de salto (`.government-bar .skip-link` con ancla `#contenido-principal`) desplaza la vista de forma suave pasando el hero hacia `.page-content` (en Inicio) y enfocando el elemento `<main id="contenido-principal">`, mejorando la usabilidad de teclado según pautas WCAG 2.1 / 2.2 AA.
-2. Botón de accesibilidad en barra superior: el enlace `.government-bar .accessibility` actúa con progressive enhancement; sin JavaScript redirige normalmente a `/accesibilidad` (también accesible desde el pie institucional), y con JavaScript previene la navegación y abre el modal/diálogo del widget de accesibilidad.
+2. Botón de accesibilidad en barra superior: el enlace (`.government-bar .accessibility`) actúa con progressive enhancement; sin JavaScript redirige normalmente a `/accesibilidad` (también accesible desde el pie institucional), y con JavaScript previene la navegación y abre el modal/diálogo del widget de accesibilidad.
 3. Controles interactivos del modal: 3 niveles de alto contraste, 3 niveles de tamaño de texto, filtros de daltonismo (protanopia, deuteranopia, tritanopia, escala de grises), tipografía amigable para dislexia, espaciado de texto, altura de línea, pausa de animaciones, cursor grande y lector de pantalla nativo.
 4. Cero dependencias externas y cumplimiento de soberanía de datos: archivo único Vanilla JS servido localmente desde la carpeta pública del proyecto.
 

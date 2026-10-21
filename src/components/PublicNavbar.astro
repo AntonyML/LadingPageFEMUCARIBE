@@ -1,6 +1,7 @@
 ---
 import logo from '../assets/brand/femucaribe.png';
 import ResponsiveDisclosure from './ResponsiveDisclosure.astro';
+import ThemePreference from './public-navbar/ThemePreference.astro';
 import './public-navbar/styles.css';
 
 interface Props {
@@ -79,6 +80,7 @@ const href = (path: string) => `${base}${path}`;
             <a class="contact" href={href('/contacto')}>
               Contáctenos
             </a>
+            <ThemePreference />
             {platformUrl ? (
               <a class="platform" href={platformUrl}>
                 Acceder a la plataforma

@@ -79,7 +79,7 @@ const guidance = [
 
   .eyebrow {
     margin: 0 0 0.625rem;
-    color: #0470a0;
+    color: var(--theme-link);
     font-size: 0.8125rem;
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -88,7 +88,7 @@ const guidance = [
 
   h2 {
     margin: 0;
-    color: #0b2538;
+    color: var(--theme-text);
     font-size: clamp(1.375rem, 2.4vw, 1.75rem);
     line-height: 1.25;
     letter-spacing: -0.02em;
@@ -96,14 +96,14 @@ const guidance = [
 
   .guidance-card p {
     margin-block: 0.75rem 0;
-    color: #435362;
+    color: var(--theme-text-secondary);
     font-size: 0.9375rem;
     line-height: 1.65;
   }
 
   .guidance-header > p:last-child,
   .contact-copy > p:not(.eyebrow) {
-    color: #435362;
+    color: var(--theme-text-secondary);
     line-height: 1.65;
   }
 
@@ -127,10 +127,10 @@ const guidance = [
     block-size: 100%;
     min-inline-size: 0;
     padding: clamp(1.25rem, 2.8vw, 1.75rem);
-    border: 1px solid #e2e8f0;
-    border-block-start: 4px solid #0470a0;
+    border: 1px solid var(--theme-border);
+    border-block-start: 4px solid var(--theme-link);
     border-radius: 12px;
-    background: #fff;
+    background: var(--theme-surface);
   }
 
   .number {
@@ -139,15 +139,15 @@ const guidance = [
     block-size: 2.5rem;
     place-items: center;
     border-radius: 50%;
-    color: #0470a0;
-    background: #f0f7fa;
+    color: var(--theme-link);
+    background: var(--theme-surface-tint);
     font-size: 0.875rem;
     font-weight: 700;
   }
 
   h3 {
     margin: 1.25rem 0 0;
-    color: #0b2538;
+    color: var(--theme-text);
     font-size: 1.125rem;
     line-height: 1.35;
   }
@@ -159,9 +159,9 @@ const guidance = [
     gap: 1.5rem 2rem;
     min-inline-size: 0;
     padding: clamp(1.25rem, 3.5vw, 2rem);
-    border: 1px solid #bce4ec;
+    border: 1px solid var(--theme-border-tint);
     border-radius: 14px;
-    background: #f0f7fa;
+    background: var(--theme-surface-tint);
   }
 
   .contact-copy {
@@ -189,7 +189,7 @@ const guidance = [
     padding: 0.75rem 1rem;
     border-radius: 8px;
     color: #fff;
-    background: #0470a0;
+    background: var(--theme-action);
     font-weight: 700;
     overflow-wrap: anywhere;
     text-decoration: none;

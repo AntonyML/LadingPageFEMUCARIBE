@@ -1,10 +1,10 @@
 .page {
-  --municipality-ink: #0b2538;
-  --municipality-blue: #0470a0;
-  --municipality-muted: #435362;
-  --municipality-border: #dce6ed;
-  --municipality-soft: #f7fafc;
-  --municipality-soft-blue: #f0f7fa;
+  --municipality-ink: var(--theme-text);
+  --municipality-blue: var(--theme-link);
+  --municipality-muted: var(--theme-text-secondary);
+  --municipality-border: var(--theme-border-subtle);
+  --municipality-soft: var(--theme-surface-muted);
+  --municipality-soft-blue: var(--theme-surface-tint);
 
   display: flex;
   flex-direction: column;
@@ -106,7 +106,7 @@
   margin-block-end: 0.3125rem;
   padding: 1.5rem clamp(1.5rem, 6.67vw, 6rem);
   background: var(--municipality-soft-blue);
-  border: 1px solid #bce4ec;
+  border: 1px solid var(--theme-border-tint);
   border-radius: 0.875rem;
 }
 
@@ -148,7 +148,7 @@
 }
 
 .liaison-link:hover {
-  background: #035b83;
+  background: var(--theme-action);
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
