@@ -65,6 +65,7 @@ test('renders the complete municipal directory in the public shell without JavaS
     exact: false,
   });
   await expect(profiles.locator(':scope > ul > li')).toHaveCount(6);
+  await expect(profiles.locator('figure img')).toHaveCount(2);
   for (const name of authorityNames) {
     await expect(
       profiles.getByRole('heading', { level: 3, name, exact: true }),
@@ -136,7 +137,11 @@ test('reflows the full page, keeps links operable by keyboard, and supports 200%
     name: 'Información territorial por cantón',
     exact: true,
   });
-  for (const region of [overview, territories]) {
+  const profiles = page.getByRole('region', {
+    name: 'Alcaldes y autoridades municipales',
+    exact: false,
+  });
+  for (const region of [overview, territories, profiles]) {
     const frameSizes = await region.locator('figure').evaluateAll((frames) =>
       frames.map((frame) => {
         const { width, height } = frame.getBoundingClientRect();
@@ -156,6 +161,13 @@ test('reflows the full page, keeps links operable by keyboard, and supports 200%
     ).toBe(1);
     expect(frameSizes[0]?.background).toContain('linear-gradient');
   }
+
+  const authorityImages = await profiles
+    .locator('figure img')
+    .evaluateAll((images) =>
+      images.map((image) => getComputedStyle(image).objectFit),
+    );
+  expect(authorityImages).toEqual(['contain', 'contain']);
 
   const authorityLink = page
     .getByRole('main')

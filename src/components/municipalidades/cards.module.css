@@ -160,25 +160,27 @@
 }
 
 .profile-photo-frame {
+  display: block;
   inline-size: 100%;
   margin: 0 0 0.75rem;
-  aspect-ratio: 2.08 / 1;
+  aspect-ratio: 2.34 / 1;
+  overflow: hidden;
+  border: 1px solid #dce6ed;
+  border-radius: 0.625rem;
+  background: linear-gradient(135deg, #eaf7fa 0%, #d4ebf2 48%, #9bc9d7 100%);
 }
 
-.profile-photo,
+.profile-photo {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
 .photo-placeholder {
   display: flex;
   inline-size: 100%;
   block-size: 100%;
-  border: 1px solid #dce6ed;
-  border-radius: 0.625rem;
-}
-
-.profile-photo {
-  object-fit: cover;
-}
-
-.photo-placeholder {
   flex-direction: column;
   align-items: center;
   justify-content: center;

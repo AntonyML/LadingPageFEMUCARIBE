@@ -210,6 +210,8 @@ VALIDADO: `astro check` con 0 errores, warnings e hints; ESLint y Stylelint pasa
 
 AJUSTE 2026-10-21: El encabezado combina «RÉGIMEN TERRITORIAL Y COOPERACIÓN INTERMUNICIPAL» con «RADIOGRAFÍA TERRITORIAL Y CANTONAL», el `h1` «Municipalidades Miembros · Federación del Caribe» y la descripción de «Municipios Federados» en una sola introducción. La sección territorial elimina su título visible repetido y conserva un encabezado accesible. Los marcos de las seis imágenes del directorio y de las seis tarjetas territoriales comparten proporción 2.34:1; las fotos se contienen sin recorte y el fondo degradado queda visible cuando su proporción es más estrecha. E2E comprueba tamaños de marcos iguales y estilo degradado; revisión visual desktop/móvil confirmada.
 
+AJUSTE AUTORIDADES 2026-10-21: Las seis tarjetas de alcaldías usan marcos 2.34:1 del mismo tamaño que las fotos cantonales. Los dos retratos disponibles usan `object-fit: contain` sobre el fondo degradado, sin recortar; las otras cuatro tarjetas conservan el placeholder oscuro actual en la misma dimensión. Los E2E comprueban los seis marcos iguales, fondo degradado y ajuste completo de ambos retratos. Desktop y móvil revisados; es una adaptación de código, no un cambio en Penpot.
+
 ### Página de Proyectos completa: PROJECTS-PAGE-001
 
 Lectura MCP del 2026-10-21; archivo `81f57451-85cc-819d-8008-80dd99536505`, página `04 · Proyectos` (`f279c6b1-74d9-80c4-8008-9409134657f2`), board principal `Screen-04-Proyectos` (`1158a0fe-c558-80da-8008-9409c05b766f`) 1440×2740 px y captura/OCR confirmados.
