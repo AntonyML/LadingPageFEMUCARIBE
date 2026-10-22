@@ -2,7 +2,7 @@
 
 ## Base vigente
 
-Astro y TypeScript strictest, HTML semántico, CSS nativo y JavaScript cliente solo cuando una interacción lo necesita. Versiones e instalaciones: package.json, lockfiles y TOOLING.md son las fuentes actuales. No añadir frameworks frontend ni Tailwind; preferir capacidades nativas. Las páginas editoriales se prerenderizan; administración, autenticación, API municipal y directorio público municipal se ejecutan con el adaptador Node standalone. DB y hosting siguen pendientes.
+Astro y TypeScript strictest, HTML semántico, CSS nativo y JavaScript cliente solo cuando una interacción lo necesita. Versiones e instalaciones: package.json, lockfiles y TOOLING.md son las fuentes actuales. No añadir frameworks frontend ni Tailwind; preferir capacidades nativas. Las páginas editoriales se prerenderizan; administración, autenticación, API municipal y directorio público municipal se ejecutan con el adaptador Node standalone. El destino aprobado de producción es ICDSoft WebApps con GitHub Actions desde `main`; la app del panel, el acceso SSH, los secretos y el primer corte siguen pendientes de configuración. La aplicación persiste los datos municipales en JSON fuera de las releases y no utiliza la base MySQL de WordPress.
 
 ## Estructura Astro
 
