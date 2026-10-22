@@ -11,15 +11,25 @@ interface Props {
 
 const { currentPath = Astro.url.pathname, platformUrl } = Astro.props;
 if (platformUrl !== undefined) {
-  try {
-    const url = new URL(platformUrl);
-    if (
-      platformUrl !== platformUrl.trim() ||
-      !['http:', 'https:'].includes(url.protocol)
-    )
-      throw new Error();
-  } catch {
-    throw new Error('PublicNavbar platformUrl must be an HTTP(S) URL');
+  const isRelative =
+    platformUrl.startsWith('/') && !platformUrl.startsWith('//');
+  const isValid = isRelative
+    ? platformUrl === platformUrl.trim()
+    : (() => {
+        try {
+          const url = new URL(platformUrl);
+          return (
+            platformUrl === platformUrl.trim() &&
+            ['http:', 'https:'].includes(url.protocol)
+          );
+        } catch {
+          return false;
+        }
+      })();
+  if (!isValid) {
+    throw new Error(
+      'PublicNavbar platformUrl must be an HTTP(S) URL or internal path',
+    );
   }
 }
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -77,11 +87,10 @@ const href = (path: string) => `${base}${path}`;
             ))}
           </ul>
           <div class="actions">
-           
             <a class="contact" href={href('/contacto')}>
               Contáctenos
             </a>
-            
+
             {platformUrl ? (
               <a class="platform" href={platformUrl}>
                 Acceder a la plataforma
@@ -91,7 +100,7 @@ const href = (path: string) => `${base}${path}`;
                 Acceder a la plataforma
               </span>
             )}
-             <ThemeToggle />
+            <ThemeToggle />
           </div>
         </div>
       </ResponsiveDisclosure>

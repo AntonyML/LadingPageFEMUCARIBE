@@ -47,4 +47,12 @@ describe('PublicNavbar contract', () => {
       }),
     ).rejects.toThrow(/PublicNavbar/);
   });
+  test('accepts valid internal platform path like /acceso', async () => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(PublicNavbar, {
+      props: { currentPath: '/', platformUrl: '/acceso' },
+    });
+    expect(html).toContain('href="/acceso"');
+    expect(html).not.toContain('aria-disabled="true"');
+  });
 });
