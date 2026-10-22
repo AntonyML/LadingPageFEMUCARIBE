@@ -1,0 +1,378 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+
+export const prerender = false;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const storageEndpoint =
+  process.env.FEMUCARIBE_STORAGE_ENDPOINT || 'No configurado';
+const hasStorageConfigured = Boolean(
+  process.env.FEMUCARIBE_STORAGE_ENDPOINT &&
+  process.env.FEMUCARIBE_STORAGE_API_KEY,
+);
+---
+
+<AdminLayout title="Resumen" activeSection="resumen">
+  <div class="dashboard-header">
+    <div class="header-intro">
+      <span class="section-kicker">Panel de Control</span>
+      <h1 class="header-title">Bienvenido al Panel de Administración</h1>
+      <p class="header-desc">
+        Administración centralizada de contenidos, documentos oficiales y portal
+        informativo de FEMUCARIBE.
+      </p>
+    </div>
+    <div
+      class="system-status-chip"
+      class:list={[{ 'status-online': hasStorageConfigured }]}
+    >
+      <span class="status-indicator"></span>
+      <span class="status-label">
+        API Almacenamiento: {hasStorageConfigured ? 'Conectada' : 'Pendiente'}
+      </span>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+    <!-- Card 1: Documentos -->
+    <article class="module-card">
+      <div class="card-icon-wrap icon-docs">
+        <svg
+          aria-hidden="true"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Documentos Institucionales</h2>
+        <p class="card-desc">
+          Carga y catalogación de actas, convenios, reglamentos y estados
+          financieros. Los archivos se guardan en el servidor físico mediante la
+          API independiente.
+        </p>
+        <div class="storage-meta">
+          <span class="meta-label">Servidor Storage:</span>
+          <code class="meta-val">{storageEndpoint}</code>
+        </div>
+      </div>
+      <div class="card-action">
+        <a href={`${base}/admin/documentos`} class="btn-primary">
+          <span>Gestionar Documentos</span>
+          <svg
+            aria-hidden="true"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- Card 2: Municipalidades -->
+    <article class="module-card">
+      <div class="card-icon-wrap icon-munis">
+        <svg
+          aria-hidden="true"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M3 21h18"></path>
+          <path d="M5 21V7l8-4v18"></path>
+          <path d="M19 21V11l-6-3"></path>
+          <path d="M9 9h1"></path>
+          <path d="M9 13h1"></path>
+          <path d="M9 17h1"></path>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Gobiernos Locales</h2>
+        <p class="card-desc">
+          Gestor no-code para actualizar datos de contacto, alcaldías, banderas
+          y proyectos destacados de los 6 cantones de la provincia de Limón sin
+          editar código.
+        </p>
+      </div>
+      <div class="card-action">
+        <a href={`${base}/admin/municipalidades`} class="btn-secondary">
+          <span>Gestionar Cantones</span>
+          <svg
+            aria-hidden="true"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- Card 3: Noticias -->
+    <article class="module-card">
+      <div class="card-icon-wrap icon-news">
+        <svg
+          aria-hidden="true"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path>
+          <path d="M18 14h-8"></path>
+          <path d="M15 18h-5"></path>
+          <path d="M10 6h8v4h-8V6Z"></path>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Noticias y Comunicados</h2>
+        <p class="card-desc">
+          Publicación de noticias, convocatorias, actividades y notas de prensa
+          oficiales de la Federación para la ciudadanía y las municipalidades
+          miembros.
+        </p>
+      </div>
+      <div class="card-action">
+        <a href={`${base}/admin/noticias`} class="btn-secondary">
+          <span>Gestionar Noticias</span>
+          <svg
+            aria-hidden="true"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+      </div>
+    </article>
+  </div>
+</AdminLayout>
+
+<style>
+  .dashboard-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-block-end: 2.5rem;
+    padding-block-end: 1.5rem;
+    border-block-end: 1px solid var(--theme-border);
+  }
+
+  .section-kicker {
+    display: inline-block;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--theme-action);
+    margin-block-end: 0.375rem;
+  }
+
+  .header-title {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    color: var(--theme-text);
+    line-height: 1.2;
+  }
+
+  .header-desc {
+    margin: 0;
+    font-size: 1.0625rem;
+    color: var(--theme-text-secondary);
+    max-inline-size: 45rem;
+  }
+
+  .system-status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.875rem;
+    border-radius: 9999px;
+    background-color: var(--theme-surface-subtle);
+    border: 1px solid var(--theme-border);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .status-indicator {
+    inline-size: 0.625rem;
+    block-size: 0.625rem;
+    border-radius: 50%;
+    background-color: #d97706;
+  }
+
+  .status-online .status-indicator {
+    background-color: #16a34a;
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: 1.5rem;
+  }
+
+  .module-card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .module-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -4px rgb(0 0 0 / 8%);
+  }
+
+  .card-icon-wrap {
+    inline-size: 3rem;
+    block-size: 3rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-block-end: 1.25rem;
+  }
+
+  .icon-docs {
+    background-color: rgb(4 112 160 / 10%);
+    color: var(--theme-action);
+  }
+
+  .icon-munis {
+    background-color: rgb(22 163 74 / 10%);
+    color: #16a34a;
+  }
+
+  .icon-news {
+    background-color: rgb(217 119 6 / 10%);
+    color: #d97706;
+  }
+
+  .card-body {
+    flex: 1;
+    margin-block-end: 1.5rem;
+  }
+
+  .card-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--theme-text);
+  }
+
+  .card-desc {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: var(--theme-text-secondary);
+    line-height: 1.5;
+  }
+
+  .storage-meta {
+    margin-block-start: 1rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: 6px;
+    background-color: var(--theme-surface-subtle);
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    overflow-x: hidden;
+  }
+
+  .meta-label {
+    font-weight: 600;
+    color: var(--theme-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .meta-val {
+    font-family: monospace;
+    color: var(--theme-text);
+    word-break: break-all;
+  }
+
+  .card-action {
+    display: flex;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    inline-size: 100%;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .btn-primary {
+    background-color: var(--theme-action);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--theme-action-hover);
+  }
+
+  .btn-secondary {
+    background-color: var(--theme-surface-subtle);
+    color: var(--theme-text);
+    border: 1px solid var(--theme-border);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--theme-border-subtle);
+  }
+</style>

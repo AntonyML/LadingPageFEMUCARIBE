@@ -1,9 +1,12 @@
 ---
 interface Props {
   adminUrl?: string;
+  loginApiUrl?: string;
 }
 
-const { adminUrl = '/admin' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const { adminUrl = `${base}/admin`, loginApiUrl = `${base}/api/auth/login` } =
+  Astro.props;
 ---
 
 <section class="portal-section" aria-labelledby="portal-heading">
@@ -441,7 +444,7 @@ const { adminUrl = '/admin' } = Astro.props;
   </dialog>
 </section>
 
-<script is:inline define:vars={{ adminUrl }}>
+<script is:inline define:vars={{ adminUrl, loginApiUrl }}>
   (() => {
     // 1. Toggle Suboptions FEMUCARIBE
     const toggleBtn = document.getElementById('btn-toggle-femucaribe');
@@ -504,14 +507,82 @@ const { adminUrl = '/admin' } = Astro.props;
       });
     });
 
-    // Handle Admin Login submission -> redirects to /admin
+    // Handle Admin Login submission
     const loginForm = document.getElementById('admin-login-form');
+    const loginError = document.getElementById('login-error-msg');
+    const userInput = document.getElementById('admin-user');
+    const passInput = document.getElementById('admin-pass');
+    const submitBtn = loginForm
+      ? loginForm.querySelector('button[type="submit"]')
+      : null;
+
     if (loginForm) {
-      loginForm.addEventListener('submit', (e) => {
+      loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        // In this initial version, redirects straight to adminUrl (/admin)
-        window.location.href = adminUrl;
+        if (loginError) loginError.hidden = true;
+        if (submitBtn) submitBtn.setAttribute('disabled', 'true');
+
+        try {
+          const res = await fetch(loginApiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+            body: JSON.stringify({
+              email: userInput ? userInput.value : '',
+              password: passInput ? passInput.value : '',
+            }),
+          });
+
+          const data = await res.json().catch(() => ({}));
+
+          if (res.ok && data.success) {
+            window.location.href = data.redirect || adminUrl;
+          } else {
+            if (loginError) {
+              loginError.textContent =
+                data.error ||
+                'Credenciales incorrectas. Verifique sus datos o contacte a soporte.';
+              loginError.hidden = false;
+            }
+            if (passInput) {
+              passInput.value = '';
+              passInput.focus();
+            }
+          }
+        } catch {
+          if (loginError) {
+            loginError.textContent =
+              'Error de comunicación con el servidor. Intente nuevamente.';
+            loginError.hidden = false;
+          }
+        } finally {
+          if (submitBtn) submitBtn.removeAttribute('disabled');
+        }
       });
+    }
+
+    // Auto-open login modal if redirected with error=unauthorized
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('error') === 'unauthorized') {
+      if (loginError) {
+        loginError.textContent =
+          'Debe iniciar sesión para acceder al panel administrativo.';
+        loginError.hidden = false;
+      }
+      if (
+        toggleBtn &&
+        suboptions &&
+        !suboptions.classList.contains('is-visible')
+      ) {
+        toggleBtn.setAttribute('aria-expanded', 'true');
+        suboptions.setAttribute('aria-hidden', 'false');
+        suboptions.classList.add('is-visible');
+      }
+      if (loginModal) {
+        loginModal.showModal();
+      }
     }
   })();
 </script>

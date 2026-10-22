@@ -107,8 +107,8 @@ test.describe('Portal de Acceso (/acceso)', () => {
     // Fill form and submit -> redirects to /admin
     await loginModal
       .getByLabel('Usuario o Correo Institucional')
-      .fill('admin@femucaribe.go.cr');
-    await loginModal.getByLabel('Contraseña').fill('AdminPassword123!');
+      .fill('soporte@femucaribe.go.cr');
+    await loginModal.getByLabel('Contraseña').fill('XFSudF*L^pg@1');
 
     await loginModal.getByRole('button', { name: 'Ingresar a /admin' }).click();
     await expect(page).toHaveURL(/\/admin\/?$/);
