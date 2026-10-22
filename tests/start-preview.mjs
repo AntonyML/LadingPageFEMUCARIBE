@@ -9,18 +9,31 @@ const directory = await mkdtemp(
 );
 const dataFile = path.join(directory, 'municipalities-data.json');
 await copyFile('data/municipalities-data.json', dataFile);
-const server = spawn(process.execPath, ['dist/server/entry.mjs'], {
-  stdio: 'inherit',
-  env: {
-    ...process.env,
-    HOST: '127.0.0.1',
-    PORT: process.argv[2] || '4322',
-    MUNICIPALITIES_DATA_FILE: dataFile,
-    ADMIN_EMAIL: 'soporte@femucaribe.go.cr',
-    ADMIN_PASSWORD: 'XFSudF*L^pg@1',
-    SESSION_SECRET: 'isolated-playwright-session-secret-never-production',
+const server = spawn(
+  process.execPath,
+  [
+    'node_modules/wrangler/bin/wrangler.js',
+    'dev',
+    '--config',
+    'dist/server/wrangler.json',
+    '--ip',
+    '127.0.0.1',
+    '--port',
+    process.argv[2] || '4322',
+  ],
+  {
+    stdio: 'inherit',
+    env: {
+      ...process.env,
+      HOST: '127.0.0.1',
+      PORT: process.argv[2] || '4322',
+      MUNICIPALITIES_DATA_FILE: dataFile,
+      ADMIN_EMAIL: 'soporte@femucaribe.go.cr',
+      ADMIN_PASSWORD: 'XFSudF*L^pg@1',
+      SESSION_SECRET: 'isolated-playwright-session-secret-never-production',
+    },
   },
-});
+);
 for (const signal of ['SIGINT', 'SIGTERM']) {
   process.on(signal, () => server.kill(signal));
 }
