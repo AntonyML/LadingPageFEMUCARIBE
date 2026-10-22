@@ -77,10 +77,11 @@ const href = (path: string) => `${base}${path}`;
             ))}
           </ul>
           <div class="actions">
+           
             <a class="contact" href={href('/contacto')}>
               Contáctenos
             </a>
-            <ThemeToggle />
+            
             {platformUrl ? (
               <a class="platform" href={platformUrl}>
                 Acceder a la plataforma
@@ -90,6 +91,7 @@ const href = (path: string) => `${base}${path}`;
                 Acceder a la plataforma
               </span>
             )}
+             <ThemeToggle />
           </div>
         </div>
       </ResponsiveDisclosure>
