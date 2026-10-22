@@ -40,10 +40,8 @@ tryLoadEnv();
 
 export function getAuthConfig(): AuthConfig {
   const adminEmail = process.env.ADMIN_EMAIL || 'soporte@femucaribe.go.cr';
-  const adminPassword = process.env.ADMIN_PASSWORD || 'XFSudF*L^pg@1';
-  const sessionSecret =
-    process.env.SESSION_SECRET ||
-    'femucaribe_default_session_secret_change_in_production';
+  const adminPassword = process.env.ADMIN_PASSWORD || '';
+  const sessionSecret = process.env.SESSION_SECRET || '';
 
   return { adminEmail, adminPassword, sessionSecret };
 }
@@ -78,7 +76,7 @@ export function validateCredentials(
 
   const config = getAuthConfig();
 
-  if (!config.adminPassword) {
+  if (!config.adminPassword || !config.sessionSecret) {
     return false;
   }
 
@@ -99,6 +97,9 @@ export function createSessionToken(
   expiresInSeconds: number = 86400,
 ): string {
   const config = getAuthConfig();
+  if (!config.sessionSecret) {
+    throw new Error('SESSION_SECRET no está configurado.');
+  }
   const now = Math.floor(Date.now() / 1000);
 
   const payload: SessionPayload = {
@@ -123,12 +124,16 @@ export function verifySessionToken(token: unknown): SessionVerificationResult {
     return { valid: false, error: 'invalid_token_format' };
   }
 
-  const [payloadEncoded, signature] = token.split('.');
-  if (!payloadEncoded || !signature) {
+  const segments = token.split('.');
+  const [payloadEncoded, signature] = segments;
+  if (segments.length !== 2 || !payloadEncoded || !signature) {
     return { valid: false, error: 'malformed_token' };
   }
 
   const config = getAuthConfig();
+  if (!config.adminPassword || !config.sessionSecret) {
+    return { valid: false, error: 'auth_not_configured' };
+  }
   const expectedSignature = crypto
     .createHmac('sha256', config.sessionSecret)
     .update(payloadEncoded)
@@ -147,11 +152,31 @@ export function verifySessionToken(token: unknown): SessionVerificationResult {
 
   try {
     const rawJson = Buffer.from(payloadEncoded, 'base64url').toString('utf8');
-    const payload = JSON.parse(rawJson) as SessionPayload;
+    const payload: unknown = JSON.parse(rawJson);
+
+    if (
+      typeof payload !== 'object' ||
+      payload === null ||
+      !('email' in payload) ||
+      typeof payload.email !== 'string' ||
+      !('iat' in payload) ||
+      typeof payload.iat !== 'number' ||
+      !Number.isFinite(payload.iat) ||
+      !('exp' in payload) ||
+      typeof payload.exp !== 'number' ||
+      !Number.isFinite(payload.exp) ||
+      payload.email.trim().toLowerCase() !==
+        config.adminEmail.trim().toLowerCase()
+    ) {
+      return { valid: false, error: 'invalid_payload' };
+    }
 
     const now = Math.floor(Date.now() / 1000);
-    if (payload.exp < now) {
+    if (payload.exp <= now) {
       return { valid: false, error: 'token_expired' };
+    }
+    if (payload.iat > now || payload.exp <= payload.iat) {
+      return { valid: false, error: 'invalid_payload' };
     }
 
     return { valid: true, email: payload.email };

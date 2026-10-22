@@ -1,0 +1,323 @@
+---
+import type { Municipality } from '../../lib/municipalities-repository';
+import styles from './styles.module.css';
+
+interface Props {
+  municipality: Municipality;
+  base: string;
+}
+const { municipality, base } = Astro.props;
+const imageUrl = (value: string) =>
+  value.startsWith('/') ? `${base}${value}` : value;
+---
+
+<section class={styles.editor} aria-labelledby="municipality-editor-title">
+  <div class={styles['editor-heading']}>
+    <div>
+      <span class={styles.kicker}>Ficha institucional</span>
+      <h2 id="municipality-editor-title">{municipality.name}</h2>
+      <p>
+        Complete los datos oficiales. Puede dejar vacíos los datos pendientes de
+        contacto e imágenes.
+      </p>
+    </div>
+    <a
+      class={styles['secondary-action']}
+      href={`${base}/municipalidades#municipality-${municipality.id}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Previsualizar en sitio público{' '}
+      <span class="visually-hidden">(nueva pestaña)</span>
+      <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+  <noscript>
+    <p class={styles.notice}>
+      Puede consultar y seleccionar los cantones. Para editar y guardar, active
+      JavaScript en su navegador.
+    </p>
+  </noscript>
+  <form
+    id="municipality-editor"
+    class={styles.form}
+    data-municipality-id={municipality.id}
+    data-base={base}
+    data-endpoint={`${base}/api/admin/municipalities/${municipality.id}`}
+  >
+    <fieldset class={styles.fieldset}>
+      <legend>Información institucional</legend>
+      <div class={styles.fields}>
+        <div class={styles.field}>
+          <label for="municipality-name">
+            Nombre oficial <span>(obligatorio)</span>
+          </label>
+          <input
+            id="municipality-name"
+            name="name"
+            value={municipality.name}
+            required
+            maxlength="160"
+            autocomplete="off"
+          />
+        </div>
+        <div class={styles.field}>
+          <label for="municipality-cabecera">
+            Cabecera cantonal <span>(obligatoria)</span>
+          </label>
+          <input
+            id="municipality-cabecera"
+            name="cabecera"
+            value={municipality.cabecera}
+            required
+            maxlength="120"
+            autocomplete="off"
+          />
+        </div>
+        <div class:list={[styles.field, styles['full-width']]}>
+          <label for="municipality-description">
+            Reseña institucional <span>(obligatoria)</span>
+          </label>
+          <textarea
+            id="municipality-description"
+            name="description"
+            rows="6"
+            maxlength="6000"
+            required
+            aria-describedby="description-help description-counter"
+          >{municipality.description}</textarea>
+          <div class={styles['field-meta']}>
+            <p id="description-help">
+              Describa el cantón y su perfil institucional. Se conservan los
+              saltos de línea.
+            </p>
+            <output
+              id="description-counter"
+              for="municipality-description"
+              data-description-counter
+            >
+              {municipality.description.length} / 6000 caracteres
+            </output>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class={styles.fieldset}>
+      <legend>Autoridades</legend>
+      <div class={styles.fields}>
+        <div class={styles.field}>
+          <label for="authority-name">
+            Nombre del alcalde o alcaldesa <span>(obligatorio)</span>
+          </label>
+          <input
+            id="authority-name"
+            name="alcaldia.nombre"
+            value={municipality.alcaldia.nombre}
+            maxlength="160"
+            required
+            autocomplete="off"
+          />
+        </div>
+        <div class={styles.field}>
+          <label for="authority-position">
+            Cargo oficial <span>(obligatorio)</span>
+          </label>
+          <input
+            id="authority-position"
+            name="alcaldia.cargo"
+            value={municipality.alcaldia.cargo}
+            maxlength="120"
+            required
+            placeholder="Ej. Alcaldesa Municipal"
+            autocomplete="off"
+          />
+        </div>
+        <div class:list={[styles.field, styles['full-width']]}>
+          <label for="authority-photo">Fotografía oficial de la alcaldía</label>
+          <input
+            id="authority-photo"
+            name="alcaldia.fotoUrl"
+            value={municipality.alcaldia.fotoUrl}
+            type="text"
+            inputmode="url"
+            maxlength="2048"
+            aria-describedby="authority-photo-help"
+            data-image-input="authority"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <p id="authority-photo-help">
+            Pegue una dirección web http(s) o una ruta del sitio, como
+            /images/municipalities/foto.webp.
+          </p>
+          <div class={styles['image-preview']} data-image-preview="authority">
+            <img
+              src={
+                municipality.alcaldia.fotoUrl
+                  ? imageUrl(municipality.alcaldia.fotoUrl)
+                  : undefined
+              }
+              alt="Vista previa de la fotografía de alcaldía"
+              width="180"
+              height="140"
+              hidden={!municipality.alcaldia.fotoUrl}
+              data-preview-image
+            />
+            <span
+              hidden={Boolean(municipality.alcaldia.fotoUrl)}
+              data-preview-placeholder
+            >
+              Sin fotografía. Se utilizará el avatar institucional.
+            </span>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class={styles.fieldset}>
+      <legend>Canales de contacto</legend>
+      <div class={styles.fields}>
+        <div class={styles.field}>
+          <label for="contact-phone">Teléfono oficial</label>
+          <input
+            id="contact-phone"
+            name="contacto.telefono"
+            value={municipality.contacto.telefono}
+            type="tel"
+            inputmode="tel"
+            maxlength="40"
+            aria-describedby="phone-help"
+            autocomplete="off"
+          />
+          <p id="phone-help">
+            Incluya el código de país, por ejemplo +506 2710-0000.
+          </p>
+        </div>
+        <div class={styles.field}>
+          <label for="contact-email">Correo institucional</label>
+          <input
+            id="contact-email"
+            name="contacto.correo"
+            value={municipality.contacto.correo}
+            type="email"
+            maxlength="254"
+            autocomplete="off"
+          />
+        </div>
+        <div class:list={[styles.field, styles['full-width']]}>
+          <label for="contact-website">Sitio web oficial</label>
+          <input
+            id="contact-website"
+            name="contacto.sitioWeb"
+            value={municipality.contacto.sitioWeb}
+            type="url"
+            inputmode="url"
+            maxlength="2048"
+            placeholder="https://www.municipalidad.go.cr"
+            aria-describedby="website-help"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <p id="website-help">
+            Utilice una dirección completa que comience con https:// o http://.
+          </p>
+        </div>
+        <div class:list={[styles.field, styles['full-width']]}>
+          <label for="contact-address">Dirección de la sede municipal</label>
+          <textarea
+            id="contact-address"
+            name="contacto.direccion"
+            rows="3"
+            maxlength="500"
+          >{municipality.contacto.direccion}</textarea>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class={styles.fieldset}>
+      <legend>Emblema y proyectos destacados</legend>
+      <div class={styles.fields}>
+        <div class:list={[styles.field, styles['full-width']]}>
+          <label for="municipality-emblem">Escudo o emblema cantonal</label>
+          <input
+            id="municipality-emblem"
+            name="escudoUrl"
+            value={municipality.escudoUrl}
+            type="text"
+            inputmode="url"
+            maxlength="2048"
+            aria-describedby="emblem-help"
+            data-image-input="emblem"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <p id="emblem-help">
+            Pegue la dirección web http(s) o la ruta del emblema oficial. Si no
+            está disponible, deje el campo vacío.
+          </p>
+          <div class={styles['image-preview']} data-image-preview="emblem">
+            <img
+              src={
+                municipality.escudoUrl
+                  ? imageUrl(municipality.escudoUrl)
+                  : undefined
+              }
+              alt="Vista previa del emblema cantonal"
+              width="140"
+              height="140"
+              hidden={!municipality.escudoUrl}
+              data-preview-image
+            />
+            <span
+              hidden={Boolean(municipality.escudoUrl)}
+              data-preview-placeholder
+            >
+              Sin emblema. Se mostrarán las iniciales del cantón.
+            </span>
+          </div>
+        </div>
+        <div class:list={[styles.field, styles['full-width']]}>
+          <label for="municipality-projects">
+            Proyectos destacados con la Federación
+          </label>
+          <textarea
+            id="municipality-projects"
+            name="proyectosDestacados"
+            rows="5"
+            maxlength="9030"
+            aria-describedby="projects-help"
+          >{municipality.proyectosDestacados.join('\n')}</textarea>
+          <p id="projects-help">
+            Escriba una iniciativa o convenio por línea: hasta 30 proyectos, de
+            300 caracteres cada uno. Deje vacío si no hay proyectos para
+            publicar.
+          </p>
+        </div>
+      </div>
+    </fieldset>
+    <div class={styles['save-area']}>
+      <p
+        class={styles.feedback}
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        data-save-feedback
+      ></p>
+      <div class={styles['save-actions']}>
+        <button
+          type="submit"
+          class={styles['primary-action']}
+          data-save-button
+          disabled
+        >
+          Guardar cambios
+        </button>
+        <span class={styles['save-hint']}>
+          Los cambios se reflejan al guardar.
+        </span>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  import './editor';
+</script>

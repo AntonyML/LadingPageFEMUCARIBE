@@ -1,8 +1,12 @@
 ---
 import SiteIcon from '../SiteIcon.astro';
-import { municipalities } from './data';
+import type { MunicipalGovernment } from './types';
 import pageStyles from './page.module.css';
 import cards from './cards.module.css';
+interface Props {
+  municipalities: readonly MunicipalGovernment[];
+}
+const { municipalities } = Astro.props;
 ---
 
 <section
@@ -18,19 +22,28 @@ import cards from './cards.module.css';
       <li>
         <article class={cards['territory-card']}>
           <figure class={cards['territory-photo-frame']}>
-            <img
-              class={cards['territory-photo']}
-              src={municipality.photo.src}
-              alt={municipality.photoAlt}
-              width={municipality.photo.width}
-              height={municipality.photo.height}
-              loading="lazy"
-              decoding="async"
-            />
+            {municipality.photo ? (
+              <img
+                class={cards['territory-photo']}
+                src={municipality.photo.src}
+                alt={municipality.photoAlt}
+                width={municipality.photo.width}
+                height={municipality.photo.height}
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <div class={cards['photo-placeholder']}>
+                <span>{municipality.cantonName}</span>
+                <span class={cards['placeholder-caption']}>
+                  Fotografía cantonal pendiente
+                </span>
+              </div>
+            )}
           </figure>
           <div class={cards['territory-body']}>
             <div class={cards['territory-heading']}>
-              <h3>{'Cantón de ' + municipality.name}</h3>
+              <h3>{'Cantón de ' + municipality.cantonName}</h3>
               <span class={cards['territory-badge']}>
                 {municipality.territoryLabel}
               </span>

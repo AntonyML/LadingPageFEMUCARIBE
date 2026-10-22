@@ -1,0 +1,122 @@
+[
+  {
+    "id": "limon",
+    "name": "Municipalidad de Limón",
+    "cabecera": "Limón",
+    "description": "Nodo logístico y portuario neurálgico del país. Articula proyectos de infraestructura costera, ordenamiento urbano y desarrollo portuario.",
+    "alcaldia": {
+      "nombre": "Ana Janniel Matarrita Mc Calla",
+      "cargo": "Alcaldesa Municipal",
+      "fotoUrl": "/images/municipalities/alcaldesa-limon.png"
+    },
+    "contacto": {
+      "telefono": "+506 2758-4444",
+      "correo": "alcaldia@municlimon.go.cr",
+      "sitioWeb": "https://www.municlimon.go.cr/",
+      "direccion": "Diagonal a la Funeraria Hilton, 100 metros norte del Estadio Juan Gobán, Limón."
+    },
+    "escudoUrl": "",
+    "proyectosDestacados": [],
+    "updatedAt": "2026-10-22T00:00:00.000Z"
+  },
+  {
+    "id": "pococi",
+    "name": "Municipalidad de Pococí",
+    "cabecera": "Guápiles",
+    "description": "Principal centro urbano y comercial de la región Caribe. Conexión directa con la Ruta 32 y plataforma para la electrolinera y valorización de residuos.",
+    "alcaldia": {
+      "nombre": "Manuel Hernández Rivera",
+      "cargo": "Alcalde Municipal",
+      "fotoUrl": ""
+    },
+    "contacto": {
+      "telefono": "+506 2713-6560",
+      "correo": "plataforma@munipococi.go.cr",
+      "sitioWeb": "https://munipococi.go.cr/",
+      "direccion": "Guápiles, altos del Hotel Talamanca, sobre la Ruta 32."
+    },
+    "escudoUrl": "",
+    "proyectosDestacados": [],
+    "updatedAt": "2026-10-22T00:00:00.000Z"
+  },
+  {
+    "id": "siquirres",
+    "name": "Municipalidad de Siquirres",
+    "cabecera": "Siquirres",
+    "description": "Cantón del Caribe con vocación agrícola, especialmente en la producción de banano y piña. Su historia está vinculada al ferrocarril y su oferta turística incluye los ríos Pacuare y Reventazón.",
+    "alcaldia": {
+      "nombre": "Randal Black Reid",
+      "cargo": "Alcalde Municipal",
+      "fotoUrl": ""
+    },
+    "contacto": {
+      "telefono": "+506 2768-6266",
+      "correo": "consultas@siquirres.go.cr",
+      "sitioWeb": "https://siquirres.go.cr/",
+      "direccion": "25 metros norte del Banco Nacional, Siquirres, Limón."
+    },
+    "escudoUrl": "",
+    "proyectosDestacados": [],
+    "updatedAt": "2026-10-22T00:00:00.000Z"
+  },
+  {
+    "id": "talamanca",
+    "name": "Municipalidad de Talamanca",
+    "cabecera": "Bribrí",
+    "description": "Territorio de alta diversidad biológica y cultural. Enlace estratégico fronterizo en Sixaola, obras comunitarias e infraestructura deportiva.",
+    "alcaldia": {
+      "nombre": "Rugeli Morales Rodríguez",
+      "cargo": "Alcalde Municipal",
+      "fotoUrl": ""
+    },
+    "contacto": {
+      "telefono": "+506 2751-0255",
+      "correo": "alcaldia@municipalidadtalamanca.go.cr",
+      "sitioWeb": "https://www.municipalidadtalamanca.go.cr/",
+      "direccion": "Bribrí, Bratsi, Talamanca, costado oeste del puesto policial."
+    },
+    "escudoUrl": "",
+    "proyectosDestacados": [],
+    "updatedAt": "2026-10-22T00:00:00.000Z"
+  },
+  {
+    "id": "matina",
+    "name": "Municipalidad de Matina",
+    "cabecera": "Matina",
+    "description": "Cantón con vocación productiva bananera y cacaotera. Prioriza proyectos de conectividad vial cantonal, gestión de aguas y resiliencia climática.",
+    "alcaldia": {
+      "nombre": "Walter Céspedes Salazar",
+      "cargo": "Alcalde Municipal",
+      "fotoUrl": "/images/municipalities/alcalde-matina.png"
+    },
+    "contacto": {
+      "telefono": "+506 2718-1360",
+      "correo": "info@munimatina.go.cr",
+      "sitioWeb": "https://www.munimatina.go.cr/",
+      "direccion": ""
+    },
+    "escudoUrl": "",
+    "proyectosDestacados": [],
+    "updatedAt": "2026-10-22T00:00:00.000Z"
+  },
+  {
+    "id": "guacimo",
+    "name": "Municipalidad de Guácimo",
+    "cabecera": "Guácimo",
+    "description": "Ubicación de la sede operativa de la federación. Centro de articulación intercantonal, desarrollo agropecuario y tecnológico regional.",
+    "alcaldia": {
+      "nombre": "Beatriz Mora Valverde",
+      "cargo": "Alcaldesa Municipal",
+      "fotoUrl": ""
+    },
+    "contacto": {
+      "telefono": "+506 2716-5051",
+      "correo": "info@guacimo.go.cr",
+      "sitioWeb": "https://guacimo.go.cr/",
+      "direccion": ""
+    },
+    "escudoUrl": "",
+    "proyectosDestacados": [],
+    "updatedAt": "2026-10-22T00:00:00.000Z"
+  }
+]

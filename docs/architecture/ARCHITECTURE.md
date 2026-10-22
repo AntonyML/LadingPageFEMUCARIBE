@@ -2,7 +2,7 @@
 
 ## Base vigente
 
-Astro y TypeScript strictest, HTML semántico, CSS nativo y JavaScript cliente solo cuando una interacción lo necesita. Versiones e instalaciones: package.json, lockfiles y TOOLING.md son las fuentes actuales. No añadir frameworks frontend ni Tailwind; preferir capacidades nativas. La salida actual es estática; DB, autenticación, hosting y adaptador servidor están pendientes.
+Astro y TypeScript strictest, HTML semántico, CSS nativo y JavaScript cliente solo cuando una interacción lo necesita. Versiones e instalaciones: package.json, lockfiles y TOOLING.md son las fuentes actuales. No añadir frameworks frontend ni Tailwind; preferir capacidades nativas. Las páginas editoriales se prerenderizan; administración, autenticación, API municipal y directorio público municipal se ejecutan con el adaptador Node standalone. DB y hosting siguen pendientes.
 
 ## Estructura Astro
 
@@ -35,9 +35,19 @@ Referencias: [Astro layout compartido](https://docs.astro.build/en/basics/layout
 
 ## Límites de responsabilidad
 
-La UI prepara presentación y valida su contrato; las reglas de negocio pertenecen a casos de uso reales. Cuando se incorpore servidor, usar Astro Actions para operaciones internas, Zod en fronteras y astro:env para configuración. Sessions aporta estado, no autenticación. Estas capacidades no están implementadas hoy.
+La UI prepara presentación y valida su contrato; las reglas de negocio pertenecen a casos de uso reales. Preferir Astro Actions para futuras operaciones internas, Zod en fronteras y astro:env para configuración declarativa. El módulo municipal usa endpoints GET/PUT y persistencia JSON por solicitud explícita del propietario. Sessions aporta estado, no autenticación: la administración usa cookies HTTP-only firmadas y verificadas por middleware.
 
-Si se incorpora persistencia, dominio y aplicación usan contratos propios; infraestructura implementa esos contratos con Kysely, SQL y drivers. Tipos tecnológicos y consultas permanecen en el adaptador. Composición inyecta dependencias. DB, driver y despliegue se deciden al existir un caso real. No crear ahora carpetas ni repositorios ficticios.
+Si se incorpora una base de datos, dominio y aplicación usan contratos propios; infraestructura implementa esos contratos con Kysely, SQL y drivers. Tipos tecnológicos y consultas permanecen en el adaptador. Composición inyecta dependencias. DB, driver y despliegue se deciden al existir un caso real. No crear ahora carpetas ni repositorios ficticios.
+
+## Gestión de Gobiernos Locales
+
+`/admin/municipalidades` edita los seis registros canónicos mediante `/api/admin/municipalities` y `/api/admin/municipalities/:id`. El middleware valida la sesión tanto en páginas como en API; una API sin sesión devuelve JSON 401. El PUT exige JSON y origen coincidente, valida con Zod y establece `updatedAt` en el servidor. `ADMIN_PASSWORD` y `SESSION_SECRET` deben estar configurados: no se admiten contraseñas ni claves de firma predeterminadas. Estas credenciales se suministran por entorno o `.env` en el directorio de arranque.
+
+`src/lib/municipalities-repository.ts` es la fuente compartida. Lee el documento completo en cada solicitud y publica las ediciones por archivo temporal exclusivo, flush y rename en el mismo directorio. La cola por ruta evita pérdidas entre escrituras concurrentes de un proceso Node. Esta implementación admite un proceso escritor; varias réplicas escritoras requieren almacenamiento coordinado. Un archivo ausente, corrupto o inválido produce un error y nunca se reemplaza silenciosamente por la semilla.
+
+En standalone, ejecutar desde la raíz del proyecto incluyendo `data/municipalities-data.json`, o definir `MUNICIPALITIES_DATA_FILE` como ruta absoluta a un archivo JSON válido sobre volumen persistente con permisos de escritura. Inicializar ese archivo una vez con la semilla versionada; conservarlo y respaldarlo entre despliegues, sin sobrescribir ediciones con la semilla. La carpeta `dist` por sí sola no contiene los datos editables. El proceso sirve `dist/server/entry.mjs`. `/municipalidades` desactiva prerender y caché para reflejar cada guardado sin rebuild.
+
+La UI admite URLs de fotografías y emblemas; la carga de archivos no está habilitada. Los campos pendientes permanecen vacíos con presentación genérica. Fuentes, fecha de carga y límites de los datos iniciales: [municipalities-sources.md](../agents/municipalities-sources.md).
 
 ## Criterios verificables
 

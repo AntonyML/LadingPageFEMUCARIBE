@@ -8,14 +8,14 @@ const memberTitles = [
   'Municipalidad de Matina',
   'Municipalidad de Guácimo',
   'Municipalidad de Pococí',
-  'Municipalidad de Parrita',
+  'Municipalidad de Siquirres',
 ] as const;
 
 const authorityNames = [
   'Ana Janniel Matarrita Mc Calla',
   'Walter Céspedes Salazar',
   'Beatriz Mora Valverde',
-  'Roberto Rímola Real',
+  'Randal Black Reid',
   'Rugeli Morales Rodríguez',
   'Manuel Hernández Rivera',
 ] as const;
@@ -97,10 +97,10 @@ test('renders the complete municipal directory in the public shell without JavaS
   ).toHaveCount(12);
   await expect(
     main.getByRole('link', { name: 'Ver proyectos', exact: false }),
-  ).toHaveCount(0);
+  ).toHaveCount(6);
   await expect(
     main.getByRole('link', { name: 'Ver sitio web oficial', exact: false }),
-  ).toHaveCount(0);
+  ).toHaveCount(6);
   await expect(main.locator('script')).toHaveCount(0);
 });
 

@@ -577,3 +577,43 @@
     font-size: 0.8125rem;
   }
 }
+
+.contact-details,
+.featured-projects {
+  min-inline-size: 0;
+  color: var(--theme-text-secondary);
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}
+
+.contact-details p,
+.featured-projects p {
+  margin-block: 0.5rem;
+}
+
+.contact-details a {
+  color: var(--theme-link);
+}
+
+.featured-projects h3 {
+  margin-block: 0.5rem;
+  font-size: 1rem;
+}
+
+.featured-projects ul {
+  padding-inline-start: 1.25rem;
+}
+
+.member-summary,
+.territory-description,
+.contact-details,
+.featured-projects li {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.member-icon img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}

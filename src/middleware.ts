@@ -2,16 +2,27 @@ import { defineMiddleware } from 'astro:middleware';
 import { verifySessionToken, SESSION_COOKIE_NAME } from './lib/auth';
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  const url = new URL(context.request.url);
-  const pathname = url.pathname;
+  // Use Astro's routing-normalized URL, including decoded path segments.
+  const url = context.url;
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const pathname = url.pathname.slice(base.length).replace(/\/$/, '') || '/';
+  const isAdminApi =
+    pathname === '/api/admin' || pathname.startsWith('/api/admin/');
 
   // Protect /admin and any subpaths under /admin/
-  if (pathname === '/admin' || pathname.startsWith('/admin/')) {
+  if (isAdminApi || pathname === '/admin' || pathname.startsWith('/admin/')) {
+    context.cache.set(false);
     const sessionCookie = context.cookies.get(SESSION_COOKIE_NAME)?.value;
     const verification = verifySessionToken(sessionCookie);
 
     if (!verification.valid) {
-      return context.redirect('/acceso?error=unauthorized', 302);
+      if (isAdminApi) {
+        return Response.json(
+          { error: 'Debe iniciar sesión para acceder al panel.' },
+          { status: 401, headers: { 'Cache-Control': 'no-store' } },
+        );
+      }
+      return context.redirect(`${base}/acceso?error=unauthorized`, 302);
     }
 
     context.locals.user = {
@@ -21,5 +32,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
     };
   }
 
-  return next();
+  const response = await next();
+  if (isAdminApi || pathname === '/admin' || pathname.startsWith('/admin/')) {
+    response.headers.set('Cache-Control', 'no-store');
+  }
+  return response;
 });

@@ -5,12 +5,18 @@ import MunicipalityOverview from './MunicipalityOverview.astro';
 import MunicipalityProfiles from './MunicipalityProfiles.astro';
 import TechnicalLiaison from './TechnicalLiaison.astro';
 import styles from './page.module.css';
+import type { MunicipalGovernment } from './types';
+
+interface Props {
+  municipalities: readonly MunicipalGovernment[];
+}
+const { municipalities } = Astro.props;
 ---
 
 <div class={styles.page}>
-  <MunicipalityOverview />
+  <MunicipalityOverview municipalities={municipalities} />
   <TechnicalLiaison />
-  <MunicipalityProfiles />
-  <AuthoritySummary />
-  <CantonTerritories />
+  <MunicipalityProfiles municipalities={municipalities} />
+  <AuthoritySummary municipalities={municipalities} />
+  <CantonTerritories municipalities={municipalities} />
 </div>

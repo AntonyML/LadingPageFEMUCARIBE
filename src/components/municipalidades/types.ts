@@ -1,11 +1,12 @@
 import type { ImageMetadata } from 'astro';
+import type { Municipality } from '../../lib/municipalities-repository';
 
-export interface MunicipalGovernment {
+export interface MunicipalGovernment extends Municipality {
   slug: string;
-  name: string;
+  cantonName: string;
   memberLocation: string;
   memberSummary: string;
-  photo: ImageMetadata;
+  photo?: ImageMetadata;
   photoAlt: string;
   period: string;
   mayor: {
@@ -13,7 +14,7 @@ export interface MunicipalGovernment {
     roleLabel: string;
     roleTitle: string;
     initials: string;
-    portrait?: ImageMetadata;
+    portrait?: string;
     portraitAlt?: string;
   };
   viceMayors: readonly [string, string];

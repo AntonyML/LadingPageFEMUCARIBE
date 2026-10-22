@@ -2,7 +2,7 @@ import { expect, test, type Locator, type Page } from '@playwright/test';
 
 test.use({ javaScriptEnabled: false });
 
-const fixtureOrigin = 'http://127.0.0.1:4323';
+const fixtureOrigin = `http://127.0.0.1:${process.env.FEMUCARIBE_FIXTURE_PORT || '4323'}`;
 const heading = 'Actualidad y Comunicados Oficiales';
 const emptyMessage = 'Aún no hay noticias publicadas.';
 const emptyDescription =

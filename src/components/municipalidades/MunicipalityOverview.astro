@@ -1,8 +1,12 @@
 ---
-import { overviewMunicipalities } from './data';
+import type { MunicipalGovernment } from './types';
 import MunicipalityStackIcon from './MunicipalityStackIcon.astro';
 import pageStyles from './page.module.css';
 import cards from './cards.module.css';
+interface Props {
+  municipalities: readonly MunicipalGovernment[];
+}
+const { municipalities } = Astro.props;
 ---
 
 <section
@@ -24,29 +28,49 @@ import cards from './cards.module.css';
   </header>
 
   <ul class:list={['layout-grid', cards['member-grid']]}>
-    {overviewMunicipalities.map((municipality, index) => (
+    {municipalities.map((municipality, index) => (
       <li>
-        <article class={cards['member-card']}>
+        <article
+          class={cards['member-card']}
+          id={'municipality-' + municipality.id}
+        >
           <figure class={cards['member-photo-frame']}>
-            <img
-              class={cards['member-photo']}
-              src={municipality.photo.src}
-              alt={municipality.photoAlt}
-              width={municipality.photo.width}
-              height={municipality.photo.height}
-              loading={index < 3 ? 'eager' : 'lazy'}
-              decoding="async"
-            />
+            {municipality.photo ? (
+              <img
+                class={cards['member-photo']}
+                src={municipality.photo.src}
+                alt={municipality.photoAlt}
+                width={municipality.photo.width}
+                height={municipality.photo.height}
+                loading={index < 3 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
+            ) : (
+              <div class={cards['photo-placeholder']}>
+                <span>{municipality.cantonName}</span>
+                <span class={cards['placeholder-caption']}>
+                  Fotografía cantonal pendiente
+                </span>
+              </div>
+            )}
           </figure>
           <div class={cards['member-body']}>
             <div class={cards['member-heading']}>
               <span class={cards['member-icon']}>
-                <MunicipalityStackIcon class={cards['stack-icon']} />
+                {municipality.escudoUrl ? (
+                  <img
+                    src={municipality.escudoUrl}
+                    alt=""
+                    width="36"
+                    height="36"
+                    loading="lazy"
+                  />
+                ) : (
+                  <MunicipalityStackIcon class={cards['stack-icon']} />
+                )}
               </span>
               <div class={cards['member-heading-copy']}>
-                <h2 class={cards['member-name']}>
-                  Municipalidad de {municipality.name}
-                </h2>
+                <h2 class={cards['member-name']}>{municipality.name}</h2>
                 <p class={cards['member-location']}>
                   {municipality.memberLocation}
                 </p>
@@ -56,14 +80,25 @@ import cards from './cards.module.css';
             <p class={cards['member-summary']}>{municipality.memberSummary}</p>
 
             <div class={cards['member-actions']}>
-              <span class={cards['pending-action']}>
+              <a
+                class={cards['action-link']}
+                href={'#projects-' + municipality.id}
+              >
                 Ver proyectos <span aria-hidden="true">→</span>
-                <span class="visually-hidden">. Destino pendiente.</span>
-              </span>
-              <span class={cards['pending-action']}>
-                Ver sitio web oficial <span aria-hidden="true">↗</span>
-                <span class="visually-hidden">. Destino pendiente.</span>
-              </span>
+              </a>
+              {municipality.contacto.sitioWeb ? (
+                <a
+                  class={cards['action-link']}
+                  href={municipality.contacto.sitioWeb}
+                >
+                  Ver sitio web oficial <span aria-hidden="true">↗</span>
+                </a>
+              ) : (
+                <span class={cards['pending-action']}>
+                  Ver sitio web oficial <span aria-hidden="true">↗</span>
+                  <span class="visually-hidden">. Destino pendiente.</span>
+                </span>
+              )}
               <a
                 class={cards['action-link']}
                 href={'#authority-' + municipality.slug}
@@ -72,6 +107,51 @@ import cards from './cards.module.css';
                 <span aria-hidden="true">→</span>
               </a>
             </div>
+            <div class={cards['contact-details']}>
+              {municipality.contacto.telefono && (
+                <p>
+                  <strong>Teléfono: </strong>
+                  <a
+                    href={
+                      'tel:' +
+                      municipality.contacto.telefono.replace(/[^+\d]/g, '')
+                    }
+                  >
+                    {municipality.contacto.telefono}
+                  </a>
+                </p>
+              )}
+              {municipality.contacto.correo && (
+                <p>
+                  <strong>Correo: </strong>
+                  <a href={'mailto:' + municipality.contacto.correo}>
+                    {municipality.contacto.correo}
+                  </a>
+                </p>
+              )}
+              {municipality.contacto.direccion && (
+                <p>
+                  <strong>Dirección: </strong>
+                  {municipality.contacto.direccion}
+                </p>
+              )}
+            </div>
+            <section
+              class={cards['featured-projects']}
+              id={'projects-' + municipality.id}
+              aria-label={'Proyectos destacados de ' + municipality.cantonName}
+            >
+              <h3>Proyectos destacados</h3>
+              {municipality.proyectosDestacados.length ? (
+                <ul>
+                  {municipality.proyectosDestacados.map((project) => (
+                    <li>{project}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p>Sin proyectos destacados publicados.</p>
+              )}
+            </section>
           </div>
         </article>
       </li>

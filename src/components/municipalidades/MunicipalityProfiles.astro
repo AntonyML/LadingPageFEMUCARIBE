@@ -1,8 +1,12 @@
 ---
-import { municipalities } from './data';
+import type { MunicipalGovernment } from './types';
 import MunicipalitySectionHeading from './MunicipalitySectionHeading.astro';
 import pageStyles from './page.module.css';
 import cards from './cards.module.css';
+interface Props {
+  municipalities: readonly MunicipalGovernment[];
+}
+const { municipalities } = Astro.props;
 ---
 
 <section
@@ -28,10 +32,10 @@ import cards from './cards.module.css';
             {municipality.mayor.portrait ? (
               <img
                 class={cards['profile-photo']}
-                src={municipality.mayor.portrait.src}
+                src={municipality.mayor.portrait}
                 alt={municipality.mayor.portraitAlt ?? municipality.mayor.name}
-                width={municipality.mayor.portrait.width}
-                height={municipality.mayor.portrait.height}
+                width="640"
+                height="480"
                 loading="lazy"
                 decoding="async"
               />
@@ -55,7 +59,7 @@ import cards from './cards.module.css';
           </figure>
 
           <div class={cards['profile-local-row']}>
-            <p>{'Municipalidad de ' + municipality.name}</p>
+            <p>{municipality.name}</p>
             <span class={cards['period-badge']}>{municipality.period}</span>
           </div>
 

@@ -1,9 +1,13 @@
 ---
-import { municipalities } from './data';
+import type { MunicipalGovernment } from './types';
 import MunicipalitySectionHeading from './MunicipalitySectionHeading.astro';
 import pageStyles from './page.module.css';
 import cards from './cards.module.css';
 import SiteIcon from '../SiteIcon.astro';
+interface Props {
+  municipalities: readonly MunicipalGovernment[];
+}
+const { municipalities } = Astro.props;
 ---
 
 <section
@@ -23,7 +27,7 @@ import SiteIcon from '../SiteIcon.astro';
       <li>
         <article class={cards['summary-card']}>
           <div class={cards['summary-heading']}>
-            <h3>{'Municipalidad de ' + municipality.name}</h3>
+            <h3>{municipality.name}</h3>
             <span class={cards['period-badge']}>{municipality.period}</span>
           </div>
 

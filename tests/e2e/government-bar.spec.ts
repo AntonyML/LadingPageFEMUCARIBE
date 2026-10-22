@@ -1,6 +1,9 @@
 import { expect, test } from '@playwright/test';
 
-test.use({ baseURL: 'http://127.0.0.1:4323', javaScriptEnabled: false });
+test.use({
+  baseURL: `http://127.0.0.1:${process.env.FEMUCARIBE_FIXTURE_PORT || '4323'}`,
+  javaScriptEnabled: false,
+});
 
 test('keyboard skip link, visible focus and supplied destinations work without JS', async ({
   page,

@@ -276,3 +276,9 @@ CONFIRMED:
 4. Cero dependencias externas y cumplimiento de soberanía de datos: archivo único Vanilla JS servido localmente desde la carpeta pública del proyecto.
 
 VALIDADO: stro check con 0 errores, 0 warnings y 0 hints en 105 archivos; ESLint y Stylelint limpios; 29/29 pruebas unitarias aprobadas; suite completa de Playwright con 384 pruebas E2E aprobadas (incluyendo las 5 pruebas dedicadas de widget y navegación en 	ests/e2e/accessibility-widget.spec.ts).
+
+### Gestión municipal administrativa: ADMIN-MUNICIPALITIES-001
+
+INFERRED, 2026-10-22: el módulo no-code no tiene board administrativo identificado. Consume AdminLayout y los tokens globales; selector de seis cantones, formulario semántico con fieldsets y labels, contador, previews, guardado con feedback aria-live y enlace público. Reflow apila campos y acciones desde 280 CSS px y permite texto al 200%. La cabecera administrativa admite wrap y un enlace de salto enfocable. Penpot permanece intacto.
+
+El alcance territorial explícito del propietario sustituye Parrita por Siquirres en /municipalidades. Se preservan las cinco imágenes cantonales correspondientes, los dos retratos locales y la composición pública existente; Siquirres muestra fotografía pendiente. Los campos institucionales editables se leen por solicitud desde JSON, mientras las autoridades complementarias y metadatos territoriales previos permanecen en presentación. Los enlaces oficiales verificados y los proyectos publicados tienen destinos reales en las fichas. Fuentes y pendientes en docs/agents/municipalities-sources.md.
