@@ -42,7 +42,7 @@ const storageFixture = createServer(async (request, response) => {
     return;
   }
 
-  if (request.method === 'POST' && url.pathname === '/api/v1/files/upload') {
+  if (request.method === 'POST' && url.pathname === '/api/v1/files') {
     const chunks = [];
     for await (const chunk of request) chunks.push(chunk);
     const body = Buffer.concat(chunks);
@@ -58,15 +58,16 @@ const storageFixture = createServer(async (request, response) => {
         : '';
 
     sendJson(201, {
-      success: true,
-      file: {
-        fileId,
-        originalName: filename,
-        size: body.length,
-        mimeType: 'application/pdf',
-        currentDownloadUrl: `${endpoint}${downloadPath}`,
-        relativeDownloadPath: downloadPath,
-      },
+      fileId,
+      originalName: filename,
+      storedName: `${fileId}.pdf`,
+      mimeType: 'application/pdf',
+      sizeBytes: body.length,
+      sha256: 'a'.repeat(64),
+      createdAt: new Date().toISOString(),
+      downloadPath,
+      downloadUrl: `${endpoint}${downloadPath}`,
+      tunnelActive: true,
     });
     return;
   }

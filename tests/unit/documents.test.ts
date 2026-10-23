@@ -157,6 +157,62 @@ describe('Documents Repository & Storage Client', () => {
       expect(status.error).toContain('no configurado');
     });
 
+    it('uploads to the api-buket route and maps its response contract', async () => {
+      process.env.FEMUCARIBE_STORAGE_ENDPOINT = 'https://storage.example';
+      process.env.FEMUCARIBE_STORAGE_API_KEY = 'unit-test-key';
+      const fileData = new Blob(['contenido'], { type: 'application/pdf' });
+      const downloadPath = '/api/v1/files/storage-file-123';
+      const downloadUrl = `https://storage.example${downloadPath}`;
+      const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
+        new Response(
+          JSON.stringify({
+            fileId: 'storage-file-123',
+            originalName: 'acta.pdf',
+            storedName: 'storage-file-123.pdf',
+            mimeType: 'application/pdf',
+            sizeBytes: fileData.size,
+            sha256: 'a'.repeat(64),
+            createdAt: '2026-10-23T12:00:00.000Z',
+            downloadPath,
+            downloadUrl,
+            tunnelActive: true,
+          }),
+          { status: 201, headers: { 'Content-Type': 'application/json' } },
+        ),
+      );
+      vi.stubGlobal('fetch', fetchMock);
+
+      const result = await uploadFileToStorage(
+        fileData,
+        'acta.pdf',
+        'application/pdf',
+      );
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://storage.example/api/v1/files',
+        expect.objectContaining({
+          method: 'POST',
+          headers: expect.objectContaining({ 'X-API-Key': 'unit-test-key' }),
+        }),
+      );
+      const requestOptions = fetchMock.mock.calls[0]?.[1];
+      expect((requestOptions?.body as FormData).get('file')).toMatchObject({
+        name: 'acta.pdf',
+        type: 'application/pdf',
+      });
+      expect(result).toEqual({
+        success: true,
+        file: {
+          fileId: 'storage-file-123',
+          originalName: 'acta.pdf',
+          size: fileData.size,
+          mimeType: 'application/pdf',
+          currentDownloadUrl: downloadUrl,
+          relativeDownloadPath: downloadPath,
+        },
+      });
+    });
+
     it('extracts a readable message from a structured upload error', async () => {
       process.env.FEMUCARIBE_STORAGE_ENDPOINT = 'https://storage.example';
       process.env.FEMUCARIBE_STORAGE_API_KEY = 'unit-test-key';

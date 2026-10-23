@@ -92,17 +92,31 @@ function extractErrorMessage(value: unknown, depth = 0): string | undefined {
   return String(value).slice(0, 500);
 }
 
-function isStorageUploadedFile(value: unknown): value is StorageUploadedFile {
-  return (
-    isRecord(value) &&
-    typeof value.fileId === 'string' &&
-    typeof value.originalName === 'string' &&
-    typeof value.size === 'number' &&
-    Number.isFinite(value.size) &&
-    typeof value.mimeType === 'string' &&
-    typeof value.currentDownloadUrl === 'string' &&
-    typeof value.relativeDownloadPath === 'string'
-  );
+function parseStorageUploadedFile(
+  value: unknown,
+): StorageUploadedFile | undefined {
+  if (
+    !isRecord(value) ||
+    typeof value.fileId !== 'string' ||
+    typeof value.originalName !== 'string' ||
+    typeof value.sizeBytes !== 'number' ||
+    !Number.isFinite(value.sizeBytes) ||
+    value.sizeBytes <= 0 ||
+    typeof value.mimeType !== 'string' ||
+    typeof value.downloadUrl !== 'string' ||
+    typeof value.downloadPath !== 'string'
+  ) {
+    return undefined;
+  }
+
+  return {
+    fileId: value.fileId,
+    originalName: value.originalName,
+    size: value.sizeBytes,
+    mimeType: value.mimeType,
+    currentDownloadUrl: value.downloadUrl,
+    relativeDownloadPath: value.downloadPath,
+  };
 }
 
 export async function checkStorageHealth(
@@ -224,7 +238,7 @@ export async function uploadFileToStorage(
 
     formData.append('file', blob, filename);
 
-    const uploadUrl = `${config.endpoint}/api/v1/files/upload`;
+    const uploadUrl = `${config.endpoint}/api/v1/files`;
     const response = await fetch(uploadUrl, {
       method: 'POST',
       signal: controller.signal,
@@ -245,11 +259,8 @@ export async function uploadFileToStorage(
     }
 
     const data = isRecord(payload) ? payload : undefined;
-    if (
-      !response.ok ||
-      data?.success !== true ||
-      !isStorageUploadedFile(data.file)
-    ) {
+    const file = parseStorageUploadedFile(payload);
+    if (!response.ok || !file) {
       const error = extractErrorMessage(data?.error ?? data?.message);
       return {
         success: false,
@@ -263,7 +274,7 @@ export async function uploadFileToStorage(
 
     return {
       success: true,
-      file: data.file,
+      file,
     };
   } catch (err) {
     clearTimeout(timeoutId);
