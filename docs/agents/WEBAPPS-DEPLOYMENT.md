@@ -20,9 +20,10 @@ Esta configuración se realiza una vez. El workflow no cambia DNS, registros de 
    - `ADMIN_PASSWORD`: contraseña de administración.
    - `SESSION_SECRET`: valor aleatorio fuerte para firmar sesiones.
    - `MUNICIPALITIES_DATA_FILE`: `/home/<usuario-del-panel>/private/femucaribe/data/municipalities-data.json`.
+   - `DOCUMENTS_MANIFEST_PATH`: `/home/<usuario-del-panel>/private/femucaribe/data/documents-manifest.json`.
 6. Guardar y habilitar la app. WebApps sirve el proceso Node y gestiona HTTPS para la ruta configurada. La documentación del hosting describe la selección del dominio, ruta, directorio de despliegue y comando de inicio en su [guía de Node.js](https://www.icdsoft.com/en/kb/319_webapps_node_js).
 
-En el primer despliegue, el workflow copia la semilla `data/municipalities-data.json` al directorio persistente solo si todavía no existe. Los siguientes despliegues conservan el archivo editable.
+En el primer despliegue, el workflow copia la semilla `data/municipalities-data.json` y crea un manifiesto inicial `[]` en el directorio persistente solo si cada archivo todavía no existe. Los siguientes despliegues conservan ambos archivos editables.
 
 ## Variables y secretos de GitHub
 
@@ -56,7 +57,7 @@ Configura el panel, las variables y los secretos antes de promover el workflow a
 2. Ejecuta typecheck, lint, pruebas unitarias y el build de Astro.
 3. Empaqueta el servidor compilado y sus dependencias de producción.
 4. Sube una versión aislada a `private/femucaribe/releases/`.
-5. Actualiza el enlace `current`, inicializa la semilla municipal solo en la primera publicación y reinicia WebApps.
+5. Actualiza el enlace `current`, inicializa los archivos JSON persistentes solo en la primera publicación y reinicia WebApps.
 6. Comprueba que `/` y `/municipalidades` respondan correctamente por HTTPS.
 
 El workflow conserva las versiones anteriores bajo `releases/`; no elimina la instalación WordPress ni su base de datos. Mantén el respaldo de WordPress hasta comprobar la aplicación en producción. Astro usa el adaptador Node standalone y arranca con `node ./dist/server/entry.mjs`, como especifica la [documentación oficial de Astro](https://docs.astro.build/en/guides/integrations-guide/node/).

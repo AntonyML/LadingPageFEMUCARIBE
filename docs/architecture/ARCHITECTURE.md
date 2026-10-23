@@ -47,6 +47,8 @@ Si se incorpora una base de datos, dominio y aplicación usan contratos propios;
 
 En standalone, ejecutar desde la raíz del proyecto incluyendo `data/municipalities-data.json`, o definir `MUNICIPALITIES_DATA_FILE` como ruta absoluta a un archivo JSON válido sobre volumen persistente con permisos de escritura. Inicializar ese archivo una vez con la semilla versionada; conservarlo y respaldarlo entre despliegues, sin sobrescribir ediciones con la semilla. La carpeta `dist` por sí sola no contiene los datos editables. El proceso sirve `dist/server/entry.mjs`. `/municipalidades` desactiva prerender y caché para reflejar cada guardado sin rebuild.
 
+El catálogo de documentos conserva sus metadatos en `data/documents-manifest.json` mediante `DOCUMENTS_MANIFEST_PATH`. En producción debe apuntar al directorio persistente externo a `releases/`, igual que el archivo municipal; la versión activa del sitio nunca debe ser la única copia del catálogo.
+
 La UI admite URLs de fotografías y emblemas; la carga de archivos no está habilitada. Los campos pendientes permanecen vacíos con presentación genérica. Fuentes, fecha de carga y límites de los datos iniciales: [municipalities-sources.md](../agents/municipalities-sources.md).
 
 ## Criterios verificables

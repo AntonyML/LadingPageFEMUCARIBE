@@ -1,4 +1,16 @@
 import { defineConfig, devices } from '@playwright/test';
+import { mkdtempSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+
+if (!process.env.DOCUMENTS_MANIFEST_PATH) {
+  const directory = mkdtempSync(path.join(tmpdir(), 'femucaribe-e2e-docs-'));
+  process.env.DOCUMENTS_MANIFEST_PATH = path.join(
+    directory,
+    'documents-manifest.json',
+  );
+  process.env.FEMUCARIBE_E2E_DOCUMENTS_DIR = directory;
+}
 
 const sitePort = process.env.FEMUCARIBE_E2E_PORT || '4322';
 const fixturePort = process.env.FEMUCARIBE_FIXTURE_PORT || '4323';
@@ -10,6 +22,7 @@ export default defineConfig({
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
   reporter: 'list',
+  globalTeardown: './tests/global-teardown.mjs',
   use: { baseURL: `http://127.0.0.1:${sitePort}`, trace: 'retain-on-failure' },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: [

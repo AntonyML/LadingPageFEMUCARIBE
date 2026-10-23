@@ -1,13 +1,14 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import cloudflare from '@astrojs/cloudflare';
+import node from '@astrojs/node';
 
 /** @type {import('astro').AstroUserConfig} */
-const config = {};
+const config = { session: false };
 
 if (!process.env.VITEST) {
-  config.adapter = cloudflare({
-    imageService: 'passthrough',
+  config.adapter = node({
+    mode: 'standalone',
+    bodySizeLimit: 52 * 1024 * 1024,
   });
 }
 

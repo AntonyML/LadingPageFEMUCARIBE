@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import {
@@ -11,6 +11,7 @@ import {
 import {
   getStorageConfig,
   checkStorageHealth,
+  uploadFileToStorage,
 } from '../../src/lib/storage-client';
 
 describe('Documents Repository & Storage Client', () => {
@@ -29,6 +30,7 @@ describe('Documents Repository & Storage Client', () => {
   });
 
   afterEach(() => {
+    vi.unstubAllGlobals();
     if (fs.existsSync(testManifestPath)) {
       fs.unlinkSync(testManifestPath);
     }
@@ -153,6 +155,56 @@ describe('Documents Repository & Storage Client', () => {
       expect(status.online).toBe(false);
       expect(status.status).toBe('offline');
       expect(status.error).toContain('no configurado');
+    });
+
+    it('extracts a readable message from a structured upload error', async () => {
+      process.env.FEMUCARIBE_STORAGE_ENDPOINT = 'https://storage.example';
+      process.env.FEMUCARIBE_STORAGE_API_KEY = 'unit-test-key';
+      vi.stubGlobal(
+        'fetch',
+        vi.fn().mockResolvedValue(
+          new Response(
+            JSON.stringify({
+              success: false,
+              error: { message: 'El almacenamiento rechazó el archivo' },
+            }),
+            { status: 502, headers: { 'Content-Type': 'application/json' } },
+          ),
+        ),
+      );
+
+      const result = await uploadFileToStorage(
+        new Blob(['documento']),
+        'acta.pdf',
+        'application/pdf',
+      );
+
+      expect(result.success).toBe(false);
+      expect(result.error).toBe('El almacenamiento rechazó el archivo');
+    });
+
+    it('reports the HTTP status if the storage proxy returns non-JSON', async () => {
+      process.env.FEMUCARIBE_STORAGE_ENDPOINT = 'https://storage.example';
+      process.env.FEMUCARIBE_STORAGE_API_KEY = 'unit-test-key';
+      vi.stubGlobal(
+        'fetch',
+        vi
+          .fn()
+          .mockResolvedValue(
+            new Response('<html>Bad Gateway</html>', { status: 502 }),
+          ),
+      );
+
+      const result = await uploadFileToStorage(
+        new Blob(['documento']),
+        'acta.pdf',
+        'application/pdf',
+      );
+
+      expect(result.success).toBe(false);
+      expect(result.error).toBe(
+        'Error del servidor de almacenamiento (HTTP 502)',
+      );
     });
   });
 });

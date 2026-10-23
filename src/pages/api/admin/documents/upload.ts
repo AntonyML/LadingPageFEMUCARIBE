@@ -7,11 +7,15 @@ import {
   type CantonTag,
 } from '../../../../lib/documents-repository';
 import { uploadFileToStorage } from '../../../../lib/storage-client';
+import {
+  DOCUMENT_MAX_FILE_SIZE,
+  validateDocumentDate,
+  validateDocumentDescription,
+  validateDocumentFile,
+  validateDocumentTitle,
+} from '../../../../lib/document-validation';
 
 export const prerender = false;
-
-const ALLOWED_EXTENSIONS = new Set(['.pdf', '.docx', '.xlsx', '.doc', '.xls']);
-const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
 
 export const POST: APIRoute = async ({ request }) => {
   const contentType = request.headers.get('content-type') || '';
@@ -52,17 +56,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const file = fileEntry;
-  if (file.size === 0) {
-    return new Response(
-      JSON.stringify({ error: 'El archivo adjunto está vacío' }),
-      {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      },
-    );
-  }
-
-  if (file.size > MAX_FILE_SIZE) {
+  if (file.size > DOCUMENT_MAX_FILE_SIZE) {
     return new Response(
       JSON.stringify({
         error: 'El archivo excede el tamaño máximo permitido de 50 MB',
@@ -74,31 +68,21 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  const extensionMatch = file.name.match(/\.[^.]+$/);
-  const extension = extensionMatch ? extensionMatch[0].toLowerCase() : '';
-  if (!ALLOWED_EXTENSIONS.has(extension)) {
-    return new Response(
-      JSON.stringify({
-        error: `Extensión no permitida (${extension || 'sin extensión'}). Formatos aceptados: PDF, DOCX, XLSX`,
-      }),
-      {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      },
-    );
+  const fileError = validateDocumentFile(file.name, file.size);
+  if (fileError) {
+    return new Response(JSON.stringify({ error: fileError }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
   const title = String(formData.get('title') || '').trim();
-  if (title.length < 3) {
-    return new Response(
-      JSON.stringify({
-        error: 'El título institucional debe contener al menos 3 caracteres',
-      }),
-      {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      },
-    );
+  const titleError = validateDocumentTitle(title);
+  if (titleError) {
+    return new Response(JSON.stringify({ error: titleError }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
   const category = String(
@@ -128,19 +112,22 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const documentDate = String(formData.get('documentDate') || '').trim();
-  if (!documentDate || !/^\d{4}-\d{2}-\d{2}$/.test(documentDate)) {
-    return new Response(
-      JSON.stringify({
-        error: 'Debe ingresar una fecha válida en formato YYYY-MM-DD',
-      }),
-      {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      },
-    );
+  const documentDateError = validateDocumentDate(documentDate);
+  if (documentDateError) {
+    return new Response(JSON.stringify({ error: documentDateError }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
   const description = String(formData.get('description') || '').trim();
+  const descriptionError = validateDocumentDescription(description);
+  if (descriptionError) {
+    return new Response(JSON.stringify({ error: descriptionError }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
 
   // 1. Upload physical file to remote storage API (api-buket)
   const storageResult = await uploadFileToStorage(file, file.name, file.type);

@@ -7,13 +7,31 @@ import {
   formatFileSize,
 } from '../../lib/documents-repository';
 import { checkStorageHealth } from '../../lib/storage-client';
+import {
+  DOCUMENT_DESCRIPTION_MAX_LENGTH,
+  DOCUMENT_FILE_ACCEPT,
+  DOCUMENT_FILE_EXTENSIONS,
+  DOCUMENT_FILE_TYPES_LABEL,
+  DOCUMENT_MAX_FILE_SIZE,
+  DOCUMENT_TITLE_MAX_LENGTH,
+  DOCUMENT_TITLE_MIN_LENGTH,
+  getCostaRicaDate,
+} from '../../lib/document-validation';
 
 export const prerender = false;
 
 const initialDocuments = await getAllDocuments();
 const storageHealth = await checkStorageHealth(2000);
-const todayDate = new Date().toISOString().split('T')[0];
+const todayDate = getCostaRicaDate();
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const uploadValidationRules = {
+  extensions: DOCUMENT_FILE_EXTENSIONS,
+  maxFileSize: DOCUMENT_MAX_FILE_SIZE,
+  minTitleLength: DOCUMENT_TITLE_MIN_LENGTH,
+  maxTitleLength: DOCUMENT_TITLE_MAX_LENGTH,
+  maxDescriptionLength: DOCUMENT_DESCRIPTION_MAX_LENGTH,
+  todayDate,
+};
 ---
 
 <AdminLayout title="Gestión de Documentos" activeSection="documentos">
@@ -39,7 +57,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         <span class="monitor-label">Servidor Storage (api-buket)</span>
         <span class="monitor-status" id="monitor-status-text">
           {storageHealth.online
-            ? 'En línea y autenticado'
+            ? 'Conexión y credenciales verificadas'
             : 'Sin conexión con el túnel'}
         </span>
       </div>
@@ -97,7 +115,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           id="file-input"
           name="file"
           class="file-input-hidden"
-          accept=".pdf,.docx,.xlsx,.doc,.xls"
+          accept={DOCUMENT_FILE_ACCEPT}
+          required
+          aria-describedby="file-hint"
         />
         <div class="dropzone-empty" id="dropzone-empty">
           <svg
@@ -119,8 +139,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             <strong>Arrastre el archivo aquí</strong> o{' '}
             <span class="action-highlight">explore en su equipo</span>
           </p>
-          <span class="dropzone-hint">
-            Formatos aceptados: PDF, DOCX, XLSX (Máximo 50 MB)
+          <span class="dropzone-hint" id="file-hint">
+            Formatos aceptados: {DOCUMENT_FILE_TYPES_LABEL} (Máximo 50 MB)
           </span>
         </div>
 
@@ -170,8 +190,14 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             class="form-input"
             placeholder="Ej: Acta Ordinaria N° 04-2026 de Consejo Directivo"
             required
-            minlength="3"
+            minlength={DOCUMENT_TITLE_MIN_LENGTH}
+            maxlength={DOCUMENT_TITLE_MAX_LENGTH}
+            aria-describedby="doc-title-hint"
           />
+          <small class="form-hint" id="doc-title-hint">
+            Use entre {DOCUMENT_TITLE_MIN_LENGTH} y {DOCUMENT_TITLE_MAX_LENGTH}{' '}
+            caracteres.
+          </small>
         </div>
 
         <div class="form-group">
@@ -198,10 +224,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             Cantón / Ámbito <span class="required-star">*</span>
           </label>
           <select id="doc-canton" name="canton" class="form-select" required>
+            <option value="" disabled selected>
+              Seleccione un cantón o ámbito...
+            </option>
             {CANTON_TAGS.map((c) => (
-              <option value={c} selected={c === 'Regional / Federación'}>
-                {c}
-              </option>
+              <option value={c}>{c}</option>
             ))}
           </select>
         </div>
@@ -216,8 +243,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             name="documentDate"
             class="form-input"
             value={todayDate}
+            max={todayDate}
             required
+            aria-describedby="doc-date-hint"
           />
+          <small class="form-hint" id="doc-date-hint">
+            La fecha no puede ser posterior a {todayDate}.
+          </small>
         </div>
 
         <div class="form-group col-span-2">
@@ -229,8 +261,18 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             name="description"
             class="form-textarea"
             rows="2"
+            maxlength={DOCUMENT_DESCRIPTION_MAX_LENGTH}
+            aria-describedby="doc-desc-hint doc-desc-count"
             placeholder="Detalles sobre acuerdos tomados, número de licitación o contexto del documento..."
           ></textarea>
+          <div class="form-hint-row">
+            <small class="form-hint" id="doc-desc-hint">
+              Hasta {DOCUMENT_DESCRIPTION_MAX_LENGTH} caracteres.
+            </small>
+            <small class="form-hint" id="doc-desc-count" aria-live="off">
+              0/{DOCUMENT_DESCRIPTION_MAX_LENGTH}
+            </small>
+          </div>
         </div>
       </div>
 
@@ -525,7 +567,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   </dialog>
 </AdminLayout>
 
-<script is:inline define:vars={{ base }}>
+<script is:inline define:vars={{ base, uploadValidationRules }}>
   (() => {
     // 1. Storage Status Refresh
     const monitorStatusText = document.getElementById('monitor-status-text');
@@ -539,7 +581,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           if (data.online) {
             storageMonitor.classList.add('is-online');
             if (monitorStatusText)
-              monitorStatusText.textContent = 'En línea y autenticado';
+              monitorStatusText.textContent =
+                'Conexión y credenciales verificadas';
           } else {
             storageMonitor.classList.remove('is-online');
             if (monitorStatusText)
@@ -570,6 +613,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     const selectedName = document.getElementById('selected-file-name');
     const selectedSize = document.getElementById('selected-file-size');
     const btnRemoveFile = document.getElementById('btn-remove-file');
+    const titleInput = document.getElementById('doc-title');
+    const categoryInput = document.getElementById('doc-category');
+    const cantonInput = document.getElementById('doc-canton');
+    const dateInput = document.getElementById('doc-date');
+    const descriptionInput = document.getElementById('doc-desc');
+    const descriptionCount = document.getElementById('doc-desc-count');
 
     function formatBytes(bytes) {
       if (bytes < 1024) return bytes + ' B';
@@ -582,17 +631,46 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         dropzoneEmpty.hidden = false;
         dropzoneSelected.hidden = true;
         fileInput.value = '';
+        fileInput.setCustomValidity('');
         return;
       }
+
+      const extension = file.name
+        .slice(file.name.lastIndexOf('.'))
+        .toLowerCase();
+      let error = '';
+      if (!uploadValidationRules.extensions.includes(extension)) {
+        error = 'Formato no permitido. Use PDF, DOCX, XLSX, DOC o XLS';
+      } else if (file.size === 0) {
+        error = 'El archivo seleccionado está vacío';
+      } else if (file.size > uploadValidationRules.maxFileSize) {
+        error = 'El archivo excede el tamaño máximo permitido de 50 MB';
+      }
+
+      fileInput.setCustomValidity(error);
       dropzoneEmpty.hidden = true;
       dropzoneSelected.hidden = false;
       selectedName.textContent = file.name;
       selectedSize.textContent = formatBytes(file.size);
+      if (error) {
+        showStatus(error, 'danger');
+      } else if (uploadStatus) {
+        uploadStatus.hidden = true;
+        uploadStatus.textContent = '';
+      }
     }
 
     if (dropzone && fileInput) {
       dropzone.addEventListener('click', (e) => {
         if (e.target !== btnRemoveFile) fileInput.click();
+      });
+
+      dropzone.addEventListener('keydown', (e) => {
+        if (e.target === btnRemoveFile) return;
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          fileInput.click();
+        }
       });
 
       fileInput.addEventListener('change', () => {
@@ -638,21 +716,118 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
     function showStatus(message, type) {
       if (!uploadStatus) return;
-      uploadStatus.textContent = message;
+      uploadStatus.textContent =
+        readableErrorMessage(message) || String(message);
       uploadStatus.className = 'alert-box alert-' + type;
+      uploadStatus.setAttribute('role', type === 'danger' ? 'alert' : 'status');
+      uploadStatus.setAttribute(
+        'aria-live',
+        type === 'danger' ? 'assertive' : 'polite',
+      );
       uploadStatus.hidden = false;
+    }
+
+    function readableErrorMessage(value, depth = 0) {
+      if (depth > 5 || value == null) return '';
+      if (typeof value === 'string') return value.trim().slice(0, 500);
+      if (Array.isArray(value)) {
+        return value
+          .map((entry) => readableErrorMessage(entry, depth + 1))
+          .filter(Boolean)
+          .join('; ')
+          .slice(0, 500);
+      }
+      if (typeof value === 'object') {
+        for (const key of ['message', 'error', 'detail', 'description']) {
+          const message = readableErrorMessage(value[key], depth + 1);
+          if (message) return message;
+        }
+        try {
+          return JSON.stringify(value).slice(0, 500);
+        } catch {
+          return '';
+        }
+      }
+      return String(value).slice(0, 500);
+    }
+
+    function validateUploadForm() {
+      const file = fileInput.files && fileInput.files[0];
+      if (!file) {
+        showStatus('Debe seleccionar un archivo oficial para cargar', 'danger');
+        dropzone.focus();
+        return false;
+      }
+
+      const extension = file.name
+        .slice(file.name.lastIndexOf('.'))
+        .toLowerCase();
+      const fileError = !uploadValidationRules.extensions.includes(extension)
+        ? 'Formato no permitido. Use PDF, DOCX, XLSX, DOC o XLS'
+        : file.size === 0
+          ? 'El archivo seleccionado está vacío'
+          : file.size > uploadValidationRules.maxFileSize
+            ? 'El archivo excede el tamaño máximo permitido de 50 MB'
+            : '';
+      fileInput.setCustomValidity(fileError);
+      if (fileError) {
+        showStatus(fileError, 'danger');
+        dropzone.focus();
+        return false;
+      }
+
+      const title = titleInput.value.trim();
+      titleInput.setCustomValidity(
+        title.length < uploadValidationRules.minTitleLength
+          ? 'El título institucional debe contener al menos 3 caracteres'
+          : title.length > uploadValidationRules.maxTitleLength
+            ? 'El título institucional no puede superar los 200 caracteres'
+            : '',
+      );
+      categoryInput.setCustomValidity(
+        categoryInput.value ? '' : 'Seleccione una categoría institucional',
+      );
+      cantonInput.setCustomValidity(
+        cantonInput.value ? '' : 'Seleccione un cantón o ámbito',
+      );
+      dateInput.setCustomValidity(
+        dateInput.value && dateInput.value > uploadValidationRules.todayDate
+          ? 'La fecha de emisión no puede ser posterior a hoy'
+          : '',
+      );
+      descriptionInput.setCustomValidity(
+        descriptionInput.value.length >
+          uploadValidationRules.maxDescriptionLength
+          ? 'El resumen no puede superar los 1000 caracteres'
+          : '',
+      );
+
+      if (!uploadForm.reportValidity()) {
+        const invalidField = uploadForm.querySelector(':invalid');
+        showStatus(
+          invalidField?.validationMessage ||
+            'Revise los campos obligatorios y sus límites.',
+          'danger',
+        );
+        if (invalidField && invalidField !== fileInput) invalidField.focus();
+        return false;
+      }
+
+      return true;
+    }
+
+    if (descriptionInput && descriptionCount) {
+      const updateDescriptionCount = () => {
+        descriptionCount.textContent = `${descriptionInput.value.length}/${uploadValidationRules.maxDescriptionLength}`;
+      };
+      descriptionInput.addEventListener('input', updateDescriptionCount);
+      updateDescriptionCount();
     }
 
     if (uploadForm) {
       uploadForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!fileInput.files || !fileInput.files[0]) {
-          showStatus(
-            'Debe seleccionar un archivo oficial para cargar',
-            'danger',
-          );
-          return;
-        }
+        if (!validateUploadForm()) return;
 
         const formData = new FormData(uploadForm);
         btnSubmit.disabled = true;
@@ -668,7 +843,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             body: formData,
           });
 
-          const data = await res.json().catch(() => ({}));
+          const responseText = await res.text();
+          let data = {};
+          try {
+            data = responseText ? JSON.parse(responseText) : {};
+          } catch {
+            data = {};
+          }
 
           if (res.ok && data.success) {
             showStatus('Documento subido y catalogado exitosamente', 'success');
@@ -679,7 +860,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             }, 800);
           } else {
             showStatus(
-              data.error || 'Error al procesar la subida del documento',
+              readableErrorMessage(data.error || data.message) ||
+                `Error al procesar la subida del documento (HTTP ${res.status})`,
               'danger',
             );
           }
@@ -1034,6 +1216,20 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     display: flex;
     flex-direction: column;
     gap: 0.375rem;
+  }
+
+  .form-hint {
+    margin: 0;
+    color: var(--theme-text-secondary);
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .form-hint-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
 
   .form-label {

@@ -59,6 +59,52 @@ export function getStorageConfig(): StorageConfig {
   return { endpoint, apiKey };
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function extractErrorMessage(value: unknown, depth = 0): string | undefined {
+  if (depth > 5 || value == null) return undefined;
+  if (typeof value === 'string') {
+    const message = value.trim();
+    return message ? message.slice(0, 500) : undefined;
+  }
+  if (Array.isArray(value)) {
+    const messages = value
+      .map((entry) => extractErrorMessage(entry, depth + 1))
+      .filter((message): message is string => Boolean(message));
+    return messages.length ? messages.join('; ').slice(0, 500) : undefined;
+  }
+  if (isRecord(value)) {
+    for (const key of ['message', 'error', 'detail', 'description']) {
+      const message = extractErrorMessage(value[key], depth + 1);
+      if (message) return message;
+    }
+    try {
+      const serialized = JSON.stringify(value);
+      return serialized && serialized !== '{}'
+        ? serialized.slice(0, 500)
+        : undefined;
+    } catch {
+      return undefined;
+    }
+  }
+  return String(value).slice(0, 500);
+}
+
+function isStorageUploadedFile(value: unknown): value is StorageUploadedFile {
+  return (
+    isRecord(value) &&
+    typeof value.fileId === 'string' &&
+    typeof value.originalName === 'string' &&
+    typeof value.size === 'number' &&
+    Number.isFinite(value.size) &&
+    typeof value.mimeType === 'string' &&
+    typeof value.currentDownloadUrl === 'string' &&
+    typeof value.relativeDownloadPath === 'string'
+  );
+}
+
 export async function checkStorageHealth(
   timeoutMs: number = 4000,
 ): Promise<StorageHealthStatus> {
@@ -188,20 +234,30 @@ export async function uploadFileToStorage(
       body: formData,
     });
 
+    const responseBody = await response.text();
     clearTimeout(timeoutId);
 
-    const data = (await response.json().catch(() => ({}))) as {
-      success?: boolean;
-      file?: StorageUploadedFile;
-      error?: string;
-    };
+    let payload: unknown;
+    try {
+      payload = responseBody ? JSON.parse(responseBody) : undefined;
+    } catch {
+      payload = undefined;
+    }
 
-    if (!response.ok || !data.success || !data.file) {
+    const data = isRecord(payload) ? payload : undefined;
+    if (
+      !response.ok ||
+      data?.success !== true ||
+      !isStorageUploadedFile(data.file)
+    ) {
+      const error = extractErrorMessage(data?.error ?? data?.message);
       return {
         success: false,
         error:
-          data.error ||
-          `Error del servidor de almacenamiento (HTTP ${response.status})`,
+          error ||
+          (response.ok
+            ? 'El servidor de almacenamiento no devolvió los datos del archivo'
+            : `Error del servidor de almacenamiento (HTTP ${response.status})`),
       };
     }
 
@@ -214,7 +270,7 @@ export async function uploadFileToStorage(
     const message = err instanceof Error ? err.message : String(err);
     return {
       success: false,
-      error: message.includes('abort')
+      error: message.toLowerCase().includes('abort')
         ? 'Tiempo de espera agotado al subir el archivo'
         : `Fallo al transmitir archivo: ${message}`,
     };

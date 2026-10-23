@@ -71,6 +71,144 @@ test.describe('Admin Documents Management (/admin/documentos)', () => {
     await expect(alertBox).toContainText('Debe seleccionar un archivo oficial');
   });
 
+  test('rejects unsupported files before contacting the upload API', async ({
+    page,
+  }) => {
+    let uploadRequests = 0;
+    await page.route('**/api/admin/documents/upload', async (route) => {
+      uploadRequests++;
+      await route.fulfill({ status: 502, body: 'unexpected request' });
+    });
+
+    await page.goto('/admin/documentos');
+    await page.locator('#file-input').setInputFiles({
+      name: 'acta.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('no es un documento permitido'),
+    });
+
+    const alertBox = page.locator('#upload-status');
+    await expect(alertBox).toContainText('Formato no permitido');
+    await page.click('#btn-submit-doc');
+    await expect(alertBox).toContainText('Use PDF, DOCX, XLSX, DOC o XLS');
+    expect(uploadRequests).toBe(0);
+  });
+
+  test('validates trimmed title, category, and canton before upload', async ({
+    page,
+  }) => {
+    let uploadRequests = 0;
+    await page.route('**/api/admin/documents/upload', async (route) => {
+      uploadRequests++;
+      await route.fulfill({ status: 502, body: 'unexpected request' });
+    });
+
+    await page.goto('/admin/documentos');
+    await page.locator('#file-input').setInputFiles({
+      name: 'acta.pdf',
+      mimeType: 'application/pdf',
+      buffer: Buffer.from('%PDF-1.7'),
+    });
+    await page.fill('#doc-title', '   ');
+    await page.click('#btn-submit-doc');
+
+    await expect(page.locator('#upload-status')).toContainText(
+      'al menos 3 caracteres',
+    );
+    expect(uploadRequests).toBe(0);
+  });
+
+  test('shows structured storage errors as readable text', async ({ page }) => {
+    await page.route('**/api/admin/documents/upload', async (route) => {
+      await route.fulfill({
+        status: 502,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          error: {
+            message: 'api-buket rechazó la transferencia del documento',
+          },
+        }),
+      });
+    });
+
+    await page.goto('/admin/documentos');
+    await page.locator('#file-input').setInputFiles({
+      name: 'acta.pdf',
+      mimeType: 'application/pdf',
+      buffer: Buffer.from('%PDF-1.7'),
+    });
+    await page.fill('#doc-title', 'Acta oficial de prueba');
+    await page.selectOption('#doc-category', 'actas');
+    await page.selectOption('#doc-canton', 'Limón');
+    await page.click('#btn-submit-doc');
+
+    const alertBox = page.locator('#upload-status');
+    await expect(alertBox).toContainText(
+      'api-buket rechazó la transferencia del documento',
+    );
+    await expect(alertBox).not.toContainText('[object Object]');
+  });
+
+  test('reflows the form without horizontal page overflow', async ({
+    page,
+  }) => {
+    await page.goto('/admin/documentos');
+
+    for (const viewport of [
+      { width: 320, height: 800 },
+      { width: 768, height: 900 },
+      { width: 1440, height: 900 },
+      { width: 844, height: 390 },
+    ]) {
+      await page.setViewportSize(viewport);
+      const dimensions = await page.evaluate(() => ({
+        pageWidth: document.documentElement.scrollWidth,
+        viewportWidth: document.documentElement.clientWidth,
+      }));
+      expect(dimensions.pageWidth).toBeLessThanOrEqual(
+        dimensions.viewportWidth,
+      );
+      await expect(page.locator('#btn-submit-doc')).toBeVisible();
+    }
+
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.evaluate(() => {
+      document.documentElement.style.fontSize = '200%';
+    });
+    const enlargedTextDimensions = await page.evaluate(() => ({
+      pageWidth: document.documentElement.scrollWidth,
+      viewportWidth: document.documentElement.clientWidth,
+    }));
+    expect(enlargedTextDimensions.pageWidth).toBeLessThanOrEqual(
+      enlargedTextDimensions.viewportWidth,
+    );
+    await expect(page.locator('#btn-submit-doc')).toBeVisible();
+  });
+
+  test('opens the file picker from the dropzone with Enter and Space', async ({
+    page,
+  }) => {
+    await page.goto('/admin/documentos');
+    const dropzone = page.locator('#dropzone');
+
+    for (const key of ['Enter', 'Space']) {
+      const fileChooserPromise = page.waitForEvent('filechooser');
+      await dropzone.focus();
+      await dropzone.press(key);
+      const fileChooser = await fileChooserPromise;
+      await fileChooser.setFiles({
+        name: 'acta-teclado.pdf',
+        mimeType: 'application/pdf',
+        buffer: Buffer.from('%PDF-1.7'),
+      });
+      await expect(page.locator('#selected-file-name')).toContainText(
+        'acta-teclado.pdf',
+      );
+
+      if (key === 'Enter') await page.locator('#btn-remove-file').click();
+    }
+  });
+
   test('filters catalog table by search text and category', async ({
     page,
   }) => {
@@ -192,5 +330,34 @@ test.describe('Admin Documents Management (/admin/documentos)', () => {
 
     // Row is removed from table
     await expect(page.locator(`tr[data-doc-id="${doc.id}"]`)).toHaveCount(0);
+  });
+
+  test('uploads a document and keeps it in the JSON catalog after reload', async ({
+    page,
+  }) => {
+    const title = 'Acta oficial cargada desde Playwright';
+    await page.goto('/admin/documentos');
+    await page.locator('#file-input').setInputFiles({
+      name: 'acta-playwright.pdf',
+      mimeType: 'application/pdf',
+      buffer: Buffer.from('%PDF-1.7 prueba'),
+    });
+    await page.fill('#doc-title', title);
+    await page.selectOption('#doc-category', 'actas');
+    await page.selectOption('#doc-canton', 'Limón');
+    await page.click('#btn-submit-doc');
+
+    const uploadedRow = page
+      .locator('tr[data-doc-id]')
+      .filter({ hasText: title });
+    await expect(uploadedRow).toBeVisible();
+    const uploadedId = await uploadedRow.getAttribute('data-doc-id');
+    expect(uploadedId).toBeTruthy();
+    if (!uploadedId) throw new Error('La fila cargada no tiene identificador');
+    seededDocIds.push(uploadedId);
+    await expect(uploadedRow).toContainText('acta-playwright.pdf');
+    await expect(page.locator('#upload-status')).not.toContainText(
+      '[object Object]',
+    );
   });
 });
