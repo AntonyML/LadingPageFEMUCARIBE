@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       confirm_production:
-        description: Confirm deployment to www.femucaribe.go.cr
+        description: Confirm deployment to production
         required: true
         type: boolean
         default: false
@@ -25,11 +25,11 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
-      HOSTING_HOST: ${{ vars.HOSTING_HOST || vars.ICDSOFT_HOST }}
-      HOSTING_PORT: ${{ vars.HOSTING_PORT || vars.ICDSOFT_PORT || '22' }}
-      HOSTING_USER: ${{ vars.HOSTING_USER || vars.ICDSOFT_USER }}
-      HOSTING_WEB_ROOT: ${{ vars.HOSTING_WEB_ROOT || '/home/caproba/www/www' }}
-      HOSTING_SITE_URL: ${{ vars.HOSTING_SITE_URL || vars.ICDSOFT_SITE_URL || 'http://www.femucaribe.go.cr' }}
+      HOSTING_HOST: ${{ vars.HOSTING_HOST }}
+      HOSTING_PORT: ${{ vars.HOSTING_PORT }}
+      HOSTING_USER: ${{ vars.HOSTING_USER }}
+      HOSTING_WEB_ROOT: ${{ vars.HOSTING_WEB_ROOT }}
+      HOSTING_SITE_URL: ${{ vars.HOSTING_SITE_URL }}
 
     steps:
       - name: Checkout
@@ -54,7 +54,7 @@ jobs:
       - name: Validate application
         run: |
           pnpm run typecheck
-          pnpm run lint
+          pnpm run lint:js
           pnpm run test:unit
 
       - name: Build static site
@@ -70,8 +70,8 @@ jobs:
       - name: Upload and deploy artifact to hosting
         shell: bash
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.HOSTING_SSH_PRIVATE_KEY || secrets.ICDSOFT_SSH_PRIVATE_KEY }}
-          SSH_KNOWN_HOSTS: ${{ secrets.HOSTING_SSH_KNOWN_HOSTS || secrets.ICDSOFT_SSH_KNOWN_HOSTS }}
+          SSH_PRIVATE_KEY: ${{ secrets.HOSTING_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.HOSTING_SSH_KNOWN_HOSTS }}
         run: |
           set -euo pipefail
 
@@ -79,6 +79,7 @@ jobs:
           : "${HOSTING_PORT:?Add the HOSTING_PORT Actions variable}"
           : "${HOSTING_USER:?Add the HOSTING_USER Actions variable}"
           : "${HOSTING_WEB_ROOT:?Add the HOSTING_WEB_ROOT Actions variable}"
+          : "${HOSTING_SITE_URL:?Add the HOSTING_SITE_URL Actions variable}"
           : "${SSH_PRIVATE_KEY:?Add the HOSTING_SSH_PRIVATE_KEY Actions secret}"
           : "${SSH_KNOWN_HOSTS:?Add the HOSTING_SSH_KNOWN_HOSTS Actions secret}"
 
@@ -89,12 +90,15 @@ jobs:
 
           ssh_options=(-p "$HOSTING_PORT" -i "$HOME/.ssh/deploy_key" -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=yes)
           remote="$HOSTING_USER@$HOSTING_HOST"
-          incoming_archive="/home/$HOSTING_USER/private/artifact-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.tar.gz"
+          incoming_archive="$HOSTING_WEB_ROOT/.incoming-artifact-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.tar.gz"
 
-          ssh "${ssh_options[@]}" "$remote" "mkdir -p /home/$HOSTING_USER/private '$HOSTING_WEB_ROOT'"
+          # 1. Asegurar que el directorio web exista en el servidor
+          ssh "${ssh_options[@]}" "$remote" "mkdir -p '$HOSTING_WEB_ROOT'"
 
+          # 2. Transferir únicamente el paquete estático comprimido vía sftp
           printf 'put static-artifact.tar.gz %s\n' "$incoming_archive" | sftp "${ssh_options[@]}" -b - "$remote"
 
+          # 3. Descomprimir en el web root con preservación de permisos y eliminar archivo temporal
           ssh "${ssh_options[@]}" "$remote" bash -s -- "$incoming_archive" "$HOSTING_WEB_ROOT" <<'REMOTE'
           set -euo pipefail
           archive="$1"
