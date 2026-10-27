@@ -65,7 +65,7 @@ jobs:
           set -euo pipefail
           test -d dist/client
           test -f dist/client/index.html
-          tar -C dist/client -czf static-artifact.tar.gz .
+          (cd dist/client && tar -czf ../../static-artifact.tar.gz *)
 
       - name: Upload and deploy artifact to hosting
         shell: bash
@@ -92,7 +92,7 @@ jobs:
           remote="$HOSTING_USER@$HOSTING_HOST"
 
           # Desplegar artefacto estático directamente al web root vía SSH stream
-          ssh "${ssh_options[@]}" "$remote" "mkdir -p '$HOSTING_WEB_ROOT' && tar --no-overwrite-dir -xzf - -C '$HOSTING_WEB_ROOT'" < static-artifact.tar.gz
+          ssh "${ssh_options[@]}" "$remote" "mkdir -p '$HOSTING_WEB_ROOT' && tar --no-overwrite-dir --no-same-permissions --no-same-owner -xzf - -C '$HOSTING_WEB_ROOT'" < static-artifact.tar.gz
 
       - name: Smoke test production routes
         run: |
