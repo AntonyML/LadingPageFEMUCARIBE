@@ -90,23 +90,9 @@ jobs:
 
           ssh_options=(-p "$HOSTING_PORT" -i "$HOME/.ssh/deploy_key" -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=yes)
           remote="$HOSTING_USER@$HOSTING_HOST"
-          incoming_archive="$HOSTING_WEB_ROOT/.incoming-artifact-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.tar.gz"
 
-          # 1. Asegurar que el directorio web exista en el servidor
-          ssh "${ssh_options[@]}" "$remote" "mkdir -p '$HOSTING_WEB_ROOT'"
-
-          # 2. Transferir únicamente el paquete estático comprimido vía sftp
-          printf 'put static-artifact.tar.gz %s\n' "$incoming_archive" | sftp "${ssh_options[@]}" -b - "$remote"
-
-          # 3. Descomprimir en el web root con preservación de permisos y eliminar archivo temporal
-          ssh "${ssh_options[@]}" "$remote" bash -s -- "$incoming_archive" "$HOSTING_WEB_ROOT" <<'REMOTE'
-          set -euo pipefail
-          archive="$1"
-          web_root="$2"
-
-          tar --no-overwrite-dir -xzf "$archive" -C "$web_root"
-          rm -f "$archive"
-          REMOTE
+          # Desplegar artefacto estático directamente al web root vía SSH stream
+          ssh "${ssh_options[@]}" "$remote" "mkdir -p '$HOSTING_WEB_ROOT' && tar --no-overwrite-dir -xzf - -C '$HOSTING_WEB_ROOT'" < static-artifact.tar.gz
 
       - name: Smoke test production routes
         run: |
