@@ -1,0 +1,112 @@
+name: Deploy FEMUCARIBE to Shared Hosting
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      confirm_production:
+        description: Confirm deployment to www.femucaribe.go.cr
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: femucaribe-production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || inputs.confirm_production)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      HOSTING_HOST: ${{ vars.HOSTING_HOST || vars.ICDSOFT_HOST }}
+      HOSTING_PORT: ${{ vars.HOSTING_PORT || vars.ICDSOFT_PORT || '22' }}
+      HOSTING_USER: ${{ vars.HOSTING_USER || vars.ICDSOFT_USER }}
+      HOSTING_WEB_ROOT: ${{ vars.HOSTING_WEB_ROOT || '/home/caproba/www/www' }}
+      HOSTING_SITE_URL: ${{ vars.HOSTING_SITE_URL || vars.ICDSOFT_SITE_URL || 'http://www.femucaribe.go.cr' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.15.1
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate application
+        run: |
+          pnpm run typecheck
+          pnpm run lint
+          pnpm run test:unit
+
+      - name: Build static site
+        run: pnpm run build
+
+      - name: Package static artifact only
+        run: |
+          set -euo pipefail
+          test -d dist/client
+          test -f dist/client/index.html
+          tar -C dist/client -czf static-artifact.tar.gz .
+
+      - name: Upload and deploy artifact to hosting
+        shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.HOSTING_SSH_PRIVATE_KEY || secrets.ICDSOFT_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.HOSTING_SSH_KNOWN_HOSTS || secrets.ICDSOFT_SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+
+          : "${HOSTING_HOST:?Add the HOSTING_HOST Actions variable}"
+          : "${HOSTING_PORT:?Add the HOSTING_PORT Actions variable}"
+          : "${HOSTING_USER:?Add the HOSTING_USER Actions variable}"
+          : "${HOSTING_WEB_ROOT:?Add the HOSTING_WEB_ROOT Actions variable}"
+          : "${SSH_PRIVATE_KEY:?Add the HOSTING_SSH_PRIVATE_KEY Actions secret}"
+          : "${SSH_KNOWN_HOSTS:?Add the HOSTING_SSH_KNOWN_HOSTS Actions secret}"
+
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > "$HOME/.ssh/deploy_key"
+          printf '%s\n' "$SSH_KNOWN_HOSTS" | tr -d '\r' > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/deploy_key" "$HOME/.ssh/known_hosts"
+
+          ssh_options=(-p "$HOSTING_PORT" -i "$HOME/.ssh/deploy_key" -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=yes)
+          remote="$HOSTING_USER@$HOSTING_HOST"
+          incoming_archive="/home/$HOSTING_USER/private/artifact-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.tar.gz"
+
+          ssh "${ssh_options[@]}" "$remote" "mkdir -p /home/$HOSTING_USER/private '$HOSTING_WEB_ROOT'"
+
+          printf 'put static-artifact.tar.gz %s\n' "$incoming_archive" | sftp "${ssh_options[@]}" -b - "$remote"
+
+          ssh "${ssh_options[@]}" "$remote" bash -s -- "$incoming_archive" "$HOSTING_WEB_ROOT" <<'REMOTE'
+          set -euo pipefail
+          archive="$1"
+          web_root="$2"
+
+          tar --no-overwrite-dir -xzf "$archive" -C "$web_root"
+          rm -f "$archive"
+          REMOTE
+
+      - name: Smoke test production routes
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 3 --max-time 15 "$HOSTING_SITE_URL/" --output /dev/null
+          curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 3 --max-time 15 "$HOSTING_SITE_URL/noticias" --output /dev/null
+          curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 3 --max-time 15 "$HOSTING_SITE_URL/municipalidades" --output /dev/null

@@ -4,9 +4,6 @@ import MunicipalidadesPage from '../components/municipalidades/MunicipalidadesPa
 import { listMunicipalities } from '../lib/municipalities-repository';
 import { presentMunicipalities } from '../components/municipalidades/data';
 
-export const prerender = false;
-Astro.cache.set(false);
-Astro.response.headers.set('Cache-Control', 'no-store');
 const municipalities = presentMunicipalities(await listMunicipalities());
 ---
 
