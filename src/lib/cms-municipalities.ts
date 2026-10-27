@@ -56,17 +56,18 @@ function cleanHtml(html: string): string {
 
 export async function fetchCmsMunicipalities(): Promise<Municipality[]> {
   const localList = await listMunicipalities();
-  const CMS_URL =
-    'https://cms.femucaribe.go.cr/wp-json/wp/v2/municipalidades?per_page=20';
+  const CMS_URL = `https://cms.femucaribe.go.cr/wp-json/wp/v2/municipalidades?per_page=20&nocache=1&_ts=${Date.now()}`;
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 6000);
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
     const response = await fetch(CMS_URL, {
       signal: controller.signal,
       headers: {
         Accept: 'application/json',
+        'Cache-Control': 'no-cache, no-store',
+        Pragma: 'no-cache',
       },
     });
 

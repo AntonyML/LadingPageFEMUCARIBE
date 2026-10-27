@@ -73,14 +73,17 @@ function cleanHtml(html: string): string {
 export async function fetchTransparencyDocuments(): Promise<
   readonly DocumentItem[]
 > {
-  const CMS_URL =
-    'https://cms.femucaribe.go.cr/wp-json/wp/v2/documentos?per_page=50';
+  const CMS_URL = `https://cms.femucaribe.go.cr/wp-json/wp/v2/documentos?per_page=50&nocache=1&_ts=${Date.now()}`;
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 6000);
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
     const response = await fetch(CMS_URL, {
       signal: controller.signal,
-      headers: { Accept: 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        'Cache-Control': 'no-cache, no-store',
+        Pragma: 'no-cache',
+      },
     });
     clearTimeout(timeoutId);
     if (!response.ok) return fallbackDocuments;
