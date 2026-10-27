@@ -1,57 +1,12 @@
 ---
 // src/components/proyectos/ProjectsFeatured.astro
+import {
+  fetchFeaturedProjects,
+  type FeaturedProject,
+} from '../../lib/cms-projects';
 
-interface FeaturedProject {
-  tag: string;
-  title: string;
-  description: string;
-  source: string;
-}
-
-const featuredProjects: readonly FeaturedProject[] = [
-  {
-    tag: 'TALAMANCA',
-    title: 'Construcción de mojones fronterizos',
-    description:
-      'Elaboración del perfil y de la matriz de riesgos para un proyecto destinado a mejorar la delimitación y gestión territorial de la zona fronteriza.',
-    source: 'Fuente oficial — Municipalidad de Talamanca',
-  },
-  {
-    tag: 'INFRAESTRUCTURA DEPORTIVA',
-    title: 'Construcción de estadios Bribri y Sixaola',
-    description:
-      'FEMUCARIBE, mediante su Unidad Gestora de Proyectos, participó en la elaboración del perfil y la matriz de riesgos para estos proyectos de infraestructura deportiva comunitaria.',
-    source: 'Fuente oficial — Municipalidad de Talamanca',
-  },
-  {
-    tag: 'ESTRUCTURA TÉCNICA',
-    title: 'Unidad Gestora de Proyectos (UGP)',
-    description:
-      'Estructura técnica de FEMUCARIBE dedicada a apoyar a las municipalidades en la formulación, gestión, coordinación y seguimiento de proyectos de inversión pública.',
-    source: 'Fuente oficial — SICOP',
-  },
-  {
-    tag: 'PLANIFICACIÓN REGIONAL',
-    title: 'Programa Interdisciplinario (PICC)',
-    description:
-      'Programa de FEMUCARIBE orientado a brindar servicios de asesoría y apoyo especializado a las municipalidades para atender sus necesidades de planificación y desarrollo regional.',
-    source: 'Estatutos publicados en La Gaceta (Art. 6)',
-  },
-  {
-    tag: 'ASISTENCIA TÉCNICA',
-    title: 'Formulación y análisis de proyectos municipales',
-    description:
-      'FEMUCARIBE brinda apoyo especializado a los equipos técnicos municipales para analizar proyectos, estructurar perfiles y desarrollar instrumentos como matrices de riesgos.',
-    source: 'Fuente oficial — Municipalidad de Talamanca',
-  },
-  {
-    tag: 'INVERSIÓN PÚBLICA',
-    title: 'Gestión regional de proyectos de inversión pública',
-    description:
-      'FEMUCARIBE mantiene una estructura de apoyo técnico y administrativo para articular a las municipalidades federadas con instituciones públicas en la gestión y seguimiento de proyectos regionales.',
-    source: 'Fuente oficial — SICOP',
-  },
-];
+const featuredProjects: readonly FeaturedProject[] =
+  await fetchFeaturedProjects();
 ---
 
 <section class="projects-featured" aria-labelledby="projects-featured-title">

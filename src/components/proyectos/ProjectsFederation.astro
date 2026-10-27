@@ -1,58 +1,12 @@
 ---
 // src/components/proyectos/ProjectsFederation.astro
+import {
+  fetchFederationProjects,
+  type FederationProject,
+} from '../../lib/cms-projects';
 
-interface ProjectItem {
-  category: string;
-  title: string;
-  description: string;
-  status: string;
-  accentColor: string;
-  statusBg: string;
-  statusColor: string;
-}
-
-const federationProjects: readonly ProjectItem[] = [
-  {
-    category: 'Formulación y Ejecución',
-    title: 'Unidad Gestora de Proyectos (UGP)',
-    description:
-      'Estructura técnica especializada de FEMUCARIBE encargada de formular la cartera de proyectos de inversión pública regional, gestionar fuentes de financiamiento y fiscalizar su ejecución conforme a la normativa de contratación pública.',
-    status: 'En ejecución',
-    accentColor: '#10b981',
-    statusBg: 'var(--theme-status-positive-bg)',
-    statusColor: 'var(--theme-status-positive-text)',
-  },
-  {
-    category: 'Movilidad Eléctrica y Energía',
-    title: 'Electrolinera',
-    description:
-      'Centro de carga rápida para transporte liviano y comercial en el corredor Atlántico, reduciendo emisiones de carbono e impulsando la descarbonización del sector transporte.',
-    status: 'En operación',
-    accentColor: '#aac651',
-    statusBg: 'var(--theme-status-positive-bg)',
-    statusColor: 'var(--theme-status-positive-text)',
-  },
-  {
-    category: 'Innovación y Conocimiento',
-    title: 'Parque Tecnológico y Productivo',
-    description:
-      'Plataforma para incubación de empresas de base tecnológica, transferencia técnica y capacitación orientada a jóvenes de la provincia de Limón.',
-    status: 'En formulación',
-    accentColor: '#1dc4da',
-    statusBg: 'var(--theme-surface-accent)',
-    statusColor: 'var(--theme-link)',
-  },
-  {
-    category: 'Gestión Ambiental y Circular',
-    title: 'Planta Recicladora',
-    description:
-      'Infraestructura de valorización de residuos sólidos urbanos con enfoque de economía circular, apoyando a las municipalidades en el cumplimiento de la Ley 8839.',
-    status: 'En operación',
-    accentColor: '#aac651',
-    statusBg: 'var(--theme-status-positive-bg)',
-    statusColor: 'var(--theme-status-positive-text)',
-  },
-];
+const federationProjects: readonly FederationProject[] =
+  await fetchFederationProjects();
 ---
 
 <section

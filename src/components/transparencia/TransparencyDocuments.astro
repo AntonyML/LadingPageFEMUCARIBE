@@ -1,5 +1,9 @@
 ---
 import SiteIcon from '../SiteIcon.astro';
+import {
+  fetchTransparencyDocuments,
+  type DocumentItem,
+} from '../../lib/cms-transparency';
 
 /**
  * TransparencyDocuments.astro
@@ -7,39 +11,7 @@ import SiteIcon from '../SiteIcon.astro';
  * Corresponds to Penpot board L1-Documentos-Descargas (1158a0fe-c558-80da-8008-9409f2dfc5da).
  */
 
-interface DocumentItem {
-  id: string;
-  tag: string;
-  title: string;
-  meta: string;
-}
-
-const documents: DocumentItem[] = [
-  {
-    id: 'doc-presupuesto-2026',
-    tag: 'PRESUPUESTO · Periodo 2026',
-    title: 'Presupuesto Ordinario Aprobado',
-    meta: 'PDF Accesible · 2.4 MB',
-  },
-  {
-    id: 'doc-liquidacion-2025',
-    tag: 'LIQUIDACIÓN · Ejercicio 2025',
-    title: 'Liquidación Presupuestaria Auditada',
-    meta: 'PDF Accesible · 3.1 MB',
-  },
-  {
-    id: 'doc-actas-2025-2026',
-    tag: 'ACTAS · 2025 - 2026',
-    title: 'Libro de Actas de Consejo Intermunicipal',
-    meta: 'PDF Accesible · 5.8 MB',
-  },
-  {
-    id: 'doc-planificacion-2024-2028',
-    tag: 'PLANIFICACIÓN · 2024 - 2028',
-    title: 'Plan Operativo y Matriz PICC',
-    meta: 'PDF Accesible · 1.9 MB',
-  },
-];
+const documents: readonly DocumentItem[] = await fetchTransparencyDocuments();
 ---
 
 <section
@@ -67,8 +39,12 @@ const documents: DocumentItem[] = [
             <span class="doc-meta">{doc.meta}</span>
             <a
               class="doc-download-link"
-              href={`#${doc.id}`}
-              aria-label={`Descargar documento: ${doc.title} (${doc.meta}) - En custodia institucional`}
+              href={doc.url && doc.url !== '#' ? doc.url : `#${doc.id}`}
+              target={doc.url && doc.url !== '#' ? '_blank' : undefined}
+              rel={
+                doc.url && doc.url !== '#' ? 'noopener noreferrer' : undefined
+              }
+              aria-label={`Descargar documento: ${doc.title} (${doc.meta})${doc.url && doc.url !== '#' ? '' : ' - En custodia institucional'}`}
             >
               Descargar documento
               <span class="download-icon" aria-hidden="true">

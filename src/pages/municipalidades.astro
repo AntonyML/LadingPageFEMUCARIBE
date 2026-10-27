@@ -1,10 +1,10 @@
 ---
 import PublicLayout from '../layouts/PublicLayout.astro';
 import MunicipalidadesPage from '../components/municipalidades/MunicipalidadesPage.astro';
-import { listMunicipalities } from '../lib/municipalities-repository';
+import { fetchCmsMunicipalities } from '../lib/cms-municipalities';
 import { presentMunicipalities } from '../components/municipalidades/data';
 
-const municipalities = presentMunicipalities(await listMunicipalities());
+const municipalities = presentMunicipalities(await fetchCmsMunicipalities());
 ---
 
 <PublicLayout title="Municipalidades | FEMUCARIBE">
