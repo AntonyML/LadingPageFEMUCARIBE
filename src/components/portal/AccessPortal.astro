@@ -1,12 +1,9 @@
 ---
 interface Props {
   adminUrl?: string;
-  loginApiUrl?: string;
 }
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const { adminUrl = `${base}/admin`, loginApiUrl = `${base}/api/auth/login` } =
-  Astro.props;
+const { adminUrl = 'https://cms.femucaribe.go.cr/wp-admin/' } = Astro.props;
 ---
 
 <section class="portal-section" aria-labelledby="portal-heading">
@@ -187,11 +184,12 @@ const { adminUrl = `${base}/admin`, loginApiUrl = `${base}/api/auth/login` } =
           forma visual y sin código.
         </p>
         <div class="subcard-footer">
-          <button
-            type="button"
+          <a
+            href={adminUrl}
             class="btn btn-action"
             id="btn-open-login-admin"
-            aria-haspopup="dialog"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <span>Iniciar Sesión Administrativa</span>
             <svg
@@ -203,11 +201,11 @@ const { adminUrl = `${base}/admin`, loginApiUrl = `${base}/api/auth/login` } =
             >
               <path
                 fill-rule="evenodd"
-                d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V4a1 1 0 00-1-1H3zm10.293 8.707a1 1 0 000-1.414l-3-3a1 1 0 00-1.414 1.414L10.586 10H6a1 1 0 100 2h4.586l-1.707 1.707a1 1 0 001.414 1.414l3-3z"
+                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
                 clip-rule="evenodd"
               />
             </svg>
-          </button>
+          </a>
         </div>
       </div>
 
@@ -352,99 +350,9 @@ const { adminUrl = `${base}/admin`, loginApiUrl = `${base}/api/auth/login` } =
     </div>
   </dialog>
 
-  <!-- Modal 3: Dialog Login Administración -->
-  <dialog
-    id="modal-login-admin"
-    class="portal-dialog"
-    aria-labelledby="dialog-login-title"
-  >
-    <div class="dialog-content">
-      <div class="dialog-header">
-        <div class="dialog-icon primary" aria-hidden="true">
-          <svg
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-            <path d="M7 11V7a5 5 0 0110 0v4" />
-          </svg>
-        </div>
-        <div>
-          <h3 id="dialog-login-title" class="dialog-title">
-            Iniciar Sesión Administrativa
-          </h3>
-          <p class="dialog-subtitle">
-            Acceso al Panel de Control de FEMUCARIBE
-          </p>
-        </div>
-      </div>
-
-      <form class="login-form" id="admin-login-form" method="dialog">
-        <div class="form-group">
-          <label for="admin-user" class="form-label">
-            Usuario o Correo Institucional
-          </label>
-          <input
-            type="text"
-            id="admin-user"
-            class="form-input"
-            name="username"
-            placeholder="admin@femucaribe.go.cr"
-            required
-            autocomplete="username"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="admin-pass" class="form-label">
-            Contraseña
-          </label>
-          <input
-            type="password"
-            id="admin-pass"
-            class="form-input"
-            name="password"
-            placeholder="••••••••••••"
-            required
-            autocomplete="current-password"
-          />
-        </div>
-
-        <div class="form-error" id="login-error-msg" hidden role="alert">
-          Credenciales incorrectas. Verifique sus datos o contacte a soporte.
-        </div>
-
-        <div class="dialog-actions">
-          <button type="button" class="btn btn-outline close-dialog-btn">
-            Cancelar
-          </button>
-          <button type="submit" class="btn btn-action">
-            <span>Ingresar a /admin</span>
-            <svg
-              viewBox="0 0 20 20"
-              width="18"
-              height="18"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </button>
-        </div>
-      </form>
-    </div>
-  </dialog>
 </section>
 
-<script is:inline define:vars={{ adminUrl, loginApiUrl }}>
+<script is:inline>
   (() => {
     // 1. Toggle Suboptions FEMUCARIBE
     const toggleBtn = document.getElementById('btn-toggle-femucaribe');
@@ -459,7 +367,7 @@ const { adminUrl = `${base}/admin`, loginApiUrl = `${base}/api/auth/login` } =
 
         if (!isExpanded) {
           suboptions.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          const firstAction = suboptions.querySelector('button');
+          const firstAction = suboptions.querySelector('button, a');
           if (firstAction) firstAction.focus();
         }
       });
@@ -468,11 +376,9 @@ const { adminUrl = `${base}/admin`, loginApiUrl = `${base}/api/auth/login` } =
     // 2. Modals Management
     const muniModal = document.getElementById('modal-municipality');
     const platModal = document.getElementById('modal-platform');
-    const loginModal = document.getElementById('modal-login-admin');
 
     const btnMuni = document.getElementById('btn-municipality-info');
     const btnPlat = document.getElementById('btn-open-platform-info');
-    const btnLogin = document.getElementById('btn-open-login-admin');
 
     if (btnMuni && muniModal) {
       btnMuni.addEventListener('click', () => muniModal.showModal());
@@ -480,10 +386,6 @@ const { adminUrl = `${base}/admin`, loginApiUrl = `${base}/api/auth/login` } =
 
     if (btnPlat && platModal) {
       btnPlat.addEventListener('click', () => platModal.showModal());
-    }
-
-    if (btnLogin && loginModal) {
-      btnLogin.addEventListener('click', () => loginModal.showModal());
     }
 
     // Close buttons for dialogs
@@ -506,84 +408,6 @@ const { adminUrl = `${base}/admin`, loginApiUrl = `${base}/api/auth/login` } =
         if (!isInDialog) dialog.close();
       });
     });
-
-    // Handle Admin Login submission
-    const loginForm = document.getElementById('admin-login-form');
-    const loginError = document.getElementById('login-error-msg');
-    const userInput = document.getElementById('admin-user');
-    const passInput = document.getElementById('admin-pass');
-    const submitBtn = loginForm
-      ? loginForm.querySelector('button[type="submit"]')
-      : null;
-
-    if (loginForm) {
-      loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (loginError) loginError.hidden = true;
-        if (submitBtn) submitBtn.setAttribute('disabled', 'true');
-
-        try {
-          const res = await fetch(loginApiUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json',
-            },
-            body: JSON.stringify({
-              email: userInput ? userInput.value : '',
-              password: passInput ? passInput.value : '',
-            }),
-          });
-
-          const data = await res.json().catch(() => ({}));
-
-          if (res.ok && data.success) {
-            window.location.href = data.redirect || adminUrl;
-          } else {
-            if (loginError) {
-              loginError.textContent =
-                data.error ||
-                'Credenciales incorrectas. Verifique sus datos o contacte a soporte.';
-              loginError.hidden = false;
-            }
-            if (passInput) {
-              passInput.value = '';
-              passInput.focus();
-            }
-          }
-        } catch {
-          if (loginError) {
-            loginError.textContent =
-              'Error de comunicación con el servidor. Intente nuevamente.';
-            loginError.hidden = false;
-          }
-        } finally {
-          if (submitBtn) submitBtn.removeAttribute('disabled');
-        }
-      });
-    }
-
-    // Auto-open login modal if redirected with error=unauthorized
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('error') === 'unauthorized') {
-      if (loginError) {
-        loginError.textContent =
-          'Debe iniciar sesión para acceder al panel administrativo.';
-        loginError.hidden = false;
-      }
-      if (
-        toggleBtn &&
-        suboptions &&
-        !suboptions.classList.contains('is-visible')
-      ) {
-        toggleBtn.setAttribute('aria-expanded', 'true');
-        suboptions.setAttribute('aria-hidden', 'false');
-        suboptions.classList.add('is-visible');
-      }
-      if (loginModal) {
-        loginModal.showModal();
-      }
-    }
   })();
 </script>
 
@@ -977,51 +801,5 @@ const { adminUrl = `${base}/admin`, loginApiUrl = `${base}/api/auth/login` } =
   .dialog-actions .btn {
     inline-size: auto;
     min-inline-size: 6rem;
-  }
-
-  /* Form */
-  .login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-  }
-
-  .form-label {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--theme-text);
-  }
-
-  .form-input {
-    padding: 0.625rem 0.875rem;
-    border: 1px solid var(--theme-border);
-    border-radius: 0.5rem;
-    background: var(--theme-canvas);
-    color: var(--theme-text);
-    font-size: 0.9375rem;
-    transition:
-      border-color 0.15s ease,
-      box-shadow 0.15s ease;
-  }
-
-  .form-input:focus {
-    outline: none;
-    border-color: var(--theme-link);
-    box-shadow: 0 0 0 3px rgb(4 112 160 / 15%);
-  }
-
-  .form-error {
-    font-size: 0.8125rem;
-    color: #dc2626;
-    background: #fef2f2;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.375rem;
-    border: 1px solid #fecaca;
   }
 </style>
