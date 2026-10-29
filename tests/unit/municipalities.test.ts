@@ -23,6 +23,7 @@ import {
   type MunicipalityUpdate,
 } from '../../src/lib/municipalities-repository';
 import { presentMunicipalities } from '../../src/components/municipalidades/data';
+import { toProxyMediaUrl } from '../../src/lib/cms-municipalities';
 
 vi.mock('node:fs/promises', async (importOriginal) => {
   const original = await importOriginal<typeof import('node:fs/promises')>();
@@ -439,5 +440,20 @@ describe('municipalities repository', () => {
     expect(presented[0]?.photo).toBe(
       'https://cms.femucaribe.go.cr/wp-content/uploads/municipalidades/canton-limon.png',
     );
+  });
+
+  it('transforms WordPress uploads URLs to local proxy URLs and preserves other URLs', () => {
+    expect(
+      toProxyMediaUrl(
+        'https://cms.femucaribe.go.cr/wp-content/uploads/municipalidades/canton-matina.png',
+      ),
+    ).toBe('/media/municipalidades/canton-matina.png');
+
+    expect(toProxyMediaUrl('/images/municipalities/alcalde-matina.png')).toBe(
+      '/images/municipalities/alcalde-matina.png',
+    );
+
+    expect(toProxyMediaUrl('')).toBeUndefined();
+    expect(toProxyMediaUrl(undefined)).toBeUndefined();
   });
 });

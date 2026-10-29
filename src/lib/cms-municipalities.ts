@@ -56,6 +56,17 @@ function cleanHtml(html: string): string {
     .trim();
 }
 
+export function toProxyMediaUrl(url: string | undefined): string | undefined {
+  if (!url) return undefined;
+  const trimmed = url.trim();
+  const CMS_UPLOADS = 'https://cms.femucaribe.go.cr/wp-content/uploads/';
+  if (trimmed.startsWith(CMS_UPLOADS)) {
+    const relative = trimmed.slice(CMS_UPLOADS.length);
+    return `/media/${relative}`;
+  }
+  return trimmed;
+}
+
 export async function fetchCmsMunicipalities(): Promise<Municipality[]> {
   const localList = await listMunicipalities();
   const CMS_URL = `https://cms.femucaribe.go.cr/wp-json/wp/v2/municipalidades?per_page=20&nocache=1&_ts=${Date.now()}`;
@@ -111,11 +122,11 @@ export async function fetchCmsMunicipalities(): Promise<Municipality[]> {
           : local.name,
         cabecera: data.cabecera?.trim() || local.cabecera,
         description: remoteDesc.length > 0 ? remoteDesc : local.description,
-        cantonFotoUrl: data.canton_foto?.trim() || local.cantonFotoUrl,
+        cantonFotoUrl: toProxyMediaUrl(data.canton_foto) || local.cantonFotoUrl,
         alcaldia: {
           nombre: data.alcalde_nombre?.trim() || local.alcaldia.nombre,
           cargo: data.alcalde_cargo?.trim() || local.alcaldia.cargo,
-          fotoUrl: data.alcalde_foto?.trim() || local.alcaldia.fotoUrl,
+          fotoUrl: toProxyMediaUrl(data.alcalde_foto) || local.alcaldia.fotoUrl,
         },
         contacto: {
           telefono: data.telefono?.trim() || local.contacto.telefono,
@@ -123,7 +134,7 @@ export async function fetchCmsMunicipalities(): Promise<Municipality[]> {
           sitioWeb: data.sitio_web?.trim() || local.contacto.sitioWeb,
           direccion: data.direccion?.trim() || local.contacto.direccion,
         },
-        escudoUrl: data.escudo_url?.trim() || local.escudoUrl,
+        escudoUrl: toProxyMediaUrl(data.escudo_url) || local.escudoUrl,
         updatedAt: remote.modified_gmt
           ? new Date(remote.modified_gmt + 'Z').toISOString()
           : local.updatedAt,
