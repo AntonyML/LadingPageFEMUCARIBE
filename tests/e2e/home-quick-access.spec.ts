@@ -187,7 +187,7 @@ for (const [width, height] of [
       }
     }
     const frame = (await region.boundingBox())!;
-    expect(frame.width).toBeLessThanOrEqual(1280);
+    expect(frame.width).toBeLessThanOrEqual(1440);
     expect(frame.x).toBeGreaterThanOrEqual(16);
     expect(frame.x + frame.width).toBeLessThanOrEqual(width - 16);
     if ([320, 768, 1440].includes(width)) {

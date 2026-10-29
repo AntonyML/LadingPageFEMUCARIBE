@@ -7,7 +7,7 @@
 }
 
 :root {
-  --site-max: 80rem;
+  --site-max: 90rem;
   --site-gutter: clamp(1rem, 3vw, 3rem);
   --layout-gap: clamp(1rem, 2vw, 2rem);
 

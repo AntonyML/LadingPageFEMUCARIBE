@@ -12,7 +12,7 @@ Inspección: 2026-09-30. Fuente principal: **FEMUCARIBE LandingPage Design**, ar
 
 Lectura y exportacion MCP del 2026-10-02, revision 1062; archivo/pagina/board indicados en CONTEXT.md. CONFIRMED: board 1440x460; gradiente blanco, #F7FBFC y #F0F8FA, decoraciones cian y franja de cuatro tramos iguales lima/ambar/cian/azul. Inter; titulo 36/900, cuerpo 15.5/400; contenido izquierdo desde x80 y panel blanco x885/y25 de 475x365 con radio16, borde #BCE4EC y sombra 4/4/4 negro20%. Eyebrow, titulo «Impulsamos el desarrollo integral y sostenible», cuerpo, buscador, «Ver proyectos»/«Contáctenos», seis cantones y tres bloques de gobernanza reproducen el contenido observado. Fills PNG originales de Talamanca, Limón, Matina, Guácimo, Pococí y Parrita conservan transparencia y proporcion; etiquetas cantonales son informativas.
 
-INFERRED: seccion con h1 unico, aside con h2 y lista de h3; escudos decorativos junto al nombre visible, decoraciones fuera del arbol accesible. Contenedor global de 80rem y slot hero sin anidar contenedores. Una columna bajo 75rem y dos desde ese ancho; cantones en dos columnas bajo 30rem, tres hasta 48rem y seis desde 48rem. Buscador/CTA apilados bajo 30rem, texto de lectura mayor en movil, alturas minimas de CTA 44px, foco visible y altura de hero dependiente del contenido. La etiqueta ambar usa #8D5A00 sobre #FEF6E6, contraste calculado 5.435:1 (original #B57406: 3.575:1); ajuste puntual de accesibilidad. Estos controles no certifican conformidad global.
+INFERRED: seccion con h1 unico, aside con h2 y lista de h3; escudos decorativos junto al nombre visible, decoraciones fuera del arbol accesible. Contenedor global de 90rem (1440px) y slot hero sin anidar contenedores. Una columna bajo 75rem y dos desde ese ancho; cantones en dos columnas bajo 30rem, tres hasta 48rem y seis desde 48rem. Buscador/CTA apilados bajo 30rem, tipografía fluida y legible en desktop/móvil con clamp(), alturas minimas de CTA 44px, foco visible y altura de hero dependiente del contenido con respiración vertical en pantallas de 1080p+. La etiqueta ambar usa #8D5A00 sobre #FEF6E6, contraste calculado 5.435:1 (original #B57406: 3.575:1); ajuste puntual de accesibilidad. Estos controles no certifican conformidad global.
 
 Todos los descendientes observados tienen interactions vacias: Penpot no confirma destinos ni comportamiento de busqueda. El propietario confirma buscador deshabilitado con aviso «Búsqueda no disponible»; input y boton nativos deshabilitados, descripcion asociada y sin JavaScript adicional. El consumidor Inicio proporciona /proyectos y /contacto, rutas ya utilizadas en Navbar, respetando BASE_URL; las paginas de destino siguen pendientes de sus slices. No se inventan destinos cantonales. La linea/Path suelta entre Navbar y hero esta fuera del board solicitado y no se reproduce. Los textos institucionales del prototipo requieren validacion editorial antes de produccion.
 
@@ -254,7 +254,6 @@ INFERRED: `/noticias` usa `PublicLayout` en su contenedor habitual y compone `No
 
 VALIDADO: `astro check` con 0 errores, warnings e hints; ESLint, Stylelint y Prettier dirigido pasan; `pnpm run build` genera `/noticias`. Playwright Chromium verificó seis tarjetas y ausencia de desbordamiento horizontal a 320, 768 y 1440px; vista visual desktop y móvil; foco visible al navegar por teclado. La composición a 720px de viewport se usó para revisar el reflow equivalente a 200% de zoom en un ancho de 1440px. No se ejecutaron suites de pruebas automatizadas. Penpot permanece sin modificaciones.
 
-
 ## Tema claro, oscuro y sistema: THEME-MODES-001 / THEME-TOGGLE-001
 
 INFERRED: el navbar muestra solo un botón circular con el pictograma de contraste SVG local; el texto aparece como tooltip flotante al pasar el puntero o al enfocar con teclado. No hay rótulo permanente ni selector desplegable. El botón mide al menos 44×44 px, cambia entre Claro y Oscuro con un clic y actualiza su nombre accesible y aria-pressed según el tema activo.
@@ -270,12 +269,13 @@ VALIDADO en /noticias: con Sistema como preferencia inicial del navegador, el bo
 Alojamiento 100% local (sin CDNs externas) del widget de accesibilidad de Sinan Isler (sinanisler/accessibility-widgets) en public/js/accessibility-widget.min.js, configurado en español (s), posición ottom-right y color institucional #0470a0.
 
 CONFIRMED:
+
 1. Navegación directa al contenido principal: el enlace de salto (.government-bar .skip-link con ancla #contenido-principal) desplaza la vista de forma suave pasando el hero hacia .page-content (en Inicio) y enfocando el elemento <main id=\ contenido-principal\>, mejorando la usabilidad de teclado según pautas WCAG 2.1 / 2.2 AA.
 2. Botón de accesibilidad en barra superior: el enlace (.government-bar .accessibility) actúa con progressive enhancement; sin JavaScript redirige normalmente a /accesibilidad (también accesible desde el pie institucional), y con JavaScript previene la navegación y abre el modal/diálogo del widget de accesibilidad.
 3. Controles interactivos del modal: 3 niveles de alto contraste, 3 niveles de tamaño de texto, filtros de daltonismo (protanopia, deuteranopia, tritanopia, escala de grises), tipografía amigable para dislexia, espaciado de texto, altura de línea, pausa de animaciones, cursor grande y lector de pantalla nativo.
 4. Cero dependencias externas y cumplimiento de soberanía de datos: archivo único Vanilla JS servido localmente desde la carpeta pública del proyecto.
 
-VALIDADO: stro check con 0 errores, 0 warnings y 0 hints en 105 archivos; ESLint y Stylelint limpios; 29/29 pruebas unitarias aprobadas; suite completa de Playwright con 384 pruebas E2E aprobadas (incluyendo las 5 pruebas dedicadas de widget y navegación en 	ests/e2e/accessibility-widget.spec.ts).
+VALIDADO: stro check con 0 errores, 0 warnings y 0 hints en 105 archivos; ESLint y Stylelint limpios; 29/29 pruebas unitarias aprobadas; suite completa de Playwright con 384 pruebas E2E aprobadas (incluyendo las 5 pruebas dedicadas de widget y navegación en ests/e2e/accessibility-widget.spec.ts).
 
 ### Gestión municipal administrativa: ADMIN-MUNICIPALITIES-001
 

@@ -53,7 +53,7 @@ for (const [width, height] of [
     );
     expect(boxes.length).toBe(5);
     for (const box of boxes) {
-      expect(box.width).toBeLessThanOrEqual(1280);
+      expect(box.width).toBeLessThanOrEqual(1440);
       expect(box.x).toBeGreaterThanOrEqual(16);
       expect(box.right).toBeLessThanOrEqual(width - 16);
       if (box.isHero && width >= 1200) {

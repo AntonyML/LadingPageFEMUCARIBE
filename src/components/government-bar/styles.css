@@ -15,7 +15,7 @@
   min-block-size: 48px;
   padding-inline: max(
     var(--site-gutter, 80px),
-    calc((100% - var(--site-max, 80rem)) / 2)
+    calc((100% - var(--site-max, 90rem)) / 2)
   );
   background: #1e3a5f;
   color: #fff;

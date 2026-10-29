@@ -77,9 +77,9 @@ const resources = [
 
   .title {
     margin: 0;
-    font-size: 1rem;
+    font-size: clamp(0.9375rem, 0.875rem + 0.25vw, 1.0625rem);
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.25;
   }
 
   .title-icon {
@@ -91,23 +91,14 @@ const resources = [
 
   .description,
   .status {
-    font-size: 0.875rem;
-    line-height: 1.2;
+    font-size: clamp(0.8125rem, 0.775rem + 0.15vw, 0.875rem);
+    line-height: 1.35;
     color: var(--theme-text-muted);
   }
 
   @media (width >= 75rem) {
     .links {
       grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .title {
-      font-size: 0.8438rem;
-    }
-
-    .description,
-    .status {
-      font-size: 0.7188rem;
     }
   }
 </style>
