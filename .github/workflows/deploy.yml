@@ -68,7 +68,7 @@ jobs:
           set -euo pipefail
           test -d dist/client
           test -f dist/client/index.html
-          (cd dist/client && tar -czf ../../static-artifact.tar.gz *)
+          (cd dist/client && tar -czf ../../static-artifact.tar.gz .)
 
       - name: Upload and deploy artifact to hosting
         shell: bash
@@ -103,3 +103,5 @@ jobs:
           curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 3 --max-time 15 "$HOSTING_SITE_URL/" --output /dev/null
           curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 3 --max-time 15 "$HOSTING_SITE_URL/noticias" --output /dev/null
           curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 3 --max-time 15 "$HOSTING_SITE_URL/municipalidades" --output /dev/null
+          curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 3 --max-time 15 "$HOSTING_SITE_URL/favicon.ico" --output /dev/null
+          curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 3 --max-time 15 "$HOSTING_SITE_URL/media/municipalidades/canton-limon.png" --output /dev/null

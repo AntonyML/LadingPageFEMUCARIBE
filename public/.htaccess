@@ -1,0 +1,20 @@
+# Configuracion Apache para FEMUCARIBE en hosting compartido
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Servir directamente si el archivo o carpeta existe fisicamente
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Fallback dinamico para rutas /media/* que no hayan sido prerenderizadas
+  RewriteRule ^media/(.*)$ https://cms.femucaribe.go.cr/wp-content/uploads/$1 [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  <FilesMatch "\.(ico|png|jpg|jpeg|webp|svg|pdf|css|js)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>

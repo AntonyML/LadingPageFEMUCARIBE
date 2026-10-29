@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, afterEach } from 'vitest';
-import { GET } from '../../src/pages/media/[...path]';
+import { GET, getStaticPaths } from '../../src/pages/media/[...path]';
 
 describe('Media proxy endpoint', () => {
   afterEach(() => {
@@ -83,5 +83,49 @@ describe('Media proxy endpoint', () => {
     });
 
     expect(response.status).toBe(404);
+  });
+
+  describe('getStaticPaths', () => {
+    it('returns known static media paths', async () => {
+      // @ts-expect-error Mocking Astro GetStaticPaths call
+      const paths = await getStaticPaths();
+      const pathList = (paths as Array<{ params: { path: string } }>).map(
+        (p) => p.params.path,
+      );
+      expect(pathList).toContain('municipalidades/canton-matina.png');
+      expect(pathList).toContain('municipalidades/canton-parrita.png');
+      expect(pathList).toContain('municipalidades/canton-limon.png');
+      expect(pathList).toContain('municipalidades/guacimo.png');
+    });
+
+    it('discovers media dynamically from WordPress API', async () => {
+      const fetchMock = vi.fn().mockImplementation((url: string) => {
+        if (url.includes('/wp/v2/municipalidades')) {
+          return Promise.resolve({
+            ok: true,
+            json: async () => [
+              {
+                muni_data: {
+                  canton_foto:
+                    'https://cms.femucaribe.go.cr/wp-content/uploads/extra/test-canton.png',
+                },
+              },
+            ],
+          });
+        }
+        return Promise.resolve({
+          ok: true,
+          json: async () => [],
+        });
+      });
+      vi.stubGlobal('fetch', fetchMock);
+
+      // @ts-expect-error Mocking Astro GetStaticPaths call
+      const paths = await getStaticPaths();
+      const pathList = (paths as Array<{ params: { path: string } }>).map(
+        (p) => p.params.path,
+      );
+      expect(pathList).toContain('extra/test-canton.png');
+    });
   });
 });
