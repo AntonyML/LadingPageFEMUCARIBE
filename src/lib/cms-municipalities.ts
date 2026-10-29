@@ -108,38 +108,41 @@ export async function fetchCmsMunicipalities(): Promise<Municipality[]> {
       }
     }
 
-    return localList.map((local) => {
-      const remote = remoteBySlug.get(local.id.toLowerCase());
-      if (!remote) return local;
+    return localList
+      .filter((local) => remoteBySlug.has(local.id.toLowerCase()))
+      .map((local) => {
+        const remote = remoteBySlug.get(local.id.toLowerCase())!;
 
-      const data = remote.muni_data || remote.meta || {};
-      const remoteDesc = cleanHtml(remote.content?.rendered || '');
+        const data = remote.muni_data || remote.meta || {};
+        const remoteDesc = cleanHtml(remote.content?.rendered || '');
 
-      return {
-        ...local,
-        name: remote.title?.rendered
-          ? cleanHtml(remote.title.rendered)
-          : local.name,
-        cabecera: data.cabecera?.trim() || local.cabecera,
-        description: remoteDesc.length > 0 ? remoteDesc : local.description,
-        cantonFotoUrl: toProxyMediaUrl(data.canton_foto) || local.cantonFotoUrl,
-        alcaldia: {
-          nombre: data.alcalde_nombre?.trim() || local.alcaldia.nombre,
-          cargo: data.alcalde_cargo?.trim() || local.alcaldia.cargo,
-          fotoUrl: toProxyMediaUrl(data.alcalde_foto) || local.alcaldia.fotoUrl,
-        },
-        contacto: {
-          telefono: data.telefono?.trim() || local.contacto.telefono,
-          correo: data.correo?.trim() || local.contacto.correo,
-          sitioWeb: data.sitio_web?.trim() || local.contacto.sitioWeb,
-          direccion: data.direccion?.trim() || local.contacto.direccion,
-        },
-        escudoUrl: toProxyMediaUrl(data.escudo_url) || local.escudoUrl,
-        updatedAt: remote.modified_gmt
-          ? new Date(remote.modified_gmt + 'Z').toISOString()
-          : local.updatedAt,
-      };
-    });
+        return {
+          ...local,
+          name: remote.title?.rendered
+            ? cleanHtml(remote.title.rendered)
+            : local.name,
+          cabecera: data.cabecera?.trim() || local.cabecera,
+          description: remoteDesc.length > 0 ? remoteDesc : local.description,
+          cantonFotoUrl:
+            toProxyMediaUrl(data.canton_foto) || local.cantonFotoUrl,
+          alcaldia: {
+            nombre: data.alcalde_nombre?.trim() || local.alcaldia.nombre,
+            cargo: data.alcalde_cargo?.trim() || local.alcaldia.cargo,
+            fotoUrl:
+              toProxyMediaUrl(data.alcalde_foto) || local.alcaldia.fotoUrl,
+          },
+          contacto: {
+            telefono: data.telefono?.trim() || local.contacto.telefono,
+            correo: data.correo?.trim() || local.contacto.correo,
+            sitioWeb: data.sitio_web?.trim() || local.contacto.sitioWeb,
+            direccion: data.direccion?.trim() || local.contacto.direccion,
+          },
+          escudoUrl: toProxyMediaUrl(data.escudo_url) || local.escudoUrl,
+          updatedAt: remote.modified_gmt
+            ? new Date(remote.modified_gmt + 'Z').toISOString()
+            : local.updatedAt,
+        };
+      });
   } catch (err) {
     console.warn(
       `[CMS] Fallback to local municipalidades: ${err instanceof Error ? err.message : String(err)}`,

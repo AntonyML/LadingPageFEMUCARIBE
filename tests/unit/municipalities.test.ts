@@ -23,7 +23,10 @@ import {
   type MunicipalityUpdate,
 } from '../../src/lib/municipalities-repository';
 import { presentMunicipalities } from '../../src/components/municipalidades/data';
-import { toProxyMediaUrl } from '../../src/lib/cms-municipalities';
+import {
+  fetchCmsMunicipalities,
+  toProxyMediaUrl,
+} from '../../src/lib/cms-municipalities';
 
 vi.mock('node:fs/promises', async (importOriginal) => {
   const original = await importOriginal<typeof import('node:fs/promises')>();
@@ -455,5 +458,59 @@ describe('municipalities repository', () => {
 
     expect(toProxyMediaUrl('')).toBeUndefined();
     expect(toProxyMediaUrl(undefined)).toBeUndefined();
+  });
+
+  it('filters out unpublished or draft municipalities returned by WordPress CMS', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => [
+        {
+          id: 13,
+          slug: 'limon',
+          title: { rendered: 'Municipalidad de Limón' },
+        },
+        {
+          id: 14,
+          slug: 'pococi',
+          title: { rendered: 'Municipalidad de Pococí' },
+        },
+        {
+          id: 16,
+          slug: 'talamanca',
+          title: { rendered: 'Municipalidad de Talamanca' },
+        },
+        {
+          id: 17,
+          slug: 'matina',
+          title: { rendered: 'Municipalidad de Matina' },
+        },
+        {
+          id: 18,
+          slug: 'guacimo',
+          title: { rendered: 'Municipalidad de Guácimo' },
+        },
+        // siquirres is in draft / unpublished, so not returned in remoteItems
+      ],
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const result = await fetchCmsMunicipalities();
+    const ids = result.map((m) => m.id);
+    expect(ids).toContain('limon');
+    expect(ids).toContain('pococi');
+    expect(ids).toContain('talamanca');
+    expect(ids).toContain('matina');
+    expect(ids).toContain('guacimo');
+    expect(ids).not.toContain('siquirres');
+    expect(result.length).toBe(5);
+  });
+
+  it('falls back to all local municipalities if WordPress CMS is down', async () => {
+    const fetchMock = vi.fn().mockRejectedValue(new Error('Network error'));
+    vi.stubGlobal('fetch', fetchMock);
+
+    const result = await fetchCmsMunicipalities();
+    expect(result.length).toBe(6);
+    expect(result.map((m) => m.id)).toContain('siquirres');
   });
 });
