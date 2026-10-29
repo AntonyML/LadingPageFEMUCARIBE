@@ -66,6 +66,7 @@ export const municipalityUpdateSchema = z
     name: requiredText(160),
     cabecera: requiredText(120),
     description: requiredText(6000),
+    cantonFotoUrl: imageUrlSchema.optional(),
     alcaldia: z
       .object({
         nombre: requiredText(160),

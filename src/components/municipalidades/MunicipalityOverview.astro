@@ -38,10 +38,22 @@ const { municipalities } = Astro.props;
             {municipality.photo ? (
               <img
                 class={cards['member-photo']}
-                src={municipality.photo.src}
+                src={
+                  typeof municipality.photo === 'string'
+                    ? municipality.photo
+                    : municipality.photo.src
+                }
                 alt={municipality.photoAlt}
-                width={municipality.photo.width}
-                height={municipality.photo.height}
+                width={
+                  typeof municipality.photo === 'string'
+                    ? 640
+                    : municipality.photo.width
+                }
+                height={
+                  typeof municipality.photo === 'string'
+                    ? 420
+                    : municipality.photo.height
+                }
                 loading={index < 3 ? 'eager' : 'lazy'}
                 decoding="async"
               />

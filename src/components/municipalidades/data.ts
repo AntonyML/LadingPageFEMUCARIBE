@@ -46,6 +46,7 @@ const presentation = {
   },
   siquirres: {
     cantonName: 'Siquirres',
+    photo: undefined,
     photoAlt: 'Fotografía del cantón de Siquirres pendiente',
     viceMayors: [
       'Consultar directorio oficial',
@@ -114,6 +115,9 @@ export function presentMunicipalities(
   return records.map((record) => ({
     ...record,
     ...presentation[record.id],
+    photo: record.cantonFotoUrl
+      ? assetUrl(record.cantonFotoUrl)
+      : presentation[record.id].photo,
     slug: record.id,
     escudoUrl: assetUrl(record.escudoUrl),
     memberLocation: record.cabecera,

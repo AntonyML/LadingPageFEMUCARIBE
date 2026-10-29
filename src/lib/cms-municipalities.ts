@@ -16,6 +16,7 @@ interface WpMunicipalidad {
   muni_data?: {
     canton_id?: string;
     cabecera?: string;
+    canton_foto?: string;
     alcalde_nombre?: string;
     alcalde_cargo?: string;
     alcalde_foto?: string;
@@ -28,6 +29,7 @@ interface WpMunicipalidad {
   meta?: {
     canton_id?: string;
     cabecera?: string;
+    canton_foto?: string;
     alcalde_nombre?: string;
     alcalde_cargo?: string;
     alcalde_foto?: string;
@@ -109,6 +111,7 @@ export async function fetchCmsMunicipalities(): Promise<Municipality[]> {
           : local.name,
         cabecera: data.cabecera?.trim() || local.cabecera,
         description: remoteDesc.length > 0 ? remoteDesc : local.description,
+        cantonFotoUrl: data.canton_foto?.trim() || local.cantonFotoUrl,
         alcaldia: {
           nombre: data.alcalde_nombre?.trim() || local.alcaldia.nombre,
           cargo: data.alcalde_cargo?.trim() || local.alcaldia.cargo,

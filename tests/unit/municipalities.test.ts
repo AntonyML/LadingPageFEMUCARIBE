@@ -22,6 +22,7 @@ import {
   type Municipality,
   type MunicipalityUpdate,
 } from '../../src/lib/municipalities-repository';
+import { presentMunicipalities } from '../../src/components/municipalidades/data';
 
 vi.mock('node:fs/promises', async (importOriginal) => {
   const original = await importOriginal<typeof import('node:fs/promises')>();
@@ -412,5 +413,31 @@ describe('municipalities repository', () => {
       repository.update('limon', editable(initial[0]!)),
     ).rejects.toMatchObject({ code: 'ENOENT' });
     expect(await readdir(directory)).toEqual(['municipalities.json']);
+  });
+
+  it('updates and persists cantonFotoUrl correctly', async () => {
+    const repository = createMunicipalitiesRepository(filePath);
+    const updated = await repository.update('limon', {
+      ...editable(initial[0]!),
+      cantonFotoUrl:
+        'https://cms.femucaribe.go.cr/wp-content/uploads/municipalidades/canton-limon.png',
+    });
+    expect(updated?.cantonFotoUrl).toBe(
+      'https://cms.femucaribe.go.cr/wp-content/uploads/municipalidades/canton-limon.png',
+    );
+  });
+
+  it('prefers remote cantonFotoUrl when present in presentMunicipalities', () => {
+    const list = [
+      {
+        ...initial[0]!,
+        cantonFotoUrl:
+          'https://cms.femucaribe.go.cr/wp-content/uploads/municipalidades/canton-limon.png',
+      },
+    ];
+    const presented = presentMunicipalities(list);
+    expect(presented[0]?.photo).toBe(
+      'https://cms.femucaribe.go.cr/wp-content/uploads/municipalidades/canton-limon.png',
+    );
   });
 });

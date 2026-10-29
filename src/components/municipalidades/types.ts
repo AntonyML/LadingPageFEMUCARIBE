@@ -6,7 +6,7 @@ export interface MunicipalGovernment extends Municipality {
   cantonName: string;
   memberLocation: string;
   memberSummary: string;
-  photo?: ImageMetadata;
+  photo?: ImageMetadata | string | undefined;
   photoAlt: string;
   period: string;
   mayor: {
