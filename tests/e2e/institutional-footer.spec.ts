@@ -12,8 +12,8 @@ for (const width of [320, 375, 768, 1024, 1440, 1920]) {
     await expect(footer).toHaveCount(1);
     await expect(footer.getByRole('heading')).toHaveCount(3);
     await expect(
-      footer.getByRole('link', { name: '(+506) 2768-2000' }),
-    ).toHaveAttribute('href', 'tel:+50627682000');
+      footer.getByRole('link', { name: '(+506) 2768-7344' }),
+    ).toHaveAttribute('href', 'tel:+50627687344');
     await expect(
       footer.getByRole('link', { name: 'info@femucaribe.go.cr' }),
     ).toHaveAttribute('href', 'mailto:info@femucaribe.go.cr');
