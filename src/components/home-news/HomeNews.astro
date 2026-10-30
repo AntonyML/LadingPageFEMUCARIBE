@@ -43,7 +43,7 @@ const news = items.map((item) => {
   return {
     ...item,
     dateLabel: dateFormat.format(date).replaceAll('.', '').toUpperCase(),
-    destination: item.url === undefined ? undefined : href(item.url),
+    destination: item.url && item.url !== '#' ? href(item.url) : undefined,
     imageSrc: item.image === undefined ? undefined : href(item.image.src),
   };
 });
