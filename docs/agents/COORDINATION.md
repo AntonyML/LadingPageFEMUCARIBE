@@ -229,3 +229,5 @@ WEBAPPS-CICD-001 validado el 2026-10-22: se agregó `.github/workflows/deploy-we
 ADMIN-DOCUMENTS-UPLOAD-002 integrado mediante avance directo y push normal a `origin/dev` según autorización permanente del propietario. El servidor real de api-buket no se contactó; el flujo completo se verificó con un almacenamiento local simulado. No se desplegó ni promovió `main`.
 
 ADMIN-DOCUMENTS-UPLOAD-003 integrado mediante avance directo y push normal a `origin/dev` según autorización permanente del propietario. Se alineó el cliente con el contrato implementado por api-buket. La verificación contra el servicio real envió un multipart vacío que fue rechazado con HTTP 400; no se transmitieron documentos ni se desplegó `main`.
+
+CMS-PAGE-CONTENT-001 (2026-10-30): textos e imagen de cabecera de Inicio, Nosotros, Municipalidades, Proyectos, Transparencia y Noticias editables desde el plugin desacoplado femucaribe-page-content (REST femucaribe/v1/page-content) con fallback a los textos actuales. Typecheck, lint, 85 unit y build pasan. Plugin pendiente de activación en el CMS.

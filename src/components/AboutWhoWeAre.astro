@@ -1,5 +1,8 @@
 ---
 import sedeImage from '../assets/nosotros/sede-femucaribe.png';
+import { getPageContent } from '../lib/cms-page-content';
+
+const cms = await getPageContent('nosotros');
 
 interface StatItem {
   value: string;
@@ -26,24 +29,27 @@ const stats: readonly StatItem[] = [
     <header class="header-block">
       <p class="overline">
         <span class="overline-bar" aria-hidden="true"></span>
-        <span>CONOZCA NUESTRA FEDERACIÓN</span>
+        <span>{cms.eyebrow ?? 'CONOZCA NUESTRA FEDERACIÓN'}</span>
       </p>
       <h1 id="about-who-we-are-title" class="title">
-        Quiénes Somos
+        {cms.title ?? 'Quiénes Somos'}
       </h1>
     </header>
 
     <p class="lead-paragraph">
-      La Federación Municipal del Caribe y Asociados <strong>FEMUCARIBE</strong>{' '}
-      es la organización pública que integra a los gobiernos locales de
-      Talamanca, Limón, Matina, Guácimo, Pococí y Parrita.
+      {cms.lead ?? (
+        <>
+          La Federación Municipal del Caribe y Asociados{' '}
+          <strong>FEMUCARIBE</strong> es la organización pública que integra a
+          los gobiernos locales de Talamanca, Limón, Matina, Guácimo, Pococí y
+          Parrita.
+        </>
+      )}
     </p>
 
     <p class="body-paragraph">
-      Tiene como fin primordial propiciar el desarrollo integral de los
-      municipios afiliados, impulsar el fortalecimiento institucional y
-      político, y promover iniciativas que favorezcan el bienestar y desarrollo
-      regional de manera sostenible y equitativa.
+      {cms.body ??
+        'Tiene como fin primordial propiciar el desarrollo integral de los municipios afiliados, impulsar el fortalecimiento institucional y político, y promover iniciativas que favorezcan el bienestar y desarrollo regional de manera sostenible y equitativa.'}
     </p>
 
     <dl class="stats-row">
@@ -67,10 +73,13 @@ const stats: readonly StatItem[] = [
     <div class="image-frame">
       <img
         class="sede-photo responsive-media"
-        src={sedeImage.src}
+        src={cms.image ?? sedeImage.src}
         width="720"
         height="540"
-        alt="Edificio de la sede central de FEMUCARIBE en Siquirres, Barrio el Mangal"
+        alt={
+          cms.image_alt ??
+          'Edificio de la sede central de FEMUCARIBE en Siquirres, Barrio el Mangal'
+        }
         loading="eager"
         decoding="async"
       />

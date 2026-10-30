@@ -4,16 +4,21 @@
  * Header section for Transparencia page.
  * Corresponds to Penpot board L1-Header-Seccion (1158a0fe-c558-80da-8008-9409f2730a97).
  */
+import { getPageContent } from '../../lib/cms-page-content';
+
+const cms = await getPageContent('transparencia');
 ---
 
 <header class="transparency-header">
   <div class="overline-box">
     <span class="divisor" aria-hidden="true"></span>
     <span class="overline-text">
-      RENDICIÓN DE CUENTAS Y SELLO DE GOBIERNO DIGITAL
+      {cms.eyebrow ?? 'RENDICIÓN DE CUENTAS Y SELLO DE GOBIERNO DIGITAL'}
     </span>
   </div>
-  <h1 class="page-title">Transparencia Activa y Fiscalización Ciudadana</h1>
+  <h1 class="page-title">
+    {cms.title ?? 'Transparencia Activa y Fiscalización Ciudadana'}
+  </h1>
 </header>
 
 <style>

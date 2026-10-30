@@ -1,11 +1,16 @@
 ---
 import styles from './styles.module.css';
+import { getPageContent } from '../../lib/cms-page-content';
+
+const cms = await getPageContent('noticias');
 ---
 
 <header class={styles.header}>
   <div class={styles.overline}>
     <span class={styles.accent} aria-hidden="true"></span>
-    <span>Canal oficial de información pública</span>
+    <span>{cms.eyebrow ?? 'Canal oficial de información pública'}</span>
   </div>
-  <h1 class={styles['page-title']}>Sala de Prensa y Comunicados Oficiales</h1>
+  <h1 class={styles['page-title']}>
+    {cms.title ?? 'Sala de Prensa y Comunicados Oficiales'}
+  </h1>
 </header>
