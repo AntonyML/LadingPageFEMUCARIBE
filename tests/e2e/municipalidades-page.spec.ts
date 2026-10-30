@@ -8,14 +8,14 @@ const memberTitles = [
   'Municipalidad de Matina',
   'Municipalidad de Guácimo',
   'Municipalidad de Pococí',
-  'Municipalidad de Siquirres',
+  'Municipalidad de Parrita',
 ] as const;
 
 const authorityNames = [
   'Ana Janniel Matarrita Mc Calla',
   'Walter Céspedes Salazar',
   'Beatriz Mora Valverde',
-  'Randal Black Reid',
+  'Roberto Alonso Rímola Real',
   'Rugeli Morales Rodríguez',
   'Manuel Hernández Rivera',
 ] as const;

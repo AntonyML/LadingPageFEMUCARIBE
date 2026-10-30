@@ -95,7 +95,7 @@ describe('municipalities schema', () => {
     expect(municipalitiesSchema.parse(initial).map(({ id }) => id)).toEqual([
       'limon',
       'pococi',
-      'siquirres',
+      'parrita',
       'talamanca',
       'matina',
       'guacimo',
@@ -489,7 +489,7 @@ describe('municipalities repository', () => {
           slug: 'guacimo',
           title: { rendered: 'Municipalidad de Guácimo' },
         },
-        // siquirres is in draft / unpublished, so not returned in remoteItems
+        // parrita is in draft / unpublished, so not returned in remoteItems
       ],
     });
     vi.stubGlobal('fetch', fetchMock);
@@ -501,7 +501,7 @@ describe('municipalities repository', () => {
     expect(ids).toContain('talamanca');
     expect(ids).toContain('matina');
     expect(ids).toContain('guacimo');
-    expect(ids).not.toContain('siquirres');
+    expect(ids).not.toContain('parrita');
     expect(result.length).toBe(5);
   });
 
@@ -511,6 +511,6 @@ describe('municipalities repository', () => {
 
     const result = await fetchCmsMunicipalities();
     expect(result.length).toBe(6);
-    expect(result.map((m) => m.id)).toContain('siquirres');
+    expect(result.map((m) => m.id)).toContain('parrita');
   });
 });
