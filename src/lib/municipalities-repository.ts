@@ -6,7 +6,7 @@ import { z } from 'astro/zod';
 export const municipalityIds = [
   'limon',
   'pococi',
-  'siquirres',
+  'parrita',
   'talamanca',
   'matina',
   'guacimo',

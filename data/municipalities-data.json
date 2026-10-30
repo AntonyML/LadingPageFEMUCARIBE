@@ -40,24 +40,24 @@
     "updatedAt": "2026-10-22T00:00:00.000Z"
   },
   {
-    "id": "siquirres",
-    "name": "Municipalidad de Siquirres",
-    "cabecera": "Siquirres",
-    "description": "Cantón del Caribe con vocación agrícola, especialmente en la producción de banano y piña. Su historia está vinculada al ferrocarril y su oferta turística incluye los ríos Pacuare y Reventazón.",
+    "id": "parrita",
+    "name": "Municipalidad de Parrita",
+    "cabecera": "Parrita",
+    "description": "Cantón del Pacífico Central con una fuerte herencia agrícola, enfocado en la producción de palma aceitera y frutas tropicales como la sandía y el melón. Su historia estuvo marcada por el auge de las compañías bananeras y su atractiva oferta turística destaca por la extensa Playa Esterillos y la belleza natural del Río Pirrís.",
     "alcaldia": {
-      "nombre": "Randal Black Reid",
+      "nombre": "Roberto Alonso Rímola Real",
       "cargo": "Alcalde Municipal",
       "fotoUrl": ""
     },
     "contacto": {
-      "telefono": "+506 2768-6266",
-      "correo": "consultas@siquirres.go.cr",
-      "sitioWeb": "https://siquirres.go.cr/",
-      "direccion": "25 metros norte del Banco Nacional, Siquirres, Limón."
+      "telefono": "+506 2777-8400",
+      "correo": "alcaldia@muniparrita.go.cr",
+      "sitioWeb": "https://muniparrita.go.cr/",
+      "direccion": "Los Ángeles de Parrita, 200 metros este de la Estación de Bomberos, Puntarenas."
     },
     "escudoUrl": "",
     "proyectosDestacados": [],
-    "updatedAt": "2026-10-22T00:00:00.000Z"
+    "updatedAt": "2026-10-30T00:00:00.000Z"
   },
   {
     "id": "talamanca",
@@ -93,11 +93,11 @@
       "telefono": "+506 2718-1360",
       "correo": "info@munimatina.go.cr",
       "sitioWeb": "https://www.munimatina.go.cr/",
-      "direccion": ""
+      "direccion": "Costado oeste de la Plaza de Deportes de Matina, Limón."
     },
     "escudoUrl": "",
     "proyectosDestacados": [],
-    "updatedAt": "2026-10-22T00:00:00.000Z"
+    "updatedAt": "2026-10-30T00:00:00.000Z"
   },
   {
     "id": "guacimo",
@@ -113,7 +113,7 @@
       "telefono": "+506 2716-5051",
       "correo": "info@guacimo.go.cr",
       "sitioWeb": "https://guacimo.go.cr/",
-      "direccion": ""
+      "direccion": "Costado norte del Parque Central de Guácimo, Limón."
     },
     "escudoUrl": "",
     "proyectosDestacados": [],
