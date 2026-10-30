@@ -1,6 +1,6 @@
 ---
 import PublicLayout from '../layouts/PublicLayout.astro';
-import contactMap from '../assets/contacto/mapa-contacto.svg';
+import LocationMap from '../components/location-map/LocationMap.astro';
 
 const contactEmail = 'info@femucaribe.go.cr';
 ---
@@ -21,7 +21,8 @@ const contactEmail = 'info@femucaribe.go.cr';
         <div class="detail-card">
           <dt>Sede central (art. 2)</dt>
           <dd>
-            Barrio Mangal, contiguo a la estación de bomberos, Siquirres, Limón, 70301.
+            Barrio Mangal, contiguo a la estación de bomberos, Siquirres, Limón,
+            70301.
           </dd>
         </div>
         <div class="detail-card">
@@ -42,23 +43,11 @@ const contactEmail = 'info@femucaribe.go.cr';
         </div>
         <div class="detail-card">
           <dt>Horario de atención</dt>
-          <dd>
-            Lunes a Viernes · Cierra a las 3:30 p.m.
-          </dd>
+          <dd>Lunes a Viernes · Cierra a las 3:30 p.m.</dd>
         </div>
       </dl>
 
-      <figure class="contact-map" aria-hidden="true">
-        <img
-          class="responsive-media"
-          src={contactMap.src}
-          width="452"
-          height="108"
-          alt=""
-          loading="lazy"
-          decoding="async"
-        />
-      </figure>
+      <LocationMap />
     </div>
 
     <section class="message-panel" aria-labelledby="message-title">
@@ -209,20 +198,6 @@ const contactEmail = 'info@femucaribe.go.cr';
     text-decoration-thickness: 0.08em;
     text-underline-offset: 0.2em;
     overflow-wrap: anywhere;
-  }
-
-  .contact-map {
-    overflow: hidden;
-    margin: 1.75rem 0 0;
-    border: 1px solid var(--theme-border-subtle);
-    border-radius: 0.75rem;
-    background: var(--theme-status-warning-bg);
-  }
-
-  .contact-map img {
-    display: block;
-    inline-size: 100%;
-    block-size: auto;
   }
 
   .message-panel {
