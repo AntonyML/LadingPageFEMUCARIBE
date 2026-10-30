@@ -3,10 +3,12 @@ import type { MunicipalGovernment } from './types';
 import MunicipalityStackIcon from './MunicipalityStackIcon.astro';
 import pageStyles from './page.module.css';
 import cards from './cards.module.css';
+import { getPageContent } from '../../lib/cms-page-content';
 interface Props {
   municipalities: readonly MunicipalGovernment[];
 }
 const { municipalities } = Astro.props;
+const cms = await getPageContent('municipalidades');
 ---
 
 <section
@@ -15,15 +17,15 @@ const { municipalities } = Astro.props;
 >
   <header class={pageStyles['page-heading']}>
     <p class={pageStyles['page-eyebrow']}>
-      RÉGIMEN TERRITORIAL Y COOPERACIÓN INTERMUNICIPAL · RADIOGRAFÍA TERRITORIAL
-      Y CANTONAL
+      {cms.eyebrow ??
+        'RÉGIMEN TERRITORIAL Y COOPERACIÓN INTERMUNICIPAL · RADIOGRAFÍA TERRITORIAL Y CANTONAL'}
     </p>
     <h1 class={pageStyles['page-title']} id="municipalities-title">
-      Municipalidades Miembros · Federación del Caribe
+      {cms.title ?? 'Municipalidades Miembros · Federación del Caribe'}
     </h1>
     <p class={pageStyles['page-description']}>
-      Perfil geográfico, productivo y autoridades de los seis cantones que
-      componen FEMUCARIBE.
+      {cms.description ??
+        'Perfil geográfico, productivo y autoridades de los seis cantones que componen FEMUCARIBE.'}
     </p>
   </header>
 

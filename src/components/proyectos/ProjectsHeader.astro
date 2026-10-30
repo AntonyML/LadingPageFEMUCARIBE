@@ -1,15 +1,20 @@
 ---
 // src/components/proyectos/ProjectsHeader.astro
+import { getPageContent } from '../../lib/cms-page-content';
+
+const cms = await getPageContent('proyectos');
 ---
 
 <header class="projects-header">
   <div class="overline-box">
     <span class="accent-bar" aria-hidden="true"></span>
     <span class="overline-text">
-      CARTERA DE INVERSIÓN PÚBLICA Y DESARROLLO REGIONAL
+      {cms.eyebrow ?? 'CARTERA DE INVERSIÓN PÚBLICA Y DESARROLLO REGIONAL'}
     </span>
   </div>
-  <h1 class="page-title">Proyectos Institucionales de la Federación</h1>
+  <h1 class="page-title">
+    {cms.title ?? 'Proyectos Institucionales de la Federación'}
+  </h1>
 </header>
 
 <style>
