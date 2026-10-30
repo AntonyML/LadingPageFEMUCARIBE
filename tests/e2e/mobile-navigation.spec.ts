@@ -105,7 +105,7 @@ test('institutional utilities and footer groups can be opened and closed by touc
     await expect(details).not.toHaveAttribute('open');
   }
   await expect(
-    footer.getByRole('link', { name: '(+506) 2768-2000' }),
+    footer.getByRole('link', { name: '(+506) 2768-7344' }),
   ).toBeVisible();
 });
 

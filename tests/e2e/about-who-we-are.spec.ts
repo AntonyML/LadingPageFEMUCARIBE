@@ -5,9 +5,9 @@ test.use({ javaScriptEnabled: false });
 const heading = 'Quiénes Somos';
 const overlineText = 'CONOZCA NUESTRA FEDERACIÓN';
 const leadText =
-  'La Federación Municipal del Caribe y Asociados FEMUCARIBE es la organización pública que integra a los gobiernos locales de Talamanca, Limón, Matina, Guácimo, Pococí y Parrita.';
+  'La Federación Municipal del Caribe Costarricense y Asociados FEMUCARIBE es una organización dedicada a promover la cooperación, coordinación y desarrollo conjunto de los gobiernos locales de la región Caribe de Costa Rica, integrando a Talamanca, Limón, Matina, Guácimo, Pococí y Parrita.';
 const bodyText =
-  'Tiene como fin primordial propiciar el desarrollo integral de los municipios afiliados, impulsar el fortalecimiento institucional y político, y promover iniciativas que favorezcan el bienestar y desarrollo regional de manera sostenible y equitativa.';
+  'Trabajamos para fortalecer la gestión municipal, impulsar iniciativas de interés regional y facilitar la articulación entre municipalidades e instituciones públicas y privadas. Nuestro compromiso es contribuir al desarrollo sostenible, social y económico de la región Caribe mediante proyectos, alianzas estratégicas y acciones que generen beneficios para sus comunidades.';
 const stats = [
   { value: '6 Cantones', label: 'Gobiernos Locales Miembros' },
   { value: 'Ley N.º 7794', label: 'Código Municipal de C.R.' },

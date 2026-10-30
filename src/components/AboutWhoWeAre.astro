@@ -37,19 +37,27 @@ const stats: readonly StatItem[] = [
     </header>
 
     <p class="lead-paragraph">
-      {cms.lead ?? (
+      {cms.lead ? (
+        <Fragment
+          set:html={cms.lead.replace(
+            /\bFEMUCARIBE\b/g,
+            '<strong>FEMUCARIBE</strong>',
+          )}
+        />
+      ) : (
         <>
-          La Federación Municipal del Caribe y Asociados{' '}
-          <strong>FEMUCARIBE</strong> es la organización pública que integra a
-          los gobiernos locales de Talamanca, Limón, Matina, Guácimo, Pococí y
-          Parrita.
+          La Federación Municipal del Caribe Costarricense y Asociados{' '}
+          <strong>FEMUCARIBE</strong> es una organización dedicada a promover la
+          cooperación, coordinación y desarrollo conjunto de los gobiernos
+          locales de la región Caribe de Costa Rica, integrando a Talamanca,
+          Limón, Matina, Guácimo, Pococí y Parrita.
         </>
       )}
     </p>
 
     <p class="body-paragraph">
       {cms.body ??
-        'Tiene como fin primordial propiciar el desarrollo integral de los municipios afiliados, impulsar el fortalecimiento institucional y político, y promover iniciativas que favorezcan el bienestar y desarrollo regional de manera sostenible y equitativa.'}
+        'Trabajamos para fortalecer la gestión municipal, impulsar iniciativas de interés regional y facilitar la articulación entre municipalidades e instituciones públicas y privadas. Nuestro compromiso es contribuir al desarrollo sostenible, social y económico de la región Caribe mediante proyectos, alianzas estratégicas y acciones que generen beneficios para sus comunidades.'}
     </p>
 
     <dl class="stats-row">

@@ -8,7 +8,7 @@ describe('InstitutionalFooter contract', () => {
     const html = await container.renderToString(InstitutionalFooter, {
       props: { accessibilityUrl: '/accesibilidad' },
     });
-    expect(html).toContain('href="tel:+50627682000"');
+    expect(html).toContain('href="tel:+50627687344"');
     expect(html).toContain('href="mailto:info@femucaribe.go.cr"');
     expect(html).not.toContain('mailto:contacto@femucaribe.go.cr');
     expect(html).toContain('href="/legal"');
