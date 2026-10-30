@@ -142,7 +142,7 @@ test.describe('Contacto page with native LocationMap', () => {
           status: 200,
           contentType: 'application/json',
           body: JSON.stringify({
-            contact_form_id: 54,
+            contact_form_id: 55,
             status: 'mail_sent',
             message: 'Gracias por su mensaje. Ha sido enviado.',
           }),
