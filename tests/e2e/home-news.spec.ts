@@ -104,10 +104,26 @@ async function expectNewsReflow(page: Page, width: number, populated: boolean) {
   }
 }
 
-test('Inicio explains the empty news state without invented cards or destinations and without JavaScript', async ({
+test('Inicio displays published news and links to newsroom without JavaScript', async ({
   page,
 }) => {
   const response = await page.goto('/');
+  expect(response?.status()).toBe(200);
+  const region = news(page);
+  await expect(region).toBeVisible();
+  await expect(region.getByRole('heading', { level: 2 })).toHaveText(heading);
+  await expect(
+    region.getByRole('link', { name: 'Ir a Sala de Prensa', exact: true }),
+  ).toHaveAttribute('href', '/noticias');
+  await expect(region.getByRole('article')).toHaveCount(3);
+  await expect(region.getByRole('list')).toHaveCount(1);
+  await expect(region.getByText(emptyMessage, { exact: true })).toHaveCount(0);
+});
+
+test('empty news fixture explains the empty news state without invented cards or destinations and without JavaScript', async ({
+  page,
+}) => {
+  const response = await page.goto(`${fixtureOrigin}/home-news/empty`);
   expect(response?.status()).toBe(200);
   await expectNewsContent(page, false);
   await expect(news(page)).toHaveCount(1);
@@ -270,7 +286,11 @@ for (const [width, height] of [
       page,
     }) => {
       await page.setViewportSize({ width, height });
-      await page.goto(populated ? `${fixtureOrigin}/home-news` : '/');
+      await page.goto(
+        populated
+          ? `${fixtureOrigin}/home-news`
+          : `${fixtureOrigin}/home-news/empty`,
+      );
       await expectNewsReflow(page, width, populated);
       if ([320, 768, 1440].includes(width)) {
         await page.screenshot({
@@ -293,7 +313,11 @@ for (const width of [320, 768, 1440]) {
         page,
       }) => {
         await page.setViewportSize({ width, height: 900 });
-        await page.goto(populated ? `${fixtureOrigin}/home-news` : '/');
+        await page.goto(
+          populated
+            ? `${fixtureOrigin}/home-news`
+            : `${fixtureOrigin}/home-news/empty`,
+        );
         await page.evaluate(() => document.fonts.ready);
         const originalHeight = (await news(page).boundingBox())!.height;
         if (enlargement === 'root') {
