@@ -71,4 +71,103 @@ test.describe('Contacto page with native LocationMap', () => {
     await toggleBtn.click();
     await expect(toggleBtn).toHaveAttribute('aria-expanded', 'true');
   });
+
+  test('Contact Form renders interactive fields and handles subject selection', async ({
+    page,
+  }) => {
+    await page.goto('/contacto');
+
+    const form = page.locator('#contact-form');
+    await expect(form).toBeVisible();
+
+    const nameInput = form.locator('#contact-name');
+    const emailInput = form.locator('#contact-email');
+    const subjectSelect = form.locator('#contact-subject-select');
+    const customSubjectWrapper = form.locator('#custom-subject-wrapper');
+    const customSubjectInput = form.locator('#contact-custom-subject');
+    const messageInput = form.locator('#contact-message');
+    const submitBtn = form.locator('#submit-button');
+
+    // All controls are enabled and visible
+    await expect(nameInput).toBeEnabled();
+    await expect(emailInput).toBeEnabled();
+    await expect(subjectSelect).toBeEnabled();
+    await expect(messageInput).toBeEnabled();
+    await expect(submitBtn).toBeEnabled();
+
+    // Custom subject field is initially hidden
+    await expect(customSubjectWrapper).toBeHidden();
+
+    // Subject select options verification
+    const options = await subjectSelect.locator('option').allInnerTexts();
+    expect(options).toContain('Gestión Intermunicipal y Cooperación Regional');
+    expect(options).toContain('Consulta sobre Proyectos y Desarrollo Cantonal');
+    expect(options).toContain(
+      'Trámites de Transparencia y Acceso a la Información',
+    );
+    expect(options).toContain('Atención Ciudadana y Denuncias de Servicios');
+    expect(options).toContain('Otro asunto (especificar)');
+
+    // Selecting 'otro' reveals the custom subject input
+    await subjectSelect.selectOption('otro');
+    await expect(customSubjectWrapper).toBeVisible();
+    await expect(customSubjectInput).toBeVisible();
+
+    // Selecting a predefined option hides the custom input again
+    await subjectSelect.selectOption(
+      'Gestión Intermunicipal y Cooperación Regional',
+    );
+    await expect(customSubjectWrapper).toBeHidden();
+  });
+
+  test('Contact Form validates required fields and displays feedback', async ({
+    page,
+  }) => {
+    await page.goto('/contacto');
+
+    const form = page.locator('#contact-form');
+    const submitBtn = form.locator('#submit-button');
+    const statusBox = form.locator('#form-status');
+
+    // Attempting submit without values triggers validation
+    await submitBtn.click();
+    await expect(statusBox).toBeVisible();
+    await expect(statusBox).toContainText(/nombre completo/i);
+
+    // Mock successful submission to WordPress CF7 endpoint
+    await page.route(
+      '**/wp-json/contact-form-7/v1/contact-forms/*/feedback',
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            contact_form_id: 54,
+            status: 'mail_sent',
+            message: 'Gracias por su mensaje. Ha sido enviado.',
+          }),
+        });
+      },
+    );
+
+    // Fill valid data
+    await form.locator('#contact-name').fill('Ana María Mora');
+    await form.locator('#contact-email').fill('anamaria@ejemplo.com');
+    await form.locator('#contact-subject-select').selectOption('otro');
+    await form
+      .locator('#contact-custom-subject')
+      .fill('Consulta sobre convenio interinstitucional');
+    await form
+      .locator('#contact-message')
+      .fill('Quisiera información sobre el próximo taller de capacitación.');
+
+    await submitBtn.click();
+
+    // Success status is displayed
+    await expect(statusBox).toBeVisible();
+    await expect(statusBox).toHaveClass(/is-success/);
+    await expect(statusBox).toContainText(
+      /¡Mensaje enviado satisfactoriamente!/i,
+    );
+  });
 });

@@ -11,17 +11,19 @@ interface Props {
   accessibilityUrl: string;
   privacyUrl?: string | undefined;
   documents?: readonly DocumentItem[] | undefined;
-  documentUrls?: Partial<
-    Record<
-      | 'statutes'
-      | 'budgets'
-      | 'minutes'
-      | 'reports'
-      | 'organicRegime'
-      | 'accountability',
-      string
-    >
-  > | undefined;
+  documentUrls?:
+    | Partial<
+        Record<
+          | 'statutes'
+          | 'budgets'
+          | 'minutes'
+          | 'reports'
+          | 'organicRegime'
+          | 'accountability',
+          string
+        >
+      >
+    | undefined;
 }
 
 const {
@@ -136,7 +138,8 @@ if (documentsProp && documentsProp.length > 0) {
         Sello de Gobierno Digital en trámite · Directriz N.º 036-MTSS-MICITT.
       </p>
       <p class={styles.headquarters}>
-        Sede Central: Barrio Mangal, contiguo a la estación de bomberos, Siquirres, Limón
+        Sede Central: Barrio Mangal, contiguo a la estación de bomberos,
+        Siquirres, Limón
       </p>
     </section>
     <ResponsiveDisclosure class={styles['link-group']}>

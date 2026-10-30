@@ -35,6 +35,8 @@
   --theme-status-positive-text: #2b6620;
   --theme-status-warning-bg: #fef9e7;
   --theme-status-warning-text: #8d6b0d;
+  --theme-status-error-bg: #fef2f2;
+  --theme-status-error-text: #991b1b;
 }
 
 :root.dark {
@@ -62,6 +64,8 @@
   --theme-status-positive-text: #9ae7ae;
   --theme-status-warning-bg: #44371d;
   --theme-status-warning-text: #ffd56f;
+  --theme-status-error-bg: #450a0a;
+  --theme-status-error-text: #fca5a5;
 }
 
 *,
