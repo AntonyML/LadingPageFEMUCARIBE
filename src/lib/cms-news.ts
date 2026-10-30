@@ -32,42 +32,48 @@ const FALLBACK_NEWS_IMAGES: Record<
   string,
   { src: string; alt: string; width: number; height: number }
 > = {
-  'comunidades-de-limon-y-parrita-recibiran-apoyo-para-impulsar-sus-proyectos': {
-    src: '/images/noticias/comunidades-limon-parrita.jpg',
-    alt: 'Comunidades de Limón y Parrita recibirán apoyo para impulsar sus proyectos',
-    width: 760,
-    height: 520,
-  },
-  'puente-en-matama-de-limon-sera-sustituido-por-una-estructura-mas-amplia-y-segura': {
-    src: '/images/noticias/puente-matama-limon.jpg',
-    alt: 'Puente en Matama de Limón será sustituido por una estructura más amplia y segura',
-    width: 760,
-    height: 520,
-  },
-  'mopt-conavi-impulsan-13-proyectos-de-infraestructura-para-fortalecer-la-red-vial-de': {
-    src: '/images/noticias/mopt-conavi-proyectos.jpg',
-    alt: 'MOPT-CONAVI impulsan 13 proyectos de infraestructura para fortalecer la red vial de la Región Caribe',
-    width: 760,
-    height: 520,
-  },
-  'ya-inicio-la-construccion-del-sendero-universal-para-mejorar-la-accesibilidad-en-el-parque-nacional-tortuguero': {
-    src: '/images/noticias/sendero-tortuguero.png',
-    alt: 'Sendero universal en Parque Nacional Tortuguero',
-    width: 760,
-    height: 520,
-  },
-  'pococi-recibe-inversiones-por-mas-de-5-800-millones-en-11-proyectos-de-infraestructura-rural': {
-    src: '/images/noticias/inversiones-pococi.png',
-    alt: 'Inversiones en Pococí',
-    width: 760,
-    height: 520,
-  },
-  'inder-promueve-el-desarrollo-de-limon-con-obras-que-mejoran-la-vida-de-sus-familias-rurales': {
-    src: '/images/noticias/desarrollo-rural-limon.png',
-    alt: 'Desarrollo rural en Limón',
-    width: 760,
-    height: 520,
-  },
+  'comunidades-de-limon-y-parrita-recibiran-apoyo-para-impulsar-sus-proyectos':
+    {
+      src: '/images/noticias/comunidades-limon-parrita.jpg',
+      alt: 'Comunidades de Limón y Parrita recibirán apoyo para impulsar sus proyectos',
+      width: 760,
+      height: 520,
+    },
+  'puente-en-matama-de-limon-sera-sustituido-por-una-estructura-mas-amplia-y-segura':
+    {
+      src: '/images/noticias/puente-matama-limon.jpg',
+      alt: 'Puente en Matama de Limón será sustituido por una estructura más amplia y segura',
+      width: 760,
+      height: 520,
+    },
+  'mopt-conavi-impulsan-13-proyectos-de-infraestructura-para-fortalecer-la-red-vial-de':
+    {
+      src: '/images/noticias/mopt-conavi-proyectos.jpg',
+      alt: 'MOPT-CONAVI impulsan 13 proyectos de infraestructura para fortalecer la red vial de la Región Caribe',
+      width: 760,
+      height: 520,
+    },
+  'ya-inicio-la-construccion-del-sendero-universal-para-mejorar-la-accesibilidad-en-el-parque-nacional-tortuguero':
+    {
+      src: '/images/noticias/sendero-tortuguero.png',
+      alt: 'Sendero universal en Parque Nacional Tortuguero',
+      width: 760,
+      height: 520,
+    },
+  'pococi-recibe-inversiones-por-mas-de-5-800-millones-en-11-proyectos-de-infraestructura-rural':
+    {
+      src: '/images/noticias/inversiones-pococi.png',
+      alt: 'Inversiones en Pococí',
+      width: 760,
+      height: 520,
+    },
+  'inder-promueve-el-desarrollo-de-limon-con-obras-que-mejoran-la-vida-de-sus-familias-rurales':
+    {
+      src: '/images/noticias/desarrollo-rural-limon.png',
+      alt: 'Desarrollo rural en Limón',
+      width: 760,
+      height: 520,
+    },
 };
 
 function cleanHtml(html: string): string {
@@ -117,8 +123,7 @@ export async function fetchNewsArticles(): Promise<readonly NewsArticle[]> {
     }
 
     return posts.map((post, idx) => {
-      const category =
-        post._embedded?.['wp:term']?.[0]?.[0]?.name || 'General';
+      const category = post._embedded?.['wp:term']?.[0]?.[0]?.name || 'General';
       const publishedOn = (post.date ? post.date.split('T')[0] : '') ?? '';
       const title = cleanHtml(post.title?.rendered || '');
       const summary = cleanHtml(post.excerpt?.rendered || '');

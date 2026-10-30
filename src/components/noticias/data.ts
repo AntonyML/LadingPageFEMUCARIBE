@@ -5,12 +5,14 @@ export interface NewsArticle {
   summary: string;
   source: string;
   url: string;
-  image?: {
-    src: string;
-    alt: string;
-    width: number;
-    height: number;
-  } | undefined;
+  image?:
+    | {
+        src: string;
+        alt: string;
+        width: number;
+        height: number;
+      }
+    | undefined;
 }
 
 export const newsArticles: readonly NewsArticle[] = [

@@ -1,8 +1,10 @@
 ---
 import PublicLayout from '../layouts/PublicLayout.astro';
-import contactMap from '../assets/contacto/mapa-contacto.svg';
+import LocationMap from '../components/location-map/LocationMap.astro';
 
 const contactEmail = 'info@femucaribe.go.cr';
+const cf7Endpoint =
+  'https://cms.femucaribe.go.cr/wp-json/contact-form-7/v1/contact-forms/54/feedback';
 ---
 
 <PublicLayout title="Contacto | FEMUCARIBE">
@@ -21,7 +23,8 @@ const contactEmail = 'info@femucaribe.go.cr';
         <div class="detail-card">
           <dt>Sede central (art. 2)</dt>
           <dd>
-            Barrio Mangal, contiguo a la estación de bomberos, Siquirres, Limón, 70301.
+            Barrio Mangal, contiguo a la estación de bomberos, Siquirres, Limón,
+            70301.
           </dd>
         </div>
         <div class="detail-card">
@@ -42,75 +45,354 @@ const contactEmail = 'info@femucaribe.go.cr';
         </div>
         <div class="detail-card">
           <dt>Horario de atención</dt>
-          <dd>
-            Lunes a Viernes · Cierra a las 3:30 p.m.
-          </dd>
+          <dd>Lunes a Viernes · Cierra a las 3:30 p.m.</dd>
         </div>
       </dl>
 
-      <figure class="contact-map" aria-hidden="true">
-        <img
-          class="responsive-media"
-          src={contactMap.src}
-          width="452"
-          height="108"
-          alt=""
-          loading="lazy"
-          decoding="async"
-        />
-      </figure>
+      <LocationMap />
     </div>
 
     <section class="message-panel" aria-labelledby="message-title">
       <h2 id="message-title">Enviar un mensaje</h2>
+      <p class="panel-subtitle">
+        Complete el formulario institucional para comunicarse con el equipo de
+        FEMUCARIBE.
+      </p>
+
       <form
         class="message-form"
+        id="contact-form"
         aria-labelledby="message-title"
-        aria-describedby="form-status"
+        data-endpoint={cf7Endpoint}
+        novalidate
       >
-        <p class="form-status" id="form-status">
-          El formulario todavía no está habilitado. Para consultas
-          institucionales, escribe a:
-          <a href={'mailto:' + contactEmail}>{contactEmail}</a>
-        </p>
-        <fieldset class="fields" disabled>
+        <div
+          class="form-status"
+          id="form-status"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></div>
+
+        <fieldset class="fields" id="contact-fields">
           <legend class="visually-hidden">Datos del mensaje</legend>
           <div class="field">
-            <label for="contact-name">Nombre completo</label>
+            <label for="contact-name">
+              Nombre completo{' '}
+              <span class="required-mark" aria-hidden="true">
+                *
+              </span>
+            </label>
             <input
               class="field-control"
               id="contact-name"
+              name="your-name"
               type="text"
               placeholder="Ej. Lic. Carlos Morales Rodríguez"
               autocomplete="name"
+              required
             />
           </div>
+
           <div class="field">
-            <label for="contact-email">Correo electrónico</label>
+            <label for="contact-email">
+              Correo electrónico{' '}
+              <span class="required-mark" aria-hidden="true">
+                *
+              </span>
+            </label>
             <input
               class="field-control"
               id="contact-email"
+              name="your-email"
               type="email"
               placeholder="ejemplo@correo.com"
               autocomplete="email"
+              required
             />
           </div>
+
           <div class="field">
-            <label for="contact-message">Mensaje o consulta</label>
+            <label for="contact-subject-select">
+              Asunto o motivo de consulta{' '}
+              <span class="required-mark" aria-hidden="true">
+                *
+              </span>
+            </label>
+            <div class="select-wrapper">
+              <select
+                class="field-control select-control"
+                id="contact-subject-select"
+                name="subject-select"
+                required
+              >
+                <option value="" disabled selected>
+                  Seleccione un motivo...
+                </option>
+                <option value="Gestión Intermunicipal y Cooperación Regional">
+                  Gestión Intermunicipal y Cooperación Regional
+                </option>
+                <option value="Consulta sobre Proyectos y Desarrollo Cantonal">
+                  Consulta sobre Proyectos y Desarrollo Cantonal
+                </option>
+                <option value="Trámites de Transparencia y Acceso a la Información">
+                  Trámites de Transparencia y Acceso a la Información
+                </option>
+                <option value="Atención Ciudadana y Denuncias de Servicios">
+                  Atención Ciudadana y Denuncias de Servicios
+                </option>
+                <option value="otro">Otro asunto (especificar)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field" id="custom-subject-wrapper" hidden>
+            <label for="contact-custom-subject">
+              Especifique el asunto{' '}
+              <span class="required-mark" aria-hidden="true">
+                *
+              </span>
+            </label>
+            <input
+              class="field-control"
+              id="contact-custom-subject"
+              name="custom-subject"
+              type="text"
+              placeholder="Describa brevemente el motivo..."
+              maxlength="150"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="field">
+            <label for="contact-message">
+              Mensaje o consulta{' '}
+              <span class="required-mark" aria-hidden="true">
+                *
+              </span>
+            </label>
             <textarea
               class="field-control message-control"
               id="contact-message"
+              name="your-message"
               placeholder="Escriba su consulta aquí..."
+              rows="5"
+              required
             ></textarea>
           </div>
-          <button class="send-button" type="submit">
-            Enviar mensaje
+
+          <button class="send-button" id="submit-button" type="submit">
+            <span class="button-text">Enviar mensaje</span>
+            <span class="button-loading" aria-hidden="true" hidden>
+              Enviando mensaje...
+            </span>
           </button>
         </fieldset>
       </form>
     </section>
   </section>
 </PublicLayout>
+
+<script>
+  function initContactForm() {
+    const form = document.getElementById(
+      'contact-form',
+    ) as HTMLFormElement | null;
+    if (!form || form.dataset.ready === 'true') return;
+    form.dataset.ready = 'true';
+
+    const subjectSelect = document.getElementById(
+      'contact-subject-select',
+    ) as HTMLSelectElement | null;
+    const customSubjectWrapper = document.getElementById(
+      'custom-subject-wrapper',
+    ) as HTMLElement | null;
+    const customSubjectInput = document.getElementById(
+      'contact-custom-subject',
+    ) as HTMLInputElement | null;
+    const statusBox = document.getElementById(
+      'form-status',
+    ) as HTMLElement | null;
+    const submitBtn = document.getElementById(
+      'submit-button',
+    ) as HTMLButtonElement | null;
+    const buttonText = submitBtn?.querySelector(
+      '.button-text',
+    ) as HTMLElement | null;
+    const buttonLoading = submitBtn?.querySelector(
+      '.button-loading',
+    ) as HTMLElement | null;
+    const fieldsFieldset = document.getElementById(
+      'contact-fields',
+    ) as HTMLFieldSetElement | null;
+
+    if (
+      !subjectSelect ||
+      !customSubjectWrapper ||
+      !customSubjectInput ||
+      !statusBox ||
+      !submitBtn
+    ) {
+      return;
+    }
+
+    subjectSelect.addEventListener('change', () => {
+      if (subjectSelect.value === 'otro') {
+        customSubjectWrapper.hidden = false;
+        customSubjectInput.setAttribute('required', 'true');
+        customSubjectInput.focus();
+      } else {
+        customSubjectWrapper.hidden = true;
+        customSubjectInput.removeAttribute('required');
+        customSubjectInput.value = '';
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nameInput = document.getElementById(
+        'contact-name',
+      ) as HTMLInputElement | null;
+      const emailInput = document.getElementById(
+        'contact-email',
+      ) as HTMLInputElement | null;
+      const messageInput = document.getElementById(
+        'contact-message',
+      ) as HTMLTextAreaElement | null;
+
+      if (!nameInput || !emailInput || !messageInput) return;
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const selectedSubject = subjectSelect.value;
+      const customSubject = customSubjectInput.value.trim();
+      const message = messageInput.value.trim();
+
+      statusBox.hidden = true;
+      statusBox.className = 'form-status';
+      statusBox.textContent = '';
+
+      if (!name) {
+        showStatus('Por favor, ingrese su nombre completo.', 'error');
+        nameInput.focus();
+        return;
+      }
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !emailPattern.test(email)) {
+        showStatus('Por favor, ingrese un correo electrónico válido.', 'error');
+        emailInput.focus();
+        return;
+      }
+
+      if (!selectedSubject) {
+        showStatus(
+          'Por favor, seleccione un asunto o motivo de consulta.',
+          'error',
+        );
+        subjectSelect.focus();
+        return;
+      }
+
+      if (
+        selectedSubject === 'otro' &&
+        (!customSubject || customSubject.length < 3)
+      ) {
+        showStatus(
+          'Por favor, especifique el asunto de su consulta (mínimo 3 caracteres).',
+          'error',
+        );
+        customSubjectInput.focus();
+        return;
+      }
+
+      if (!message || message.length < 5) {
+        showStatus(
+          'Por favor, detalle su mensaje o consulta (mínimo 5 caracteres).',
+          'error',
+        );
+        messageInput.focus();
+        return;
+      }
+
+      const finalSubject =
+        selectedSubject === 'otro' ? customSubject : selectedSubject;
+      const endpoint =
+        form.dataset.endpoint ||
+        'https://cms.femucaribe.go.cr/wp-json/contact-form-7/v1/contact-forms/54/feedback';
+
+      submitBtn.disabled = true;
+      if (fieldsFieldset) fieldsFieldset.disabled = true;
+      if (buttonText) buttonText.hidden = true;
+      if (buttonLoading) buttonLoading.hidden = false;
+
+      try {
+        const formData = new FormData();
+        formData.append('your-name', name);
+        formData.append('your-email', email);
+        formData.append('your-subject', finalSubject);
+        formData.append('your-message', message);
+        formData.append('_wpcf7_unit_tag', 'wpcf7-f54-p1-o1');
+
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: formData,
+        });
+
+        const result = (await response.json()) as {
+          status?: string;
+          message?: string;
+        };
+
+        if (result.status === 'mail_sent') {
+          showStatus(
+            '¡Mensaje enviado satisfactoriamente! Gracias por comunicarse con FEMUCARIBE. Su consulta será atendida a la brevedad por el equipo correspondiente.',
+            'success',
+          );
+          form.reset();
+          customSubjectWrapper.hidden = true;
+          customSubjectInput.removeAttribute('required');
+        } else {
+          const feedback =
+            result.message ||
+            'Uno o más campos tienen un inconveniente. Por favor revise los datos e inténtelo nuevamente.';
+          showStatus(feedback, 'error');
+        }
+      } catch {
+        showStatus(
+          'No se pudo conectar con el servidor para enviar el mensaje. Por favor intente más tarde o escriba a info@femucaribe.go.cr.',
+          'error',
+        );
+      } finally {
+        submitBtn.disabled = false;
+        if (fieldsFieldset) fieldsFieldset.disabled = false;
+        if (buttonText) buttonText.hidden = false;
+        if (buttonLoading) buttonLoading.hidden = true;
+      }
+    });
+
+    function showStatus(text: string, type: 'success' | 'error') {
+      if (!statusBox) return;
+      statusBox.hidden = false;
+      statusBox.className = `form-status is-${type}`;
+      statusBox.innerHTML = `
+        <div class="status-content">
+          <span class="status-icon" aria-hidden="true">${type === 'success' ? '✓' : '!'}</span>
+          <p class="status-text">${text}</p>
+        </div>
+      `;
+      statusBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContactForm);
+  } else {
+    initContactForm();
+  }
+  document.addEventListener('astro:page-load', initContactForm);
+</script>
 
 <style>
   .contact-page {
@@ -211,20 +493,6 @@ const contactEmail = 'info@femucaribe.go.cr';
     overflow-wrap: anywhere;
   }
 
-  .contact-map {
-    overflow: hidden;
-    margin: 1.75rem 0 0;
-    border: 1px solid var(--theme-border-subtle);
-    border-radius: 0.75rem;
-    background: var(--theme-status-warning-bg);
-  }
-
-  .contact-map img {
-    display: block;
-    inline-size: 100%;
-    block-size: auto;
-  }
-
   .message-panel {
     padding: clamp(1.5rem, 3vw, 2rem);
     border: 1px solid var(--theme-border-subtle);
@@ -241,28 +509,91 @@ const contactEmail = 'info@femucaribe.go.cr';
     line-height: 1.25;
   }
 
-  .form-status {
-    margin: 1.25rem 0;
-    padding: 0.875rem 1rem;
-    border-inline-start: 3px solid var(--theme-link);
-    border-radius: 0.5rem;
+  .panel-subtitle {
+    margin: 0.5rem 0 1.25rem;
+    color: var(--theme-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .required-mark {
+    margin-inline-start: 0.25rem;
+    color: #e11d48;
+    font-weight: 700;
+  }
+
+  .select-wrapper {
+    position: relative;
+    inline-size: 100%;
+  }
+
+  .select-control {
+    appearance: none;
+    padding-inline-end: 2.25rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230470a0' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.875rem center;
+    background-size: 1rem;
+    cursor: pointer;
+  }
+
+  .select-control option {
     color: var(--theme-text);
-    background: var(--theme-surface-tint);
+    background: var(--theme-surface);
+  }
+
+  .form-status {
+    margin: 0 0 1.25rem;
+    padding: 0.875rem 1rem;
+    border-radius: 0.5rem;
     font-size: 0.875rem;
     line-height: 1.55;
   }
 
-  .form-status a {
+  .form-status[hidden] {
+    display: none;
+  }
+
+  .form-status.is-success {
+    border-inline-start: 4px solid #059669;
+    color: var(--theme-status-positive-text);
+    background: var(--theme-status-positive-bg);
+  }
+
+  .form-status.is-error {
+    border-inline-start: 4px solid #dc2626;
+    color: var(--theme-status-error-text);
+    background: var(--theme-status-error-bg);
+  }
+
+  .status-content {
     display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .status-icon {
+    display: inline-flex;
     align-items: center;
-    max-inline-size: 100%;
-    min-block-size: 2.75rem;
-    margin-block-start: 0.25rem;
-    color: var(--theme-link);
-    font-weight: 700;
-    text-decoration-thickness: 0.08em;
-    text-underline-offset: 0.2em;
-    overflow-wrap: anywhere;
+    justify-content: center;
+    flex-shrink: 0;
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    background: rgb(0 0 0 / 8%);
+  }
+
+  .status-text {
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  .button-loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .fields {

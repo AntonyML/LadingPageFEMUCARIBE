@@ -30,12 +30,14 @@ const documentItems = [
   },
   {
     tag: 'ACTAS · Periodo 2026',
-    title: 'Acta de Sesión Extraordinaria N.º 01-2026 del Consejo Intermunicipal',
+    title:
+      'Acta de Sesión Extraordinaria N.º 01-2026 del Consejo Intermunicipal',
     meta: 'PDF Oficial · 752 KB',
   },
   {
     tag: 'NORMATIVA · La Gaceta N.º 175',
-    title: 'Estatutos Vigentes de FEMUCARIBE (Diario Oficial La Gaceta N.º 175)',
+    title:
+      'Estatutos Vigentes de FEMUCARIBE (Diario Oficial La Gaceta N.º 175)',
     meta: 'PDF Oficial · 198 KB',
   },
   {
@@ -104,7 +106,9 @@ test.describe('Página de Transparencia (/transparencia)', () => {
         docsSection.getByText(doc.meta, { exact: true }),
       ).toBeVisible();
       const downloadLink = docsSection.getByRole('link', {
-        name: new RegExp(`Descargar documento: ${doc.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`),
+        name: new RegExp(
+          `Descargar documento: ${doc.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`,
+        ),
       });
       await expect(downloadLink).toBeVisible();
       await expect(downloadLink).toHaveAttribute(

@@ -45,14 +45,16 @@ const fallbackDocuments: readonly DocumentItem[] = [
   {
     id: 'doc-acta-sesion-extraordinaria-01-2026',
     tag: 'ACTAS · Periodo 2026',
-    title: 'Acta de Sesión Extraordinaria N.º 01-2026 del Consejo Intermunicipal',
+    title:
+      'Acta de Sesión Extraordinaria N.º 01-2026 del Consejo Intermunicipal',
     meta: 'PDF Oficial · 752 KB',
     url: 'https://cms.femucaribe.go.cr/wp-content/uploads/2026/10/acta-sesion-extraordinaria-01-2026.pdf',
   },
   {
     id: 'doc-estatutos-vigentes-gaceta-175',
     tag: 'NORMATIVA · La Gaceta N.º 175',
-    title: 'Estatutos Vigentes de FEMUCARIBE (Diario Oficial La Gaceta N.º 175)',
+    title:
+      'Estatutos Vigentes de FEMUCARIBE (Diario Oficial La Gaceta N.º 175)',
     meta: 'PDF Oficial · 198 KB',
     url: 'https://cms.femucaribe.go.cr/wp-content/uploads/2026/10/estatutos-oficiales-gaceta-175.pdf',
   },

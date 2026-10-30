@@ -47,26 +47,24 @@ const pipelineMunicipalities = await fetchPipelineProjects();
   </div>
 
   <ul class="pipeline-list" role="list">
-    {
-      pipelineMunicipalities.map(({ name, status, projects }) => (
-        <li class="pipeline-card">
-          <div class="pipeline-header">
-            <h3 class="municipality-name">{name}</h3>
-            <span class="status-badge-pipeline">{status}</span>
+    {pipelineMunicipalities.map(({ name, status, projects }) => (
+      <li class="pipeline-card">
+        <div class="pipeline-header">
+          <h3 class="municipality-name">{name}</h3>
+          <span class="status-badge-pipeline">{status}</span>
+        </div>
+        {projects && projects.length > 0 && (
+          <div class="subprojects-grid">
+            {projects.map((proj) => (
+              <article class="subproject-box">
+                <h4 class="subproject-title">{proj.title}</h4>
+                <p class="subproject-desc">{proj.description}</p>
+              </article>
+            ))}
           </div>
-          {projects && projects.length > 0 && (
-            <div class="subprojects-grid">
-              {projects.map((proj) => (
-                <article class="subproject-box">
-                  <h4 class="subproject-title">{proj.title}</h4>
-                  <p class="subproject-desc">{proj.description}</p>
-                </article>
-              ))}
-            </div>
-          )}
-        </li>
-      ))
-    }
+        )}
+      </li>
+    ))}
   </ul>
 </section>
 
