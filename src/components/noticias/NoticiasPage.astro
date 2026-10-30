@@ -2,7 +2,6 @@
 import { fetchNewsArticles } from '../../lib/cms-news';
 import NoticiasHeader from './NoticiasHeader.astro';
 import NoticiasGrid from './NoticiasGrid.astro';
-import NewslettersBanner from './NewslettersBanner.astro';
 import styles from './styles.module.css';
 
 const articles = await fetchNewsArticles();
@@ -11,5 +10,4 @@ const articles = await fetchNewsArticles();
 <div class={styles.page}>
   <NoticiasHeader />
   <NoticiasGrid articles={articles} />
-  <NewslettersBanner />
 </div>

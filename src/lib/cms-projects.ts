@@ -15,6 +15,18 @@ export interface FeaturedProject {
   source: string;
 }
 
+export interface MunicipalSubproject {
+  title: string;
+  description: string;
+}
+
+export interface PipelineMunicipality {
+  name: string;
+  status: string;
+  badge?: string;
+  projects?: readonly MunicipalSubproject[];
+}
+
 const fallbackFederationProjects: readonly FederationProject[] = [
   {
     category: 'Formulación y Ejecución',
@@ -103,6 +115,100 @@ const fallbackFeaturedProjects: readonly FeaturedProject[] = [
   },
 ];
 
+export const defaultPipelineMunicipalities: readonly PipelineMunicipality[] = [
+  {
+    name: 'Municipalidad de Limón',
+    status: 'En formulación de cartera técnica',
+    badge: 'En formulación',
+    projects: [
+      {
+        title: '1. Plan Regulador Costero (PRC ZMT Limón – FEMUCARIBE)',
+        description:
+          'Ordenamiento territorial y reactivación técnica en la Zona Marítimo Terrestre para otorgar certeza jurídica e impulsar la inversión turística sostenible.',
+      },
+      {
+        title: '2. Intervención Integral Vial Red Cantonal de Limón',
+        description:
+          'Asistencia técnica de la UGP para formulación, bacheo y rehabilitación de caminos cantonales críticos en coordinación con MOPT-CONAVI.',
+      },
+      {
+        title: '3. Complejo Deportivo y Pista Atlética Corales 2',
+        description:
+          'Diseño de anteproyecto y planos ejecutivos para complejo recreativo comunal en convenio conjunto con ICODER.',
+      },
+    ],
+  },
+  {
+    name: 'Municipalidad de Matina',
+    status: 'En formulación de cartera técnica',
+    badge: 'En formulación',
+    projects: [
+      {
+        title: '1. Plan Cantonal de Mitigación Hidráulica e Inundaciones',
+        description:
+          'Identificación y priorización de puntos vulnerables en cauces y pasos de agua en caminos de producción bananera y cacaotera.',
+      },
+      {
+        title: '2. Cartera de Puentes y Alcantarillado Comunal',
+        description:
+          'Asistencia técnica para formulación de carpetas de inversión y gestión de financiamiento extraordinario para caminos rurales.',
+      },
+    ],
+  },
+  {
+    name: 'Municipalidad de Guácimo',
+    status: 'En formulación de cartera técnica',
+    badge: 'En formulación',
+    projects: [
+      {
+        title: '1. Obras Comunales Llave en Mano',
+        description:
+          'Formulación de paquetes de infraestructura barrial, drenajes pluviales y aceras accesibles en distritos prioritarios del cantón.',
+      },
+      {
+        title: '2. Soporte Técnico a Licitaciones SIOP y Demanda Mayor',
+        description:
+          'Asesoría de la UGP en estructuración de carteles de contratación pública y fiscalización técnica de obra vial cantonal.',
+      },
+    ],
+  },
+  {
+    name: 'Municipalidad de Pococí',
+    status: 'En formulación de cartera técnica',
+    badge: 'En formulación',
+    projects: [
+      {
+        title: '1. Centro Estratégico de Desarrollo Cantonal (CED Pococí)',
+        description:
+          'Formulación de perfil y requerimientos técnicos preliminares para polo de innovación y fomento empresarial cantonal.',
+      },
+      {
+        title: '2. Modernización y Apoyo al Centro Agrícola Cantonal',
+        description:
+          'Diagnóstico y asistencia técnica para encadenamientos productivos y valor agregado a pequeños productores de la zona.',
+      },
+    ],
+  },
+  {
+    name: 'Municipalidad de Parrita',
+    status: 'En formulación de cartera técnica',
+    badge: 'En formulación',
+    projects: [
+      {
+        title:
+          '1. Asistencia Técnica para Iniciativas Comunales (Convenio DINADECO - FEMUCARIBE)',
+        description:
+          'Acompañamiento a asociaciones de desarrollo del cantón para estructurar iniciativas de infraestructura social y comunitaria.',
+      },
+      {
+        title: '2. Formulación de Cartera Técnica Cantonal',
+        description:
+          'Estructuración del banco cantonal de proyectos de inversión pública y asesoría en contratación administrativa mancomunada.',
+      },
+    ],
+  },
+];
+
 interface WpProject {
   id: number;
   title: { rendered: string };
@@ -141,7 +247,7 @@ function cleanHtml(html: string): string {
 }
 
 async function fetchRawProjects(): Promise<WpProject[] | null> {
-  const CMS_URL = `https://cms.femucaribe.go.cr/wp-json/wp/v2/proyectos?per_page=50&nocache=1&_ts=${Date.now()}`;
+  const CMS_URL = `https://cms.femucaribe.go.cr/wp-json/wp/v2/proyectos?per_page=100&nocache=1&_ts=${Date.now()}`;
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
@@ -222,4 +328,12 @@ export async function fetchFeaturedProjects(): Promise<
       source: meta.source?.trim() || 'Fuente oficial — FEMUCARIBE',
     };
   });
+}
+
+export async function fetchPipelineProjects(): Promise<
+  readonly PipelineMunicipality[]
+> {
+  const raw = await fetchRawProjects();
+  if (!raw || raw.length === 0) return defaultPipelineMunicipalities;
+  return defaultPipelineMunicipalities;
 }

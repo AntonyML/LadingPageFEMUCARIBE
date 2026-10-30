@@ -20,7 +20,20 @@ const dateLabel = new Intl.DateTimeFormat('es-CR', {
 ---
 
 <article class={styles.card}>
-  <div class={styles.media} aria-hidden="true"></div>
+  <div class={styles.media} aria-hidden={article.image ? undefined : 'true'}>
+    {
+      article.image && (
+        <img
+          src={article.image.src}
+          alt={article.image.alt || article.title}
+          width={article.image.width}
+          height={article.image.height}
+          loading="lazy"
+          decoding="async"
+        />
+      )
+    }
+  </div>
   <div class={styles.metadata}>
     <span class={styles.category}>{article.category}</span>
     <time class={styles.date} datetime={article.publishedOn}>

@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   min-inline-size: 0;
-  padding-block-end: clamp(2rem, 4vw, 3rem);
+  padding-block: 1.5rem clamp(2rem, 4vw, 3rem);
 }
 
 .overview-section {
@@ -18,24 +18,43 @@
 }
 
 .page-heading {
-  min-block-size: 6.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding-block: 0.5rem 1.5rem;
+}
+
+.overline-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.accent-bar {
+  display: inline-block;
+  inline-size: 0.75rem;
+  block-size: 0.25rem;
+  background-color: #1dc4da;
+  border-radius: 0.125rem;
+  flex-shrink: 0;
 }
 
 .page-eyebrow,
 .section-label {
   margin: 0;
   color: var(--municipality-blue);
-  font-size: 0.75rem;
+  font-size: 0.7188rem;
   font-weight: 700;
   line-height: 1.2;
-  letter-spacing: 0.055em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .page-title {
   max-inline-size: 48rem;
-  margin: 1.75rem 0 0;
+  margin: 0;
   color: var(--municipality-ink);
-  font-size: clamp(1.75rem, 2.2vw, 1.875rem);
+  font-size: clamp(1.75rem, 2.5vw, 2rem);
   font-weight: 900;
   line-height: 1.2;
   letter-spacing: -0.02em;
@@ -43,10 +62,10 @@
 
 .page-description {
   max-inline-size: 70ch;
-  margin: 0.5rem 0 0;
+  margin: 0;
   color: var(--municipality-muted);
   font-size: 0.9375rem;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .section-header {

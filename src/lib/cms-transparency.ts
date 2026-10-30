@@ -12,28 +12,28 @@ const fallbackDocuments: readonly DocumentItem[] = [
     tag: 'PRESUPUESTO · Periodo 2026',
     title: 'Presupuesto Ordinario Aprobado',
     meta: 'PDF Accesible · 2.4 MB',
-    url: '#',
+    url: '/documents/presupuesto-ordinario-2026.pdf',
   },
   {
     id: 'doc-liquidacion-2025',
     tag: 'LIQUIDACIÓN · Ejercicio 2025',
     title: 'Liquidación Presupuestaria Auditada',
     meta: 'PDF Accesible · 3.1 MB',
-    url: '#',
+    url: '/documents/liquidacion-presupuestaria-2025.pdf',
   },
   {
     id: 'doc-actas-2025-2026',
     tag: 'ACTAS · 2025 - 2026',
     title: 'Libro de Actas de Consejo Intermunicipal',
     meta: 'PDF Accesible · 5.8 MB',
-    url: '#',
+    url: '/documents/acta-asamblea-general-01.pdf',
   },
   {
     id: 'doc-planificacion-2024-2028',
     tag: 'PLANIFICACIÓN · 2024 - 2028',
     title: 'Plan Operativo y Matriz PICC',
     meta: 'PDF Accesible · 1.9 MB',
-    url: '#',
+    url: '/documents/estatutos-femucaribe-gaceta.pdf',
   },
 ];
 
@@ -90,14 +90,21 @@ export async function fetchTransparencyDocuments(): Promise<
     const items: WpDocumento[] = await response.json();
     if (!Array.isArray(items) || items.length === 0) return fallbackDocuments;
 
-    return items.map((doc) => {
+    return items.map((doc, idx) => {
       const data = doc.doc_data || doc.meta || {};
+      const fallback = fallbackDocuments[idx] ?? fallbackDocuments[0];
+      const rawUrl = data.archivo_url?.trim();
+      const url = rawUrl && rawUrl !== '#' ? rawUrl : (fallback?.url ?? '#');
       return {
         id: doc.slug || `doc-${doc.id}`,
         title: cleanHtml(doc.title.rendered),
-        tag: data.archivo_tag?.trim() || 'DOCUMENTO OFICIAL',
-        meta: data.archivo_meta?.trim() || 'PDF Accesible',
-        url: data.archivo_url?.trim() || '#',
+        tag:
+          data.archivo_tag?.trim() ||
+          (fallback ? fallback.tag : 'DOCUMENTO OFICIAL'),
+        meta:
+          data.archivo_meta?.trim() ||
+          (fallback ? fallback.meta : 'PDF Accesible'),
+        url,
       };
     });
   } catch (err) {
