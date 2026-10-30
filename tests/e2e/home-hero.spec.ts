@@ -4,7 +4,6 @@ test.use({ javaScriptEnabled: false });
 
 const projectsLabel = 'Ver proyectos';
 const contactLabel = 'Contáctenos';
-const unavailableSearch = 'Búsqueda no disponible';
 const title = 'Impulsamos el desarrollo integral y sostenible';
 const cantonNames = [
   'Talamanca',
@@ -35,9 +34,6 @@ async function expectHeroReflow(page: Page, width: number) {
   await expect(hero.getByRole('link', { name: projectsLabel })).toBeVisible();
   await expect(hero.getByRole('link', { name: contactLabel })).toBeVisible();
   await expect(hero.getByRole('searchbox')).toBeVisible();
-  await expect(
-    hero.getByText(unavailableSearch, { exact: true }),
-  ).toBeVisible();
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(width);
@@ -88,18 +84,11 @@ test('home hero offers its content and honest search state without JavaScript', 
   await expect(hero.getByRole('link')).toHaveCount(2);
   const search = hero.getByRole('searchbox', { name: 'Buscar en FEMUCARIBE' });
   await expect(search).toHaveAttribute('type', 'search');
-  await expect(search).toBeDisabled();
+  await expect(search).toBeEnabled();
   await expect(
     hero.getByRole('button', { name: 'Buscar', exact: true }),
-  ).toBeDisabled();
-  await expect(hero.locator('fieldset')).toHaveJSProperty('disabled', true);
-  await expect(search).toHaveAccessibleDescription(unavailableSearch);
-  await expect(hero.locator('fieldset')).toHaveAccessibleDescription(
-    unavailableSearch,
-  );
-  await expect(
-    hero.getByText(unavailableSearch, { exact: true }),
-  ).toBeVisible();
+  ).toBeEnabled();
+  await expect(hero.locator('fieldset')).not.toHaveJSProperty('disabled', true);
   await expect(hero.locator('script')).toHaveCount(0);
   const cantons = hero.getByRole('list', { name: 'Cantones asociados' });
   await expect(cantons.getByRole('listitem')).toHaveText(cantonNames);
@@ -131,7 +120,7 @@ test('home hero offers its content and honest search state without JavaScript', 
 });
 
 for (const width of [320, 1440]) {
-  test(`skip and keyboard reach both hero links while skipping disabled search at ${width}px`, async ({
+  test(`skip and keyboard reach hero search controls and links at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 });
@@ -143,6 +132,16 @@ for (const width of [320, 1440]) {
     await page.keyboard.press('Enter');
     await expectVisibleFocus(page.getByRole('main'));
     const hero = page.locator('.home-hero');
+
+    await page.keyboard.press('Tab');
+    await expectVisibleFocus(
+      hero.getByRole('searchbox', { name: 'Buscar en FEMUCARIBE' }),
+    );
+    await page.keyboard.press('Tab');
+    await expectVisibleFocus(
+      hero.getByRole('button', { name: 'Buscar', exact: true }),
+    );
+
     for (const name of [projectsLabel, contactLabel]) {
       await page.keyboard.press('Tab');
       await expectVisibleFocus(hero.getByRole('link', { name, exact: true }));

@@ -61,31 +61,48 @@ const governance = [
         {cms.hero_description ??
           'Unimos esfuerzos municipales para transformar territorios, impulsar la inversión pública y generar oportunidades de desarrollo.'}
       </p>
-      <div
+      <form
         role="search"
         aria-label="Buscar en FEMUCARIBE"
         class={styles.search}
+        action={href('/proyectos')}
+        method="get"
       >
         <label for="hero-search" class="visually-hidden">
           Buscar en FEMUCARIBE
         </label>
-        <fieldset disabled aria-describedby="hero-search-status">
+        <fieldset aria-describedby="hero-search-status">
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
             <circle cx="10" cy="10" r="6" fill="none" stroke="currentColor" />
             <path d="m15 15 5 5" stroke="currentColor" stroke-width="2" />
           </svg>
           <input
             id="hero-search"
+            name="q"
             type="search"
             placeholder="Buscar acuerdos, proyectos, trámites o cantones..."
             aria-describedby="hero-search-status"
+            aria-autocomplete="list"
+            aria-controls="hero-search-results"
+            autocomplete="off"
           />
-          <button type="button">Buscar</button>
+          <button type="submit">Buscar</button>
         </fieldset>
-        <p class={styles['search-status']} id="hero-search-status">
-          Búsqueda no disponible
-        </p>
-      </div>
+        <div
+          class={styles['search-status']}
+          id="hero-search-status"
+          aria-live="polite"
+        ></div>
+        <div
+          class={styles['search-dropdown']}
+          id="hero-search-results"
+          hidden
+          role="region"
+          aria-label="Resultados de búsqueda"
+        >
+          <div class={styles['search-dropdown-content']}></div>
+        </div>
+      </form>
       <div class={styles.actions}>
         <a class={styles.primary} href={href(projectsUrl)}>
           Ver proyectos <span aria-hidden="true">→</span>
@@ -120,3 +137,265 @@ const governance = [
   </div>
   <div class={styles.band} aria-hidden="true"></div>
 </section>
+
+<script>
+  function setupHeroSearch() {
+    const form = document.querySelector<HTMLFormElement>('form[role="search"]');
+    const input = document.getElementById(
+      'hero-search',
+    ) as HTMLInputElement | null;
+    const status = document.getElementById('hero-search-status');
+    const dropdown = document.getElementById('hero-search-results');
+    const content = dropdown?.querySelector<HTMLDivElement>(':scope > div');
+
+    if (!form || !input || !dropdown || !content) return;
+    const targetForm = form;
+    const targetInput = input;
+    const targetDropdown = dropdown;
+    const targetContent = content;
+
+    let debounceTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const staticItems = [
+      {
+        title: 'Municipalidad de Parrita',
+        type: 'Cantón',
+        subtitle:
+          'Cantón miembro · Cabecera: Parrita · Alcaldía: Roberto Alonso Rímola Real',
+        url: '/municipalidades#municipality-parrita',
+        keywords: 'parrita esterillos pirris pacifico',
+      },
+      {
+        title: 'Municipalidad de Limón',
+        type: 'Cantón',
+        subtitle:
+          'Cabecera Provincial · Puerto Principal · Alcaldía: Ana Janniel Matarrita Mc Calla',
+        url: '/municipalidades#municipality-limon',
+        keywords: 'limon puerto caribe',
+      },
+      {
+        title: 'Municipalidad de Pococí',
+        type: 'Cantón',
+        subtitle:
+          'Caribe Norte · Guápiles y Cariari · Alcaldía: Manuel Hernández Rivera',
+        url: '/municipalidades#municipality-pococi',
+        keywords: 'pococi guapiles cariari',
+      },
+      {
+        title: 'Municipalidad de Talamanca',
+        type: 'Cantón',
+        subtitle:
+          'Caribe Sur · Bribri, Cahuita, Sixaola · Alcaldía: Rugeli Morales Rodríguez',
+        url: '/municipalidades#municipality-talamanca',
+        keywords: 'talamanca bribri cahuita sixaola',
+      },
+      {
+        title: 'Municipalidad de Matina',
+        type: 'Cantón',
+        subtitle:
+          'Corredor Agrícola · Batán, Carrandi · Alcaldía: Walter Céspedes Salazar',
+        url: '/municipalidades#municipality-matina',
+        keywords: 'matina batan carrandi',
+      },
+      {
+        title: 'Municipalidad de Guácimo',
+        type: 'Cantón',
+        subtitle:
+          'Caribe Central · Innovación Agropecuaria · Alcaldía: Beatriz Mora Valverde',
+        url: '/municipalidades#municipality-guacimo',
+        keywords: 'guacimo caribe',
+      },
+      {
+        title: 'Cartera de Inversión y Proyectos',
+        type: 'Proyecto',
+        subtitle: 'Proyectos institucionales y obras de la federación',
+        url: '/proyectos',
+        keywords:
+          'proyectos inversion obras infraestructura estadio mojones planta electrolinera picc',
+      },
+      {
+        title: 'Transparencia, Acuerdos y Documentos',
+        type: 'Transparencia',
+        subtitle:
+          'Rendición de cuentas, actas de consejo y presupuestos auditados',
+        url: '/transparencia',
+        keywords:
+          'transparencia acuerdos actas presupuesto liquidacion sicop tramites libros',
+      },
+      {
+        title: 'Sala de Prensa y Noticias Oficiales',
+        type: 'Noticias',
+        subtitle: 'Comunicados y notas de prensa de la región caribeña',
+        url: '/noticias',
+        keywords: 'noticias prensa comunicados mopt inder convenios puentes',
+      },
+      {
+        title: 'Quiénes Somos y Estatutos',
+        type: 'Institucional',
+        subtitle: 'Marco legal, objetivos y régimen de la federación',
+        url: '/nosotros',
+        keywords:
+          'nosotros federacion estatutos codigo municipal leyes mision vision',
+      },
+    ];
+
+    async function performSearch(query: string) {
+      const q = query.trim();
+      if (q.length < 2) {
+        targetDropdown.hidden = true;
+        if (status) status.textContent = '';
+        return;
+      }
+
+      if (status) status.textContent = 'Buscando...';
+
+      let results: Array<{
+        title: string;
+        type_label?: string;
+        type?: string;
+        subtitle?: string;
+        url: string;
+        snippet?: string;
+      }> = [];
+
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 4000);
+        const res = await fetch(
+          `https://cms.femucaribe.go.cr/wp-json/femucaribe/v1/search?q=${encodeURIComponent(q)}&limit=10`,
+          {
+            signal: controller.signal,
+            headers: { Accept: 'application/json' },
+          },
+        );
+        clearTimeout(timeout);
+        if (res.ok) {
+          const data = await res.json();
+          results = data.results || [];
+        }
+      } catch {
+        // Fallback to local search
+      }
+
+      if (results.length === 0) {
+        const lower = q.toLowerCase();
+        results = staticItems
+          .filter(
+            (item) =>
+              item.title.toLowerCase().includes(lower) ||
+              item.keywords.toLowerCase().includes(lower) ||
+              item.subtitle.toLowerCase().includes(lower),
+          )
+          .map((item) => ({
+            title: item.title,
+            type_label: item.type,
+            subtitle: item.subtitle,
+            url: item.url,
+          }));
+      }
+
+      renderResults(results, q);
+    }
+
+    function renderResults(
+      results: Array<{
+        title: string;
+        type_label?: string;
+        subtitle?: string;
+        url: string;
+        snippet?: string;
+      }>,
+      query: string,
+    ) {
+      if (results.length === 0) {
+        targetContent.innerHTML = `<p data-empty>No se encontraron acuerdos, proyectos, trámites o cantones para "<strong>${escapeHtml(query)}</strong>".</p>`;
+        targetDropdown.hidden = false;
+        if (status) {
+          status.textContent = `No se encontraron resultados para "${query}".`;
+        }
+        return;
+      }
+
+      const listHtml = results
+        .map((item, idx) => {
+          const badge = item.type_label
+            ? `<span data-badge>${escapeHtml(item.type_label)}</span>`
+            : '';
+          const subtitle = item.subtitle
+            ? `<p data-subtitle>${escapeHtml(item.subtitle)}</p>`
+            : '';
+          const snippet = item.snippet
+            ? `<p data-snippet>${escapeHtml(item.snippet)}</p>`
+            : '';
+          return `
+            <li role="option" id="search-opt-${idx}">
+              <a href="${escapeHtml(item.url)}" data-item data-index="${idx}">
+                <div data-result-header>
+                  ${badge}
+                  <h3 data-title>${escapeHtml(item.title)}</h3>
+                </div>
+                ${subtitle}
+                ${snippet}
+              </a>
+            </li>
+          `;
+        })
+        .join('');
+
+      targetContent.innerHTML = `
+        <div data-dropdown-header>
+          <span>${results.length} ${results.length === 1 ? 'resultado encontrado' : 'resultados encontrados'}</span>
+          <button type="button" data-close aria-label="Cerrar resultados">✕</button>
+        </div>
+        <ul data-list role="listbox">
+          ${listHtml}
+        </ul>
+      `;
+
+      targetDropdown.hidden = false;
+      if (status) {
+        status.textContent = `Se encontraron ${results.length} resultados para "${query}".`;
+      }
+
+      const closeBtn =
+        targetContent.querySelector<HTMLButtonElement>('[data-close]');
+      closeBtn?.addEventListener('click', () => {
+        targetDropdown.hidden = true;
+        targetInput.focus();
+      });
+    }
+
+    function escapeHtml(str: string): string {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    targetInput.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => performSearch(targetInput.value), 250);
+    });
+
+    targetForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      performSearch(targetInput.value);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!targetForm.contains(e.target as Node)) {
+        targetDropdown.hidden = true;
+      }
+    });
+
+    targetForm.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        targetDropdown.hidden = true;
+      }
+    });
+  }
+
+  setupHeroSearch();
+  document.addEventListener('astro:after-swap', setupHeroSearch);
+</script>
