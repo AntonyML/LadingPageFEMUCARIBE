@@ -3,37 +3,65 @@ export interface DocumentItem {
   tag: string;
   title: string;
   meta: string;
-  url?: string;
+  url?: string | undefined;
 }
 
 const fallbackDocuments: readonly DocumentItem[] = [
   {
-    id: 'doc-presupuesto-2026',
-    tag: 'PRESUPUESTO · Periodo 2026',
-    title: 'Presupuesto Ordinario Aprobado',
-    meta: 'PDF Accesible · 2.4 MB',
-    url: '/documents/presupuesto-ordinario-2026.pdf',
+    id: 'doc-presupuesto-ordinario-2026',
+    tag: 'PRESUPUESTO · Ejercicio 2026',
+    title: 'Informe Técnico del Presupuesto Ordinario 2026',
+    meta: 'PDF Oficial · 806 KB',
+    url: 'https://cms.femucaribe.go.cr/wp-content/uploads/2026/10/informe-presupuesto-ordinario-2026.pdf',
   },
   {
-    id: 'doc-liquidacion-2025',
-    tag: 'LIQUIDACIÓN · Ejercicio 2025',
-    title: 'Liquidación Presupuestaria Auditada',
-    meta: 'PDF Accesible · 3.1 MB',
-    url: '/documents/liquidacion-presupuestaria-2025.pdf',
+    id: 'doc-liquidacion-presupuestaria-2025',
+    tag: 'LIQUIDACIÓN · Periodo 2025',
+    title: 'Liquidación Presupuestaria Auditada 2025',
+    meta: 'PDF Oficial · 381 KB',
+    url: 'https://cms.femucaribe.go.cr/wp-content/uploads/2026/10/liquidacion-presupuestaria-2025.pdf',
   },
   {
-    id: 'doc-actas-2025-2026',
-    tag: 'ACTAS · 2025 - 2026',
-    title: 'Libro de Actas de Consejo Intermunicipal',
-    meta: 'PDF Accesible · 5.8 MB',
-    url: '/documents/acta-asamblea-general-01.pdf',
+    id: 'doc-plan-anual-operativo-2026',
+    tag: 'PLANIFICACIÓN · Periodo 2026',
+    title: 'Plan Anual Operativo (PAO) 2026 – Dirección y Gestión',
+    meta: 'PDF Oficial · 397 KB',
+    url: 'https://cms.femucaribe.go.cr/wp-content/uploads/2026/10/plan-anual-operativo-2026.pdf',
   },
   {
-    id: 'doc-planificacion-2024-2028',
-    tag: 'PLANIFICACIÓN · 2024 - 2028',
-    title: 'Plan Operativo y Matriz PICC',
-    meta: 'PDF Accesible · 1.9 MB',
-    url: '/documents/estatutos-femucaribe-gaceta.pdf',
+    id: 'doc-estado-situacion-financiera-2025',
+    tag: 'FINANZAS · Periodo 2025',
+    title: 'Estado de Situación Financiera Auditado a Diciembre 2025',
+    meta: 'PDF Oficial · 257 KB',
+    url: 'https://cms.femucaribe.go.cr/wp-content/uploads/2026/10/estado-situacion-financiera-2025.pdf',
+  },
+  {
+    id: 'doc-acta-asamblea-general-01-2026',
+    tag: 'ACTAS · Ejercicio 2026',
+    title: 'Acta de Asamblea General Ordinaria N.º 01-2026',
+    meta: 'PDF Oficial · 394 KB',
+    url: 'https://cms.femucaribe.go.cr/wp-content/uploads/2026/10/acta-asamblea-general-01-2026.pdf',
+  },
+  {
+    id: 'doc-acta-sesion-extraordinaria-01-2026',
+    tag: 'ACTAS · Periodo 2026',
+    title: 'Acta de Sesión Extraordinaria N.º 01-2026 del Consejo Intermunicipal',
+    meta: 'PDF Oficial · 752 KB',
+    url: 'https://cms.femucaribe.go.cr/wp-content/uploads/2026/10/acta-sesion-extraordinaria-01-2026.pdf',
+  },
+  {
+    id: 'doc-estatutos-vigentes-gaceta-175',
+    tag: 'NORMATIVA · La Gaceta N.º 175',
+    title: 'Estatutos Vigentes de FEMUCARIBE (Diario Oficial La Gaceta N.º 175)',
+    meta: 'PDF Oficial · 198 KB',
+    url: 'https://cms.femucaribe.go.cr/wp-content/uploads/2026/10/estatutos-oficiales-gaceta-175.pdf',
+  },
+  {
+    id: 'doc-convenio-marco-dinadeco-2026',
+    tag: 'CONVENIOS · Ejercicio 2026',
+    title: 'Convenio Marco de Cooperación DINADECO – FEMUCARIBE 2026',
+    meta: 'PDF Oficial · 714 KB',
+    url: 'https://cms.femucaribe.go.cr/wp-content/uploads/2026/10/convenio-marco-dinadeco-femucaribe-2026.pdf',
   },
 ];
 
@@ -90,7 +118,10 @@ export async function fetchTransparencyDocuments(): Promise<
     const items: WpDocumento[] = await response.json();
     if (!Array.isArray(items) || items.length === 0) return fallbackDocuments;
 
-    return items.map((doc, idx) => {
+    // Ordenar por ID ascendente para presentar cronológicamente/estructuradamente los documentos
+    const sorted = [...items].sort((a, b) => a.id - b.id);
+
+    return sorted.map((doc, idx) => {
       const data = doc.doc_data || doc.meta || {};
       const fallback = fallbackDocuments[idx] ?? fallbackDocuments[0];
       const rawUrl = data.archivo_url?.trim();
@@ -103,8 +134,8 @@ export async function fetchTransparencyDocuments(): Promise<
           (fallback ? fallback.tag : 'DOCUMENTO OFICIAL'),
         meta:
           data.archivo_meta?.trim() ||
-          (fallback ? fallback.meta : 'PDF Accesible'),
-        url,
+          (fallback ? fallback.meta : 'PDF Oficial'),
+        ...(url ? { url } : {}),
       };
     });
   } catch (err) {

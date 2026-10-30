@@ -4,24 +4,44 @@ test.use({ javaScriptEnabled: false });
 
 const documentItems = [
   {
-    tag: 'PRESUPUESTO · Periodo 2026',
-    title: 'Presupuesto Ordinario Aprobado',
-    meta: 'PDF Accesible · 2.4 MB',
+    tag: 'PRESUPUESTO · Ejercicio 2026',
+    title: 'Informe Técnico del Presupuesto Ordinario 2026',
+    meta: 'PDF Oficial · 806 KB',
   },
   {
-    tag: 'LIQUIDACIÓN · Ejercicio 2025',
-    title: 'Liquidación Presupuestaria Auditada',
-    meta: 'PDF Accesible · 3.1 MB',
+    tag: 'LIQUIDACIÓN · Periodo 2025',
+    title: 'Liquidación Presupuestaria Auditada 2025',
+    meta: 'PDF Oficial · 381 KB',
   },
   {
-    tag: 'ACTAS · 2025 - 2026',
-    title: 'Libro de Actas de Consejo Intermunicipal',
-    meta: 'PDF Accesible · 5.8 MB',
+    tag: 'PLANIFICACIÓN · Periodo 2026',
+    title: 'Plan Anual Operativo (PAO) 2026 – Dirección y Gestión',
+    meta: 'PDF Oficial · 397 KB',
   },
   {
-    tag: 'PLANIFICACIÓN · 2024 - 2028',
-    title: 'Plan Operativo y Matriz PICC',
-    meta: 'PDF Accesible · 1.9 MB',
+    tag: 'FINANZAS · Periodo 2025',
+    title: 'Estado de Situación Financiera Auditado a Diciembre 2025',
+    meta: 'PDF Oficial · 257 KB',
+  },
+  {
+    tag: 'ACTAS · Ejercicio 2026',
+    title: 'Acta de Asamblea General Ordinaria N.º 01-2026',
+    meta: 'PDF Oficial · 394 KB',
+  },
+  {
+    tag: 'ACTAS · Periodo 2026',
+    title: 'Acta de Sesión Extraordinaria N.º 01-2026 del Consejo Intermunicipal',
+    meta: 'PDF Oficial · 752 KB',
+  },
+  {
+    tag: 'NORMATIVA · La Gaceta N.º 175',
+    title: 'Estatutos Vigentes de FEMUCARIBE (Diario Oficial La Gaceta N.º 175)',
+    meta: 'PDF Oficial · 198 KB',
+  },
+  {
+    tag: 'CONVENIOS · Ejercicio 2026',
+    title: 'Convenio Marco de Cooperación DINADECO – FEMUCARIBE 2026',
+    meta: 'PDF Oficial · 714 KB',
   },
 ] as const;
 
@@ -84,9 +104,13 @@ test.describe('Página de Transparencia (/transparencia)', () => {
         docsSection.getByText(doc.meta, { exact: true }),
       ).toBeVisible();
       const downloadLink = docsSection.getByRole('link', {
-        name: new RegExp(`Descargar documento: ${doc.title}`),
+        name: new RegExp(`Descargar documento: ${doc.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`),
       });
       await expect(downloadLink).toBeVisible();
+      await expect(downloadLink).toHaveAttribute(
+        'href',
+        /^https:\/\/cms\.femucaribe\.go\.cr\/wp-content\/uploads\//,
+      );
       const box = await downloadLink.boundingBox();
       expect(box?.height).toBeGreaterThanOrEqual(44);
     }
