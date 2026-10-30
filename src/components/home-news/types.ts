@@ -3,11 +3,13 @@ export interface NewsItem {
   publishedOn: string;
   title: string;
   summary: string;
-  url?: string;
-  image?: {
-    src: string;
-    alt: string;
-    width: number;
-    height: number;
-  };
+  url?: string | undefined;
+  image?:
+    | {
+        src: string;
+        alt: string;
+        width: number;
+        height: number;
+      }
+    | undefined;
 }

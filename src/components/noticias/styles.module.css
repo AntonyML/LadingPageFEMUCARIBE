@@ -74,10 +74,22 @@
 }
 
 .media {
+  position: relative;
   flex: 0 0 auto;
   aspect-ratio: 374 / 145;
+  overflow: hidden;
   background: var(--theme-surface-subtle);
   border-radius: 0.5rem;
+}
+
+.media img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  border-radius: inherit;
 }
 
 .metadata {

@@ -16,10 +16,13 @@ const cms = await getPageContent('municipalidades');
   aria-labelledby="municipalities-title"
 >
   <header class={pageStyles['page-heading']}>
-    <p class={pageStyles['page-eyebrow']}>
-      {cms.eyebrow ??
-        'RÉGIMEN TERRITORIAL Y COOPERACIÓN INTERMUNICIPAL · RADIOGRAFÍA TERRITORIAL Y CANTONAL'}
-    </p>
+    <div class={pageStyles['overline-box']}>
+      <span class={pageStyles['accent-bar']} aria-hidden="true"></span>
+      <p class={pageStyles['page-eyebrow']}>
+        {cms.eyebrow ??
+          'RÉGIMEN TERRITORIAL Y COOPERACIÓN INTERMUNICIPAL · RADIOGRAFÍA TERRITORIAL Y CANTONAL'}
+      </p>
+    </div>
     <h1 class={pageStyles['page-title']} id="municipalities-title">
       {cms.title ?? 'Municipalidades Miembros · Federación del Caribe'}
     </h1>

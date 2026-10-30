@@ -1,33 +1,8 @@
 ---
 // src/components/proyectos/ProjectsCoordination.astro
+import { fetchPipelineProjects } from '../../lib/cms-projects';
 
-interface PipelineMunicipality {
-  name: string;
-  status: string;
-}
-
-const pipelineMunicipalities: readonly PipelineMunicipality[] = [
-  {
-    name: 'Municipalidad de Limón',
-    status: 'En formulación de cartera técnica',
-  },
-  {
-    name: 'Municipalidad de Matina',
-    status: 'En formulación de cartera técnica',
-  },
-  {
-    name: 'Municipalidad de Guácimo',
-    status: 'En formulación de cartera técnica',
-  },
-  {
-    name: 'Municipalidad de Pococí',
-    status: 'En formulación de cartera técnica',
-  },
-  {
-    name: 'Municipalidad de Parrita',
-    status: 'En formulación de cartera técnica',
-  },
-];
+const pipelineMunicipalities = await fetchPipelineProjects();
 ---
 
 <section
@@ -72,12 +47,26 @@ const pipelineMunicipalities: readonly PipelineMunicipality[] = [
   </div>
 
   <ul class="pipeline-list" role="list">
-    {pipelineMunicipalities.map(({ name, status }) => (
-      <li class="pipeline-row">
-        <h3 class="municipality-name">{name}</h3>
-        <span class="status-badge-pipeline">{status}</span>
-      </li>
-    ))}
+    {
+      pipelineMunicipalities.map(({ name, status, projects }) => (
+        <li class="pipeline-card">
+          <div class="pipeline-header">
+            <h3 class="municipality-name">{name}</h3>
+            <span class="status-badge-pipeline">{status}</span>
+          </div>
+          {projects && projects.length > 0 && (
+            <div class="subprojects-grid">
+              {projects.map((proj) => (
+                <article class="subproject-box">
+                  <h4 class="subproject-title">{proj.title}</h4>
+                  <p class="subproject-desc">{proj.description}</p>
+                </article>
+              ))}
+            </div>
+          )}
+        </li>
+      ))
+    }
   </ul>
 </section>
 
@@ -98,7 +87,8 @@ const pipelineMunicipalities: readonly PipelineMunicipality[] = [
     color: var(--theme-text);
   }
 
-  .active-management-card {
+  .active-management-card,
+  .pipeline-card {
     background-color: var(--theme-surface);
     border: 1px solid var(--theme-border);
     border-radius: 0.75rem; /* 12px */
@@ -108,7 +98,8 @@ const pipelineMunicipalities: readonly PipelineMunicipality[] = [
     gap: 1.25rem;
   }
 
-  .card-header {
+  .card-header,
+  .pipeline-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -116,7 +107,8 @@ const pipelineMunicipalities: readonly PipelineMunicipality[] = [
     flex-wrap: wrap;
   }
 
-  .active-title {
+  .active-title,
+  .municipality-name {
     margin: 0;
     font-family: var(--font-body, Inter, sans-serif);
     font-size: 1rem; /* 16px */
@@ -181,32 +173,10 @@ const pipelineMunicipalities: readonly PipelineMunicipality[] = [
   .pipeline-list {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1.25rem;
     padding: 0;
     margin: 0;
     list-style: none;
-  }
-
-  .pipeline-row {
-    background-color: var(--theme-surface);
-    border: 1px solid var(--theme-border);
-    border-radius: 0.5rem; /* 8px */
-    padding: 0.875rem 1.25rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    min-block-size: 3rem; /* 48px */
-    box-sizing: border-box;
-  }
-
-  .municipality-name {
-    margin: 0;
-    font-family: var(--font-body, Inter, sans-serif);
-    font-size: 0.875rem; /* 14px */
-    font-weight: 700;
-    line-height: 1.2;
-    color: var(--theme-text);
   }
 
   .status-badge-pipeline {
@@ -225,8 +195,9 @@ const pipelineMunicipalities: readonly PipelineMunicipality[] = [
   }
 
   @media (width <= 48rem) {
-    .active-title {
-      font-size: 1.0625rem;
+    .active-title,
+    .municipality-name {
+      font-size: 1rem;
     }
 
     .subproject-title {
@@ -237,19 +208,14 @@ const pipelineMunicipalities: readonly PipelineMunicipality[] = [
       font-size: 0.875rem;
     }
 
-    .municipality-name {
-      font-size: 1rem;
-    }
-
     .status-badge-pipeline {
       font-size: 0.75rem;
     }
 
-    .pipeline-row {
+    .pipeline-header {
       flex-direction: column;
       align-items: flex-start;
       gap: 0.5rem;
-      min-block-size: auto;
     }
   }
 </style>
