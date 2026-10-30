@@ -4,7 +4,7 @@ import LocationMap from '../components/location-map/LocationMap.astro';
 
 const contactEmail = 'info@femucaribe.go.cr';
 const cf7Endpoint =
-  'https://cms.femucaribe.go.cr/wp-json/contact-form-7/v1/contact-forms/54/feedback';
+  'https://cms.femucaribe.go.cr/wp-json/contact-form-7/v1/contact-forms/55/feedback';
 ---
 
 <PublicLayout title="Contacto | FEMUCARIBE">
@@ -320,7 +320,7 @@ const cf7Endpoint =
         selectedSubject === 'otro' ? customSubject : selectedSubject;
       const endpoint =
         form.dataset.endpoint ||
-        'https://cms.femucaribe.go.cr/wp-json/contact-form-7/v1/contact-forms/54/feedback';
+        'https://cms.femucaribe.go.cr/wp-json/contact-form-7/v1/contact-forms/55/feedback';
 
       submitBtn.disabled = true;
       if (fieldsFieldset) fieldsFieldset.disabled = true;
@@ -333,7 +333,7 @@ const cf7Endpoint =
         formData.append('your-email', email);
         formData.append('your-subject', finalSubject);
         formData.append('your-message', message);
-        formData.append('_wpcf7_unit_tag', 'wpcf7-f54-p1-o1');
+        formData.append('_wpcf7_unit_tag', 'wpcf7-f55-p1-o1');
 
         const response = await fetch(endpoint, {
           method: 'POST',
