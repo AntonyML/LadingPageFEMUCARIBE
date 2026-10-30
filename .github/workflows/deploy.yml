@@ -68,7 +68,7 @@ jobs:
           set -euo pipefail
           test -d dist/client
           test -f dist/client/index.html
-          (cd dist/client && tar -czf ../../static-artifact.tar.gz .)
+          (cd dist/client && shopt -s dotglob && tar -czf ../../static-artifact.tar.gz *)
 
       - name: Upload and deploy artifact to hosting
         shell: bash
