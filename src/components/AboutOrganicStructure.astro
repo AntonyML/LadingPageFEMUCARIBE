@@ -23,9 +23,9 @@ interface AuthorityItem {
   photo?: AuthorityPhoto | undefined;
 }
 
-const optionalWebpPhotos = import.meta.glob<{
+const optionalPhotos = import.meta.glob<{
   default: { src: string; width: number; height: number };
-}>('../assets/nosotros/autoridades/*.webp', { eager: true });
+}>('../assets/nosotros/autoridades/*.{webp,png,jpg,jpeg}', { eager: true });
 
 function resolvePhoto(
   slug: AuthorityItem['slug'],
@@ -33,7 +33,10 @@ function resolvePhoto(
   roleTitle: string,
 ): AuthorityPhoto | undefined {
   const entry =
-    optionalWebpPhotos[`../assets/nosotros/autoridades/${slug}.webp`];
+    optionalPhotos[`../assets/nosotros/autoridades/${slug}.webp`] ||
+    optionalPhotos[`../assets/nosotros/autoridades/${slug}.png`] ||
+    optionalPhotos[`../assets/nosotros/autoridades/${slug}.jpg`] ||
+    optionalPhotos[`../assets/nosotros/autoridades/${slug}.jpeg`];
   if (!entry?.default?.src) return undefined;
   return {
     src: entry.default.src,
