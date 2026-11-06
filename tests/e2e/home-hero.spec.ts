@@ -207,3 +207,68 @@ for (const width of [320, 768, 1366]) {
     await expectHeroReflow(page, width);
   });
 }
+
+test.describe('home hero governance and agreements carousel (interactive)', () => {
+  test.use({ javaScriptEnabled: true });
+
+  test('renders 6 dots and rotates slides when interacting with dots and keyboard', async ({
+    page,
+  }) => {
+    await page.goto('/');
+    const hero = page.locator('section.home-hero');
+    const carousel = hero.locator('[data-hero-carousel]');
+    await expect(carousel).toBeVisible();
+
+    const dots = carousel.locator('[data-dot-index]');
+    await expect(dots).toHaveCount(6);
+
+    // Initial state: slide 0 active, dot 0 aria-current="true"
+    await expect(dots.nth(0)).toHaveAttribute('aria-current', 'true');
+    await expect(
+      carousel.getByRole('heading', {
+        level: 2,
+        name: 'Articulación Intermunicipal',
+      }),
+    ).toBeVisible();
+
+    // Click dot 1 (Convenio Marco)
+    await dots.nth(1).click();
+    await expect(dots.nth(1)).toHaveAttribute('aria-current', 'true');
+    await expect(dots.nth(0)).toHaveAttribute('aria-current', 'false');
+    await expect(
+      carousel.getByRole('heading', {
+        level: 2,
+        name: 'Convenio Marco de Cooperación',
+      }),
+    ).toBeVisible();
+
+    // Verify institutional link on convenio slide
+    const link = carousel.getByRole('link', {
+      name: /Consultar fuente institucional/,
+    });
+    await expect(link).toBeVisible();
+    await expect(link).toHaveAttribute(
+      'href',
+      'https://www.caproba.go.cr/plan-estrategico-caproba-2017-20121/alianzas/',
+    );
+    await expect(link).toHaveAttribute('target', '_blank');
+
+    // Click dot 2 (Universidad UCI)
+    await dots.nth(2).click();
+    await expect(dots.nth(2)).toHaveAttribute('aria-current', 'true');
+    await expect(
+      carousel.getByRole('heading', {
+        level: 2,
+        name: 'Universidad para la Cooperación Internacional (UCI)',
+      }),
+    ).toBeVisible();
+
+    // Keyboard navigation: press ArrowRight while carousel focused
+    await dots.nth(2).focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(dots.nth(3)).toHaveAttribute('aria-current', 'true');
+    await expect(
+      carousel.getByRole('heading', { level: 2, name: 'Universidad EARTH' }),
+    ).toBeVisible();
+  });
+});

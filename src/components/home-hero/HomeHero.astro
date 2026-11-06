@@ -25,26 +25,197 @@ const cantons = [
   { name: 'Pococí', image: pococi, width: 90, height: 85 },
   { name: 'Parrita', image: parrita, width: 70, height: 72 },
 ];
-const governance = [
+
+interface GovernanceCardItem {
+  title: string;
+  description: string;
+  tone?: string | undefined;
+  link?: {
+    href: string;
+    label: string;
+  };
+}
+
+interface GovernanceSlide {
+  id: string;
+  eyebrow: string;
+  title: string;
+  items: readonly GovernanceCardItem[];
+}
+
+const slides: readonly [GovernanceSlide, ...GovernanceSlide[]] = [
   {
-    title: '6 Gobiernos Locales Unidos',
-    description:
-      'Talamanca, Limón, Matina, Guácimo, Pococí y Parrita integrados para el desarrollo regional.',
-    tone: styles.cyan,
+    id: 'slide-gobernanza',
+    eyebrow: 'Gobernanza regional',
+    title: 'Articulación Intermunicipal',
+    items: [
+      {
+        title: '6 Gobiernos Locales Unidos',
+        description:
+          'Talamanca, Limón, Matina, Guácimo, Pococí y Parrita integrados para el desarrollo regional.',
+        tone: styles.cyan,
+      },
+      {
+        title: 'Descentralización & Inversión',
+        description:
+          'Gestión conjunta de infraestructura pública, competitividad y bienestar comunitario.',
+        tone: styles.lime,
+      },
+      {
+        title: 'Marco Legal & Transparencia',
+        description:
+          'Entidad pública costarricense constituida bajo el Código Municipal de Costa Rica.',
+        tone: styles.amber,
+      },
+    ],
   },
   {
-    title: 'Descentralización & Inversión',
-    description:
-      'Gestión conjunta de infraestructura pública, competitividad y bienestar comunitario.',
-    tone: styles.lime,
+    id: 'slide-convenio-marco',
+    eyebrow: 'Convenio Intermunicipal',
+    title: 'Convenio Marco de Cooperación',
+    items: [
+      {
+        title: 'Partes Suscriptoras',
+        description:
+          'Municipalidades del Caribe, Sarapiquí y Federación CAPROBA.',
+        tone: styles.cyan,
+      },
+      {
+        title: 'Objeto de Cooperación',
+        description:
+          'Cooperación intermunicipal para el desarrollo territorial y proyectos conjuntos.',
+        tone: styles.lime,
+      },
+      {
+        title: 'Registro Institucional',
+        description:
+          'Alianza estratégica oficial inscrita en el registro institucional de convenios.',
+        tone: styles.amber,
+        link: {
+          href: 'https://www.caproba.go.cr/plan-estrategico-caproba-2017-20121/alianzas/',
+          label: 'Consultar fuente institucional',
+        },
+      },
+    ],
   },
   {
-    title: 'Marco Legal & Transparencia',
-    description:
-      'Entidad pública costarricense constituida bajo el Código Municipal de Costa Rica.',
-    tone: styles.amber,
+    id: 'slide-convenio-uci',
+    eyebrow: 'Cooperación Académica',
+    title: 'Universidad para la Cooperación Internacional (UCI)',
+    items: [
+      {
+        title: 'Partes Suscriptoras',
+        description:
+          'Universidad para la Cooperación Internacional (UCI) y Federación.',
+        tone: styles.cyan,
+      },
+      {
+        title: 'Objeto de Cooperación',
+        description:
+          'Capacitación técnica, fortalecimiento de capacidades locales y formación continua.',
+        tone: styles.lime,
+      },
+      {
+        title: 'Registro Institucional',
+        description:
+          'Convenio formal de colaboración académica y desarrollo regional.',
+        tone: styles.amber,
+        link: {
+          href: 'https://www.caproba.go.cr/plan-estrategico-caproba-2017-20121/alianzas/',
+          label: 'Consultar fuente institucional',
+        },
+      },
+    ],
+  },
+  {
+    id: 'slide-convenio-earth',
+    eyebrow: 'Cooperación Académica',
+    title: 'Universidad EARTH',
+    items: [
+      {
+        title: 'Partes Suscriptoras',
+        description: 'Universidad EARTH y Federación.',
+        tone: styles.cyan,
+      },
+      {
+        title: 'Objeto de Cooperación',
+        description:
+          'Investigación aplicada, sostenibilidad ambiental e innovación agroproductiva rural.',
+        tone: styles.lime,
+      },
+      {
+        title: 'Registro Institucional',
+        description:
+          'Alianza técnica para la productividad y el desarrollo sostenible regional.',
+        tone: styles.amber,
+        link: {
+          href: 'https://www.caproba.go.cr/plan-estrategico-caproba-2017-20121/alianzas/',
+          label: 'Consultar fuente institucional',
+        },
+      },
+    ],
+  },
+  {
+    id: 'slide-convenio-arias',
+    eyebrow: 'Alianza Estratégica',
+    title: 'Fundación Arias para la Paz',
+    items: [
+      {
+        title: 'Partes Suscriptoras',
+        description:
+          'Fundación Arias para la Paz y el Desarrollo Humano y Federación.',
+        tone: styles.cyan,
+      },
+      {
+        title: 'Objeto de Cooperación',
+        description:
+          'Gobernanza participativa, fomento de la paz social y desarrollo comunitario.',
+        tone: styles.lime,
+      },
+      {
+        title: 'Registro Institucional',
+        description:
+          'Alianza estratégica inscrita en el registro institucional de convenios.',
+        tone: styles.amber,
+        link: {
+          href: 'https://www.caproba.go.cr/plan-estrategico-caproba-2017-20121/alianzas/',
+          label: 'Consultar fuente institucional',
+        },
+      },
+    ],
+  },
+  {
+    id: 'slide-convenio-asamblea',
+    eyebrow: 'Cooperación del Estado',
+    title: 'Asamblea Legislativa de Costa Rica',
+    items: [
+      {
+        title: 'Partes Suscriptoras',
+        description:
+          'Asamblea Legislativa de la República de Costa Rica y Federación.',
+        tone: styles.cyan,
+      },
+      {
+        title: 'Objeto de Cooperación',
+        description:
+          'Enlace técnico-parlamentario, asesoría y articulación en iniciativas legislativas.',
+        tone: styles.lime,
+      },
+      {
+        title: 'Registro Institucional',
+        description:
+          'Convenio de cooperación interinstitucional del sector público costarricense.',
+        tone: styles.amber,
+        link: {
+          href: 'https://www.caproba.go.cr/plan-estrategico-caproba-2017-20121/alianzas/',
+          label: 'Consultar fuente institucional',
+        },
+      },
+    ],
   },
 ];
+
+const [initialSlide, ...remainingSlides] = slides;
 ---
 
 <section class:list={['home-hero', styles.hero]} aria-labelledby="hero-title">
@@ -126,17 +297,99 @@ const governance = [
         ))}
       </ul>
     </div>
-    <aside class={styles.governance} aria-labelledby="hero-governance-title">
-      <p class={styles['governance-eyebrow']}>Gobernanza regional</p>
-      <h2 id="hero-governance-title">Articulación Intermunicipal</h2>
-      <ul class={styles['governance-list']}>
-        {governance.map(({ title, description, tone }) => (
-          <li class:list={[styles['governance-card'], tone]}>
-            <h3>{title}</h3>
-            <p>{description}</p>
-          </li>
+    <aside
+      class={styles.governance}
+      aria-labelledby="hero-governance-title"
+      data-hero-carousel
+    >
+      <div class={styles['carousel-stage']} data-carousel-stage>
+        <div
+          class={styles['governance-slide']}
+          data-slide-index="0"
+          data-active="true"
+        >
+          <p class={styles['governance-eyebrow']}>{initialSlide.eyebrow}</p>
+          <h2 id="hero-governance-title">{initialSlide.title}</h2>
+          <ul class={styles['governance-list']}>
+            {initialSlide.items.map(({ title, description, tone }) => (
+              <li class:list={[styles['governance-card'], tone]}>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <template id="hero-carousel-slides-data">
+        {remainingSlides.map((slide, idx) => (
+          <div
+            class={styles['governance-slide']}
+            data-slide-index={idx + 1}
+            data-active="false"
+          >
+            <p class={styles['governance-eyebrow']}>{slide.eyebrow}</p>
+            <h2 class={styles['slide-title']}>{slide.title}</h2>
+            <ul class={styles['governance-list']}>
+              {slide.items.map(({ title, description, tone, link }) => (
+                <li class:list={[styles['governance-card'], tone]}>
+                  <h3>{title}</h3>
+                  <p>{description}</p>
+                  {link && (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class={styles['card-link']}
+                      aria-label={`${link.label} para ${slide.title} (se abre en nueva pestaña)`}
+                    >
+                      <span>{link.label}</span>
+                      <svg
+                        viewBox="0 0 16 16"
+                        width="12"
+                        height="12"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M6 3h7v7" />
+                        <path d="M13 3 7 9" />
+                      </svg>
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
         ))}
-      </ul>
+      </template>
+
+      <div
+        class="visually-hidden"
+        data-carousel-status
+        aria-live="polite"
+        aria-atomic="true"
+      ></div>
+
+      <nav
+        class={styles.pagination}
+        aria-label="Paginación de convenios y gobernanza"
+        data-carousel-pagination
+        hidden
+      >
+        {slides.map((slide, idx) => (
+          <button
+            type="button"
+            class={styles.dot}
+            data-dot-index={idx}
+            aria-label={`Ver diapositiva ${idx + 1} de ${slides.length}: ${slide.title}`}
+            aria-current={idx === 0 ? 'true' : 'false'}
+          />
+        ))}
+      </nav>
     </aside>
   </div>
   <div class={styles.band} aria-hidden="true"></div>
@@ -400,6 +653,209 @@ const governance = [
     });
   }
 
+  function setupHeroCarousel() {
+    const container = document.querySelector<HTMLElement>(
+      '[data-hero-carousel]',
+    );
+    if (!container) return;
+    const targetContainer = container;
+
+    const stage = targetContainer.querySelector<HTMLElement>(
+      '[data-carousel-stage]',
+    );
+    const template = targetContainer.querySelector<HTMLTemplateElement>(
+      '#hero-carousel-slides-data',
+    );
+    const pagination = targetContainer.querySelector<HTMLElement>(
+      '[data-carousel-pagination]',
+    );
+    const liveRegion = targetContainer.querySelector<HTMLElement>(
+      '[data-carousel-status]',
+    );
+
+    if (!stage || !template || !pagination) return;
+
+    const existingTimer = targetContainer.dataset.carouselTimer;
+    if (existingTimer) {
+      clearInterval(Number(existingTimer));
+    }
+
+    if (stage.children.length === 1) {
+      const clone = template.content.cloneNode(true);
+      stage.appendChild(clone);
+    }
+
+    const slides = Array.from(
+      stage.querySelectorAll<HTMLElement>('[data-slide-index]'),
+    );
+    if (slides.length <= 1) return;
+
+    pagination.hidden = false;
+    const dots = Array.from(
+      pagination.querySelectorAll<HTMLButtonElement>('[data-dot-index]'),
+    );
+
+    let currentIndex = 0;
+    let isPaused = false;
+    let timerId: ReturnType<typeof setInterval> | undefined;
+
+    function announceSlide(index: number) {
+      if (!liveRegion) return;
+      const targetSlide = slides[index];
+      const titleEl = targetSlide?.querySelector('h2');
+      const title = titleEl?.textContent?.trim() ?? `Diapositiva ${index + 1}`;
+      liveRegion.textContent = `Diapositiva ${index + 1} de ${slides.length}: ${title}`;
+    }
+
+    function goToSlide(nextIndex: number) {
+      if (
+        nextIndex === currentIndex ||
+        nextIndex < 0 ||
+        nextIndex >= slides.length
+      ) {
+        return;
+      }
+
+      const prevIndex = currentIndex;
+      currentIndex = nextIndex;
+
+      const currentSlide = slides[prevIndex];
+      const nextSlide = slides[nextIndex];
+      if (!currentSlide || !nextSlide) return;
+
+      const prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches;
+
+      dots.forEach((dot, idx) => {
+        dot.setAttribute('aria-current', idx === nextIndex ? 'true' : 'false');
+      });
+
+      if (prefersReducedMotion) {
+        currentSlide.setAttribute('data-active', 'false');
+        nextSlide.setAttribute('data-active', 'true');
+        announceSlide(currentIndex);
+        return;
+      }
+
+      currentSlide.setAttribute('data-transition', 'out');
+      nextSlide.setAttribute('data-active', 'true');
+      nextSlide.setAttribute('data-transition', 'in');
+
+      setTimeout(() => {
+        currentSlide.setAttribute('data-active', 'false');
+        currentSlide.removeAttribute('data-transition');
+        nextSlide.removeAttribute('data-transition');
+        announceSlide(currentIndex);
+      }, 200);
+    }
+
+    function nextSlide() {
+      goToSlide((currentIndex + 1) % slides.length);
+    }
+
+    function prevSlide() {
+      goToSlide((currentIndex - 1 + slides.length) % slides.length);
+    }
+
+    function startTimer() {
+      if (timerId) clearInterval(timerId);
+      const prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches;
+      if (prefersReducedMotion) return;
+
+      timerId = setInterval(() => {
+        if (!isPaused) {
+          nextSlide();
+        }
+      }, 6500);
+      targetContainer.dataset.carouselTimer = String(timerId);
+    }
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => {
+        goToSlide(idx);
+        startTimer();
+      });
+    });
+
+    targetContainer.addEventListener('mouseenter', () => {
+      isPaused = true;
+    });
+    targetContainer.addEventListener('mouseleave', () => {
+      isPaused = false;
+    });
+
+    targetContainer.addEventListener('focusin', () => {
+      isPaused = true;
+    });
+    targetContainer.addEventListener('focusout', (e) => {
+      if (!targetContainer.contains(e.relatedTarget as Node)) {
+        isPaused = false;
+      }
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      isPaused = document.hidden;
+    });
+
+    targetContainer.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        const nextIdx = (currentIndex + 1) % slides.length;
+        goToSlide(nextIdx);
+        dots[nextIdx]?.focus();
+        startTimer();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prevIdx = (currentIndex - 1 + slides.length) % slides.length;
+        goToSlide(prevIdx);
+        dots[prevIdx]?.focus();
+        startTimer();
+      }
+    });
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    targetContainer.addEventListener(
+      'touchstart',
+      (e) => {
+        touchStartX = e.changedTouches[0]?.clientX ?? 0;
+        touchStartY = e.changedTouches[0]?.clientY ?? 0;
+        isPaused = true;
+      },
+      { passive: true },
+    );
+
+    targetContainer.addEventListener(
+      'touchend',
+      (e) => {
+        isPaused = false;
+        const touchEndX = e.changedTouches[0]?.clientX ?? 0;
+        const touchEndY = e.changedTouches[0]?.clientY ?? 0;
+        const diffX = touchEndX - touchStartX;
+        const diffY = touchEndY - touchStartY;
+
+        if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+          if (diffX < 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+          startTimer();
+        }
+      },
+      { passive: true },
+    );
+
+    startTimer();
+  }
+
   setupHeroSearch();
-  document.addEventListener('astro:after-swap', setupHeroSearch);
+  setupHeroCarousel();
+  document.addEventListener('astro:after-swap', () => {
+    setupHeroSearch();
+    setupHeroCarousel();
+  });
 </script>
