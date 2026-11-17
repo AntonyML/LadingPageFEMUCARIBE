@@ -33,6 +33,7 @@ jobs:
       HOSTING_USER: ${{ vars.HOSTING_USER }}
       HOSTING_WEB_ROOT: ${{ vars.HOSTING_WEB_ROOT }}
       HOSTING_SITE_URL: ${{ vars.HOSTING_SITE_URL }}
+      PUBLIC_CF7_DENUNCIA_FORM_ID: ${{ vars.PUBLIC_CF7_DENUNCIA_FORM_ID }}
 
     steps:
       - name: Checkout

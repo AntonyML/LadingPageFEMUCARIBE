@@ -7,13 +7,18 @@ import { fetchCmsMunicipalities } from '../../lib/cms-municipalities';
  * /transparencia/denuncias
  * Contraloría de Servicios y Mecanismo de Denuncias.
  * Formulario independiente del de contacto: envía a un formulario propio de
- * Contact Form 7 en el CMS (ID configurable con PUBLIC_CF7_DENUNCIA_FORM_ID).
+ * Contact Form 7 en el CMS (ID 72; configurable con PUBLIC_CF7_DENUNCIA_FORM_ID).
  * Ver docs/formulario-denuncia-cf7.md para la configuración en WordPress.
  */
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const cmsUrl = 'https://cms.femucaribe.go.cr';
-const formId = (import.meta.env.PUBLIC_CF7_DENUNCIA_FORM_ID ?? '').trim();
+// ID del formulario CF7 creado con ServerFemucaribe/scripts/New-FormularioDenuncia.ps1.
+// PUBLIC_CF7_DENUNCIA_FORM_ID permite cambiarlo sin tocar el código.
+const DEFAULT_DENUNCIA_FORM_ID = '72';
+const formId =
+  (import.meta.env.PUBLIC_CF7_DENUNCIA_FORM_ID ?? '').trim() ||
+  DEFAULT_DENUNCIA_FORM_ID;
 const endpoint = formId
   ? `${cmsUrl}/wp-json/contact-form-7/v1/contact-forms/${formId}/feedback`
   : '';

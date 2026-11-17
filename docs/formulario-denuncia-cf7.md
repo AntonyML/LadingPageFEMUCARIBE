@@ -1,9 +1,32 @@
 # Formulario de denuncia — configuración en Contact Form 7
 
+## Opción recomendada: script automático
+
+Desde `C:\DEV\ServerFemucaribe` (PowerShell 7):
+
+```powershell
+# 1. Simulación: muestra remitente, destinatario y si crearía o actualizaría
+pwsh scripts/New-FormularioDenuncia.ps1 -DryRun
+
+# 2. Crear el formulario, guardar el ID en .env y en GitHub Actions
+pwsh scripts/New-FormularioDenuncia.ps1 -To contraloria@femucaribe.go.cr -UpdateLandingEnv -SetGitHubVariable
+```
+
+Termina con `FORMULARIO OK — ID <n>`. Es idempotente: se puede volver a correr para
+aplicar cambios (no duplica el formulario) y nunca modifica el formulario 55.
+Luego, redesplegar la landing (el workflow `deploy.yml` lee la variable
+`PUBLIC_CF7_DENUNCIA_FORM_ID`).
+
+Los avisos `esperado: ... Reply-To` y `mail_2.recipient` son normales: el correo es
+opcional por las gestiones anónimas. Si aparece el aviso del tamaño de archivo, el
+`upload_max_filesize` de PHP del servidor es menor de 5 MB y conviene subirlo.
+
+## Opción manual
+
 La página `/transparencia/denuncias` envía a un formulario **propio** de Contact Form 7
 (distinto del formulario 55 de `/contacto`). Para activarlo:
 
-## 1. Crear el formulario en WordPress (cms.femucaribe.go.cr)
+### 1. Crear el formulario en WordPress (cms.femucaribe.go.cr)
 
 *Contacto → Añadir nuevo*, título **"Contraloría de Servicios – Denuncias"**.
 
@@ -76,7 +99,7 @@ llega vacío y CF7 no envía este acuse.)
 - Mantener el endpoint REST de CF7 con CORS permitido para `https://femucaribe.go.cr`
   (igual que el formulario 55).
 
-## 2. Configurar el frontend
+### 2. Configurar el frontend
 
 Anotar el ID numérico del formulario creado y definirlo en el entorno del sitio:
 
