@@ -221,7 +221,6 @@ const slides: readonly [GovernanceSlide, ...GovernanceSlide[]] = [
   },
 ];
 
-const [initialSlide, ...remainingSlides] = slides;
 ---
 
 <section class:list={['home-hero', styles.hero]} aria-labelledby="hero-title">
@@ -315,33 +314,20 @@ const [initialSlide, ...remainingSlides] = slides;
       data-hero-carousel
     >
       <div class={styles['carousel-stage']} data-carousel-stage>
-        <div
-          class={styles['governance-slide']}
-          data-slide-index="0"
-          data-active="true"
-        >
-          <p class={styles['governance-eyebrow']}>{initialSlide.eyebrow}</p>
-          <h2 id="hero-governance-title">{initialSlide.title}</h2>
-          <ul class={styles['governance-list']}>
-            {initialSlide.items.map(({ title, description, tone }) => (
-              <li class:list={[styles['governance-card'], tone]}>
-                <h3>{title}</h3>
-                <p>{description}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <template id="hero-carousel-slides-data">
-        {remainingSlides.map((slide, idx) => (
+        {slides.map((slide, idx) => (
           <div
             class={styles['governance-slide']}
-            data-slide-index={idx + 1}
-            data-active="false"
+            data-slide-index={idx}
+            data-active={idx === 0 ? 'true' : 'false'}
+            aria-hidden={idx === 0 ? undefined : 'true'}
           >
             <p class={styles['governance-eyebrow']}>{slide.eyebrow}</p>
-            <h2 class={styles['slide-title']}>{slide.title}</h2>
+            <h2
+              class={styles['slide-title']}
+              id={idx === 0 ? 'hero-governance-title' : undefined}
+            >
+              {slide.title}
+            </h2>
             <ul class={styles['governance-list']}>
               {slide.items.map(({ title, description, tone, link }) => (
                 <li class:list={[styles['governance-card'], tone]}>
@@ -377,7 +363,7 @@ const [initialSlide, ...remainingSlides] = slides;
             </ul>
           </div>
         ))}
-      </template>
+      </div>
 
       <div
         class="visually-hidden"
@@ -675,9 +661,6 @@ const [initialSlide, ...remainingSlides] = slides;
     const stage = targetContainer.querySelector<HTMLElement>(
       '[data-carousel-stage]',
     );
-    const template = targetContainer.querySelector<HTMLTemplateElement>(
-      '#hero-carousel-slides-data',
-    );
     const pagination = targetContainer.querySelector<HTMLElement>(
       '[data-carousel-pagination]',
     );
@@ -685,16 +668,11 @@ const [initialSlide, ...remainingSlides] = slides;
       '[data-carousel-status]',
     );
 
-    if (!stage || !template || !pagination) return;
+    if (!stage || !pagination) return;
 
     const existingTimer = targetContainer.dataset.carouselTimer;
     if (existingTimer) {
       clearInterval(Number(existingTimer));
-    }
-
-    if (stage.children.length === 1) {
-      const clone = template.content.cloneNode(true);
-      stage.appendChild(clone);
     }
 
     const slides = Array.from(
@@ -735,31 +713,15 @@ const [initialSlide, ...remainingSlides] = slides;
       const nextSlide = slides[nextIndex];
       if (!currentSlide || !nextSlide) return;
 
-      const prefersReducedMotion = window.matchMedia(
-        '(prefers-reduced-motion: reduce)',
-      ).matches;
-
       dots.forEach((dot, idx) => {
         dot.setAttribute('aria-current', idx === nextIndex ? 'true' : 'false');
       });
 
-      if (prefersReducedMotion) {
-        currentSlide.setAttribute('data-active', 'false');
-        nextSlide.setAttribute('data-active', 'true');
-        announceSlide(currentIndex);
-        return;
-      }
-
-      currentSlide.setAttribute('data-transition', 'out');
+      currentSlide.setAttribute('data-active', 'false');
+      currentSlide.setAttribute('aria-hidden', 'true');
       nextSlide.setAttribute('data-active', 'true');
-      nextSlide.setAttribute('data-transition', 'in');
-
-      setTimeout(() => {
-        currentSlide.setAttribute('data-active', 'false');
-        currentSlide.removeAttribute('data-transition');
-        nextSlide.removeAttribute('data-transition');
-        announceSlide(currentIndex);
-      }, 200);
+      nextSlide.removeAttribute('aria-hidden');
+      announceSlide(currentIndex);
     }
 
     function nextSlide() {
