@@ -13,6 +13,15 @@ const cantonNames = [
   'Pococí',
   'Parrita',
 ];
+const cantonIds = [
+  'talamanca',
+  'limon',
+  'matina',
+  'guacimo',
+  'pococi',
+  'parrita',
+];
+const cantonLinkName = (name: string) => `Ver Municipalidad de ${name}`;
 
 async function expectVisibleFocus(target: Locator) {
   await expect(target).toBeFocused();
@@ -81,7 +90,7 @@ test('home hero offers its content and honest search state without JavaScript', 
     'href',
     '/contacto',
   );
-  await expect(hero.getByRole('link')).toHaveCount(2);
+  await expect(hero.getByRole('link')).toHaveCount(2 + cantonNames.length);
   const search = hero.getByRole('searchbox', { name: 'Buscar en FEMUCARIBE' });
   await expect(search).toHaveAttribute('type', 'search');
   await expect(search).toBeEnabled();
@@ -93,7 +102,18 @@ test('home hero offers its content and honest search state without JavaScript', 
   const cantons = hero.getByRole('list', { name: 'Cantones asociados' });
   await expect(cantons.getByRole('listitem')).toHaveText(cantonNames);
   await expect(cantons.locator('img[alt=""]')).toHaveCount(6);
-  await expect(cantons.locator('a, button, input, [tabindex]')).toHaveCount(0);
+  const cantonLinks = cantons.getByRole('link');
+  await expect(cantonLinks).toHaveCount(cantonNames.length);
+  for (const [index, name] of cantonNames.entries()) {
+    await expect(cantonLinks.nth(index)).toHaveAccessibleName(
+      cantonLinkName(name),
+    );
+    await expect(cantonLinks.nth(index)).toHaveAttribute(
+      'href',
+      `/municipalidades#municipality-${cantonIds[index]}`,
+    );
+  }
+  await expect(cantons.locator('button, input, [tabindex]')).toHaveCount(0);
   const governance = hero.getByRole('complementary', {
     name: 'Articulación Intermunicipal',
   });
@@ -142,7 +162,11 @@ for (const width of [320, 1440]) {
       hero.getByRole('button', { name: 'Buscar', exact: true }),
     );
 
-    for (const name of [projectsLabel, contactLabel]) {
+    for (const name of [
+      projectsLabel,
+      contactLabel,
+      ...cantonNames.map(cantonLinkName),
+    ]) {
       await page.keyboard.press('Tab');
       await expectVisibleFocus(hero.getByRole('link', { name, exact: true }));
     }

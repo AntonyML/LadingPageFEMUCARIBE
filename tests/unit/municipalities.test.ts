@@ -54,7 +54,6 @@ function seed(): Municipality[] {
       direccion: 'Sede municipal, provincia de Limón.',
     },
     escudoUrl: '',
-    proyectosDestacados: ['Convenio de cooperación institucional'],
     updatedAt: '2026-01-01T00:00:00.000Z',
   }));
 }
@@ -67,7 +66,6 @@ function editable(municipality: Municipality): MunicipalityUpdate {
     alcaldia: { ...municipality.alcaldia },
     contacto: { ...municipality.contacto },
     escudoUrl: municipality.escudoUrl,
-    proyectosDestacados: [...municipality.proyectosDestacados],
   };
 }
 
@@ -122,7 +120,6 @@ describe('municipalities schema', () => {
     input.contacto = { telefono: '', correo: '', sitioWeb: '', direccion: '' };
     input.alcaldia.fotoUrl = '';
     input.escudoUrl = '';
-    input.proyectosDestacados = [];
     const parsed = municipalityUpdateSchema.parse(input);
     expect(parsed.name).toBe(initial[0]!.name);
     expect(parsed.description).toContain('\nSegundo párrafo.');
@@ -133,11 +130,6 @@ describe('municipalities schema', () => {
     ['name', { name: 'a'.repeat(161) }],
     ['cabecera', { cabecera: 'a'.repeat(121) }],
     ['description', { description: 'a'.repeat(6001) }],
-    ['proyectosDestacados item', { proyectosDestacados: ['a'.repeat(301)] }],
-    [
-      'proyectosDestacados count',
-      { proyectosDestacados: Array<string>(31).fill('Proyecto') },
-    ],
     ['required text', { name: '  ' }],
     ['unknown property', { inesperado: true }],
   ])('rejects invalid %s', (_label, changes) => {

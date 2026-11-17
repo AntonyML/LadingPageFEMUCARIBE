@@ -620,7 +620,8 @@
   margin-block: 0.5rem;
 }
 
-.contact-details a {
+.contact-details a,
+.featured-projects a {
   color: var(--theme-link);
 }
 

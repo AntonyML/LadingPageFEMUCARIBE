@@ -36,12 +36,13 @@ const featuredProjects = [
   },
 ] as const;
 
-const pipelineMunicipalities = [
-  'Municipalidad de Limón',
-  'Municipalidad de Matina',
-  'Municipalidad de Guácimo',
-  'Municipalidad de Pococí',
-  'Municipalidad de Parrita',
+const municipalityPortfolios = [
+  { id: 'limon', name: 'Municipalidad de Limón' },
+  { id: 'pococi', name: 'Municipalidad de Pococí' },
+  { id: 'parrita', name: 'Municipalidad de Parrita' },
+  { id: 'talamanca', name: 'Municipalidad de Talamanca' },
+  { id: 'matina', name: 'Municipalidad de Matina' },
+  { id: 'guacimo', name: 'Municipalidad de Guácimo' },
 ] as const;
 
 test.describe('Página de Proyectos (/proyectos)', () => {
@@ -104,30 +105,30 @@ test.describe('Página de Proyectos (/proyectos)', () => {
       name: 'Proyectos en Coordinación con Gobiernos Locales',
     });
     await expect(coordSection).toBeVisible();
-    await expect(
-      coordSection.getByRole('heading', {
-        level: 3,
-        name: 'Municipalidad de Talamanca · 2 proyectos en gestión activa',
-      }),
-    ).toBeVisible();
-    await expect(
-      coordSection.getByRole('heading', {
-        level: 4,
-        name: '1. Mojones Fronterizos Costa Rica – Panamá (Sixaola)',
-      }),
-    ).toBeVisible();
-    await expect(
-      coordSection.getByRole('heading', {
-        level: 4,
-        name: '2. Infraestructura Deportiva y Recreativa (Bribri)',
-      }),
-    ).toBeVisible();
-
-    for (const muni of pipelineMunicipalities) {
+    for (const { id, name } of municipalityPortfolios) {
+      const block = coordSection.locator(`#municipalidad-${id}`);
       await expect(
-        coordSection.getByRole('heading', { level: 3, name: muni }),
+        block.getByRole('heading', { level: 3, name, exact: true }),
       ).toBeVisible();
     }
+
+    // Featured projects linked to a municipality also appear in its block
+    // and point back to their canonical card.
+    const talamanca = coordSection.locator('#municipalidad-talamanca');
+    await expect(
+      talamanca.getByRole('heading', {
+        level: 4,
+        name: /Construcción de mojones fronterizos/,
+      }),
+    ).toBeVisible();
+    await expect(
+      talamanca.getByRole('link', {
+        name: /Ver ficha del proyecto Construcción de mojones fronterizos/,
+      }),
+    ).toHaveAttribute('href', '#proyecto-construccion-de-mojones-fronterizos');
+    await expect(
+      page.locator('#proyecto-construccion-de-mojones-fronterizos'),
+    ).toHaveCount(1);
 
     // Marco Estatutario
     const statutorySection = page.getByRole('region', {
@@ -138,6 +139,23 @@ test.describe('Página de Proyectos (/proyectos)', () => {
       statutorySection.getByText(/Art\. 6 de los Estatutos publicados/),
     ).toBeVisible();
     await expect(statutorySection.getByText('Art. 6 Estatutos')).toBeVisible();
+  });
+
+  test('municipality "Ver proyectos" links open its portfolio block', async ({
+    page,
+  }) => {
+    await page.goto('/municipalidades');
+    const link = page
+      .locator('#municipality-talamanca')
+      .getByRole('link', { name: /Ver proyectos/ });
+    await expect(link).toHaveAttribute(
+      'href',
+      '/proyectos#municipalidad-talamanca',
+    );
+
+    await link.click();
+    await expect(page).toHaveURL(/\/proyectos\/?#municipalidad-talamanca$/);
+    await expect(page.locator('#municipalidad-talamanca')).toBeInViewport();
   });
 
   test('CTA button receives visible keyboard focus', async ({ page }) => {

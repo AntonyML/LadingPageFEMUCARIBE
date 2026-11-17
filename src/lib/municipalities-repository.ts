@@ -96,7 +96,6 @@ export const municipalityUpdateSchema = z
       })
       .strict(),
     escudoUrl: imageUrlSchema,
-    proyectosDestacados: z.array(requiredText(300)).max(30),
   })
   .strict();
 

@@ -4,6 +4,7 @@ import matinaPhoto from '../../assets/municipalidades/canton-matina.png';
 import guacimoPhoto from '../../assets/municipalidades/canton-guacimo.png';
 import pocociPhoto from '../../assets/municipalidades/canton-pococi.png';
 import parritaPhoto from '../../assets/municipalidades/canton-parrita.png';
+import type { MunicipalPortfolio } from '../../lib/cms-projects';
 import type { Municipality } from '../../lib/municipalities-repository';
 import type { MunicipalGovernment } from './types';
 
@@ -135,7 +136,14 @@ const presentation = {
 
 export function presentMunicipalities(
   records: readonly Municipality[],
+  portfolios: readonly MunicipalPortfolio[] = [],
 ): MunicipalGovernment[] {
+  const projectsById = new Map(
+    portfolios.map(({ municipalityId, projects }) => [
+      municipalityId,
+      projects,
+    ]),
+  );
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const assetUrl = (url: string) =>
     url.startsWith('/') ? `${base}${url}` : url;
@@ -150,6 +158,7 @@ export function presentMunicipalities(
     memberLocation: record.cabecera,
     memberSummary: record.description,
     territoryDescription: record.description,
+    projects: projectsById.get(record.id) ?? [],
     period: '2024-2028',
     mayor: {
       name: record.alcaldia.nombre,

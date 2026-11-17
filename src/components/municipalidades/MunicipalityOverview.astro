@@ -4,11 +4,24 @@ import MunicipalityStackIcon from './MunicipalityStackIcon.astro';
 import pageStyles from './page.module.css';
 import cards from './cards.module.css';
 import { getPageContent } from '../../lib/cms-page-content';
+import {
+  municipalityProjectsAnchor,
+  projectAnchor,
+  type Project,
+} from '../../lib/cms-projects';
 interface Props {
   municipalities: readonly MunicipalGovernment[];
 }
 const { municipalities } = Astro.props;
 const cms = await getPageContent('municipalidades');
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const portfolioUrl = (id: MunicipalGovernment['id']) =>
+  `${base}/proyectos#${municipalityProjectsAnchor(id)}`;
+// Municipal-only portfolio items are published inside the municipality block.
+const projectUrl = (project: Project, id: MunicipalGovernment['id']) =>
+  project.type === 'municipal'
+    ? portfolioUrl(id)
+    : `${base}/proyectos#${projectAnchor(project.slug)}`;
 ---
 
 <section
@@ -99,9 +112,11 @@ const cms = await getPageContent('municipalidades');
             <div class={cards['member-actions']}>
               <a
                 class={cards['action-link']}
-                href={'#projects-' + municipality.id}
+                href={portfolioUrl(municipality.id)}
               >
-                Ver proyectos <span aria-hidden="true">→</span>
+                Ver proyectos
+                <span class="visually-hidden"> con la {municipality.name}</span>
+                <span aria-hidden="true">→</span>
               </a>
               {municipality.contacto.sitioWeb ? (
                 <a
@@ -155,18 +170,24 @@ const cms = await getPageContent('municipalidades');
             </div>
             <section
               class={cards['featured-projects']}
-              id={'projects-' + municipality.id}
-              aria-label={'Proyectos destacados de ' + municipality.cantonName}
+              aria-label={'Proyectos vinculados de ' + municipality.cantonName}
             >
-              <h3>Proyectos destacados</h3>
-              {municipality.proyectosDestacados.length ? (
+              <h3>Proyectos vinculados</h3>
+              {municipality.projects.length ? (
                 <ul>
-                  {municipality.proyectosDestacados.map((project) => (
-                    <li>{project}</li>
+                  {municipality.projects.map((project) => (
+                    <li>
+                      <a href={projectUrl(project, municipality.id)}>
+                        {project.title}
+                      </a>
+                    </li>
                   ))}
                 </ul>
               ) : (
-                <p>Sin proyectos destacados publicados.</p>
+                <p>
+                  Sin proyectos vinculados publicados. FEMUCARIBE ejecuta además
+                  proyectos regionales en beneficio de todos los cantones.
+                </p>
               )}
             </section>
           </div>

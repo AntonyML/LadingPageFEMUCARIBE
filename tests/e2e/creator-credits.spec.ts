@@ -128,7 +128,7 @@ test('keyboard navigation reaches credits and preserves skip and contact focus',
     name: creatorCredit,
     exact: true,
   });
-  for (let index = 0; index < 40; index++) {
+  for (let index = 0; index < 60; index++) {
     await page.keyboard.press('Tab');
     if (await credit.evaluate((node) => node === document.activeElement)) break;
   }

@@ -2,6 +2,7 @@
 // src/components/proyectos/ProjectsFederation.astro
 import {
   fetchFederationProjects,
+  projectAnchor,
   type FederationProject,
 } from '../../lib/cms-projects';
 
@@ -11,6 +12,7 @@ const federationProjects: readonly FederationProject[] =
 
 <section
   class="projects-federation"
+  id="proyectos-federacion"
   aria-labelledby="projects-federation-title"
 >
   <h2 id="projects-federation-title" class="section-title">
@@ -20,6 +22,7 @@ const federationProjects: readonly FederationProject[] =
   <ul class="projects-grid" role="list">
     {federationProjects.map(
       ({
+        slug,
         category,
         title,
         description,
@@ -29,7 +32,7 @@ const federationProjects: readonly FederationProject[] =
         statusColor,
       }) => (
         <li class="project-item">
-          <article class="card">
+          <article class="card" id={projectAnchor(slug)}>
             <span
               class="stripe"
               style={`background-color: ${accentColor};`}
@@ -81,6 +84,7 @@ const federationProjects: readonly FederationProject[] =
 
 <style>
   .projects-federation {
+    scroll-margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1.25rem;

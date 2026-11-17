@@ -1,8 +1,20 @@
 ---
 // src/components/proyectos/ProjectsCoordination.astro
-import { fetchPipelineProjects } from '../../lib/cms-projects';
+import { fetchCmsMunicipalities } from '../../lib/cms-municipalities';
+import {
+  fetchMunicipalPortfolios,
+  municipalityProjectsAnchor,
+  projectAnchor,
+} from '../../lib/cms-projects';
 
-const pipelineMunicipalities = await fetchPipelineProjects();
+const municipalities = await fetchCmsMunicipalities();
+const portfolios = await fetchMunicipalPortfolios(
+  municipalities.map(({ id }) => id),
+);
+const names = new Map(municipalities.map(({ id, name }) => [id, name]));
+
+const countLabel = (count: number) =>
+  count === 1 ? '1 proyecto vinculado' : `${count} proyectos vinculados`;
 ---
 
 <section
@@ -12,59 +24,73 @@ const pipelineMunicipalities = await fetchPipelineProjects();
   <h2 id="projects-coordination-title" class="section-title">
     Proyectos en Coordinación con Gobiernos Locales
   </h2>
+  <p class="section-lead">
+    Proyectos que FEMUCARIBE ejecuta o acompaña junto a cada municipalidad
+    federada.
+  </p>
 
-  <div class="active-management-card">
-    <div class="card-header">
-      <h3 class="active-title">
-        Municipalidad de Talamanca · 2 proyectos en gestión activa
-      </h3>
-      <span class="status-badge-active">En gestión</span>
-    </div>
-
-    <div class="subprojects-grid">
-      <article class="subproject-box">
-        <h4 class="subproject-title">
-          1. Mojones Fronterizos Costa Rica – Panamá (Sixaola)
-        </h4>
-        <p class="subproject-desc">
-          Demarcación territorial e infraestructura fronteriza en el paso
-          Sixaola, garantizando soberanía, ordenamiento y seguridad para el
-          comercio binacional.
-        </p>
-      </article>
-
-      <article class="subproject-box">
-        <h4 class="subproject-title">
-          2. Infraestructura Deportiva y Recreativa (Bribri)
-        </h4>
-        <p class="subproject-desc">
-          Complejo comunal deportivo y espacios públicos en Bribri para el
-          fomento de la salud, recreación juvenil e integración comunitaria en
-          el Caribe Sur.
-        </p>
-      </article>
-    </div>
-  </div>
-
-  <ul class="pipeline-list" role="list">
-    {pipelineMunicipalities.map(({ name, status, projects }) => (
-      <li class="pipeline-card">
-        <div class="pipeline-header">
-          <h3 class="municipality-name">{name}</h3>
-          <span class="status-badge-pipeline">{status}</span>
-        </div>
-        {projects && projects.length > 0 && (
-          <div class="subprojects-grid">
-            {projects.map((proj) => (
-              <article class="subproject-box">
-                <h4 class="subproject-title">{proj.title}</h4>
-                <p class="subproject-desc">{proj.description}</p>
-              </article>
-            ))}
+  <ul class="portfolio-list" role="list">
+    {portfolios.map(({ municipalityId, projects }) => {
+      const name = names.get(municipalityId) ?? municipalityId;
+      const headingId = `${municipalityProjectsAnchor(municipalityId)}-title`;
+      return (
+        <li
+          class="portfolio-card"
+          id={municipalityProjectsAnchor(municipalityId)}
+        >
+          <div class="portfolio-header">
+            <h3 class="municipality-name" id={headingId}>
+              {name}
+            </h3>
+            <span
+              class:list={[
+                'count-badge',
+                { 'count-badge-active': projects.length > 0 },
+              ]}
+            >
+              {countLabel(projects.length)}
+            </span>
           </div>
-        )}
-      </li>
-    ))}
+
+          {projects.length > 0 ? (
+            <ol class="subprojects-grid" role="list">
+              {projects.map((project) => (
+                <li>
+                  <article class="subproject-box">
+                    <h4 class="subproject-title">{project.title}</h4>
+                    <p class="subproject-desc">{project.description}</p>
+                    <div class="subproject-meta">
+                      {project.status && (
+                        <span class="status-badge">{project.status}</span>
+                      )}
+                      {project.type !== 'municipal' && (
+                        <a
+                          class="subproject-link"
+                          href={`#${projectAnchor(project.slug)}`}
+                        >
+                          Ver ficha del proyecto
+                          <span class="visually-hidden"> {project.title}</span>
+                          <span aria-hidden="true">→</span>
+                        </a>
+                      )}
+                    </div>
+                  </article>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p class="empty-state">
+              FEMUCARIBE aún no registra proyectos vinculados con esta
+              municipalidad. Consulte los{' '}
+              <a href="#proyectos-federacion">
+                proyectos propios de la Federación
+              </a>
+              , que benefician a todos los cantones miembros.
+            </p>
+          )}
+        </li>
+      );
+    })}
   </ul>
 </section>
 
@@ -85,27 +111,50 @@ const pipelineMunicipalities = await fetchPipelineProjects();
     color: var(--theme-text);
   }
 
-  .active-management-card,
-  .pipeline-card {
-    background-color: var(--theme-surface);
-    border: 1px solid var(--theme-border);
-    border-radius: 0.75rem; /* 12px */
-    padding: 1.25rem 1.5rem;
+  .section-lead {
+    margin: -0.5rem 0 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--theme-text-secondary);
+  }
+
+  .portfolio-list {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
   }
 
-  .card-header,
-  .pipeline-header {
+  .portfolio-card {
+    scroll-margin-top: 1.5rem;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    background-color: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: 0.75rem; /* 12px */
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
-  .active-title,
+  .portfolio-card:target {
+    border-color: var(--theme-action);
+    box-shadow: 0 0 0 3px
+      color-mix(in srgb, var(--theme-action) 35%, transparent);
+  }
+
+  .portfolio-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .municipality-name {
     margin: 0;
     font-family: var(--font-body, Inter, sans-serif);
@@ -115,24 +164,43 @@ const pipelineMunicipalities = await fetchPipelineProjects();
     color: var(--theme-text);
   }
 
-  .status-badge-active {
+  .count-badge,
+  .status-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0.25rem 0.75rem;
-    background-color: var(--theme-status-warning-bg);
-    color: var(--theme-status-warning-text);
     font-family: var(--font-body, Inter, sans-serif);
     font-size: 0.6563rem; /* 10.5px */
     font-weight: 700;
-    border-radius: 0.75rem; /* 12px */
     line-height: 1.2;
+    white-space: nowrap;
+    border-radius: 0.75rem; /* 12px */
+  }
+
+  .count-badge {
+    color: var(--theme-text-muted);
+    background-color: var(--theme-surface-subtle);
+  }
+
+  .count-badge-active {
+    color: var(--theme-status-warning-text);
+    background-color: var(--theme-status-warning-bg);
+  }
+
+  .status-badge {
+    color: var(--theme-link);
+    background-color: var(--theme-surface-accent);
   }
 
   .subprojects-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    counter-reset: subproject;
   }
 
   @media (width >= 48rem) {
@@ -141,16 +209,22 @@ const pipelineMunicipalities = await fetchPipelineProjects();
     }
   }
 
+  .subprojects-grid > li {
+    display: flex;
+  }
+
   .subproject-box {
-    background-color: var(--theme-surface-muted);
-    border-radius: 0.5rem; /* 8px */
-    padding: 1rem 1.25rem;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    background-color: var(--theme-surface-muted);
+    border-radius: 0.5rem; /* 8px */
   }
 
   .subproject-title {
+    counter-increment: subproject;
     margin: 0;
     font-family: var(--font-body, Inter, sans-serif);
     font-size: 0.8438rem; /* 13.5px */
@@ -159,7 +233,12 @@ const pipelineMunicipalities = await fetchPipelineProjects();
     color: var(--theme-text);
   }
 
+  .subproject-title::before {
+    content: counter(subproject) '. ';
+  }
+
   .subproject-desc {
+    flex-grow: 1;
     margin: 0;
     font-family: var(--font-body, Inter, sans-serif);
     font-size: 0.7188rem; /* 11.5px */
@@ -168,34 +247,48 @@ const pipelineMunicipalities = await fetchPipelineProjects();
     color: var(--theme-text-secondary);
   }
 
-  .pipeline-list {
+  .subproject-meta {
     display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    padding: 0;
-    margin: 0;
-    list-style: none;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  .status-badge-pipeline {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.25rem 0.75rem;
-    background-color: var(--theme-surface-subtle);
-    color: var(--theme-text-muted);
-    font-family: var(--font-body, Inter, sans-serif);
-    font-size: 0.625rem; /* 10px */
+  .subproject-link,
+  .empty-state a {
     font-weight: 600;
-    border-radius: 0.75rem; /* 12px */
-    line-height: 1.2;
-    white-space: nowrap;
+    color: var(--theme-link);
+  }
+
+  .subproject-link {
+    font-size: 0.75rem;
+    text-decoration: none;
+  }
+
+  .subproject-link:hover,
+  .subproject-link:focus-visible {
+    text-decoration: underline;
+  }
+
+  .empty-state {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--theme-text-secondary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portfolio-card {
+      transition: none;
+    }
   }
 
   @media (width <= 48rem) {
-    .active-title,
-    .municipality-name {
-      font-size: 1rem;
+    .portfolio-header {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
     }
 
     .subproject-title {
@@ -206,14 +299,10 @@ const pipelineMunicipalities = await fetchPipelineProjects();
       font-size: 0.875rem;
     }
 
-    .status-badge-pipeline {
+    .count-badge,
+    .status-badge,
+    .subproject-link {
       font-size: 0.75rem;
-    }
-
-    .pipeline-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.5rem;
     }
   }
 </style>

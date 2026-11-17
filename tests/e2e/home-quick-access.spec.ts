@@ -109,7 +109,21 @@ for (const width of [320, 1440]) {
     await page.keyboard.press('Enter');
     await expectVisibleFocus(page.getByRole('main'));
     const hero = page.locator('.home-hero');
-    for (const name of ['Ver proyectos', 'Contáctenos']) {
+    await page.keyboard.press('Tab');
+    await expectVisibleFocus(
+      hero.getByRole('searchbox', { name: 'Buscar en FEMUCARIBE' }),
+    );
+    await page.keyboard.press('Tab');
+    await expectVisibleFocus(
+      hero.getByRole('button', { name: 'Buscar', exact: true }),
+    );
+    for (const name of [
+      'Ver proyectos',
+      'Contáctenos',
+      ...['Talamanca', 'Limón', 'Matina', 'Guácimo', 'Pococí', 'Parrita'].map(
+        (canton) => `Ver Municipalidad de ${canton}`,
+      ),
+    ]) {
       await page.keyboard.press('Tab');
       await expectVisibleFocus(hero.getByRole('link', { name, exact: true }));
     }

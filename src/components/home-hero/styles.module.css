@@ -352,6 +352,19 @@
   box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
 }
 
+.crest {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 6.75rem;
+}
+
+.crest img {
+  display: block;
+  block-size: auto;
+  object-fit: contain;
+}
+
 .canton-link {
   display: block;
   color: inherit;
@@ -393,19 +406,6 @@
   .canton-link:focus-visible .crest img {
     transform: none;
   }
-}
-
-.crest {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-block-size: 6.75rem;
-}
-
-.crest img {
-  display: block;
-  block-size: auto;
-  object-fit: contain;
 }
 
 .governance {

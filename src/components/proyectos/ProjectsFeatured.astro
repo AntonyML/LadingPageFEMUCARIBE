@@ -2,11 +2,11 @@
 // src/components/proyectos/ProjectsFeatured.astro
 import {
   fetchFeaturedProjects,
-  type FeaturedProject,
+  projectAnchor,
+  type Project,
 } from '../../lib/cms-projects';
 
-const featuredProjects: readonly FeaturedProject[] =
-  await fetchFeaturedProjects();
+const featuredProjects: readonly Project[] = await fetchFeaturedProjects();
 ---
 
 <section class="projects-featured" aria-labelledby="projects-featured-title">
@@ -15,9 +15,9 @@ const featuredProjects: readonly FeaturedProject[] =
   </h2>
 
   <ul class="featured-grid" role="list">
-    {featuredProjects.map(({ tag, title, description, source }) => (
+    {featuredProjects.map(({ slug, tag, title, description, source }) => (
       <li class="featured-item">
-        <article class="featured-card">
+        <article class="featured-card" id={projectAnchor(slug)}>
           <div class="tag-box">
             <span class="tag-text">{tag}</span>
           </div>
@@ -73,6 +73,7 @@ const featuredProjects: readonly FeaturedProject[] =
   }
 
   .featured-card {
+    scroll-margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
     flex-grow: 1;

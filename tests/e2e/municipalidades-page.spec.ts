@@ -53,7 +53,21 @@ test('renders the complete municipal directory in the public shell without JavaS
     name: 'Municipalidades Miembros · Federación del Caribe',
     exact: true,
   });
-  await expect(members.getByRole('listitem')).toHaveCount(6);
+  await expect(members.locator('ul.layout-grid > li')).toHaveCount(6);
+  for (const id of [
+    'limon',
+    'pococi',
+    'parrita',
+    'talamanca',
+    'matina',
+    'guacimo',
+  ]) {
+    await expect(
+      members
+        .locator(`#municipality-${id}`)
+        .getByRole('link', { name: /^Ver proyectos/ }),
+    ).toHaveAttribute('href', `/proyectos#municipalidad-${id}`);
+  }
   for (const title of memberTitles) {
     await expect(
       members.getByRole('heading', { level: 2, name: title, exact: true }),

@@ -1,4 +1,5 @@
 import type { ImageMetadata } from 'astro';
+import type { Project } from '../../lib/cms-projects';
 import type { Municipality } from '../../lib/municipalities-repository';
 
 export interface MunicipalGovernment extends Municipality {
@@ -25,4 +26,6 @@ export interface MunicipalGovernment extends Municipality {
   territoryLabel: string;
   districtLabel: string;
   territoryDescription: string;
+  /** Projects FEMUCARIBE executes or coordinates with this municipality. */
+  projects: readonly Project[];
 }
