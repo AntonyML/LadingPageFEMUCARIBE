@@ -139,7 +139,10 @@ test.describe('Página de Transparencia (/transparencia)', () => {
       name: /Formulario de Denuncia/,
     });
     await expect(denunciaLink).toBeVisible();
-    await expect(denunciaLink).toHaveAttribute('href', '/contacto#denuncia');
+    await expect(denunciaLink).toHaveAttribute(
+      'href',
+      '/transparencia/denuncias',
+    );
     const denunciaBox = await denunciaLink.boundingBox();
     expect(denunciaBox?.height).toBeGreaterThanOrEqual(44);
   });

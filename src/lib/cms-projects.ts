@@ -237,16 +237,30 @@ export const fallbackProjects: readonly Project[] = [
   ),
   fallbackMunicipalProject(
     'parrita',
-    'asistencia-tecnica-iniciativas-comunales-parrita',
-    'Asistencia Técnica para Iniciativas Comunales (Convenio DINADECO - FEMUCARIBE)',
-    'Acompañamiento a asociaciones de desarrollo del cantón para estructurar iniciativas de infraestructura social y comunitaria.',
-  ),
-  fallbackMunicipalProject(
-    'parrita',
     'formulacion-cartera-tecnica-cantonal-parrita',
     'Formulación de Cartera Técnica Cantonal',
     'Estructuración del banco cantonal de proyectos de inversión pública y asesoría en contratación administrativa mancomunada.',
   ),
+  fallbackProject({
+    slug: 'convenio-dinadeco-femucaribe-asistencia-tecnica-comunal',
+    type: 'municipal',
+    title:
+      'Asistencia técnica a organizaciones comunales (Convenio DINADECO – FEMUCARIBE)',
+    description:
+      'Carta de entendimiento firmada el 6 de octubre de 2026: la Unidad Gestora de Proyectos elabora hasta seis perfiles técnicos por trimestre (24 al año) para asociaciones de desarrollo comunal de los cantones afiliados, con lineamientos de DINADECO.',
+    category: 'Asistencia técnica comunal',
+    status: 'En ejecución',
+    source:
+      'Fuente oficial — DINADECO / FEMUCARIBE (carta de entendimiento, 06/10/2026)',
+    municipalityIds: [
+      'talamanca',
+      'limon',
+      'matina',
+      'guacimo',
+      'pococi',
+      'parrita',
+    ],
+  }),
 ];
 
 const htmlEntities: Readonly<Record<string, string>> = {

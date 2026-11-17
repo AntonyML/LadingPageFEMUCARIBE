@@ -1,0 +1,1048 @@
+---
+import PublicLayout from '../../layouts/PublicLayout.astro';
+import SiteIcon from '../../components/SiteIcon.astro';
+import { fetchCmsMunicipalities } from '../../lib/cms-municipalities';
+
+/**
+ * /transparencia/denuncias
+ * Contraloría de Servicios y Mecanismo de Denuncias.
+ * Formulario independiente del de contacto: envía a un formulario propio de
+ * Contact Form 7 en el CMS (ID configurable con PUBLIC_CF7_DENUNCIA_FORM_ID).
+ * Ver docs/formulario-denuncia-cf7.md para la configuración en WordPress.
+ */
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const cmsUrl = 'https://cms.femucaribe.go.cr';
+const formId = (import.meta.env.PUBLIC_CF7_DENUNCIA_FORM_ID ?? '').trim();
+const endpoint = formId
+  ? `${cmsUrl}/wp-json/contact-form-7/v1/contact-forms/${formId}/feedback`
+  : '';
+const contactEmail = 'info@femucaribe.go.cr';
+const privacyUrl = `${base}/privacidad`;
+const transparencyUrl = `${base}/transparencia`;
+
+let cantones: string[];
+try {
+  cantones = (await fetchCmsMunicipalities())
+    .map((m) => m.name)
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b, 'es'));
+} catch {
+  cantones = [];
+}
+
+const today = new Date().toISOString().slice(0, 10);
+---
+
+<PublicLayout title="Contraloría de Servicios y Denuncias | FEMUCARIBE">
+  <nav class="breadcrumb" aria-label="Ruta de navegación">
+    <ol>
+      <li>
+        <a href={transparencyUrl}>Transparencia</a>
+      </li>
+      <li aria-current="page">Contraloría de Servicios y Denuncias</li>
+    </ol>
+  </nav>
+
+  <section class="complaint-page" aria-labelledby="complaint-title">
+    <div class="complaint-overview">
+      <p class="eyebrow">Fiscalización ciudadana</p>
+      <header class="intro">
+        <h1 id="complaint-title">
+          Contraloría de Servicios y Mecanismo de Denuncias
+        </h1>
+        <p>
+          Cualquier persona puede presentar inconformidades, sugerencias o
+          denuncias relativas a la prestación de servicios o la ejecución de
+          proyectos federativos. Trámite confidencial y gratuito con respuesta
+          formal en un plazo máximo de 10 días hábiles.
+        </p>
+      </header>
+
+      <p class="legal-guarantee">
+        <span class="shield-icon" aria-hidden="true">
+          <SiteIcon name="shield-check" size={18} />
+        </span>
+        Protección de Datos Garantizada bajo la Ley N.° 8968.
+      </p>
+
+      <h2 class="overview-subtitle">Tipos de gestión</h2>
+      <dl class="info-list">
+        <div class="info-card">
+          <dt>Denuncia</dt>
+          <dd>
+            Hechos presuntamente irregulares en la administración de fondos
+            públicos, la contratación o la ejecución de proyectos.
+          </dd>
+        </div>
+        <div class="info-card">
+          <dt>Inconformidad</dt>
+          <dd>
+            Insatisfacción con un servicio recibido: atención, plazos, calidad o
+            trato.
+          </dd>
+        </div>
+        <div class="info-card">
+          <dt>Sugerencia</dt>
+          <dd>Propuestas para mejorar los servicios de la Federación.</dd>
+        </div>
+      </dl>
+
+      <h2 class="overview-subtitle">Cómo se atiende su gestión</h2>
+      <ol class="steps">
+        <li>Recibimos su gestión y le asignamos un número de referencia.</li>
+        <li>
+          La Contraloría de Servicios analiza los hechos y, si corresponde, la
+          traslada a la instancia competente.
+        </li>
+        <li>
+          Le enviamos una respuesta formal en un plazo máximo de 10 días hábiles
+          al medio de notificación indicado.
+        </li>
+      </ol>
+
+      <p class="confidential-note">
+        La identidad de la persona denunciante y la información que aporte se
+        mantienen confidenciales. Si presenta la gestión de forma anónima, no
+        podremos enviarle la respuesta: conserve su número de referencia.
+      </p>
+    </div>
+
+    <section class="form-panel" aria-labelledby="form-title">
+      <h2 id="form-title">Formulario de denuncia</h2>
+      <p class="panel-subtitle">
+        Los campos marcados con <span class="required-mark">*</span> son
+        obligatorios.
+      </p>
+
+      <form
+        class="complaint-form"
+        id="complaint-form"
+        aria-labelledby="form-title"
+        data-endpoint={endpoint}
+        data-form-id={formId}
+        data-contact-email={contactEmail}
+        novalidate
+      >
+        <div
+          class="form-status"
+          id="complaint-status"
+          role="status"
+          aria-live="polite"
+          tabindex="-1"
+          hidden
+        ></div>
+
+        <fieldset class="fields" id="complaint-fields">
+          <legend class="visually-hidden">Datos de la gestión</legend>
+
+          <div class="field">
+            <label for="complaint-type">
+              Tipo de gestión
+              <span class="required-mark" aria-hidden="true">
+                *
+              </span>
+            </label>
+            <select
+              class="field-control select-control"
+              id="complaint-type"
+              name="tipo-gestion"
+              required
+            >
+              <option value="" disabled selected>
+                Seleccione una opción...
+              </option>
+              <option value="Denuncia">Denuncia</option>
+              <option value="Inconformidad">Inconformidad</option>
+              <option value="Sugerencia">Sugerencia</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="complaint-scope">
+              Se relaciona con
+              <span class="required-mark" aria-hidden="true">
+                *
+              </span>
+            </label>
+            <select
+              class="field-control select-control"
+              id="complaint-scope"
+              name="ambito"
+              required
+            >
+              <option value="" disabled selected>
+                Seleccione una opción...
+              </option>
+              <option value="Prestación de servicios">
+                Prestación de servicios
+              </option>
+              <option value="Ejecución de proyectos federativos">
+                Ejecución de proyectos federativos
+              </option>
+              <option value="Contratación administrativa">
+                Contratación administrativa
+              </option>
+              <option value="Conducta de personal o representantes">
+                Conducta de personal o representantes
+              </option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="complaint-canton">
+                Municipalidad o cantón relacionado
+              </label>
+              <select
+                class="field-control select-control"
+                id="complaint-canton"
+                name="canton"
+              >
+                <option value="">No aplica / Toda la región</option>
+                {cantones.map((c) => (
+                  <option value={c}>{c}</option>
+                ))}
+              </select>
+            </div>
+            <div class="field">
+              <label for="complaint-date">Fecha aproximada de los hechos</label>
+              <input
+                class="field-control"
+                id="complaint-date"
+                name="fecha-hechos"
+                type="date"
+                max={today}
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="complaint-project">
+              Proyecto, servicio o dependencia
+            </label>
+            <input
+              class="field-control"
+              id="complaint-project"
+              name="proyecto"
+              type="text"
+              maxlength="200"
+              placeholder="Ej. Proyecto de gestión de residuos, atención en sede..."
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="field">
+            <label for="complaint-description">
+              Descripción de los hechos
+              <span class="required-mark" aria-hidden="true">
+                *
+              </span>
+            </label>
+            <p class="field-hint" id="complaint-description-hint">
+              Indique qué ocurrió, cuándo, dónde y quiénes participaron. Mínimo
+              30 caracteres.
+            </p>
+            <textarea
+              class="field-control message-control"
+              id="complaint-description"
+              name="descripcion"
+              rows="7"
+              maxlength="5000"
+              aria-describedby="complaint-description-hint"
+              required
+            ></textarea>
+          </div>
+
+          <div class="field">
+            <label for="complaint-evidence">
+              Pruebas o elementos de respaldo
+            </label>
+            <textarea
+              class="field-control"
+              id="complaint-evidence"
+              name="pruebas"
+              rows="3"
+              maxlength="2000"
+              placeholder="Documentos, fotografías, testigos u otra información que respalde su gestión."
+            ></textarea>
+          </div>
+
+          <div class="field">
+            <label for="complaint-file">Adjuntar archivo (opcional)</label>
+            <p class="field-hint" id="complaint-file-hint">
+              PDF, JPG, PNG o DOCX. Máximo 5 MB.
+            </p>
+            <input
+              class="field-control file-control"
+              id="complaint-file"
+              name="archivo"
+              type="file"
+              accept=".pdf,.jpg,.jpeg,.png,.docx"
+              aria-describedby="complaint-file-hint"
+            />
+          </div>
+
+          <fieldset class="identity">
+            <legend>
+              Identificación
+              <span class="required-mark" aria-hidden="true">
+                *
+              </span>
+            </legend>
+            <div class="radio-row">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="modalidad"
+                  value="Identificada"
+                  checked
+                />
+                Deseo identificarme
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="modalidad" value="Anónima" />
+                Presentar de forma anónima
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="identity-fields" id="identity-fields">
+            <div class="field">
+              <label for="complaint-name">
+                Nombre completo
+                <span
+                  class="required-mark identity-required"
+                  aria-hidden="true"
+                >
+                  *
+                </span>
+              </label>
+              <input
+                class="field-control"
+                id="complaint-name"
+                name="nombre"
+                type="text"
+                maxlength="160"
+                autocomplete="name"
+              />
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="complaint-id">Cédula o identificación</label>
+                <input
+                  class="field-control"
+                  id="complaint-id"
+                  name="identificacion"
+                  type="text"
+                  maxlength="30"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="field">
+                <label for="complaint-phone">Teléfono</label>
+                <input
+                  class="field-control"
+                  id="complaint-phone"
+                  name="telefono"
+                  type="tel"
+                  maxlength="30"
+                  autocomplete="tel"
+                />
+              </div>
+            </div>
+            <div class="field">
+              <label for="complaint-email">
+                Correo electrónico para notificaciones
+                <span
+                  class="required-mark identity-required"
+                  aria-hidden="true"
+                >
+                  *
+                </span>
+              </label>
+              <input
+                class="field-control"
+                id="complaint-email"
+                name="correo"
+                type="email"
+                maxlength="254"
+                autocomplete="email"
+              />
+            </div>
+          </div>
+
+          <div class="honeypot" aria-hidden="true">
+            <label for="complaint-website">No llenar este campo</label>
+            <input
+              id="complaint-website"
+              name="sitio-web"
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
+
+          <label class="consent">
+            <input
+              id="complaint-consent"
+              name="consentimiento"
+              type="checkbox"
+              required
+            />
+            <span>
+              Declaro que la información suministrada es verdadera y autorizo a
+              FEMUCARIBE a tratar mis datos personales únicamente para atender
+              esta gestión, conforme a la Ley N.° 8968 de Protección de la
+              Persona frente al Tratamiento de sus Datos Personales.{' '}
+              <a href={privacyUrl}>Política de privacidad</a>.
+              <span class="required-mark" aria-hidden="true">
+                *
+              </span>
+            </span>
+          </label>
+
+          <button class="send-button" id="complaint-submit" type="submit">
+            <span class="button-text">Enviar gestión</span>
+            <span class="button-loading" hidden>
+              Enviando...
+            </span>
+          </button>
+        </fieldset>
+      </form>
+    </section>
+  </section>
+</PublicLayout>
+
+<script>
+  const MAX_FILE_BYTES = 5 * 1024 * 1024;
+  const ALLOWED_EXT = ['pdf', 'jpg', 'jpeg', 'png', 'docx'];
+
+  function makeReference(): string {
+    const d = new Date();
+    const ymd = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+    const rand = Math.random().toString(36).slice(2, 7).toUpperCase();
+    return `DEN-${ymd}-${rand}`;
+  }
+
+  function escapeHtml(value: string): string {
+    return value.replace(
+      /[&<>"']/g,
+      (ch) =>
+        ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;',
+        })[ch] ?? ch,
+    );
+  }
+
+  function initComplaintForm() {
+    const form = document.getElementById(
+      'complaint-form',
+    ) as HTMLFormElement | null;
+    if (!form || form.dataset.ready === 'true') return;
+    form.dataset.ready = 'true';
+
+    const statusBox = document.getElementById(
+      'complaint-status',
+    ) as HTMLElement | null;
+    const fieldset = document.getElementById(
+      'complaint-fields',
+    ) as HTMLFieldSetElement | null;
+    const submitBtn = document.getElementById(
+      'complaint-submit',
+    ) as HTMLButtonElement | null;
+    const identityFields = document.getElementById(
+      'identity-fields',
+    ) as HTMLElement | null;
+    const nameInput = document.getElementById(
+      'complaint-name',
+    ) as HTMLInputElement | null;
+    const emailInput = document.getElementById(
+      'complaint-email',
+    ) as HTMLInputElement | null;
+    if (
+      !statusBox ||
+      !submitBtn ||
+      !identityFields ||
+      !nameInput ||
+      !emailInput
+    )
+      return;
+
+    const buttonText = submitBtn.querySelector('.button-text') as HTMLElement;
+    const buttonLoading = submitBtn.querySelector(
+      '.button-loading',
+    ) as HTMLElement;
+    const contactEmail = form.dataset.contactEmail ?? 'info@femucaribe.go.cr';
+
+    const isAnonymous = () =>
+      (
+        form.querySelector(
+          'input[name="modalidad"]:checked',
+        ) as HTMLInputElement
+      )?.value === 'Anónima';
+
+    const syncIdentity = () => {
+      const anon = isAnonymous();
+      identityFields.hidden = anon;
+      identityFields
+        .querySelectorAll('input')
+        .forEach((input) => (input.disabled = anon));
+      nameInput.required = !anon;
+      emailInput.required = !anon;
+    };
+    form
+      .querySelectorAll('input[name="modalidad"]')
+      .forEach((r) => r.addEventListener('change', syncIdentity));
+    syncIdentity();
+
+    function showStatus(html: string, type: 'success' | 'error') {
+      statusBox!.hidden = false;
+      statusBox!.className = `form-status is-${type}`;
+      statusBox!.innerHTML = `<div class="status-content"><span class="status-icon" aria-hidden="true">${type === 'success' ? '✓' : '!'}</span><div class="status-text">${html}</div></div>`;
+      statusBox!.focus({ preventScroll: true });
+      statusBox!.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function fail(message: string, el?: HTMLElement | null) {
+      showStatus(`<p>${escapeHtml(message)}</p>`, 'error');
+      el?.focus();
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusBox.hidden = true;
+
+      const get = (id: string) =>
+        document.getElementById(id) as
+          HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
+      const type = get('complaint-type');
+      const scope = get('complaint-scope');
+      const description = get('complaint-description');
+      const consent = get('complaint-consent') as HTMLInputElement | null;
+      const fileInput = get('complaint-file') as HTMLInputElement | null;
+      const honeypot = get('complaint-website');
+
+      if (honeypot?.value) return;
+      if (!type?.value) return fail('Seleccione el tipo de gestión.', type);
+      if (!scope?.value)
+        return fail('Indique con qué se relaciona su gestión.', scope);
+      if (!description || description.value.trim().length < 30)
+        return fail(
+          'Describa los hechos con al menos 30 caracteres.',
+          description,
+        );
+
+      const anon = isAnonymous();
+      if (!anon) {
+        if (nameInput.value.trim().length < 3)
+          return fail('Ingrese su nombre completo.', nameInput);
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim()))
+          return fail(
+            'Ingrese un correo electrónico válido para recibir la respuesta.',
+            emailInput,
+          );
+      }
+
+      const file = fileInput?.files?.[0];
+      if (file) {
+        const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+        if (!ALLOWED_EXT.includes(ext))
+          return fail('El archivo debe ser PDF, JPG, PNG o DOCX.', fileInput);
+        if (file.size > MAX_FILE_BYTES)
+          return fail('El archivo supera el máximo de 5 MB.', fileInput);
+      }
+
+      if (!consent?.checked)
+        return fail(
+          'Debe aceptar la declaración y el tratamiento de datos para continuar.',
+          consent,
+        );
+
+      const endpoint = form.dataset.endpoint;
+      if (!endpoint) {
+        return showStatus(
+          `<p>El formulario en línea no está disponible en este momento. Puede enviar su gestión a <a href="mailto:${contactEmail}">${contactEmail}</a>.</p>`,
+          'error',
+        );
+      }
+
+      const reference = makeReference();
+      const data = new FormData(form);
+      data.delete('sitio-web');
+      data.delete('consentimiento');
+      data.set('consentimiento', 'Acepta');
+      data.set('referencia', reference);
+      if (anon) {
+        ['nombre', 'identificacion', 'telefono', 'correo'].forEach((k) =>
+          data.set(k, ''),
+        );
+      }
+      if (!file) data.delete('archivo');
+      data.set('_wpcf7', form.dataset.formId ?? '');
+      data.set('_wpcf7_unit_tag', `wpcf7-f${form.dataset.formId}-p1-o1`);
+
+      submitBtn.disabled = true;
+      if (fieldset) fieldset.disabled = true;
+      buttonText.hidden = true;
+      buttonLoading.hidden = false;
+
+      try {
+        const response = await fetch(endpoint, { method: 'POST', body: data });
+        const result = (await response.json()) as {
+          status?: string;
+          message?: string;
+        };
+        if (result.status === 'mail_sent') {
+          showStatus(
+            `<p><strong>Su gestión fue recibida.</strong></p>
+             <p>Número de referencia: <strong class="reference">${reference}</strong></p>
+             <p>${
+               anon
+                 ? 'Como la presentó de forma anónima, conserve este número para cualquier seguimiento.'
+                 : 'Recibirá una respuesta formal en un plazo máximo de 10 días hábiles en el correo indicado.'
+             }</p>`,
+            'success',
+          );
+          form.reset();
+          syncIdentity();
+        } else {
+          fail(
+            result.message ||
+              'Uno o más campos tienen un inconveniente. Revise los datos e inténtelo de nuevo.',
+          );
+        }
+      } catch {
+        showStatus(
+          `<p>No se pudo conectar con el servidor. Intente más tarde o escriba a <a href="mailto:${contactEmail}">${contactEmail}</a>.</p>`,
+          'error',
+        );
+      } finally {
+        submitBtn.disabled = false;
+        if (fieldset) fieldset.disabled = false;
+        syncIdentity();
+        buttonText.hidden = false;
+        buttonLoading.hidden = true;
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initComplaintForm);
+  } else {
+    initComplaintForm();
+  }
+  document.addEventListener('astro:page-load', initComplaintForm);
+</script>
+
+<style>
+  .breadcrumb {
+    margin-block-start: 1.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .breadcrumb li + li::before {
+    content: '/';
+    margin-inline-end: 0.375rem;
+    color: var(--theme-text-muted);
+  }
+
+  .breadcrumb a {
+    color: var(--theme-link);
+  }
+
+  .breadcrumb [aria-current='page'] {
+    color: var(--theme-text-secondary);
+  }
+
+  .complaint-page {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: start;
+    gap: clamp(2rem, 4vw, 4rem);
+    min-inline-size: 0;
+    padding-block: clamp(1.5rem, 4vw, 3rem) clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .complaint-overview,
+  .form-panel {
+    min-inline-size: 0;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.75rem;
+    color: var(--theme-link);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .intro h1 {
+    margin: 0;
+    color: var(--theme-text);
+    font-size: clamp(1.75rem, 3.2vw, 2.25rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .intro p {
+    margin: 1rem 0 0;
+    color: var(--theme-text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .legal-guarantee {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1.25rem 0 0;
+    padding: 0.5rem 0.875rem;
+    border-radius: 999px;
+    color: var(--theme-status-positive-text);
+    background: var(--theme-status-positive-bg);
+    font-size: 0.8125rem;
+    font-weight: 650;
+  }
+
+  .shield-icon {
+    display: inline-flex;
+    line-height: 1;
+  }
+
+  .overview-subtitle {
+    margin: 2rem 0 0.75rem;
+    color: var(--theme-text);
+    font-size: 1.0625rem;
+    font-weight: 800;
+  }
+
+  .info-list {
+    display: grid;
+    gap: 0.625rem;
+    margin: 0;
+  }
+
+  .info-card {
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--theme-border-subtle);
+    border-inline-start: 4px solid #fbba34;
+    border-radius: 0.5rem;
+    background: var(--theme-surface);
+  }
+
+  .info-card dt {
+    color: var(--theme-text);
+    font-size: 0.9375rem;
+    font-weight: 750;
+  }
+
+  .info-card dd {
+    margin: 0.25rem 0 0;
+    color: var(--theme-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .steps {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding-inline-start: 1.25rem;
+    color: var(--theme-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+
+  .confidential-note {
+    margin: 1.5rem 0 0;
+    padding: 0.875rem 1rem;
+    border-radius: 0.5rem;
+    color: var(--theme-text-secondary);
+    background: var(--theme-surface-muted);
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+
+  .form-panel {
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border: 1px solid var(--theme-border-subtle);
+    border-radius: 0.875rem;
+    background: var(--theme-surface-muted);
+  }
+
+  .form-panel h2 {
+    margin: 0;
+    color: var(--theme-text);
+    font-size: clamp(1.5rem, 2.6vw, 1.75rem);
+    font-weight: 750;
+    line-height: 1.25;
+  }
+
+  .panel-subtitle {
+    margin: 0.5rem 0 1.25rem;
+    color: var(--theme-text-secondary);
+    font-size: 0.9375rem;
+  }
+
+  .required-mark {
+    margin-inline-start: 0.25rem;
+    color: #e11d48;
+    font-weight: 700;
+  }
+
+  .fields,
+  .identity-fields {
+    display: grid;
+    gap: 1rem;
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .identity-fields[hidden] {
+    display: none;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .field {
+    display: grid;
+    gap: 0.375rem;
+    min-inline-size: 0;
+  }
+
+  .field label,
+  .identity legend {
+    color: var(--theme-text);
+    font-size: 0.875rem;
+    font-weight: 650;
+  }
+
+  .field-hint {
+    margin: 0;
+    color: var(--theme-text-muted);
+    font-size: 0.8125rem;
+  }
+
+  .field-control {
+    inline-size: 100%;
+    min-inline-size: 0;
+    min-block-size: 3rem;
+    padding: 0.75rem 0.875rem;
+    border: 1px solid var(--theme-border-subtle);
+    border-radius: 0.5rem;
+    color: var(--theme-text-secondary);
+    background: var(--theme-surface);
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .field-control::placeholder {
+    color: var(--theme-text-muted);
+    opacity: 1;
+  }
+
+  .select-control {
+    appearance: none;
+    padding-inline-end: 2.25rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230470a0' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.875rem center;
+    background-size: 1rem;
+    cursor: pointer;
+  }
+
+  .file-control {
+    padding-block: 0.625rem;
+  }
+
+  .message-control {
+    min-block-size: 9rem;
+    resize: vertical;
+  }
+
+  .identity {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .radio-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-block-start: 0.5rem;
+  }
+
+  .radio-option,
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    color: var(--theme-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  .radio-option {
+    align-items: center;
+    min-block-size: 2.75rem;
+  }
+
+  .radio-option input,
+  .consent input {
+    flex: 0 0 auto;
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
+    margin-block-start: 0.2rem;
+    accent-color: var(--theme-action);
+  }
+
+  .radio-option input {
+    margin-block-start: 0;
+  }
+
+  .consent {
+    font-size: 0.8125rem;
+  }
+
+  .consent a {
+    color: var(--theme-link);
+  }
+
+  .honeypot {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .send-button {
+    inline-size: 100%;
+    min-block-size: 3rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    color: var(--theme-text);
+    background: #fbba34;
+    font-size: 0.9375rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+
+  .send-button:hover {
+    background: #f59e0b;
+  }
+
+  .send-button:focus-visible {
+    outline: 2px solid var(--theme-text);
+    outline-offset: 2px;
+  }
+
+  .send-button:disabled {
+    border-color: var(--theme-border-subtle);
+    background: var(--theme-surface-accent);
+    cursor: not-allowed;
+  }
+
+  .form-status {
+    margin: 0 0 1.25rem;
+    padding: 0.875rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+
+  .form-status[hidden] {
+    display: none;
+  }
+
+  .form-status:focus {
+    outline: none;
+  }
+
+  .form-status.is-success {
+    border-inline-start: 4px solid #059669;
+    color: var(--theme-status-positive-text);
+    background: var(--theme-status-positive-bg);
+  }
+
+  .form-status.is-error {
+    border-inline-start: 4px solid #dc2626;
+    color: var(--theme-status-error-text);
+    background: var(--theme-status-error-bg);
+  }
+
+  @media (width < 70rem) {
+    .complaint-page {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .complaint-overview,
+    .form-panel {
+      max-inline-size: 48rem;
+    }
+  }
+
+  @media (width < 36rem) {
+    .field-row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
+
+<style is:global>
+  #complaint-status .status-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  #complaint-status .status-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    border-radius: 999px;
+    background: rgb(0 0 0 / 8%);
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+
+  #complaint-status p {
+    margin: 0 0 0.25rem;
+  }
+
+  #complaint-status .reference {
+    font-family: ui-monospace, monospace;
+    letter-spacing: 0.03em;
+  }
+</style>

@@ -8,7 +8,7 @@ import SiteIcon from '../SiteIcon.astro';
  */
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const contactUrl = `${base}/contacto#denuncia`;
+const complaintUrl = `${base}/transparencia/denuncias`;
 ---
 
 <section class="contraloria-section" aria-labelledby="contraloria-title">
@@ -33,7 +33,7 @@ const contactUrl = `${base}/contacto#denuncia`;
   </div>
 
   <div class="contraloria-action">
-    <a class="contraloria-button" href={contactUrl}>
+    <a class="contraloria-button" href={complaintUrl}>
       Formulario de Denuncia{' '}
       <span class="pencil-icon" aria-hidden="true">
         <SiteIcon name="edit" size={16} />
