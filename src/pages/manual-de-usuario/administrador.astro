@@ -1,0 +1,29 @@
+---
+import ManualLayout from '../../layouts/ManualLayout.astro';
+import {
+  Content,
+  frontmatter,
+  getHeadings,
+} from '../../manual/administrador.md';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const title =
+  typeof frontmatter.title === 'string'
+    ? frontmatter.title
+    : 'Guía para administradores del CMS';
+const description =
+  typeof frontmatter.description === 'string'
+    ? frontmatter.description
+    : 'Manual operativo por roles para gestionar el CMS WordPress de FEMUCARIBE.';
+const headings = getHeadings();
+---
+
+<ManualLayout
+  title={title}
+  description={description}
+  guide="administrador"
+  pdfUrl={`${base}/documents/manual-administrador-femucaribe.pdf`}
+  headings={headings}
+>
+  <Content />
+</ManualLayout>

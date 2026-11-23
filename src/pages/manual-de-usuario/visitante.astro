@@ -1,0 +1,25 @@
+---
+import ManualLayout from '../../layouts/ManualLayout.astro';
+import { Content, frontmatter, getHeadings } from '../../manual/visitante.md';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const title =
+  typeof frontmatter.title === 'string'
+    ? frontmatter.title
+    : 'Guía para visitantes';
+const description =
+  typeof frontmatter.description === 'string'
+    ? frontmatter.description
+    : 'Manual paso a paso para navegar el portal público de FEMUCARIBE.';
+const headings = getHeadings();
+---
+
+<ManualLayout
+  title={title}
+  description={description}
+  guide="visitante"
+  pdfUrl={`${base}/documents/manual-visitante-femucaribe.pdf`}
+  headings={headings}
+>
+  <Content />
+</ManualLayout>

@@ -7,6 +7,7 @@ import HomeLocalGovernments from '../components/HomeLocalGovernments.astro';
 import HomeProjects from '../components/HomeProjects.astro';
 import HomeTransparencyBanner from '../components/HomeTransparencyBanner.astro';
 import HomeFaq from '../components/HomeFaq.astro';
+import HomeManualCta from '../components/HomeManualCta.astro';
 import { fetchNewsArticles } from '../lib/cms-news';
 
 const articles = await fetchNewsArticles();
@@ -21,4 +22,5 @@ const recentNews = articles.slice(0, 3);
   <HomeProjects />
   <HomeTransparencyBanner />
   <HomeFaq />
+  <HomeManualCta />
 </PublicLayout>

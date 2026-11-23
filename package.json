@@ -20,6 +20,7 @@
     "format:check": "prettier --check src tests \"*.{json,mjs,ts,yaml}\"",
     "test:unit": "vitest run",
     "test:e2e": "pnpm run build && playwright test",
+    "manual:pdf": "node scripts/generate-manual-pdfs.mjs",
     "check": "pnpm run typecheck && pnpm run lint && pnpm run format:check && pnpm run build"
   },
   "dependencies": {

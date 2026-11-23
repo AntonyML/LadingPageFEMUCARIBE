@@ -1,0 +1,279 @@
+---
+import PublicLayout from '../../layouts/PublicLayout.astro';
+import SiteIcon from '../../components/SiteIcon.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const guides = [
+  {
+    id: 'visitante',
+    badge: 'Público general',
+    icon: 'user' as const,
+    title: 'Guía para visitantes',
+    description:
+      'Orientación paso a paso para navegar las secciones públicas de FEMUCARIBE, usar el buscador, descargar documentos de transparencia, enviar consultas y presentar gestiones ante la Contraloría de Servicios.',
+    readHref: `${base}/manual-de-usuario/visitante`,
+    pdfHref: `${base}/documents/manual-visitante-femucaribe.pdf`,
+    highlights: [
+      'Uso del menú, buscador de portada, accesibilidad y tema claro/oscuro',
+      'Consulta de proyectos, municipalidades, noticias y documentos oficiales',
+      'Trámite paso a paso de denuncias o inconformidades en línea',
+    ],
+  },
+  {
+    id: 'administrador',
+    badge: 'Equipo institucional',
+    icon: 'users' as const,
+    title: 'Guía para administradores del CMS',
+    description:
+      'Manual operativo por roles para el personal autorizado que ingresa al panel WordPress desde Acceder a la plataforma y administra publicaciones, cantones, proyectos, transparencia, medios y usuarios.',
+    readHref: `${base}/manual-de-usuario/administrador`,
+    pdfHref: `${base}/documents/manual-administrador-femucaribe.pdf`,
+    highlights: [
+      'Acceso al CMS desde /acceso y flujo de trabajo por rol de WordPress',
+      'Gestión de Noticias, Municipalidades, Proyectos y Transparencia',
+      'Revisión editorial, usuarios, formularios CF7 y buenas prácticas',
+    ],
+  },
+] as const;
+---
+
+<PublicLayout title="Manual de usuario | FEMUCARIBE">
+  <div class="manual-hub">
+    <nav class="breadcrumb" aria-label="Ubicación">
+      <a href={`${base}/`}>Inicio</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Manual de usuario</span>
+    </nav>
+
+    <header class="hub-header">
+      <p class="eyebrow">Documentación y ayuda</p>
+      <h1>Manual de usuario</h1>
+      <p class="introduction">
+        Consulte en línea o descargue en formato PDF la guía correspondiente a
+        su perfil de uso: navegación ciudadana por el portal público o gestión
+        de contenidos en el CMS institucional según su rol asignado.
+      </p>
+    </header>
+
+    <section class="guides-grid" aria-label="Guías disponibles">
+      {guides.map((guide) => (
+        <article class="guide-card">
+          <div class="guide-meta">
+            <span class="guide-icon" aria-hidden="true">
+              <SiteIcon name={guide.icon} size={22} />
+            </span>
+            <span class="guide-badge">{guide.badge}</span>
+          </div>
+
+          <h2>{guide.title}</h2>
+          <p class="guide-description">{guide.description}</p>
+
+          <ul class="guide-highlights">
+            {guide.highlights.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+
+          <div class="guide-actions">
+            <a class="btn-primary" href={guide.readHref}>
+              <span>Leer guía</span>
+              <span aria-hidden="true">→</span>
+            </a>
+            <a class="btn-secondary" href={guide.pdfHref} download>
+              <span class="btn-icon" aria-hidden="true">
+                <SiteIcon name="download" size={18} />
+              </span>
+              <span>Descargar PDF</span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </section>
+  </div>
+</PublicLayout>
+
+<style>
+  .manual-hub {
+    min-inline-size: 0;
+    padding-block: clamp(1.5rem, 4vw, 3rem) clamp(3rem, 6vw, 5rem);
+  }
+
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--theme-text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    color: var(--theme-link);
+    text-underline-offset: 0.25em;
+  }
+
+  .hub-header {
+    margin-block: 1.5rem 2.25rem;
+    max-inline-size: 56rem;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.75rem;
+    color: var(--theme-link);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .hub-header h1 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    letter-spacing: -0.035em;
+    color: var(--theme-text);
+  }
+
+  .introduction {
+    margin-block: 1rem 0;
+    max-inline-size: 64ch;
+    color: var(--theme-text-secondary);
+    font-size: 1.125rem;
+    line-height: 1.65;
+  }
+
+  .guides-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .guide-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    min-inline-size: 0;
+    padding: 1.5rem;
+    border: 1px solid var(--theme-border);
+    border-radius: 0.875rem;
+    background: var(--theme-surface);
+  }
+
+  .guide-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .guide-icon {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    border-radius: 0.5rem;
+    background: var(--theme-surface-accent);
+    color: var(--theme-link);
+  }
+
+  .guide-badge {
+    padding: 0.25rem 0.625rem;
+    border-radius: 999px;
+    background: var(--theme-surface-tint);
+    border: 1px solid var(--theme-border-tint);
+    color: var(--theme-link);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .guide-card h2 {
+    margin: 0;
+    font-size: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--theme-text);
+  }
+
+  .guide-description {
+    margin: 0;
+    color: var(--theme-text-secondary);
+    line-height: 1.55;
+  }
+
+  .guide-highlights {
+    margin: 0.25rem 0 0.5rem;
+    padding-inline-start: 1.25rem;
+    color: var(--theme-text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .guide-highlights li {
+    margin-block: 0.25rem;
+  }
+
+  .guide-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-block-start: auto;
+    padding-block-start: 0.5rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-block-size: 44px;
+    padding: 0.625rem 1.125rem;
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  .btn-primary {
+    border: 1px solid transparent;
+    background: var(--theme-action);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: var(--theme-action-hover);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--theme-border);
+    background: var(--theme-surface-muted);
+    color: var(--theme-link);
+  }
+
+  .btn-secondary:hover {
+    background: var(--theme-surface-tint);
+    border-color: var(--theme-border-tint);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .btn-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  @media (width >= 56rem) {
+    .guides-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

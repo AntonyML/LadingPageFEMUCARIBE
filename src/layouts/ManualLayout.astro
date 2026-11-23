@@ -1,0 +1,495 @@
+---
+import type { MarkdownHeading } from 'astro';
+import PublicLayout from './PublicLayout.astro';
+import SiteIcon from '../components/SiteIcon.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  guide: 'visitante' | 'administrador';
+  pdfUrl: string;
+  headings: readonly MarkdownHeading[];
+}
+
+const { title, description, guide, pdfUrl, headings } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const pageLabels = {
+  visitante: 'Guía para visitantes',
+  administrador: 'Guía para administradores',
+} as const;
+const guides = [
+  ['visitante', 'Guía para visitantes'],
+  ['administrador', 'Guía para administradores'],
+] as const;
+const tocHeadings = headings.filter((heading) => heading.depth === 2);
+---
+
+<PublicLayout title={`${title} | Manual de usuario | FEMUCARIBE`}>
+  <div class="manual-page">
+    <nav class="breadcrumb" aria-label="Ubicación">
+      <a class="breadcrumb-link" href={`${base}/`}>
+        Inicio
+      </a>
+      <span aria-hidden="true">/</span>
+      <a class="breadcrumb-link" href={`${base}/manual-de-usuario`}>
+        Manual de usuario
+      </a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{pageLabels[guide]}</span>
+    </nav>
+
+    <header class="manual-header">
+      <p class="eyebrow">Manual de usuario</p>
+      <h1>{title}</h1>
+      <p class="introduction">{description}</p>
+    </header>
+
+    <div class="manual-toolbar">
+      <nav class="sections" aria-label="Guías del manual de usuario">
+        {guides.map(([route, label]) => (
+          <a
+            class="tab-link"
+            href={`${base}/manual-de-usuario/${route}`}
+            aria-current={guide === route ? 'page' : undefined}
+          >
+            {label}
+          </a>
+        ))}
+      </nav>
+
+      <div class="manual-actions">
+        <a class="pdf-button" href={pdfUrl} download>
+          <span class="pdf-icon" aria-hidden="true">
+            <SiteIcon name="download" size={18} />
+          </span>
+          <span>Descargar PDF</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="manual-grid">
+      {tocHeadings.length > 0 && (
+        <aside class="manual-toc" aria-labelledby="manual-toc-title">
+          <h2 id="manual-toc-title">Contenido</h2>
+          <ul>
+            {tocHeadings.map((heading) => (
+              <li>
+                <a class="toc-link" href={`#${heading.slug}`}>
+                  {heading.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
+
+      <article class="manual-document">
+        <slot />
+      </article>
+    </div>
+  </div>
+</PublicLayout>
+
+<style>
+  .manual-page {
+    min-inline-size: 0;
+    padding-block: clamp(1.5rem, 4vw, 3rem) clamp(3rem, 6vw, 5rem);
+  }
+
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--theme-text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .breadcrumb-link {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    color: var(--theme-link);
+    text-underline-offset: 0.25em;
+  }
+
+  .manual-header {
+    margin-block: 1.5rem 2rem;
+    max-inline-size: 56rem;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.75rem;
+    color: var(--theme-link);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .manual-header h1 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    letter-spacing: -0.035em;
+    color: var(--theme-text);
+  }
+
+  .introduction {
+    margin-block: 1rem 0;
+    max-inline-size: 66ch;
+    color: var(--theme-text-secondary);
+    font-size: 1.125rem;
+    line-height: 1.65;
+  }
+
+  .manual-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+    margin-block-end: 2rem;
+    border-block-end: 1px solid var(--theme-border);
+  }
+
+  .sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+  }
+
+  .tab-link {
+    display: flex;
+    align-items: center;
+    min-block-size: 48px;
+    padding: 0.75rem 0.25rem;
+    border-block-end: 3px solid transparent;
+    color: var(--theme-text-secondary);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .tab-link[aria-current='page'] {
+    border-block-end-color: var(--theme-link);
+    color: var(--theme-link);
+  }
+
+  .tab-link:hover {
+    color: var(--theme-link);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .manual-actions {
+    padding-block-end: 0.625rem;
+  }
+
+  .pdf-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-block-size: 44px;
+    padding: 0.625rem 1.125rem;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    background: var(--theme-action);
+    color: #fff;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background-color 150ms ease;
+  }
+
+  .pdf-button:hover {
+    background: var(--theme-action-hover);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .pdf-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  .manual-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 2rem;
+  }
+
+  .manual-grid > * {
+    min-inline-size: 0;
+  }
+
+  .manual-toc {
+    padding: 1.25rem;
+    border: 1px solid var(--theme-border);
+    border-radius: 0.75rem;
+    background: var(--theme-surface-muted);
+  }
+
+  .manual-toc h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    color: var(--theme-text);
+  }
+
+  .manual-toc ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .toc-link {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    padding-block: 0.375rem;
+    color: var(--theme-link);
+    font-size: 0.9375rem;
+    line-height: 1.35;
+    text-underline-offset: 0.25em;
+  }
+
+  .manual-document {
+    min-inline-size: 0;
+    max-inline-size: 76ch;
+    color: var(--theme-text-secondary);
+    line-height: 1.75;
+  }
+
+  @media (width >= 64rem) {
+    .manual-grid {
+      grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
+      gap: clamp(2rem, 4vw, 3.5rem);
+    }
+
+    .manual-toc {
+      position: sticky;
+      inset-block-start: 1.5rem;
+    }
+  }
+</style>
+
+<style is:global>
+  .manual-document h2 {
+    margin: 2.25rem 0 0.875rem;
+    padding-block-start: 1.75rem;
+    border-block-start: 1px solid var(--theme-border);
+    color: var(--theme-text);
+    font-size: 1.4375rem;
+    font-weight: 800;
+    line-height: 1.3;
+    scroll-margin-block-start: 1.5rem;
+  }
+
+  .manual-document h2:first-child {
+    margin-block-start: 0;
+    padding-block-start: 0;
+    border-block-start: 0;
+  }
+
+  .manual-document h3 {
+    margin: 1.5rem 0 0.5rem;
+    color: var(--theme-text);
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.35;
+    scroll-margin-block-start: 1.5rem;
+  }
+
+  .manual-document h4 {
+    margin: 1.25rem 0 0.5rem;
+    color: var(--theme-text);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .manual-document p {
+    margin: 0 0 1rem;
+  }
+
+  .manual-document ul,
+  .manual-document ol {
+    margin: 0 0 1.125rem;
+    padding-inline-start: 1.5rem;
+  }
+
+  .manual-document li {
+    margin-block: 0.375rem;
+  }
+
+  .manual-document li > ul,
+  .manual-document li > ol {
+    margin-block: 0.375rem 0.25rem;
+  }
+
+  .manual-document strong {
+    color: var(--theme-text);
+    font-weight: 700;
+  }
+
+  .manual-document code {
+    padding: 0.125rem 0.375rem;
+    border: 1px solid var(--theme-border);
+    border-radius: 0.25rem;
+    background: var(--theme-surface-subtle);
+    color: var(--theme-text);
+    font-size: 0.875em;
+  }
+
+  .manual-document blockquote {
+    margin: 1.25rem 0;
+    padding: 0.875rem 1.125rem;
+    border-inline-start: 4px solid var(--theme-link);
+    border-radius: 0 0.5rem 0.5rem 0;
+    background: var(--theme-surface-tint);
+    color: var(--theme-text);
+  }
+
+  .manual-document blockquote p:last-child {
+    margin-block-end: 0;
+  }
+
+  .manual-document a {
+    color: var(--theme-link);
+    text-underline-offset: 0.25em;
+  }
+
+  .manual-document table {
+    display: block;
+    inline-size: 100%;
+    overflow-x: auto;
+    margin: 1.25rem 0 1.5rem;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .manual-document th,
+  .manual-document td {
+    padding: 0.625rem 0.75rem;
+    border: 1px solid var(--theme-border);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .manual-document th {
+    background: var(--theme-surface-muted);
+    color: var(--theme-text);
+    font-weight: 700;
+  }
+
+  @media print {
+    html:has(.manual-page),
+    body.public-site:has(.manual-page) {
+      background: #fff;
+      color: #0b2538;
+    }
+
+    body.public-site:has(.manual-page) > header,
+    body.public-site:has(.manual-page) > footer,
+    body.public-site:has(.manual-page) .government-bar,
+    body.public-site:has(.manual-page) .public-navbar,
+    body.public-site:has(.manual-page) #snn-accessibility-widget-container,
+    body.public-site:has(.manual-page) #snn-accessibility-fixed-button,
+    body.public-site:has(.manual-page) #snn-accessibility-menu,
+    body.public-site:has(.manual-page) #snn-live-region,
+    body.public-site:has(.manual-page) .snn-accessibility-filters,
+    .manual-page .breadcrumb,
+    .manual-page .manual-toolbar,
+    .manual-page .manual-actions,
+    .manual-page .manual-toc {
+      display: none !important;
+    }
+
+    body.public-site:has(.manual-page) .site-container {
+      inline-size: 100%;
+      max-inline-size: none;
+      margin: 0;
+    }
+
+    .manual-page {
+      padding: 0;
+    }
+
+    .manual-page .manual-header {
+      max-inline-size: none;
+      margin-block: 0 1.25rem;
+      padding-block-end: 0.75rem;
+      border-block-end: 2px solid #0b2538;
+    }
+
+    .manual-page .eyebrow {
+      color: #0470a0;
+    }
+
+    .manual-page .manual-header h1,
+    .manual-page .introduction,
+    .manual-page .manual-document,
+    .manual-page .manual-document h2,
+    .manual-page .manual-document h3,
+    .manual-page .manual-document h4,
+    .manual-page .manual-document strong {
+      color: #000;
+    }
+
+    .manual-page .manual-grid {
+      display: block;
+    }
+
+    .manual-page .manual-document {
+      max-inline-size: none;
+      font-size: 0.9375rem;
+      line-height: 1.55;
+    }
+
+    .manual-page .manual-document h2,
+    .manual-page .manual-document h3,
+    .manual-page .manual-document h4 {
+      break-inside: avoid;
+      break-after: avoid;
+    }
+
+    .manual-page .manual-document blockquote,
+    .manual-page .manual-document table {
+      break-inside: avoid;
+    }
+
+    .manual-page .manual-document code {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      color: #000;
+    }
+
+    .manual-page .manual-document blockquote {
+      background: #f8fafc;
+      border-inline-start-color: #0470a0;
+      color: #000;
+    }
+
+    .manual-page .manual-document table {
+      display: table;
+      inline-size: 100%;
+      overflow: visible;
+      font-size: 0.72rem;
+      line-height: 1.35;
+    }
+
+    .manual-page .manual-document th,
+    .manual-page .manual-document td {
+      padding: 0.375rem 0.45rem;
+      border-color: #94a3b8;
+    }
+
+    .manual-page .manual-document th {
+      background: #e2e8f0;
+      color: #000;
+    }
+  }
+</style>
