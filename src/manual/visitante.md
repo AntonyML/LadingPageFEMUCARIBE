@@ -116,7 +116,7 @@ La página `/transparencia` concentra la rendición de cuentas en tres áreas:
 
 #### Cómo presentar una denuncia, inconformidad o sugerencia paso a paso
 
-Desde `/transparencia/denuncias` puede remitir una gestión confidencial y gratuita con respuesta en un plazo máximo de **10 días hábiles** (cuando incluya datos de contacto):
+Desde `/transparencia/denuncias` puede remitir una gestión confidencial y gratuita (canalizada a `direccionejecutiva@femucaribe.go.cr` para denuncias y asuntos de mayor importancia) con respuesta en un plazo máximo de **10 días hábiles** (cuando incluya datos de contacto):
 
 1. En **Tipo de gestión**, seleccione si presenta una **Denuncia**, **Inconformidad** o **Sugerencia**.
 2. En **Se relaciona con**, elija el ámbito (_Prestación de servicios_, _Ejecución de proyectos federativos_, _Contratación administrativa_, _Conducta de personal o representantes_ u _Otro_).
@@ -172,9 +172,11 @@ Desde el pie de página o la barra superior puede consultar las páginas informa
 
 ## Contacto de soporte
 
-Si tiene dificultades técnicas para utilizar el portal o requiere asistencia ciudadana sobre los servicios publicados:
+Si tiene dificultades técnicas para utilizar el portal o requiere atención según el tipo de gestión, comuníquese por los canales oficiales correspondientes:
 
 - **Teléfono institucional:** `(+506) 2768-7344`
-- **Correo electrónico:** `info@femucaribe.go.cr`
+- **Contacto general:** `info@femucaribe.go.cr`
+- **Soporte técnico del portal:** `soporte@femucaribe.go.cr`
+- **Denuncias y asuntos de mayor importancia (Dirección Ejecutiva):** `direccionejecutiva@femucaribe.go.cr`
 - **Horario de atención:** lunes a viernes, de jornada ordinaria hasta las **3:30 p.m.**
 - **Sede central:** Barrio Mangal, contiguo a la estación de bomberos, Siquirres, Limón, 70301.

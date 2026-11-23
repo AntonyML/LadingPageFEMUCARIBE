@@ -34,13 +34,20 @@ El rol **Administrador** asigna cada cuenta aplicando el **principio de menor pr
 
 ### Matriz de permisos por rol
 
-| Rol de WordPress  | Noticias                                                              | Municipalidades                                                            | Proyectos                                                                  | Transparencia (Documentos)                                                 | Archivos y Fotos (Medios)                  | Textos institucionales (`page-content`)       | Contacto y Denuncias (CF7)                               | Usuarios y Ajustes                                        |
-| :---------------- | :-------------------------------------------------------------------- | :------------------------------------------------------------------------- | :------------------------------------------------------------------------- | :------------------------------------------------------------------------- | :----------------------------------------- | :-------------------------------------------- | :------------------------------------------------------- | :-------------------------------------------------------- |
-| **Administrador** | Crear, editar, publicar y eliminar todas                              | Crear, editar, publicar y eliminar todas                                   | Crear, editar, publicar y eliminar todos                                   | Crear, editar, publicar y eliminar todos                                   | Subir, editar y eliminar cualquier archivo | Gestionar textos institucionales de secciones | Configurar formularios, correos y destinatarios          | Crear, editar, asignar roles y configurar ajustes/plugins |
-| **Editor**        | Crear, editar, publicar y eliminar todas (propias y de terceros)      | Crear, editar, publicar y eliminar todas                                   | Crear, editar, publicar y eliminar todos                                   | Crear, editar, publicar y eliminar todos                                   | Subir, editar y eliminar archivos          | Sin acceso administrativo                     | Sin acceso de configuración (salvo permisos específicos) | Sin acceso                                                |
-| **Autor**         | Crear, editar, publicar y eliminar **solo sus propias** noticias      | Sin acceso a registros ajenos (se recomienda restringir su uso a Noticias) | Sin acceso a registros ajenos (se recomienda restringir su uso a Noticias) | Sin acceso a registros ajenos (se recomienda restringir su uso a Noticias) | Subir y usar archivos propios              | Sin acceso                                    | Sin acceso                                               | Sin acceso                                                |
-| **Colaborador**   | Crear y editar **borradores propios**; enviar a revisión (no publica) | Solo borrador si aplica; no publica                                        | Solo borrador si aplica; no publica                                        | Solo borrador si aplica; no publica                                        | **No puede subir archivos**                | Sin acceso                                    | Sin acceso                                               | Sin acceso                                                |
-| **Suscriptor**    | Solo lectura de su propio perfil                                      | Sin acceso                                                                 | Sin acceso                                                                 | Sin acceso                                                                 | Sin acceso                                 | Sin acceso                                    | Sin acceso                                               | Solo edita su propio perfil                               |
+| Módulo / Área                               | Administrador | Editor            | Autor                 | Colaborador   | Suscriptor     |
+| :------------------------------------------ | :------------ | :---------------- | :-------------------- | :------------ | :------------- |
+| **Noticias**                                | Total         | Total             | Solo propias          | Solo borrador | Sin acceso     |
+| **Municipalidades**                         | Total         | Total             | Sin acceso a terceros | Solo borrador | Sin acceso     |
+| **Proyectos**                               | Total         | Total             | Sin acceso a terceros | Solo borrador | Sin acceso     |
+| **Transparencia (Documentos)**              | Total         | Total             | Sin acceso a terceros | Solo borrador | Sin acceso     |
+| **Archivos y Fotos (Medios)**               | Total         | Subir y gestionar | Subir propios         | Sin acceso    | Sin acceso     |
+| **Textos institucionales (`page-content`)** | Total         | Sin acceso        | Sin acceso            | Sin acceso    | Sin acceso     |
+| **Contacto y Denuncias (CF7)**              | Total         | Sin acceso        | Sin acceso            | Sin acceso    | Sin acceso     |
+| **Usuarios y Ajustes**                      | Total         | Sin acceso        | Sin acceso            | Sin acceso    | Solo su perfil |
+
+- **Total:** puede crear, editar, publicar, programar y eliminar registros propios o de cualquier otro usuario, así como configurar parámetros del módulo.
+- **Solo propias:** puede crear, editar, publicar y eliminar únicamente sus propias entradas, sin modificar contenido de terceros (se recomienda restringir el uso del rol **Autor** al módulo **Noticias**).
+- **Solo borrador:** puede redactar entradas y enviarlas a revisión editorial (_Pendiente_), pero no puede publicar directamente ni subir archivos a **Archivos y Fotos**.
 
 ## Tareas por módulo
 
@@ -148,10 +155,10 @@ Los textos institucionales configurables de las secciones públicas (`Inicio`, `
    - Formulario general de contacto (utilizado por `/contacto`).
    - Formulario **Contraloría de Servicios – Denuncias** (utilizado por `/transparencia/denuncias`).
 3. Dentro de cada formulario, revise únicamente lo necesario sin alterar los nombres de campos requeridos por el sitio (`tipo-gestion`, `ambito`, `canton`, `fecha-hechos`, `proyecto`, `descripcion`, `pruebas`, `archivo`, `modalidad`, `nombre`, `identificacion`, `telefono`, `correo`, `consentimiento`, `referencia` en denuncias):
-   - **Pestaña «Correo»:** compruebe el correo destinatario **Para** (por ejemplo, `contraloria@femucaribe.go.cr`), el remitente **De** y el adjunto `[archivo]`.
+   - **Pestaña «Correo»:** compruebe el correo destinatario **Para** según el canal correspondiente (`info@femucaribe.go.cr` para contacto general en `/contacto` y `direccionejecutiva@femucaribe.go.cr` para denuncias y asuntos de mayor importancia en `/transparencia/denuncias`), el remitente **De** y el adjunto `[archivo]`.
    - **Pestaña «Correo (2)»:** confirma el acuse automático cuando la persona denunciante proporciona correo electrónico (en gestiones anónimas no se envía acuse).
-4. En cumplimiento de la **Ley N.° 8968**, evite habilitar plugins de almacenamiento masivo de envíos como _Flamingo_ salvo autorización formal de la Contraloría de Servicios con acceso restringido.
-5. Si se crea un formulario nuevo de denuncias que cambie el ID numérico en Contact Form 7, notifique al equipo técnico para actualizar la variable de entorno `PUBLIC_CF7_DENUNCIA_FORM_ID` y redesplegar el sitio público.
+4. En cumplimiento de la **Ley N.° 8968**, evite habilitar plugins de almacenamiento masivo de envíos como _Flamingo_ salvo autorización formal de la Dirección Ejecutiva con acceso restringido.
+5. Si se crea un formulario nuevo de denuncias que cambie el ID numérico en Contact Form 7, coordine con el equipo de soporte técnico (`soporte@femucaribe.go.cr`) para actualizar la variable de entorno `PUBLIC_CF7_DENUNCIA_FORM_ID` y redesplegar el sitio público.
 
 ## Flujo de revisión editorial
 
@@ -194,3 +201,13 @@ Cuando participan personas redactoras con rol **Colaborador** y supervisoras con
   - Si el archivo adjunto en denuncias falla al subirse, confirme que no exceda **5 MB** ni el límite `upload_max_filesize` de PHP en el servidor.
 - **No veo un menú o botón descrito en este manual:**
   - Su cuenta tiene un rol con permisos restringidos (por ejemplo, **Colaborador** o **Autor**). Si sus funciones requieren otro nivel de acceso, solicite la revisión al **Administrador** del CMS.
+- **Necesito asistencia técnica sobre el CMS o el despliegue:**
+  - Escriba a `soporte@femucaribe.go.cr` detallando el módulo afectado y la captura o mensaje de error.
+
+## Contacto de soporte
+
+Para canalizar consultas operativas, incidencias técnicas o gestiones prioritarias del CMS y del portal web:
+
+- **Soporte técnico (CMS y portal web):** `soporte@femucaribe.go.cr`
+- **Contacto general institucional:** `info@femucaribe.go.cr`
+- **Denuncias y asuntos de mayor importancia (Dirección Ejecutiva):** `direccionejecutiva@femucaribe.go.cr`

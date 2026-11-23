@@ -369,6 +369,8 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2);
     border-collapse: collapse;
     font-size: 0.875rem;
     line-height: 1.5;
+    overflow-wrap: normal;
+    word-break: normal;
   }
 
   .manual-document th,
@@ -377,12 +379,15 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2);
     border: 1px solid var(--theme-border);
     text-align: start;
     vertical-align: top;
+    overflow-wrap: normal;
+    word-break: normal;
   }
 
   .manual-document th {
     background: var(--theme-surface-muted);
     color: var(--theme-text);
     font-weight: 700;
+    white-space: nowrap;
   }
 
   @media print {
@@ -476,8 +481,9 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2);
     .manual-page .manual-document table {
       display: table;
       inline-size: 100%;
+      table-layout: auto;
       overflow: visible;
-      font-size: 0.72rem;
+      font-size: 0.8rem;
       line-height: 1.35;
     }
 

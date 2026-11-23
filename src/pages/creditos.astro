@@ -61,6 +61,26 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </section>
   </div>
 
+  <section class="dedication-card" aria-labelledby="dedicatoria-titulo">
+    <p class="label">Dedicatoria personal</p>
+    <h2 id="dedicatoria-titulo">
+      Licda. Rocío Cecilia Vargas Moya (q. d. D. g.)
+    </h2>
+    <p class="profession">Departamento Financiero de FEMUCARIBE</p>
+    <p class="dedication-text">
+      Quise incluir personalmente este espacio en memoria de doña Rocío, quien
+      partió en este 2026. Más allá de su labor en el Departamento Financiero de
+      FEMUCARIBE , donde me acompañó y dio
+      seguimiento inicial de este proyecto, le agradezco de corazón la
+      confianza, la cercanía y el apoyo que me brindó mientras trabajamos
+      juntos.
+    </p>
+    <p class="dedication-quote">
+      «Nuestra amistad trasciende el tiempo y la distancia.»
+      <span class="dedication-signature">— Antony Monge López</span>
+    </p>
+  </section>
+
   <section class="resources" aria-labelledby="recursos-titulo">
     <div>
       <h2 id="recursos-titulo">Tipografías y licencias</h2>
@@ -163,6 +183,37 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   .institution-card {
     background: var(--theme-surface-tint);
+  }
+
+  .dedication-card {
+    margin-block-start: 2rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid var(--theme-border);
+    border-inline-start: 4px solid var(--theme-link);
+    border-radius: 14px;
+    background: var(--theme-surface-muted);
+  }
+
+  .dedication-text {
+    margin-block: 1rem 0;
+    max-inline-size: 74ch;
+    line-height: 1.65;
+  }
+
+  .dedication-quote {
+    margin-block: 1rem 0;
+    color: var(--theme-text);
+    font-style: italic;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .dedication-signature {
+    display: inline-block;
+    margin-inline-start: 0.5rem;
+    color: var(--theme-text-secondary);
+    font-style: normal;
+    font-weight: 500;
   }
 
   .resources {
